@@ -22,18 +22,22 @@ const ButtonCustom = ({
     <Button
       classes={{
         root: clsx({
-          [classes.contained] : variant === 'contained',
+          [classes.contained]: variant === 'contained',
         }, classes.button)
       }}
       variant={variant}
       fullWidth={fullWidth}
       className={className}
-      disableRipple
-      disableFocusRipple
-      disableElevation
+      // disableRipple
+      // disableFocusRipple
+      // disableElevation
       {...rest}
     >
-      { loading ? <CircularProgress color={'#FFF'} size={32} /> : children }
+      {loading ? <CircularProgress color={'#FFF'} size={20} style={{ marginRight: '20px' }} /> : ''}
+
+      {children}
+
+      {/* {console.log(loading)} */}
     </Button>
   )
 }
