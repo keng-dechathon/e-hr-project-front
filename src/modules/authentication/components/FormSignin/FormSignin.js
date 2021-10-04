@@ -4,9 +4,10 @@ import EmailIcon from '@material-ui/icons/Email'
 import PasswordInputOutlined from '../../../common/PasswordInputOutlined'
 import { useForm } from 'react-final-form-hooks'
 import classNames from 'classnames'
-import TextFieldOutline  from '../../../common/TextFieldOutlined'
+import TextFieldOutline from '../../../common/TextFieldOutlined'
 import Button from '../../../common/Button'
 
+import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -18,19 +19,16 @@ const useStyles = makeStyles(styles)
 
 const FormSignin = () => {
     const classes = useStyles()
-    const [loadingSignIn, setLoadingSignIn] = useState(false)
+    // const [loadingSignIn, setLoadingSignIn] = useState(false)
     const handleSubmitSignIn = async () => {
-        await setLoadingSignIn(true)
+        // await setLoadingSignIn(true)
+        console.log(values);
         // await signIn(value)
-        await setLoadingSignIn(false)
+        // await setLoadingSignIn(false)
     }
 
     const { form, handleSubmit, submitting, values } = useForm({
-        onSubmit: handleSubmitSignIn,
-        initialValues: {
-            email: '',
-            password: '',
-        },
+        onSubmit: handleSubmitSignIn
     })
 
 
@@ -43,14 +41,14 @@ const FormSignin = () => {
                 container
                 spacing={2}
             >
-                 <Grid
+                <Grid
                     item
-                    xs={12}                   
+                    xs={12}
                 >
-                    <div className={classNames(classes.center,classes.head)}>
+                    <div className={classNames(classes.center, classes.head)}>
                         <Typography variant="h4" >  Welcome e-HR </Typography>
                     </div>
-                    
+
                 </Grid>
                 <Grid
                     item
@@ -62,7 +60,7 @@ const FormSignin = () => {
                         placeholder={'Email'}
                         name={'email'}
                         form={form}
-                        endAdornment={<EmailIcon style={{color:'rgba(0, 0, 0, 0.54)'}}/>}
+                        endAdornment={<EmailIcon style={{ color: 'rgba(0, 0, 0, 0.54)' }} />}
                     />
 
                 </Grid>
@@ -85,7 +83,7 @@ const FormSignin = () => {
                     className={classes.center}
                 >
                     <Button
-                        loading={submitting}
+                        loading={true}
                         fullWidth
                         variant={'contained'}
                         className={classes.ButtonSubmit}
@@ -93,6 +91,9 @@ const FormSignin = () => {
                     >
                         Sign In
                     </Button>
+                </Grid>
+                <Grid item xs={12} className={classes.center}>
+                    <Link href="#">Forgot password?</Link>
                 </Grid>
 
             </Grid>
