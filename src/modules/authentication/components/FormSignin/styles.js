@@ -29,7 +29,16 @@ export default (theme) => ({
     ButtonSubmit:{
         background:'#ffffff',
         color:'#000000',      
+    },
+    optionbox:{
+        
+       position:'absolute',
+      
+    },
+    checkbox:{
+      left:'0',
     }
+   
   })
     
   

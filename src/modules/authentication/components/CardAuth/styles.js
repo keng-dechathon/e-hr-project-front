@@ -13,6 +13,7 @@ export default (theme) => ({
   logoField: {
     width:'40%',
     height:'100%',
+    // borderRadius: '20px',
     //border:' 1px solid black',   
   },
   card: {
@@ -20,6 +21,7 @@ export default (theme) => ({
     minWidth: '600px',
     height: '618px',
     display:'flex',
+    
   },
   form: {
     width:'60%',
