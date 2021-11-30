@@ -82,7 +82,6 @@ const FormForgotPassword = () => {
                     <LinkDom to="/sign-in">
                         <Link>Sign in</Link>
                     </LinkDom>
-
                 </Grid>
 
             </Grid>

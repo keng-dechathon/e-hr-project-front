@@ -21,7 +21,7 @@ import "./App.css";
 
 import SignIn from "./pages/auth/SignIn";
 import ForgotPassword from "./pages/auth/ForgotPassword";
-
+import Home from "./pages/common/Home";
 export default function App() {
   return (   
     
@@ -30,7 +30,7 @@ export default function App() {
       <Routes>
         <Route path='/sign-in' element={<SignIn />}/>
         <Route path='/forgot-password' element={<ForgotPassword />}/>
-        
+        <Route path='/Home' element={<Home/>}/>
       </Routes>
 
     </Router>
