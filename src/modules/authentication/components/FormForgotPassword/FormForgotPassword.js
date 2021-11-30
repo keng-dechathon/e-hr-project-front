@@ -6,12 +6,11 @@ import { useForm } from 'react-final-form-hooks'
 import classNames from 'classnames'
 import TextFieldOutline from '../../../common/TextFieldOutlined'
 import Button from '../../../common/Button'
-import { pink } from '@mui/material/colors'
-import Checkbox from '@mui/material/Checkbox'
-import { Link as LinkDom } from 'react-router-dom'
+import { Link as LinkDom  } from 'react-router-dom'
 import { Link } from '@material-ui/core'
+
 import Typography from '@material-ui/core/Typography'
-import FormControlLabel from '@mui/material/FormControlLabel';
+
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 
@@ -19,19 +18,10 @@ import styles from './styles'
 const useStyles = makeStyles(styles)
 
 
-const FormSignin = () => {
+const FormForgotPassword = () => {
     const classes = useStyles()
-    // const [loadingSignIn, setLoadingSignIn] = useState(false)
-    const [Checked,setChecked]= useState(false)
-    const onSubmitChecked =()=>{
-        setChecked(!Checked)
-        console.log(Checked)
-    }
-    const onSubmit = async (values) => {
-        // await setLoadingSignIn(true)
+    const onSubmit = async () => {
         console.log(values);
-        // await signIn(value)
-        // await setLoadingSignIn(false)
     }
 
     const { form, handleSubmit, submitting, values } = useForm({
@@ -52,8 +42,9 @@ const FormSignin = () => {
                     item
                     xs={12}
                 >
-                    <div className={classNames(classes.center, classes.head)}>
-                        <Typography variant="h4" >  Welcome e-HR </Typography>
+                    <div className={classNames(classes.center, classes.head, classes.massage)}>
+                        <Typography variant="h4" >Forgot Password</Typography>
+                        <div>we will send reset url link to your email</div>
                     </div>
 
                 </Grid>
@@ -74,57 +65,28 @@ const FormSignin = () => {
                 <Grid
                     item
                     xs={12}
-                >
-                    <PasswordInputOutlined
-                        className={classes.textfield}
-                        id={'password'}
-                        placeholder={'Password'}
-                        name={'password'}
-                        form={form}
-                    />
-                </Grid>
-                <Grid
-                    item
-                    xs={12}
                     className={classes.center}
                 >
                     <Button
-                        loading={submitting}
+                        loading={true}
                         fullWidth
                         variant={'contained'}
                         className={classes.ButtonSubmit}
                         type="submit"
                     >
-                        Sign In
+                        Send
                     </Button>
                 </Grid>
-
-                <div className={classNames(classes.center)}>
-
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                onChange={onSubmitChecked}
-                                defaultChecked
-                                disableRipple
-                                disableFocusRipple
-                                disableElevation
-                            />
-                        }
-                        label="Remember me"
-                        style={{ margin: '0 65px 0 -4px' }}
-                    />
-
-                    <LinkDom to="/forgot-password">
-                        <Link>Forgot password?</Link>
+                <Grid item xs={12} className={classes.center}>
+                    <pre>Already have login and password? </pre>
+                    <LinkDom to="/sign-in">
+                        <Link>Sign in</Link>
                     </LinkDom>
-
-                </div>
-
+                </Grid>
 
             </Grid>
         </form>
     )
 }
 
-export default FormSignin
+export default FormForgotPassword

@@ -1,18 +1,14 @@
 import React, { useState, useEffect, Children } from 'react'
 import Grid from '@material-ui/core/Grid'
-import EmailIcon from '@material-ui/icons/Email'
-import { useForm } from 'react-final-form-hooks'
 import classNames from 'classnames'
-import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
-import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import FormSignin from '../FormSignin';
 import logo from '../../../../assets/logo.png'
 const useStyles = makeStyles(styles)
 
-const CardSignin = ({ Children }) => {
+const CardAuth = ({ children }) => {
   const classes = useStyles()
 
   return (
@@ -27,7 +23,7 @@ const CardSignin = ({ Children }) => {
           md={9}
           lg={8}
         >
-          <Card className={classes.card}>
+          <Card className={classes.card} style={{borderRadius: '15px'}}>
             <Grid
               item
               xs={4}
@@ -43,7 +39,8 @@ const CardSignin = ({ Children }) => {
               className={classNames(classes.center, classes.form)}
               
             >              
-                <FormSignin/>               
+                {/* <FormSignin/>                */}
+                {children}
             </Grid>
           </Card>
         </Grid>
@@ -52,4 +49,4 @@ const CardSignin = ({ Children }) => {
   );
 }
 
-export default CardSignin
+export default CardAuth

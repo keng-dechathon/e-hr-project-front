@@ -1,12 +1,17 @@
 import React from 'react'
-import formSigIn from 'modules/authentication/components/FormSignIn'
+import CardSignin from '../../modules/authentication/components/CardAuth'
+import FormSignin from '../../modules/authentication/components/FormSignin'
+import MainHead from '../../modules/layout/components/MainHead'
 
-const signIn = () => {
+const SignIn = () => {
   return (
-    
-      <formSigIn />
-  
+    <>
+      <MainHead title='Sign In'/>
+      <CardSignin>
+        <FormSignin />
+      </CardSignin>
+    </>
   )
 }
 
-export default signIn
+export default SignIn
