@@ -14,24 +14,27 @@ import Typography from '@material-ui/core/Typography'
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
-
+import { signIn } from '../../action'
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles(styles)
 
 
 const FormSignin = () => {
     const classes = useStyles()
-    // const [loadingSignIn, setLoadingSignIn] = useState(false)
-    const [Checked,setChecked]= useState(false)
-    const onSubmitChecked =()=>{
+    const [Checked, setChecked] = useState(true)
+    const navigate = useNavigate();
+    const onSubmitChecked = () => {
         setChecked(!Checked)
         console.log(Checked)
     }
-    const onSubmit = async (values) => {
-        // await setLoadingSignIn(true)
+    const onSubmit = async (values) => {       
         console.log(values);
-        // await signIn(value)
-        // await setLoadingSignIn(false)
+        console.log(process.env.React_App_API_URL);
+        let status = await signIn(values, Checked)
+        if (status) {
+            navigate('/Home');
+        }      
     }
 
     const { form, handleSubmit, submitting, values } = useForm({
@@ -98,9 +101,7 @@ const FormSignin = () => {
                         Sign In
                     </Button>
                 </Grid>
-
                 <div className={classNames(classes.center)}>
-
                     <FormControlLabel
                         control={
                             <Checkbox
@@ -118,10 +119,7 @@ const FormSignin = () => {
                     <LinkDom to="/forgot-password">
                         <Link>Forgot password?</Link>
                     </LinkDom>
-
                 </div>
-
-
             </Grid>
         </form>
     )
