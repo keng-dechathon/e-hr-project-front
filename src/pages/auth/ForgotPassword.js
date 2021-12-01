@@ -2,18 +2,16 @@ import React from 'react'
 import FormForgotPassword from "../../modules/authentication/components/FormForgotPassword";
 import CardSignin from '../../modules/authentication/components/CardAuth';
 import MainHead from '../../modules/layout/components/MainHead';
-
+import AuthLayout from '../../modules/layout/components/AuthLayout';
 const ForgotPassword = () => {
   return (
     <>
-      <MainHead title='Forgot Password' />
-      <CardSignin>
-        <FormForgotPassword />        
-      </CardSignin>
+      <AuthLayout title='Forgot Password PAge'>
+        <CardSignin>
+          <FormForgotPassword />
+        </CardSignin>
+      </AuthLayout>
     </>
-
-
-
   )
 }
 
