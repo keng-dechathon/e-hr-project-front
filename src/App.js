@@ -1,38 +1,28 @@
-
-// import CardSignin from './modules/authentication/components/CardSignin';
-// import FormSignin from './modules/authentication/components/FormSignin';
-// import './App.css';
-// import React from 'react'
-
-// function App() {
-//   return (
-//     <div>
-//       <CardSignin/>
-
-//     </div>
-//   );
-// }
-
-// export default App;
-import React from "react";
+import React, { Fragment } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-
-
+import PrivateRoute from "./modules/authentication/hoc/PrivateRoute";
+import { getCookie } from "./utils/cookie";
 import SignIn from "./pages/auth/SignIn";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Home from "./pages/common/Home";
+import SignOut from "./pages/auth/SignOut";
 export default function App() {
-  return (   
-    
+
+  return (
+
     <Router>
+      <Fragment>
+        <Routes>
+          <Route path='/sign-in' element={<SignIn />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route exact path='/Home' element={<PrivateRoute />}>
+            <Route exact path='/Home' element={<Home />} />
+          </Route>
+          <Route path='/sign-out' element={<SignOut />} />
 
-      <Routes>
-        <Route path='/sign-in' element={<SignIn />}/>
-        <Route path='/forgot-password' element={<ForgotPassword />}/>
-        <Route path='/Home' element={<Home/>}/>
-      </Routes>
-
-    </Router>
+        </Routes>
+      </Fragment>
+    </Router >
   );
 }

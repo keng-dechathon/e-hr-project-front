@@ -10,6 +10,8 @@ import EmailIcon from '@material-ui/icons/Email'
 import { makeStyles } from '@material-ui/core/styles'
 import logo from '../../../assets/logo.png'
 import LogoutIcon from '@mui/icons-material/Logout';
+import { encodeB64,decodeB64 } from '../../../utils/crypto';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
     logo: {
@@ -26,36 +28,15 @@ const useStyles = makeStyles(() => ({
 
 function Navbar() {
     const classes = useStyles()
-
-    // const dispatch = useDispatch()
-    // const [IsSignIn, setIsSignIn] = useState(false)
-    // const { accountInformation } = useSelector(state => state.accountReducer)
-    // useEffect(() => {
-    //     dispatch(getAccountInformation())
-
-    // }, [])
-    // useEffect(() => {
-    //     const checkLogin = () => {
-    //         if (getCookie('a') === 'cannotdecodeb64urlsafe') {
-    //             setIsSignIn(false)
-    //         } else if (!getCookie('a')) {
-    //             setIsSignIn(false)
-    //         } else {
-    //             setIsSignIn(true)
-    //         }
-    //     }
-    //     checkLogin()
-    // }, [])
-
-
+    const navigate = useNavigate();
     return (
-        <Box sx={{ flexGrow: 1 }} >
-            <AppBar position="static" className={classes.appbar} color='inherit'>
+        <Box sx={{ flexGrow: 1 }} >            
+            <AppBar position="static" className={classes.appbar} color='inherit'>               
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         <img src={logo} alt="Logo" className={classes.logo} />
                     </Typography>
-                    <Button color="inherit" className={classes.logout}>Sign Out</Button>
+                    <Button color="inherit" className={classes.logout} onClick={() => {navigate('/sign-out');}}>Sign Out</Button>                    
                     {/* <IconButton
                         size="large"
                         edge="start"
@@ -65,6 +46,7 @@ function Navbar() {
                     >
                         <LogoutIcon />
                     </IconButton> */}
+                    
                 </Toolbar>
             </AppBar>
         </Box>

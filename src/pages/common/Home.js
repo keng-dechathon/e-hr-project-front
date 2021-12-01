@@ -4,6 +4,7 @@ import Navbar from '../../modules/layout/components/Navbar'
 const Home = () => {
   return (
     <>
+
         <Navbar>
 
         </Navbar>
