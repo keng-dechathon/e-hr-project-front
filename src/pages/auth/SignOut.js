@@ -5,7 +5,7 @@ import MainHead from '../../modules/layout/components/MainHead'
 const SignOut = () => {
   return (
     <>
-      <MainHead title='Sign In'/>
+      <MainHead title='Sign Out Page'/>
       <FormSignOut/>
     </>
   )
