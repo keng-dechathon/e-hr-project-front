@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import reducers from '@stores/reducers'
-import rootSaga from '@stores/sagas'
+import reducers from './reducers'
+import rootSaga from './sagas'
 
 
 let middlewares

@@ -1,18 +1,20 @@
 import React, { Fragment } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import PrivateRoute from "./modules/authentication/hoc/PrivateRoute";
+import PrivateRoute from "./modules/authentication/PrivateRoute/PrivateRoute";
 import { getCookie } from "./utils/cookie";
 import SignIn from "./pages/auth/SignIn";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Home from "./pages/common/Home";
 import SignOut from "./pages/auth/SignOut";
+
 export default function App() {
 
   return (
 
     <Router>
       <Fragment>
+      
         <Routes>
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
