@@ -17,24 +17,28 @@ import styles from './styles'
 import { signIn } from '../../action'
 import { useNavigate } from 'react-router-dom';
 
+
+
 const useStyles = makeStyles(styles)
 
 
 const FormSignin = () => {
     const classes = useStyles()
     const [Checked, setChecked] = useState(true)
+   
     const navigate = useNavigate();
+
     const onSubmitChecked = () => {
         setChecked(!Checked)
         console.log(Checked)
     }
-    const onSubmit = async (values) => {       
+    const onSubmit = async (values) => {
         console.log(values);
         console.log(process.env.React_App_API_URL);
         let status = await signIn(values, Checked)
         if (status) {
             navigate('/Home');
-        }      
+        }
     }
 
     const { form, handleSubmit, submitting, values } = useForm({
@@ -97,6 +101,15 @@ const FormSignin = () => {
                         variant={'contained'}
                         className={classes.ButtonSubmit}
                         type="submit"
+                        // onClick={() =>
+                        //     dispatch(
+                        //         setSnackbar(
+                        //             true,
+                        //             "success",
+                        //             "Your engineer application has been successfully submitted!"
+                        //         )
+                        //     )
+                        // }
                     >
                         Sign In
                     </Button>

@@ -8,7 +8,7 @@ import TextFieldOutline from '../../../common/TextFieldOutlined'
 import Button from '../../../common/Button'
 import { Link as LinkDom  } from 'react-router-dom'
 import { Link } from '@material-ui/core'
-
+import { forgotPassword } from '../../action'
 import Typography from '@material-ui/core/Typography'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -20,7 +20,8 @@ const useStyles = makeStyles(styles)
 
 const FormForgotPassword = () => {
     const classes = useStyles()
-    const onSubmit = async () => {
+    const onSubmit = async (values) => {
+        await forgotPassword(values)
         console.log(values);
     }
 
@@ -68,7 +69,7 @@ const FormForgotPassword = () => {
                     className={classes.center}
                 >
                     <Button
-                        loading={true}
+                        loading={submitting}
                         fullWidth
                         variant={'contained'}
                         className={classes.ButtonSubmit}

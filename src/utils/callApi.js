@@ -1,6 +1,6 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
 import axios from 'axios'
-import { getCookieFromBrowser } from '@utils/cookie'
+import { getCookieFromBrowser } from './cookie'
 
 const configApi = async (action = {}) => {
   const { fetchConfig = {}, payload } = action
@@ -9,7 +9,6 @@ const configApi = async (action = {}) => {
   let defaultHeader = {   
     'Authorization': `Bearer ${getCookieFromBrowser('a') ? getCookieFromBrowser('a') : ''}`,
   }
-  
   return await axios({
     baseURL: fixBaseURL || process.env.React_App_API_URL,
     method: method || 'GET',
@@ -21,6 +20,7 @@ const configApi = async (action = {}) => {
 }
 
 export function* requestApi(action) {
+  
   try {
     const response = yield call(configApi, action)
     let type = action.type.split('_')

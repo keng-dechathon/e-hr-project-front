@@ -4,7 +4,7 @@ export const apiUrl = {
         signin: '/eHRService/Login',
         authorize: '/w/oauth2/authorize',
         token: '/w/oauth2/token',
-        forgotPassword: '/w/auth/forgot-password',
+        forgotPassword: '/eHRService/ForgotPassword',
         resetPassword: '/w/auth/reset-password',
         validateLinkResetPassword: '/w/auth/validate-link-code',
         createAccount:'/w/auth/account',

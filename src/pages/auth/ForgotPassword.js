@@ -8,7 +8,7 @@ const ForgotPassword = () => {
     <>
       <MainHead title='Forgot Password' />
       <CardSignin>
-        <FormForgotPassword />
+        <FormForgotPassword />        
       </CardSignin>
     </>
 
