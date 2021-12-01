@@ -34,7 +34,7 @@ const FormSignOut = () => {
             await clearCookie('uid')
             await navigate('/sign-in');
         }
-        // clearSection()
+        clearSection()
     }, [])
 
     return (
