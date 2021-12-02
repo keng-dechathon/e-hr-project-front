@@ -7,7 +7,7 @@ import SignIn from "./pages/auth/SignIn";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Home from "./pages/common/Home";
 import SignOut from "./pages/auth/SignOut";
-
+import ResetPassword from "./pages/auth/ResetPassword";
 export default function App() {
 
   return (
@@ -18,8 +18,12 @@ export default function App() {
         <Routes>
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
-          <Route exact path='/Home' element={<PrivateRoute />}>
-            <Route exact path='/Home' element={<Home />} />
+          
+          <Route exact path='/reset-password' element={<PrivateRoute />}>
+            <Route exact path='/reset-password' element={<ResetPassword />} />
+          </Route>
+          <Route exact path='/home' element={<PrivateRoute />}>
+            <Route exact path='/home' element={<Home />} />
           </Route>
           <Route path='/sign-out' element={<SignOut />} />
 
