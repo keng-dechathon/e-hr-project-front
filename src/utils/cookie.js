@@ -12,10 +12,10 @@ export const getCookieFromBrowser = key => {
   return cookie.get(key)
 }
 
-export const setCookie = (key, value) => {
+export const setCookie = (key, value,time) => {
   if (process.browser) {
     let expire_time = new Date()
-    expire_time.setTime(expire_time.getTime() + (1000*3600*24*30))    
+    expire_time.setTime(expire_time.getTime() + time)    
     cookie.set(key, encodeB64(value), {
       expires: expire_time,
       path: '/',

@@ -7,8 +7,8 @@ import { getCookieFromBrowser, setCookie, clearCookie } from '../../utils/cookie
 import { pushSnackbarAction } from '../layout/actions'
 
 
-export const signIn = async (values, Checked,navigate) => {
-    
+export const signIn = async (values, Checked,navigate) => {   
+
     return API()
         .post(apiUrl.eHRService.auth.signin, {
             username: values.email,
@@ -18,20 +18,19 @@ export const signIn = async (values, Checked,navigate) => {
             const { access_token, ID } = response.data
             const uid = encodeB64(ID)
             const a = encodeB64(access_token)
-            pushSnackbarAction('success', 'Login successfully')
+           
             if (Checked) {
-                setCookie('uid', uid)
-                setCookie('a', a)
+                setCookie('uid', uid,(1000*3600*24*30))
+                setCookie('a', a,(1000*3600*24*30))
             } else {
-                if (getCookieFromBrowser('a') && !Checked) {
-                    clearCookie('a')
-                    clearCookie('uid')
-                }
-            }
+                setCookie('uid', uid,(1000*3600*24))
+                setCookie('a', a,(1000*3600*24))
+            } 
+            pushSnackbarAction('success', 'Login successfully')
             navigate('/Home')
             // console.log(ID);
             // console.log(access_token);
-            return true
+            return { status: 'success' }
         })
         .catch((error) => {
             try {
@@ -45,7 +44,7 @@ export const signIn = async (values, Checked,navigate) => {
                 pushSnackbarAction('error', 'Server error')
               }              
             console.log('err');
-            return false
+            return { status: 'fail' }
         })
 }
 

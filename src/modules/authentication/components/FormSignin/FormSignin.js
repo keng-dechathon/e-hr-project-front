@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 import { signIn } from '../../action'
 import { useNavigate } from 'react-router-dom';
+import { getCookieFromBrowser } from '../../../../utils/cookie'
 
 
 
@@ -25,8 +26,13 @@ const useStyles = makeStyles(styles)
 const FormSignin = () => {
     const classes = useStyles()
     const [Checked, setChecked] = useState(true)
-   
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (getCookieFromBrowser('uid')||getCookieFromBrowser('a')) {
+            navigate('/home')
+        }
+    });
 
     const onSubmitChecked = () => {
         setChecked(!Checked)
@@ -35,10 +41,9 @@ const FormSignin = () => {
     const onSubmit = async (values) => {
         console.log(values);
         console.log(process.env.React_App_API_URL);
-        // let status = 
         await signIn(values, Checked,navigate)
         // if (status) {
-        //     navigate('/Home');
+        //     navigate('/home');
         // }
     }
 
@@ -51,6 +56,7 @@ const FormSignin = () => {
         <form
             className={classes.root}
             onSubmit={handleSubmit}
+            autocomplete="on"
         >
             <Grid
                 container
@@ -102,15 +108,15 @@ const FormSignin = () => {
                         variant={'contained'}
                         className={classes.ButtonSubmit}
                         type="submit"
-                        // onClick={() =>
-                        //     dispatch(
-                        //         setSnackbar(
-                        //             true,
-                        //             "success",
-                        //             "Your engineer application has been successfully submitted!"
-                        //         )
-                        //     )
-                        // }
+                    // onClick={() =>
+                    //     dispatch(
+                    //         setSnackbar(
+                    //             true,
+                    //             "success",
+                    //             "Your engineer application has been successfully submitted!"
+                    //         )
+                    //     )
+                    // }
                     >
                         Sign In
                     </Button>

@@ -6,7 +6,7 @@ import AuthLayout from '../../modules/layout/components/AuthLayout';
 const ForgotPassword = () => {
   return (
     <>
-      <AuthLayout title='Forgot Password PAge'>
+      <AuthLayout title='Forgot Password Page'>
         <CardSignin>
           <FormForgotPassword />
         </CardSignin>
