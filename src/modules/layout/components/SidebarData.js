@@ -1,13 +1,15 @@
 import React from 'react';
-import { AreaChartOutlined,DotChartOutlined ,FundOutlined,TableOutlined} from '@ant-design/icons';
+import AbcIcon from '@mui/icons-material/Abc';
+
 export const SidebarData = [
   {
-    title: 'Root of Equation',  
+    title: 'Main',  
     subNav: [
       {
         title: 'Bisection Method',
         path: '/Root-of-equation/Bisection-Method',   
-        icon: <AreaChartOutlined />,     
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
       },
       {
         title: 'False-Position Method',

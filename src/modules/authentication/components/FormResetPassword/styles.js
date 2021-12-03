@@ -1,27 +1,11 @@
 export default (theme) => ({
     root: {
-        width: '100%',
-        // minHeight: 'calc(100vh - 72px)',
-       
-        display: 'flex',
-        textAlign: 'center',
-        justifyContent: 'center',
-    },
-    form: {
-        width: '330px',
-        display: 'flex',
-        textAlign: 'center',
-        justifyContent: 'center',
+        width: '330px'
     },
     center: {
         justifyContent: 'center',
         alignItems: 'center',
         display: 'flex',
-    },
-    massage: {
-        flexDirection: 'column',
-        marginBottom: '50px',
-        textAlign: 'center',
     },
     forgot: {
         marginTop: '16px',
@@ -45,6 +29,20 @@ export default (theme) => ({
     ButtonSubmit: {
         background: '#ffffff',
         color: '#000000',
-    }
+    },
+    optionbox: {
+
+        position: 'absolute',
+
+    },
+    checkbox: {
+        left: '0',
+    },
+    massage: {
+        flexDirection: 'column',
+        marginBottom: '50px',
+        textAlign: 'center',
+    },
+
 })
 
