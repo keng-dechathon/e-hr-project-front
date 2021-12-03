@@ -45,7 +45,7 @@ const FormForgotPassword = () => {
                 >
                     <div className={classNames(classes.center, classes.head, classes.massage)}>
                         <Typography variant="h4" >Forgot Password</Typography>
-                        <div>we will send reset url link to your email</div>
+                        <div>we will send new password to your email</div>
                     </div>
 
                 </Grid>
@@ -56,10 +56,11 @@ const FormForgotPassword = () => {
                     <TextFieldOutline
                         className={classes.textfield}
                         id={'email'}
-                        placeholder={'Email'}
+                        placeholder={'Enter your email.'}
                         name={'email'}
                         form={form}
                         endAdornment={<EmailIcon style={{ color: 'rgba(0, 0, 0, 0.54)' }} />}
+                        label="Email"
                     />
 
                 </Grid>

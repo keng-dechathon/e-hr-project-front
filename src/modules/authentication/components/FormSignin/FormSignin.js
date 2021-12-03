@@ -29,7 +29,7 @@ const FormSignin = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (getCookieFromBrowser('uid')||getCookieFromBrowser('a')) {
+        if (getCookieFromBrowser('uid') || getCookieFromBrowser('a')) {
             navigate('/home')
         }
     });
@@ -41,7 +41,7 @@ const FormSignin = () => {
     const onSubmit = async (values) => {
         console.log(values);
         console.log(process.env.React_App_API_URL);
-        await signIn(values, Checked,navigate)
+        await signIn(values, Checked, navigate)
         // if (status) {
         //     navigate('/home');
         // }
@@ -66,8 +66,9 @@ const FormSignin = () => {
                     item
                     xs={12}
                 >
-                    <div className={classNames(classes.center, classes.head)}>
+                    <div className={classNames(classes.center, classes.head, classes.massage)}>
                         <Typography variant="h4" >  Welcome e-HR </Typography>
+                        <div>hello world.</div>
                     </div>
 
                 </Grid>
@@ -78,10 +79,11 @@ const FormSignin = () => {
                     <TextFieldOutline
                         className={classes.textfield}
                         id={'email'}
-                        placeholder={'Email'}
+                        placeholder={'Enter your email.'}
                         name={'email'}
                         form={form}
                         endAdornment={<EmailIcon style={{ color: 'rgba(0, 0, 0, 0.54)' }} />}
+                        label="Email"
                     />
 
                 </Grid>
@@ -92,9 +94,10 @@ const FormSignin = () => {
                     <PasswordInputOutlined
                         className={classes.textfield}
                         id={'password'}
-                        placeholder={'Password'}
+                        placeholder={'Enter your password.'}
                         name={'password'}
                         form={form}
+                        label="Password"
                     />
                 </Grid>
                 <Grid
@@ -108,15 +111,6 @@ const FormSignin = () => {
                         variant={'contained'}
                         className={classes.ButtonSubmit}
                         type="submit"
-                    // onClick={() =>
-                    //     dispatch(
-                    //         setSnackbar(
-                    //             true,
-                    //             "success",
-                    //             "Your engineer application has been successfully submitted!"
-                    //         )
-                    //     )
-                    // }
                     >
                         Sign In
                     </Button>

@@ -19,9 +19,9 @@ export default function App() {
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           
-          <Route exact path='/reset-password' element={<PrivateRoute />}>
-            <Route exact path='/reset-password' element={<ResetPassword />} />
-          </Route>
+          
+          <Route exact path='/reset-password' element={<ResetPassword />} />
+          
           <Route exact path='/home' element={<PrivateRoute />}>
             <Route exact path='/home' element={<Home />} />
           </Route>

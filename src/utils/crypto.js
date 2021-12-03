@@ -8,7 +8,7 @@ export const encodeB64 = (rawStr) => {
     var aa = "4d1a90569640acf5b68ed151c9d49351ae6286aa0ebdbf8dc477f33dd6fa20d4"
     var encryptedMessage = new Encryptor().encrypt(rawStr, 'AdxweqaskdlkjsgioujpDOPIUSUDioashodihsidlasd213xz');
     
-    console.log("encryptedMessage : "+encryptedMessage);
+    // console.log("encryptedMessage : "+encryptedMessage);
  
 
     return encryptedMessage
