@@ -41,10 +41,7 @@ const FormSignin = () => {
     const onSubmit = async (values) => {
         console.log(values);
         console.log(process.env.React_App_API_URL);
-        await signIn(values, Checked, navigate)
-        // if (status) {
-        //     navigate('/home');
-        // }
+        await signIn(values, Checked, navigate)     
     }
 
     const { form, handleSubmit, submitting, values } = useForm({

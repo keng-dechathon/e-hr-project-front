@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
-import EmailIcon from '@material-ui/icons/Email'
 import PasswordInputOutlined from '../../../common/PasswordInputOutlined'
 import { useForm } from 'react-final-form-hooks'
 import classNames from 'classnames'
-import TextFieldOutline from '../../../common/TextFieldOutlined'
 import Button from '../../../common/Button'
-import { pink } from '@mui/material/colors'
-import Checkbox from '@mui/material/Checkbox'
 import { Link as LinkDom } from 'react-router-dom'
 import { Link } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
-import FormControlLabel from '@mui/material/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
-import { signIn } from '../../action'
-import { useNavigate } from 'react-router-dom';
-import { getCookieFromBrowser } from '../../../../utils/cookie'
+import { useNavigate } from 'react-router-dom'
 import { resetPassword } from '../../action'
-import { decodeB64 } from '../../../../utils/crypto'
+
 
 const useStyles = makeStyles(styles)
 
@@ -27,32 +20,15 @@ const FormResetPassword = () => {
     const classes = useStyles()
     const [Checked, setChecked] = useState(true)
     const navigate = useNavigate();
-    const [username, setUsername] = useState("")
-
-    useEffect(() => {
-        if (getCookieFromBrowser("u")) {
-            // console.log(decodeB64(getCookieFromBrowser("u")));
-            setUsername(decodeB64(getCookieFromBrowser("u")) )
-        } else {
-            navigate('/sign-in')
-        }
-    });
-
+  
     const onSubmit = async (values) => {
         console.log(values);
-
-        await resetPassword(values, username, navigate)
+        await resetPassword(values,navigate)
     }
-
-    //check username cookie
-
-
-
 
     const { form, handleSubmit, submitting, values } = useForm({
         onSubmit: onSubmit,
     })
-
 
     return (
         <form

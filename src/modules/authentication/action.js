@@ -2,8 +2,7 @@ import API from '../../utils/api'
 import { apiUrl } from '../../utils/apiUrl'
 import { encodeB64, decodeB64 } from '../../utils/crypto'
 import { getCookieFromBrowser, setCookie, clearCookie } from '../../utils/cookie'
-// import Router from 'next/router'
-// import { pushSnackbarAction } from '../layout/actions'
+
 import { pushSnackbarAction } from '../layout/actions'
 
 
@@ -16,18 +15,14 @@ export const signIn = async (values, Checked, navigate) => {
         })
         .then((response) => {
             const { access_token, ID, NeedResetPassword } = response.data
-            const uid = encodeB64(ID)
-            const a = encodeB64(access_token)
-            const uname = encodeB64(values.email)
+            const uid = ID
+            const a = access_token
             
-            console.log("need: " + NeedResetPassword);
-            if (NeedResetPassword) {
-                // console.log(values.email); 
-                setCookie('uid', uid, (1000 * 3600 ))
-                setCookie('a', a, (1000 * 3600 ))
-                setCookie('u', uname, (1000 * 3600))
+            if (NeedResetPassword) {              
+                setCookie('uid', uid, (1000 * 3600))
+                setCookie('a', a, (1000 * 3600))
                 navigate('/reset-password')
-              
+                return { status: 'success' }
             } else {
                 ///setRememberMeCookie
                 if (Checked) {
@@ -36,12 +31,10 @@ export const signIn = async (values, Checked, navigate) => {
                 } else {
                     setCookie('uid', uid, (1000 * 3600 * 24))
                     setCookie('a', a, (1000 * 3600 * 24))
-                }
+                }              
                 navigate('/Home')
+                return { status: 'success' }
             }
-            pushSnackbarAction('success', 'Login successfully')
-
-            return { status: 'success' }
         })
         .catch((error) => {
             console.log(error);
@@ -80,18 +73,21 @@ export const forgotPassword = async (values) => {
 }
 
 
-export const resetPassword = async (values, username, navigate) => {
+export const resetPassword = async (values, navigate) => {
     console.log(values);
-    console.log(username);
     return API()
         .post(apiUrl.eHRService.auth.resetPassword, {
-            username: username,
             oldPassword: values.oldPassword,
             newPassword: values.newPassword,
             confirmNewPassword: values.confirmPassword,
         })
         .then((response) => {
-            pushSnackbarAction('success', 'Send Link Reset Password has successful')
+            pushSnackbarAction('success', 'Reset password success.')
+            setTimeout(() => {
+                navigate('/home')
+                return { status: 'success' }
+            }, 1000)
+
             return { status: 'success' }
         })
         .catch((error) => {
