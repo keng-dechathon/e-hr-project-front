@@ -6,104 +6,136 @@ export const SidebarData = [
     title: 'Main',  
     subNav: [
       {
-        title: 'Bisection Method',
-        path: '/Root-of-equation/Bisection-Method',   
+        title: 'News',
+        path: '/news',   
         icon: <AbcIcon />,  
         role:['a','b','c'] ,  
       },
       {
-        title: 'False-Position Method',
-        path: '/Root-of-equation/False-position-Method', 
+        title: 'Timesheet Viewer',
+        path: '/time-sheet-viewer',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
       },
       {
-        title: 'One-Point Method',
-        path: '/Root-of-equation/One-Point-Method', 
+        title: 'Timesheet Record',
+        path: '/time-sheet-record',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
       },
       {
-        title: 'Secant Method',
-        path: '/Root-of-equation/Secant-Method', 
+        title: 'Leave Request',
+        path: '/leave request',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
       },
       {
-        title: 'Newton-Raphson Method',
-        path: '/Linear Equation/Newton-Raphson-Method',        
-      },   
+        title: 'Checkin-Checkout',
+        path: '/checkin-checkout',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
+      },
+      {
+        title: 'Report',
+        path: '/report',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
+      },
     ]
   },
   {
-    title: 'Linear Equation',
-    icon: <TableOutlined />,
-    
+    title: 'Management',  
     subNav: [
       {
-        title: 'Conjugate-Gradient Method',
-        path: '/Linear Equation/Conjugate-Gradient-Method',        
+        title: 'Leave Management',
+        path: '/leave-management',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
       },
       {
-        title: 'Cramer-Rule Method',
-        path: '/Linear Equation/Cramer-Rule-Method',        
+        title: 'Timesheet Management',
+        path: '/timesheet-management',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
       },
       {
-        title: 'Gauss-Jordan Method',
-        path: '/Linear Equation/Gauss-Jordan-Method',        
+        title: 'News Management',
+        path: '/news-management',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
       },
       {
-        title: 'Gauss-Seidel Method',
-        path: '/Linear Equation/Gauss-Seidel-Method',        
+        title: 'Leave Type',
+        path: '/leave-type',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
       },
       {
-        title: 'Gauss-Elimination Method',
-        path: '/Linear Equation/Gauss-Eliminatio-Method',        
+        title: 'Document Management.',
+        path: '/document-management',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
       },
       {
-        title: 'Jacobi Method',
-        path: '/Linear Equation/Jacobi-Method',        
+        title: 'Expense Management',
+        path: '/expense-management',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
       },
       {
-        title: 'LU-Decomposition Method',
-        path: '/Linear Equation/LU-Decomposition-Method',        
+        title: 'Employee Management',
+        path: '/employee-management',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
+      },
+      {
+        title: 'Team Management',
+        path: '/team-management',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
+      },
+      {
+        title: 'Working Time / holiday / Day-off',
+        path: '/team-management',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
+      },
+    ]
+  },
+  {
+    title: 'Other',      
+    subNav: [
+      {
+        title: 'Employee Information',
+        path: '/employee-information',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
+      },
+      {
+        title: 'Meeting Room Booking',
+        path: '/meeting-room-booking',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
+      },
+      {
+        title: 'Expense Request',
+        path: '/expense-request',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
+      },
+      {
+        title: 'Document Request',
+        path: '/document-request',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
+      },
+      {
+        title: 'Profile',
+        path: '/profile',   
+        icon: <AbcIcon />,  
+        role:['a','b','c'] ,  
       },
      
     ]
   },
-  {
-    title: 'Interpolation',
-    
-    icon: <FundOutlined />,  
-    
-    subNav: [
-      {
-        title: 'Newton-Divide Difference Method',
-        path: '/Interpolation/Newton-Divide Difference Method',        
-      },
-      {
-        title: 'Lagrange Method',
-        path: '/Interpolation/Lagrange',        
-      },
-      {
-        title: 'Spline Method',
-        path: '/Interpolation/Spline Method',        
-      },
-    ]
-  },
-  {
-    title: 'Least Squares Regression',
-    
-    icon: <DotChartOutlined />,  
-    
-    subNav: [
-      {
-        title: 'Linear Regression',
-        path: '/Least Squares Regression/Linear Regression',        
-      },
-      {
-        title: 'Polynomial Regression',
-        path: '/Least Squares Regression/Polynomial Regressionn',        
-      },
-      {
-        title: 'Multiple Linear Regression',
-        path: '/Least Squares Regression/Multiple Linear Regression',        
-      },
-    ]
-  },
-  
 ];

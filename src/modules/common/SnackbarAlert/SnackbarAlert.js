@@ -39,7 +39,7 @@ const SnackbarAlert = ({
 
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root}>           
             {!isEmpty(snackbarObject) ?
                 <Snackbar
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}

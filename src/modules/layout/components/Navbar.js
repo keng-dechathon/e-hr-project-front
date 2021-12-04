@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
     },
     logout: {
         height: '40px',
-    }
+    }, 
 }));
 
 function Navbar() {
@@ -37,7 +37,7 @@ function Navbar() {
             className={classes.appbar}
             color='inherit'
         >
-            <Toolbar>
+            <Toolbar className={classes.toolbar}>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     <img src={logo} alt="Logo" className={classes.logo} />
                 </Typography>
