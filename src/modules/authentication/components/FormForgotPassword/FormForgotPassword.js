@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import EmailIcon from '@material-ui/icons/Email'
-import PasswordInputOutlined from '../../../common/PasswordInputOutlined'
 import { useForm } from 'react-final-form-hooks'
 import classNames from 'classnames'
 import TextFieldOutline from '../../../common/TextFieldOutlined'

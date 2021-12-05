@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React from 'react'
 import { Navigate, Route ,Outlet} from 'react-router-dom'
 import { getCookieFromBrowser } from '../../../utils/cookie'
 
