@@ -96,7 +96,7 @@ export const SidebarData = [
       },
       {
         title: 'Working Time / holiday / Day-off',
-        path: '/team-management',   
+        path: '/time-management',   
         icon: <AbcIcon />,  
         role:['a','b','c'] ,  
       },

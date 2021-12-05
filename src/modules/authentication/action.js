@@ -1,7 +1,6 @@
 import API from '../../utils/api'
 import { apiUrl } from '../../utils/apiUrl'
-import { encodeB64, decodeB64 } from '../../utils/crypto'
-import { getCookieFromBrowser, setCookie, clearCookie } from '../../utils/cookie'
+import {setCookie} from '../../utils/cookie'
 
 import { pushSnackbarAction } from '../layout/actions'
 
@@ -41,7 +40,7 @@ export const signIn = async (values, Checked, navigate) => {
             try {
                 let status = error.response.status
                 console.log(status);
-                if (status == 401) {
+                if (status === 401) {
                     pushSnackbarAction('error', 'username or password incorrect')
                 } else {
                     pushSnackbarAction('error', 'Invalid email or password')

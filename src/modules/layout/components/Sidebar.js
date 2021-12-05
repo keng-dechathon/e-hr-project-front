@@ -52,7 +52,7 @@ const useStyles = makeStyles(() => ({
 function Sidebar() {
     const classes = useStyles()
     const navigate = useNavigate();
-    console.log(SidebarData);
+    // console.log(SidebarData);
     return (
         <>
             <Drawer
@@ -64,7 +64,7 @@ function Sidebar() {
                     <div className={classes.margintop}/>
                     {SidebarData.map((item, index) => {
                         return (
-                            <List>
+                            <List key={index}>
                                 <div className={classes.listTopic}>
                                     {item.title}
                                 </div>                                
