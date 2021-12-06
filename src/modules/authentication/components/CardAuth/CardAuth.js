@@ -37,8 +37,7 @@ const CardAuth = ({ children }) => {
               sm={7}
               className={classNames(classes.center, classes.form)}
               
-            >              
-                {/* <FormSignin/>                */}
+            >                           
                 {children}
             </Grid>
           </Card>

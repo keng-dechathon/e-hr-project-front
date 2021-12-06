@@ -40,10 +40,8 @@ export const signIn = async (values, Checked, navigate) => {
             try {
                 let status = error.response.status
                 console.log(status);
-                if (status === 401) {
+                if (status === 401 || status === 404) {
                     pushSnackbarAction('error', 'username or password incorrect')
-                } else {
-                    pushSnackbarAction('error', 'Invalid email or password')
                 }
             } catch (e) {
                 pushSnackbarAction('error', 'Server error')

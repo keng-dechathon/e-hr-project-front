@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
@@ -15,6 +15,9 @@ import MailIcon from '@mui/icons-material/Mail';
 import { makeStyles } from '@material-ui/core/styles'
 import { useNavigate } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
+import { getAccountInformation } from '../../identity/actions'
+import { useSelector, useDispatch } from 'react-redux'
+import Skeleton from '@mui/material/Skeleton';
 
 const drawerWidth = 260;
 
@@ -25,26 +28,26 @@ const useStyles = makeStyles(() => ({
         flexShrink: '0',
         [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
     },
-    listTopic:{
+    listTopic: {
         // padding:'15px 0 10px 10px',
-        margin:'0px 0px 0px 15px',
-        color:'#C91F92',
-        fontWeight:'bold',
+        margin: '0px 0px 0px 15px',
+        color: '#C91F92',
+        fontWeight: 'bold',
     },
-    box:{
+    box: {
         // padding:'10px'
     },
-    listItem:{
+    listItem: {
         [`& .css-cveggr-MuiListItemIcon-root`]: {
-            minWidth:'30px',
-            margin:'0 10px'
-        },   
+            minWidth: '30px',
+            margin: '0 10px'
+        },
         [`& .css-10hburv-MuiTypography-root   `]: {
-            fontSize:'0.8rem'
-        }, 
+            fontSize: '0.8rem'
+        },
     },
-    margintop:{
-        marginTop:'20px',
+    margintop: {
+        marginTop: '20px',
     }
 
 }));
@@ -53,6 +56,15 @@ function Sidebar() {
     const classes = useStyles()
     const navigate = useNavigate();
     // console.log(SidebarData);
+    const dispatch = useDispatch()
+
+    const { accountInformation } = useSelector(state => state.accountReducer)
+
+    useEffect(() => {
+        dispatch(getAccountInformation())
+    }, [])
+
+    let Role = accountInformation.Role
     return (
         <>
             <Drawer
@@ -61,23 +73,34 @@ function Sidebar() {
             >
                 <Toolbar />
                 <Box sx={{ overflow: 'auto' }} className={classes.box}>
-                    <div className={classes.margintop}/>
+                    <div className={classes.margintop} />
                     {SidebarData.map((item, index) => {
                         return (
                             <List key={index}>
                                 <div className={classes.listTopic}>
                                     {item.title}
-                                </div>                                
-                                {                                 
+                                </div>
+                                {
                                     item.subNav.map((subItem) => {
                                         return (
-                                            <ListItem button key={subItem.path} className={classes.listItem}>
-                                                <ListItemIcon>
-                                                    {subItem.icon}
-                                                </ListItemIcon>
-                                                <ListItemText primary={subItem.title} />
-                                            </ListItem>
-                                        );
+                                            subItem.role.map((role) => {
+                                                if (role == Role) {
+                                                    return (
+                                                        <ListItem button key={subItem.path} className={classes.listItem}>
+                                                            <ListItemIcon>
+                                                                {subItem.icon}
+                                                            </ListItemIcon>
+                                                            <ListItemText primary={subItem.title} />
+                                                        </ListItem>
+                                                    );
+                                                }else if(!Role){
+                                                    return( 
+                                                    <ListItem button key={subItem.path} className={classes.listItem}>                                                      
+                                                            <Skeleton width={'100%'} animation="wave"/>                                                        
+                                                    </ListItem>);
+                                                }
+                                            })
+                                        )
                                     })
                                 }
                             </List>
