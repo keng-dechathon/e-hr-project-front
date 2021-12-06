@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -11,13 +10,15 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { getinfo } from '../../identity/actions';
 import Skeleton from '@mui/material/Skeleton';
+import { navHeight } from './Attribute';
+
 const useStyles = makeStyles(() => ({
     logo: {
         width: '72px',
         height: '40px',
     },
     appbar: {
-        minHeight: '64px',
+        minHeight: navHeight,
     },
     logout: {
         color: '#FF0000',
