@@ -10,12 +10,8 @@ const ResetPassword = () => {
         <>
             <AuthLayout title='Reset Password Page'>
                 <CardAuth>
-                     <FormResetpassword />
+                    <FormResetpassword />
                 </CardAuth>
-              
-                    
-            
-               
             </AuthLayout>
         </>
     )

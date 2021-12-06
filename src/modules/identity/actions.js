@@ -25,7 +25,7 @@ export const getinfo = async () => {
 
     })
     .then((response) => {
-      console.log(response);
+      // console.log(response);
       pushSnackbarAction('success', 'success')
       return { status: 'success' }
     })

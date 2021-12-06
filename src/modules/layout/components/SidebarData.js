@@ -9,19 +9,19 @@ export const SidebarData = [
         title: 'News',
         path: '/news',   
         icon: <AbcIcon />,  
-        role:['a','b','c'] ,  
+        role:['a','b','c','Admin'] ,  
       },
       {
         title: 'Timesheet Viewer',
         path: '/time-sheet-viewer',   
         icon: <AbcIcon />,  
-        role:['a','b','c'] ,  
+        role:['a','b','c','Admin'] ,  
       },
       {
         title: 'Timesheet Record',
         path: '/time-sheet-record',   
         icon: <AbcIcon />,  
-        role:['a','b','c'] ,  
+        role:['a','b','Admin'] ,  
       },
       {
         title: 'Leave Request',
@@ -50,13 +50,13 @@ export const SidebarData = [
         title: 'Leave Management',
         path: '/leave-management',   
         icon: <AbcIcon />,  
-        role:['a','b','c'] ,  
+        role:['a','b','c','d'] ,  
       },
       {
         title: 'Timesheet Management',
         path: '/timesheet-management',   
         icon: <AbcIcon />,  
-        role:['a','b','c'] ,  
+        role:['a','b','c','d'] ,  
       },
       {
         title: 'News Management',
@@ -74,7 +74,7 @@ export const SidebarData = [
         title: 'Document Management.',
         path: '/document-management',   
         icon: <AbcIcon />,  
-        role:['a','b','c'] ,  
+        role:['a','b','Admin'] ,  
       },
       {
         title: 'Expense Management',
@@ -109,13 +109,13 @@ export const SidebarData = [
         title: 'Employee Information',
         path: '/employee-information',   
         icon: <AbcIcon />,  
-        role:['a','b','c'] ,  
+        role:['a','b','c','d'] ,  
       },
       {
         title: 'Meeting Room Booking',
         path: '/meeting-room-booking',   
         icon: <AbcIcon />,  
-        role:['a','b','c'] ,  
+        role:['a','b','Admin'] ,  
       },
       {
         title: 'Expense Request',

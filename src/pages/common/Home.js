@@ -3,9 +3,7 @@ import MainLayout from '../../modules/layout/components/MainLayout'
 const Home = () => {
   return (
     <>
-
         <MainLayout/>
-
     </>
 
 
