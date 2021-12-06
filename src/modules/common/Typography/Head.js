@@ -12,25 +12,25 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 200,
   },
   danger: {
-    color: theme.palette.error.main,
+    color: '#ED2F2F',
   },
   primary: {
-    color: theme.palette.primary.main,
+    color: '#2F80ED',
   },
   mute: {
-    color: theme.palette.gray.dark,
+    color: '#686868',
   },
   info: {
-    color: theme.palette.primary.main,
+    color: '#2F80ED',
   },
   success: {
-    color: theme.palette.success.main,
+    color: '#77AF4C',
   },
   warning: {
-    color: theme.palette.warning.main,
+    color: '#FF9800',
   },
   white: {
-    color: theme.palette.common.white,
+    color: '#FFFFFF',
   },
   thin: {
     fontWeight: 100,

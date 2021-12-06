@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import EmailIcon from '@material-ui/icons/Email'
-import PasswordInputOutlined from '../../../common/PasswordInputOutlined'
 import { useForm } from 'react-final-form-hooks'
 import classNames from 'classnames'
 import TextFieldOutline from '../../../common/TextFieldOutlined'
 import Button from '../../../common/Button'
 import { Link as LinkDom  } from 'react-router-dom'
 import { Link } from '@material-ui/core'
-
+import { forgotPassword } from '../../action'
 import Typography from '@material-ui/core/Typography'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -20,7 +19,8 @@ const useStyles = makeStyles(styles)
 
 const FormForgotPassword = () => {
     const classes = useStyles()
-    const onSubmit = async () => {
+    const onSubmit = async (values) => {
+        await forgotPassword(values)
         console.log(values);
     }
 
@@ -44,7 +44,7 @@ const FormForgotPassword = () => {
                 >
                     <div className={classNames(classes.center, classes.head, classes.massage)}>
                         <Typography variant="h4" >Forgot Password</Typography>
-                        <div>we will send reset url link to your email</div>
+                        <div>we will send new password to your email</div>
                     </div>
 
                 </Grid>
@@ -55,10 +55,11 @@ const FormForgotPassword = () => {
                     <TextFieldOutline
                         className={classes.textfield}
                         id={'email'}
-                        placeholder={'Email'}
+                        placeholder={'Enter your email.'}
                         name={'email'}
                         form={form}
                         endAdornment={<EmailIcon style={{ color: 'rgba(0, 0, 0, 0.54)' }} />}
+                        label="Email"
                     />
 
                 </Grid>
@@ -68,7 +69,7 @@ const FormForgotPassword = () => {
                     className={classes.center}
                 >
                     <Button
-                        loading={true}
+                        loading={submitting}
                         fullWidth
                         variant={'contained'}
                         className={classes.ButtonSubmit}
@@ -82,7 +83,6 @@ const FormForgotPassword = () => {
                     <LinkDom to="/sign-in">
                         <Link>Sign in</Link>
                     </LinkDom>
-
                 </Grid>
 
             </Grid>

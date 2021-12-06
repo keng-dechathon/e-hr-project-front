@@ -1,6 +1,6 @@
 export default theme => ({
     contained: {
-      backgroundColor: theme.palette.primary.main
+      backgroundColor: '#2F80ED',
     },
     button: {    
       borderRadius: '5px',

@@ -11,26 +11,33 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: '0.2px',
     fontWeight: 200,
   },
+  pink: {
+    color: '#C91F92',
+  },
   danger: {
-    color: theme.palette.error.main,
+    color: '#ED2F2F',
   },
   primary: {
-    color: theme.palette.primary.main,
+    color: '#2F80ED',
   },
   mute: {
-    color: theme.palette.gray.dark,
+    color: '#333132',
+    opacity:'0.5',
   },
   info: {
-    color: theme.palette.primary.main,
+    color: '#2F80ED',
   },
   success: {
-    color: theme.palette.success.main,
+    color: '#77AF4C',
   },
   warning: {
-    color: theme.palette.warning.main,
+    color: '#FF9800',
+  },
+  main:{
+    color:'#1976d2',
   },
   white: {
-    color: theme.palette.common.white,
+    color: '#FFFFFF',
   },
   thin: {
     fontWeight: 100,
@@ -42,10 +49,10 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 300,
   },
   medium: {
-    fontWeight: 400,
+    fontWeight: 500,
   },
   bold: {
-    fontWeight: 500,
+    fontWeight: 600,
   },
   extraBold: {
     fontWeight: 900,
@@ -81,7 +88,9 @@ const TypographyCustom = ({
           [classes.info]: color === 'info',
           [classes.success]: color === 'success',
           [classes.warning]: color === 'warning',
-          [classes.white]: color === 'white'
+          [classes.white]: color === 'white',
+          [classes.pink]: color === 'pink',
+          [classes.main]: color === 'main'
         }, {
           // FontWeight
           [classes.thin]: fontWeight === 'thin',
@@ -127,7 +136,9 @@ TypographyCustom.propTypes = {
     'info',
     'success',
     'warning',
-    'white'
+    'white',
+    'pink',
+    'main',
   ]),
   fontWeight: PropTypes.oneOf([
     'thin',
