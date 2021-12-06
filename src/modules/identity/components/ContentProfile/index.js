@@ -1,3 +1,3 @@
-import Profile from './ContentProfile'
+import ContentProfile from './ContentProfile'
 
-export default Profile
+export default ContentProfile

@@ -1,9 +1,6 @@
-export default (theme) => ({
+export default () => ({
     root: {
-        width: '100%',
-        '& > * + *': {
-            marginTop: theme.spacing(1),
-        },
+        width: '100%',     
     },
     alert: {
         backgroundColor: '#fff',
@@ -17,7 +14,5 @@ export default (theme) => ({
     },
     textTitle: {
         fontSize: '18px'
-    },
-   
-
+    },  
 })

@@ -11,10 +11,10 @@ export default (theme) => ({
     },
     input: {   
       borderRadius: '5px',   
-      padding: '10px'
+      padding: '10px',
     },
     error: {
-      color: theme.palette.secondary.main
+      color: '#ED2F2F',
     },
     formControl: {
       width: '100%'

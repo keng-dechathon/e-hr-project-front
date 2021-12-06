@@ -1,5 +1,26 @@
 import React from 'react';
 import AbcIcon from '@mui/icons-material/Abc';
+import FiberNewIcon from '@mui/icons-material/FiberNew';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import EventIcon from '@mui/icons-material/Event';
+import DescriptionRoundedIcon from '@mui/icons-material/DescriptionRounded';
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import HouseboatIcon from '@mui/icons-material/Houseboat';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import RequestPageIcon from '@mui/icons-material/RequestPage';
+import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
+import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import GroupsIcon from '@mui/icons-material/Groups';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 export const SidebarData = [
   {
@@ -8,38 +29,39 @@ export const SidebarData = [
       {
         title: 'News',
         path: '/news',   
-        icon: <AbcIcon />,  
-        role:['a','b','c','Admin'] ,  
+        icon: <FiberNewIcon />,  
+        role:['Management','Manager','Staff','Hr','Admin','Approver'] ,  
       },
       {
         title: 'Timesheet Viewer',
         path: '/time-sheet-viewer',   
-        icon: <AbcIcon />,  
-        role:['a','b','c','Admin'] ,  
+        icon: <EventIcon />,  
+        role:['Management','Manager','Hr','Admin','Approver'] ,  
       },
       {
         title: 'Timesheet Record',
         path: '/time-sheet-record',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <EventNoteIcon />,  
+        role:['Manager','Staff','Hr','Admin'] ,   
       },
       {
         title: 'Leave Request',
         path: '/leave request',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        // icon: <DirectionsRunIcon />,  
+        icon: <DescriptionRoundedIcon />,  
+        role:['Management','Manager','Staff','Hr','Admin'] ,   
       },
       {
         title: 'Checkin-Checkout',
         path: '/checkin-checkout',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <CheckCircleIcon />,  
+        role:['Manager','Staff','Hr','Admin'] , 
       },
       {
         title: 'Report',
         path: '/report',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <AssessmentIcon />,  
+        role:['Hr','Admin','Approver'] ,   
       },
     ]
   },
@@ -49,56 +71,56 @@ export const SidebarData = [
       {
         title: 'Leave Management',
         path: '/leave-management',   
-        icon: <AbcIcon />,  
-        role:['a','b','c','Admin'] ,  
+        icon: <AssignmentIcon />,  
+        role:['Management','Manager','Approver','Admin'] ,  
       },
       {
         title: 'Timesheet Management',
         path: '/timesheet-management',   
-        icon: <AbcIcon />,  
-        role:['a','b','c','Admin'] ,  
+        icon: <EventAvailableIcon />,  
+        role:['Hr','Admin','Approver'] ,  
       },
       {
         title: 'News Management',
         path: '/news-management',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <NewspaperIcon />,  
+        role:['Hr','Admin','Approver'] ,   
       },
       {
         title: 'Leave Type',
         path: '/leave-type',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <HouseboatIcon />,  
+        role:['Hr','Admin','Approver'] ,   
       },
       {
         title: 'Document Management.',
         path: '/document-management',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <FileOpenIcon />,  
+        role:['Hr','Admin','Approver'] ,    
       },
       {
         title: 'Expense Management',
         path: '/expense-management',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <RequestPageIcon />,  
+        role:['Hr','Admin','Approver'] ,    
       },
       {
         title: 'Employee Management',
         path: '/employee-management',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <GroupAddIcon />,  
+        role:['Hr','Admin','Approver'] ,    
       },
-      {
+      {role:['Hr','Admin','Approver'] ,   
         title: 'Team Management',
         path: '/team-management',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <GroupsIcon />,  
+        
       },
       {
         title: 'Working Time / holiday / Day-off',
         path: '/time-management',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <WbSunnyIcon />,  
+        role:['Hr','Admin','Approver'] ,   
       },
     ]
   },
@@ -108,32 +130,32 @@ export const SidebarData = [
       {
         title: 'Employee Information',
         path: '/employee-information',   
-        icon: <AbcIcon />,  
-        role:['a','b','c','Admin'] ,  
+        icon: <ContactPhoneIcon />,  
+        role:['Management','Manager','Staff','Hr','Admin','Approver'] ,   
       },
       {
         title: 'Meeting Room Booking',
         path: '/meeting-room-booking',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <BookmarkIcon />,  
+        role:['Management','Manager','Staff','Hr','Admin','Approver'] ,  
       },
       {
         title: 'Expense Request',
         path: '/expense-request',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <MonetizationOnIcon />,  
+        role:['Management','Manager','Staff','Hr','Admin','Approver'] ,    
       },
       {
         title: 'Document Request',
         path: '/document-request',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <DriveFileMoveIcon />,  
+        role:['Management','Manager','Staff','Hr','Admin','Approver'] ,    
       },
       {
         title: 'Profile',
         path: '/profile',   
-        icon: <AbcIcon />,  
-        role:['a','b','Admin'] ,  
+        icon: <AccountCircleIcon />,  
+        role:['Management','Manager','Staff','Hr','Admin','Approver'] ,  
       },
      
     ]
