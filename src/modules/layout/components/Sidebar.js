@@ -65,6 +65,7 @@ function Sidebar() {
     }, [])
 
     let Role = accountInformation.Role
+    console.log(Role);
     return (
         <>
             <Drawer
@@ -82,25 +83,30 @@ function Sidebar() {
                                 </div>
                                 {
                                     item.subNav.map((subItem) => {
-                                        return (
-                                            subItem.role.map((role) => {
-                                                if (role == Role) {
-                                                    return (
-                                                        <ListItem button key={subItem.path} className={classes.listItem}>
-                                                            <ListItemIcon>
-                                                                {subItem.icon}
-                                                            </ListItemIcon>
-                                                            <ListItemText primary={subItem.title} />
-                                                        </ListItem>
-                                                    );
-                                                }else if(!Role){
-                                                    return( 
-                                                    <ListItem button key={subItem.path} className={classes.listItem}>                                                      
-                                                            <Skeleton width={'100%'} animation="wave"/>                                                        
-                                                    </ListItem>);
-                                                }
-                                            })
-                                        )
+                                        if (Role) {
+                                            return (
+                                                subItem.role.map((role) => {
+
+                                                    if (role == Role) {
+                                                        return (
+                                                            <ListItem button key={subItem.path} className={classes.listItem}>
+                                                                <ListItemIcon>
+                                                                    {subItem.icon}
+                                                                </ListItemIcon>
+                                                                <ListItemText primary={subItem.title} />
+                                                            </ListItem>
+                                                        );
+                                                    }
+                                                })
+                                            )
+                                        } else {
+                                            return (
+                                                <ListItem button key={subItem.path} className={classes.listItem}>
+                                                    <Skeleton width={'100%'} height={40} animation="wave" />
+                                                </ListItem>
+                                            );
+                                        }
+
                                     })
                                 }
                             </List>
