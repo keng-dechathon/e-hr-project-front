@@ -7,22 +7,39 @@ import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import MainHead from './MainHead';
 import Snackbar from './Snackbar';
-const useStyles = makeStyles(() => ({
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { drawerWidth, navHeight } from './Attribute';
 
+const useStyles = makeStyles(() => ({
+    paper: {
+        minWidth: `calc(100% - ${drawerWidth})`,
+        minHeight: `calc(100vh - ${navHeight})`,
+        marginTop: navHeight,
+        background: '#fcfcfc',
+    },
 }));
 
-function MainLayout() {
+function MainLayout({ title, children }) {
     const classes = useStyles()
     const navigate = useNavigate();
     return (
         <>
-            <MainHead title="Home" />
+            <MainHead title={title ? title : 'Home'} />
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <Navbar />
                 <Sidebar />
-                <Snackbar/>
+                <Box
+                    component="main"
+                    sx={{ flexGrow: 1, p: 3 }}
+                    className={classes.paper}
+                >
+                    {children ? children : ''}
+                </Box>
+
             </Box>
+            <Snackbar />
         </>
 
     );

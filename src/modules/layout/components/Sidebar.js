@@ -18,12 +18,12 @@ import { SidebarData } from './SidebarData';
 import { getAccountInformation } from '../../identity/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import Skeleton from '@mui/material/Skeleton';
-
-const drawerWidth = 260;
+import { Link } from 'react-router-dom'
+import { drawerWidth,navHeight } from './Attribute';
 
 const useStyles = makeStyles(() => ({
     drawer: {
-        marginTop: '64px',
+        marginTop: navHeight,
         width: drawerWidth,
         flexShrink: '0',
         [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
@@ -89,12 +89,15 @@ function Sidebar() {
 
                                                     if (role == Role) {
                                                         return (
-                                                            <ListItem button key={subItem.path} className={classes.listItem}>
-                                                                <ListItemIcon>
-                                                                    {subItem.icon}
-                                                                </ListItemIcon>
-                                                                <ListItemText primary={subItem.title} />
-                                                            </ListItem>
+                                                            <Link to={subItem.path}>
+                                                                <ListItem button key={subItem.path} className={classes.listItem}>
+                                                                    <ListItemIcon>
+                                                                        {subItem.icon}
+                                                                    </ListItemIcon>
+                                                                    <ListItemText primary={subItem.title} />
+                                                                </ListItem>
+                                                            </Link>
+
                                                         );
                                                     }
                                                 })
