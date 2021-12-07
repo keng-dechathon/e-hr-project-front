@@ -30,7 +30,7 @@ const CardWorkInfo = () => {
     useEffect(() => {
         dispatch(getAccountInformation())
     }, [])
-    console.log(accountInformation);
+   
 
     const setDataInfo = () => {
         personalData.push({ "title": "Staff ID", "value": accountInformation.Emp_id ? accountInformation.Emp_id : notSet })
@@ -72,7 +72,7 @@ const CardWorkInfo = () => {
                         >
                             {personalData.map((items, indexs) => {
                                 return (
-                                    <div className={classes.textbox}>
+                                    <div className={Object.keys(accountInformation).length !== 0 ? classes.textbox : classes.textboxSkeleton}>
                                         <Typography variant="body1" fontWeight='bold' className={classes.maintext}>{items.title}</Typography>
                                         <Typography variant="body1" fontWeight='light' className={classes.subtext}>
                                             {Object.keys(accountInformation).length !== 0 ?
@@ -83,7 +83,6 @@ const CardWorkInfo = () => {
                                         </Typography>
                                     </div>
                                 )
-
                             })}
                         </Grid>
                     </Grid>

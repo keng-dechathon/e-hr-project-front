@@ -2,17 +2,18 @@ import { borderRadius } from "@mui/system";
 
 export default () => ({
     card: {
-        width: '800px !important',
-        fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+        maxWidth: '800px !important',
+        fontFamily :'Roboto, Helvetica, Arial, sans-serif',
         // backgroundColor: '#F1F3FF !important',
         boxShadow: 'rgba(0, 0, 0, 0.25) 0px 25px 50px -12px !important',
-        borderRadius: '12px !important',
-        marginBottom: '35px',
+        borderRadius:'12px !important',
+        marginBottom:'35px',
+        display:'flex',
     },
     cardheader: {
         padding: '14px !important',
         [`& .css-1qvr50w-MuiTypography-root  `]: {
-
+           
             fontWeight: '550',
             fontSize: '18px !important',
         },
@@ -23,32 +24,32 @@ export default () => ({
     textbox: {
         display: 'flex',
         marginLeft: '10px',
-        marginTop: '10px',
+        marginTop:'10px',
     },
     textboxSkeleton: {
         display: 'flex',
-        marginLeft: '10px',
+        marginLeft: '10px',        
     },
     maintext: {
         width: '200px',
         marginRight: '20px',
-        display: 'flex',
-        alignItems: 'center',
+        display:'flex',
+        alignItems:'center',
     },
     subtext: {
-        display: 'flex',
-        alignItems: 'center',
+        display:'flex',
+        alignItems:'center',
         width: '100%',
     },
-    center: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
+    center:{
+        display:'flex',
+        flexDirection:'column',
+        justifyContent:'center',
+        alignItems:'center',
 
     },
-    margintop: {
-        marginTop: '10px'
+    margintop:{
+        marginTop:'10px'
     }
 
 })
