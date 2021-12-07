@@ -18,6 +18,7 @@
     "classnames": "^2.3.1",
     "clsx": "^1.1.1",
     "crypto-js": "^4.1.1",
+    "date-fns": "^2.27.0",
     "dotenv": "^10.0.0",
     "encrypter-js": "^1.0.0",
     "encryptor-js": "^0.2.1",

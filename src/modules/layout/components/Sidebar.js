@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
         width: drawerWidth,
         flexShrink: '0',
         [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-        
+
     },
     listTopic: {
         // padding:'15px 0 10px 10px',
@@ -45,14 +45,13 @@ const useStyles = makeStyles(() => ({
             minWidth: '30px',
             margin: '0 10px'
         },
-        [`& .css-10hburv-MuiTypography-root   `]: {
+        [`& .css-10hburv-MuiTypography-root`]: {
             fontSize: '0.8rem'
         },
     },
     margintop: {
         marginTop: '20px',
-    }
-
+    },
 }));
 
 function Sidebar() {
@@ -68,7 +67,7 @@ function Sidebar() {
     }, [])
 
     let Role = accountInformation.Role
-    console.log(Role);
+ 
     return (
         <>
             <Drawer
@@ -89,7 +88,6 @@ function Sidebar() {
                                         if (Role) {
                                             return (
                                                 subItem.role.map((role) => {
-
                                                     if (role == Role) {
                                                         return (
                                                             <Link to={subItem.path}>

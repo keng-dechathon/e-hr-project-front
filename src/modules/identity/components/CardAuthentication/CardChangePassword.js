@@ -17,9 +17,11 @@ import pic from '../../../../assets/pic.png'
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Grid from '@material-ui/core/Grid'
 import Skeleton from '@mui/material/Skeleton';
+import Modal from '@mui/material/Modal';
+
 const useStyles = makeStyles(styles)
 
-const CardContactInfo = () => {
+const CardChangePassword = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const personalData = [], initial = {}
@@ -30,36 +32,25 @@ const CardContactInfo = () => {
     useEffect(() => {
         dispatch(getAccountInformation())
     }, [])
-   
+    console.log(accountInformation);
 
-    const setDataInfo = () => {
-        personalData.push({ "title": "E-mail", "value": accountInformation.Email ? accountInformation.Email : notSet })
-        personalData.push({ "title": "Phone", "value": accountInformation.Phone ? accountInformation.Phone : notSet })
-        personalData.push({ "title": "Address", "value": accountInformation.Address ? accountInformation.Address : notSet })
-        personalData.push({ "title": "Supervisor", "value": accountInformation.Supervisor ? accountInformation.Supervisor : notSet })
-    }
-
+ 
 
     const fileSelectedHandler = event => {
         console.log(event.target.files[0]);
     }
 
-    setDataInfo()
+    
     return (
         <>
             <Card
                 className={classes.card}
             >
                 <CardHeader
-                    action={
-                        <IconButton>
-                            <EditIcon />
-                        </IconButton>
-                    }
-                    title="Contact Information"
+                                  
                     className={classes.cardheader}
                 />
-                <Divider />
+                <Divider/>
                 <CardContent>
                     <Grid
                         container
@@ -69,21 +60,7 @@ const CardContactInfo = () => {
                             item
                             xs={12}
                         >
-                            {personalData.map((items, indexs) => {
-                                return (
-                                    <div className={Object.keys(accountInformation).length !== 0 ? classes.textbox : classes.textboxSkeleton}>
-                                        <Typography variant="body1" fontWeight='bold' className={classes.maintext}>{items.title}</Typography>
-                                        <Typography variant="body1" fontWeight='light' className={classes.subtext}>
-                                            {Object.keys(accountInformation).length !== 0 ?
-                                                items.value
-                                                :
-                                                <Skeleton width={'100%'} height={40} animation="wave" />
-                                            }
-                                        </Typography>
-                                    </div>
-                                )
-
-                            })}
+                       
                         </Grid>
                     </Grid>
                 </CardContent>
@@ -92,4 +69,4 @@ const CardContactInfo = () => {
     )
 }
 
-export default CardContactInfo
+export default CardChangePassword

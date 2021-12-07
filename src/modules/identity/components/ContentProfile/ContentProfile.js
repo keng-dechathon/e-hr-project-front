@@ -12,7 +12,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import CardPersonalInfo from '../CardInformation/CardPersonalInfo'
 import CardWorkInfo from '../CardInformation/CardWorkInfo'
 import CardContactInfo from '../CardInformation/CardContactInfo'
-
+import CardChangePassword from '../CardAuthentication/CardChangePassword'
 const useStyles = makeStyles(styles)
 
 const ContentProfile = () => {
@@ -45,7 +45,7 @@ const ContentProfile = () => {
                         <CardContactInfo />
                     </TabPanel>
                     <TabPanel value="2">
-
+                        <CardChangePassword/>
                     </TabPanel>
                     <TabPanel value="3">
 

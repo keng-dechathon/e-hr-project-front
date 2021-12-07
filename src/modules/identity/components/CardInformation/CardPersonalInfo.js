@@ -17,6 +17,8 @@ import pic from '../../../../assets/pic.png'
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Grid from '@material-ui/core/Grid'
 import Skeleton from '@mui/material/Skeleton';
+import Modal from '@mui/material/Modal';
+import ModalUpdatePersonalInfo from './ModalUpdatePersonalInfo';
 const useStyles = makeStyles(styles)
 
 const CardPersonalInfo = () => {
@@ -24,7 +26,12 @@ const CardPersonalInfo = () => {
     const dispatch = useDispatch()
     const personalData = [], initial = {}
     const { accountInformation } = useSelector(state => state.accountReducer)
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
     const notSet = <Typography variant="body1" fontWeight='light' color='mute' className={classes.maintext}>Not Set</Typography>
+
     useEffect(() => {
         dispatch(getAccountInformation())
     }, [])
@@ -35,10 +42,7 @@ const CardPersonalInfo = () => {
         personalData.push({ "title": "Full name", "value": accountInformation.Firstname && accountInformation.Lastname ? accountInformation.Firstname + " " + accountInformation.Lastname : notSet })
         personalData.push({ "title": "Gender", "value": accountInformation.Gender ? accountInformation.Gender : notSet })
         personalData.push({ "title": "Date of Birth", "value": accountInformation.BirthDate ? accountInformation.BirthDate : notSet })
-
-
     }
-
 
     const fileSelectedHandler = event => {
         console.log(event.target.files[0]);
@@ -47,12 +51,14 @@ const CardPersonalInfo = () => {
     setDataInfo()
     return (
         <>
+            <ModalUpdatePersonalInfo open={open} handleClose={handleClose}/>
+
             <Card
                 className={classNames(classes.card, classes.margintop)}
             >
                 <CardHeader
                     action={
-                        <IconButton>
+                        <IconButton onClick={handleOpen}>
                             <EditIcon />
                         </IconButton>
                     }
@@ -79,7 +85,7 @@ const CardPersonalInfo = () => {
                         >
                             {personalData.map((items, indexs) => {
                                 return (
-                                    <div className={classes.textbox}>
+                                    <div className={Object.keys(accountInformation).length !== 0 ? classes.textbox : classes.textboxSkeleton}>
                                         <Typography variant="body1" fontWeight='bold' className={classes.maintext}>{items.title}</Typography>
                                         <Typography variant="body1" fontWeight='light' className={classes.subtext}>
                                             {Object.keys(accountInformation).length !== 0 ?
@@ -90,12 +96,12 @@ const CardPersonalInfo = () => {
                                         </Typography>
                                     </div>
                                 )
-
                             })}
                         </Grid>
                     </Grid>
                 </CardContent>
             </Card>
+
         </>
     )
 }
