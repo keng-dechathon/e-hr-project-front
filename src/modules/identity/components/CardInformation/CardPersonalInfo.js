@@ -31,10 +31,10 @@ const CardPersonalInfo = () => {
     console.log(accountInformation);
 
     const setDataInfo = () => {
-        personalData.push({ "title": "Full name", "value": accountInformation.Title ? accountInformation.Title + " " + accountInformation.Firstname + " " + accountInformation.Lastname : notSet })
+        personalData.push({ "title": "Title", "value": accountInformation.Title ? accountInformation.Title : notSet })
+        personalData.push({ "title": "Full name", "value": accountInformation.Firstname && accountInformation.Lastname ? accountInformation.Firstname + " " + accountInformation.Lastname : notSet })
         personalData.push({ "title": "Gender", "value": accountInformation.Gender ? accountInformation.Gender : notSet })
         personalData.push({ "title": "Date of Birth", "value": accountInformation.BirthDate ? accountInformation.BirthDate : notSet })
-        personalData.push({ "title": "Address", "value": accountInformation.Address ? accountInformation.Address : notSet })
 
 
     }

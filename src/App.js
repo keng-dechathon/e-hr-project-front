@@ -27,7 +27,7 @@ export default function App() {
           <Route exact path='/profile' element={<PrivateRoute />}>
             <Route exact path='/profile' element={<Profile />} />
           </Route>
-         
+
 
         </Routes>
       </Fragment>

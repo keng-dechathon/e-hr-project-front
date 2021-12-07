@@ -19,7 +19,7 @@ import { getAccountInformation } from '../../identity/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import Skeleton from '@mui/material/Skeleton';
 import { Link } from 'react-router-dom'
-import { drawerWidth,navHeight } from './Attribute';
+import { drawerWidth, navHeight } from './Attribute';
 
 const useStyles = makeStyles(() => ({
     drawer: {
@@ -27,6 +27,7 @@ const useStyles = makeStyles(() => ({
         width: drawerWidth,
         flexShrink: '0',
         [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+        
     },
     listTopic: {
         // padding:'15px 0 10px 10px',
@@ -35,7 +36,9 @@ const useStyles = makeStyles(() => ({
         fontWeight: 'bold',
     },
     box: {
-        // padding:'10px'
+        // [`&::-webkit-scrollbar`]: {
+        //  display:'none'
+        // },
     },
     listItem: {
         [`& .css-cveggr-MuiListItemIcon-root`]: {
