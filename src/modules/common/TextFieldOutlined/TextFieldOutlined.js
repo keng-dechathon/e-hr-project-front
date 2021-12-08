@@ -24,6 +24,7 @@ const TextFieldOutlined = ({
   helperText,
   rows,
   error,
+  value,
   ...rest
 }) => {
   const classes = useStyles()
@@ -33,6 +34,7 @@ const TextFieldOutlined = ({
       id={id}
       name={name}
       disabled={disabled}
+      value={value}
       fullWidth={fullWidth}
       placeholder={placeholder}
       defaultValue={defaultValue}

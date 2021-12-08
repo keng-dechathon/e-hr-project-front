@@ -76,7 +76,7 @@ const FormSignin = () => {
                         className={classes.textfield}
                         id={'email'}
                         placeholder={'Enter your email.'}
-                        name={'email'}
+                        name={'email'}                                          
                         form={form}
                         endAdornment={<EmailIcon style={{ color: 'rgba(0, 0, 0, 0.54)' }} />}
                         label="Email"
@@ -118,8 +118,7 @@ const FormSignin = () => {
                                 onChange={onSubmitChecked}
                                 defaultChecked
                                 disableRipple
-                                disableFocusRipple
-                                disableElevation
+                                disableFocusRipple                               
                             />
                         }
                         label="Remember me"
