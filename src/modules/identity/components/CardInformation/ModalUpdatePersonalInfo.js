@@ -16,7 +16,7 @@ const CardUpdatePersonalInfo = (props) => {
     const classes = useStyles()
     const theme = useTheme()
 
-    const { open, handleClose } = props
+    const { open, handleClose,children } = props
    
     const fullScreen = useMediaQuery(theme.breakpoints.down('md')); 
 
@@ -34,7 +34,7 @@ const CardUpdatePersonalInfo = (props) => {
                 </DialogTitle>
                 <Divider variant="middle" />
                 <DialogContent>
-                    <FormUpdatePersonalInfo handleClose={handleClose}/>
+                    <FormUpdatePersonalInfo handleClose={handleClose} />
                 </DialogContent>
             </Dialog>
         </>

@@ -24,18 +24,19 @@ const useStyles = makeStyles(styles)
 const CardPersonalInfo = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const personalData = [], initial = {}
+
     const { accountInformation } = useSelector(state => state.accountReducer)
     const [open, setOpen] = React.useState(false);
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const notSet = <Typography variant="body1" fontWeight='light' color='mute' className={classes.maintext}>Not Set</Typography>
+    const personalData = []
 
     useEffect(() => {
         dispatch(getAccountInformation())
     }, [])
-    console.log(accountInformation);
 
     const setDataInfo = () => {
         personalData.push({ "title": "Title", "value": accountInformation.Title ? accountInformation.Title : notSet })
@@ -44,14 +45,17 @@ const CardPersonalInfo = () => {
         personalData.push({ "title": "Date of Birth", "value": accountInformation.BirthDate ? accountInformation.BirthDate : notSet })
     }
 
+
     const fileSelectedHandler = event => {
         console.log(event.target.files[0]);
     }
 
+
     setDataInfo()
+
     return (
         <>
-            <ModalUpdatePersonalInfo open={open} handleClose={handleClose}/>
+            <ModalUpdatePersonalInfo open={open} handleClose={handleClose}  />
 
             <Card
                 className={classNames(classes.card, classes.margintop)}

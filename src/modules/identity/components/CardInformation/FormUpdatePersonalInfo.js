@@ -27,8 +27,7 @@ const useStyles = makeStyles(styles)
 
 const FormUpdatePersonalInfo = (props) => {
     const classes = useStyles()
-    const { handleClose } = props
-    const [Checked, setChecked] = useState(true)
+    const { handleClose } = props    
 
     const dispatch = useDispatch()
     const { accountInformation } = useSelector(state => state.accountReducer)
@@ -68,8 +67,10 @@ const FormUpdatePersonalInfo = (props) => {
 
     const onSubmit = async () => {
         // console.log(user);
-        await updateProfile(user)
-        handleClose()
+        await updateProfile(user) 
+        dispatch(getAccountInformation())
+        handleClose()       
+        // window.location.reload();
     };
 
     const { form, handleSubmit, submitting, values } = useForm({
