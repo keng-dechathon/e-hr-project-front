@@ -23,6 +23,7 @@
     "encrypter-js": "^1.0.0",
     "encryptor-js": "^0.2.1",
     "final-form": "^4.20.4",
+    "libphonenumber-js": "^1.9.44",
     "lodash": "^4.17.21",
     "material-ui-icons": "^1.0.0-beta.36",
     "react": "^17.0.2",

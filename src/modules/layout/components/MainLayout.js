@@ -16,7 +16,8 @@ const useStyles = makeStyles(() => ({
         minWidth: `calc(100% - ${drawerWidth})`,
         minHeight: `calc(100vh - ${navHeight})`,
         marginTop: navHeight,
-        background: '#F0F0F0',
+        // background: '#FFFAFA',//#FFF5EE,'#FFE4E1'      
+
     },
 }));
 

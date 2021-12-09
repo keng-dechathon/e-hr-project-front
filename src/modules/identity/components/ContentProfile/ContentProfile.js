@@ -1,7 +1,7 @@
 import React from 'react'
 import TypographyCustom from '../../../common/Typography/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import Typography from '@mui/material/Typography'
+import Typography from '../../../common/Typography/Typography'
 import styles from './styles'
 import classNames from 'classnames'
 import Box from '@mui/material/Box';
@@ -13,6 +13,10 @@ import CardPersonalInfo from '../CardInformation/CardPersonalInfo'
 import CardWorkInfo from '../CardInformation/CardWorkInfo'
 import CardContactInfo from '../CardInformation/CardContactInfo'
 import CardChangePassword from '../CardAuthentication/CardChangePassword'
+import CardChangeEmail from '../CardAuthentication/CardChangeEmail'
+
+import { isEmail,isPhone } from '../../../../utils/validate'
+
 const useStyles = makeStyles(styles)
 
 const ContentProfile = () => {
@@ -22,8 +26,7 @@ const ContentProfile = () => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-    };
-
+    };   
     return (
         <>
             <div className={classes.margintop} />
@@ -45,10 +48,12 @@ const ContentProfile = () => {
                         <CardContactInfo />
                     </TabPanel>
                     <TabPanel value="2">
-                        <CardChangePassword/>
+
                     </TabPanel>
                     <TabPanel value="3">
-
+                        <Typography variant="h5" fontWeight='bold' className={classes.maintext}>Sign In Method</Typography>
+                        <CardChangeEmail />
+                        <CardChangePassword />
                     </TabPanel>
                 </TabContext>
             </Box>
