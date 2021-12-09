@@ -1,22 +1,22 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles'
-import Typography from '../../../common/Typography/Typography'
-import styles from './styles'
+import Typography from '../../common/Typography/Typography'
+import styles from './CardInformation/styles'
 import Divider from '@mui/material/Divider';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import FormUpdatePersonalInfo from './FormUpdatePersonalInfo'
+import FormUpdatePersonalInfo from './CardInformation/FormUpdatePersonalInfo'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
 const useStyles = makeStyles(styles)
 
-const CardUpdatePersonalInfo = (props) => {
+const ModalUpdate = (props) => {
     const classes = useStyles()
     const theme = useTheme()
 
-    const { open, handleClose,children } = props
+    const { open, handleClose,children,title } = props
    
     const fullScreen = useMediaQuery(theme.breakpoints.down('md')); 
 
@@ -29,16 +29,16 @@ const CardUpdatePersonalInfo = (props) => {
             >
                 <DialogTitle id="alert-dialog-title">
                     <Typography variant="h6" fontWeight='bold' >
-                        Personal Information
+                       {title}
                     </Typography>
                 </DialogTitle>
                 <Divider variant="middle" />
                 <DialogContent>
-                    <FormUpdatePersonalInfo handleClose={handleClose} />
+                    {children}                 
                 </DialogContent>
             </Dialog>
         </>
     )
 }
 
-export default CardUpdatePersonalInfo
+export default ModalUpdate

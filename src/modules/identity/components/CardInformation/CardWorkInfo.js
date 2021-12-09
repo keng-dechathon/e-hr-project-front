@@ -52,13 +52,14 @@ const CardWorkInfo = () => {
                 className={classes.card}
             >
                 <CardHeader
-                    action={
-                        <IconButton>
-                            <EditIcon />
-                        </IconButton>
-                    }
+                    // action={
+                    //     <IconButton>
+                    //         <EditIcon />
+                    //     </IconButton>
+                    // }
                     title="Work Information"
                     className={classes.cardheader}
+                    style={{height:'60px'}}
                 />
                 <Divider />
                 <CardContent>

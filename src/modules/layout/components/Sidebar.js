@@ -26,8 +26,8 @@ const useStyles = makeStyles(() => ({
         marginTop: navHeight,
         width: drawerWidth,
         flexShrink: '0',
-        [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
 
+        [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
     },
     listTopic: {
         // padding:'15px 0 10px 10px',
@@ -67,7 +67,7 @@ function Sidebar() {
     }, [])
 
     let Role = accountInformation.Role
- 
+
     return (
         <>
             <Drawer

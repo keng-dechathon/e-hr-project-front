@@ -17,6 +17,8 @@ import pic from '../../../../assets/pic.png'
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Grid from '@material-ui/core/Grid'
 import Skeleton from '@mui/material/Skeleton';
+import ModalUpdate from '../ModalUpdate';
+import FormUpdateContactInfo from './FormUpdateContactInfo'
 const useStyles = makeStyles(styles)
 
 const CardContactInfo = () => {
@@ -24,16 +26,19 @@ const CardContactInfo = () => {
     const dispatch = useDispatch()
     const personalData = [], initial = {}
     const { accountInformation } = useSelector(state => state.accountReducer)
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const notSet = <Typography variant="body1" fontWeight='light' color='mute' className={classes.maintext}>Not Set</Typography>
 
     useEffect(() => {
         dispatch(getAccountInformation())
     }, [])
-   
 
     const setDataInfo = () => {
-        personalData.push({ "title": "E-mail", "value": accountInformation.Email ? accountInformation.Email : notSet })
+        personalData.push({ "title": "Email Address", "value": accountInformation.Email ? accountInformation.Email : notSet })
         personalData.push({ "title": "Phone", "value": accountInformation.Phone ? accountInformation.Phone : notSet })
         personalData.push({ "title": "Address", "value": accountInformation.Address ? accountInformation.Address : notSet })
         personalData.push({ "title": "Supervisor", "value": accountInformation.Supervisor ? accountInformation.Supervisor : notSet })
@@ -47,12 +52,15 @@ const CardContactInfo = () => {
     setDataInfo()
     return (
         <>
+            <ModalUpdate open={open} handleClose={handleClose} title="Contact Information" >
+                <FormUpdateContactInfo handleClose={handleClose} />
+            </ModalUpdate>
             <Card
                 className={classes.card}
             >
                 <CardHeader
                     action={
-                        <IconButton>
+                        <IconButton onClick={handleOpen}>
                             <EditIcon />
                         </IconButton>
                     }

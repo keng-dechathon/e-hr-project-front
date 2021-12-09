@@ -14,11 +14,14 @@ import Divider from '@mui/material/Divider';
 import { getAccountInformation } from '../../actions'
 import { useSelector, useDispatch } from 'react-redux'
 import pic from '../../../../assets/pic.png'
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { capitalizeFirstLetter } from '../../actions';
 import Grid from '@material-ui/core/Grid'
 import Skeleton from '@mui/material/Skeleton';
-import Modal from '@mui/material/Modal';
-import ModalUpdatePersonalInfo from './ModalUpdatePersonalInfo';
+import { getDateFormat2 } from '../../actions';
+import ModalUpdate from '../ModalUpdate';
+import FormUpdatePersonalInfo from './FormUpdatePersonalInfo';
+import Tooltip from '@mui/material/Tooltip';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 const useStyles = makeStyles(styles)
 
 const CardPersonalInfo = () => {
@@ -40,9 +43,9 @@ const CardPersonalInfo = () => {
 
     const setDataInfo = () => {
         personalData.push({ "title": "Title", "value": accountInformation.Title ? accountInformation.Title : notSet })
-        personalData.push({ "title": "Full name", "value": accountInformation.Firstname && accountInformation.Lastname ? accountInformation.Firstname + " " + accountInformation.Lastname : notSet })
+        personalData.push({ "title": "Full name", "value": accountInformation.Firstname && accountInformation.Lastname ? capitalizeFirstLetter(accountInformation.Firstname) + " " + capitalizeFirstLetter(accountInformation.Lastname) : notSet })
         personalData.push({ "title": "Gender", "value": accountInformation.Gender ? accountInformation.Gender : notSet })
-        personalData.push({ "title": "Date of Birth", "value": accountInformation.BirthDate ? accountInformation.BirthDate : notSet })
+        personalData.push({ "title": "Date of Birth", "value": accountInformation.BirthDate ? getDateFormat2(accountInformation.BirthDate) : notSet })
     }
 
 
@@ -55,7 +58,9 @@ const CardPersonalInfo = () => {
 
     return (
         <>
-            <ModalUpdatePersonalInfo open={open} handleClose={handleClose}  />
+            <ModalUpdate open={open} handleClose={handleClose} title="Personal Information" >
+                <FormUpdatePersonalInfo handleClose={handleClose} />
+            </ModalUpdate>
 
             <Card
                 className={classNames(classes.card, classes.margintop)}
@@ -78,10 +83,10 @@ const CardPersonalInfo = () => {
                         <Grid
                             item
                             xs={4}
-                            className={classes.center}
+                            className={classNames(classes.center, classes.imgBox)}
                         >
-                            <Avatar alt="Remy Sharp" src={pic} sx={{ width: 150, height: 150 }} />
-                            {/* <input type='file' onChange={event => fileSelectedHandler(event)} /> */}
+                            <Avatar src={pic} sx={{ width: 150, height: 150 }} className={classes.image} />
+                        
                         </Grid>
                         <Grid
                             item
