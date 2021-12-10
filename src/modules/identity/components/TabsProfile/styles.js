@@ -88,8 +88,8 @@ export default () => ({
         flexDirection:'column',
     },
     image:{
-        border: `4px solid #FAF8F6`,
-        boxShadow: 'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px !important',
+        border: `4px solid #FFFFFF`,
+        boxShadow: ' rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px !important', 
         width: '150px !important', 
         height: '150px !important',
     }

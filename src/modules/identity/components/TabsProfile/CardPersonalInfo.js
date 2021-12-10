@@ -40,7 +40,7 @@ const CardPersonalInfo = () => {
     useEffect(() => {
         dispatch(getAccountInformation())
     }, [])
-
+ 
     const setDataInfo = () => {
         personalData.push({ "title": "Title", "value": accountInformation.Title ? accountInformation.Title : notSet })
         personalData.push({ "title": "Full name", "value": accountInformation.Firstname && accountInformation.Lastname ? capitalizeFirstLetter(accountInformation.Firstname) + " " + capitalizeFirstLetter(accountInformation.Lastname) : notSet })

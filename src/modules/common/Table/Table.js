@@ -12,7 +12,11 @@ import { fade } from '@material-ui/core/styles/colorManipulator'
 import clsx from 'clsx'
 import Skeleton from '@material-ui/lab/Skeleton'
 import Typography from '../Typography/Typography'
-import styles from './styles'
+import TableContainer from '@mui/material/TableContainer';
+import Paper from '@mui/material/Paper';
+import styles from './styles';
+
+import Card from '@mui/material/Card';
 
 const StyledTableCell = withStyles(() => ({
     head: {
@@ -21,7 +25,7 @@ const StyledTableCell = withStyles(() => ({
     },
     body: {
         fontSize: 14,
-        color: '#1976d2'
+        color: '#1976d2',
     }
 }))(TableCell)
 
@@ -59,90 +63,94 @@ const TableCustom = ({
     }
 
     return (
-        <Table>
-            <TableHead>
-                <TableRow>
-                    {headers.map((item, index) => (
-                        <StyledTableCell
-                            key={index}
-                            align={item.align ? item.align : 'left'}
-                        >
-                            <Typography align={item.align ? item.align : 'left'} fontWeight={'medium'}>{item}</Typography>
-                        </StyledTableCell>
-                    ))}
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {
-                    loading ?
-                        [
-                            <TableRow>
-                                <TableCell colSpan={headers.length} style={{ textAlign: 'center' }}>
-                                    <div className={classes.skeleton}>
-                                        {
-                                            [...Array(rowsPerPage)].map((_, i) => <Skeleton key={i} animation="wave" height={60} />)
-                                        }
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ] :
-                        [
-                            data.length > 0 ?
-                                [
-                                    (data.length > rowsPerPage ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map((row, indexRow) => (
-                                        <TableRow key={row.name}>
-                                            {headers.map((item, index) => (
-                                                <StyledTableCell
-                                                    key={item + row.name}
-                                                >
-                                                    <Typography fontWeight={'medium'}>{row[item]}</Typography>
-                                                </StyledTableCell>
-                                            ))}
+        <TableContainer component={Card} className={classes.card}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        {headers.map((item, index) => (
+                            <StyledTableCell
+                                key={index}
+                                
+                                className={classes.bodycell}
+                            >
+                                <Typography fontWeight={'medium'}>{item}</Typography>
+                            </StyledTableCell>
+                        ))}
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {
+                        loading ?
+                            [
+                                <TableRow>
+                                    <TableCell colSpan={headers.length} style={{ textAlign: 'center' }}>
+                                        <div className={classes.skeleton}>
+                                            {
+                                                [...Array(rowsPerPage)].map((_, i) => <Skeleton key={i} animation="wave" height={60} />)
+                                            }
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ] :
+                            [
+                                data.length > 0 ?
+                                    [
+                                        (data.length > rowsPerPage ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map((row, indexRow) => (
+                                            <TableRow key={row.name}>
+                                                {headers.map((item, index) => (
+                                                    <StyledTableCell
+                                                        key={item + row.name}
+                                                        className={classes.bodycell}
+                                                    >
+                                                        <Typography fontWeight={'medium'}>{row[item]}</Typography>
+                                                    </StyledTableCell>
+                                                ))}
+                                            </TableRow>
+                                        )
+                                        )
+                                    ]
+                                    :
+                                    [
+                                        <TableRow style={{ height: 53 * (rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage)) }}>
+                                            <TableCell colSpan={headers.length} style={{ textAlign: 'center' }}>
+                                                <em style={{ color: 'rgba(0, 0, 0, 0.54)' }}>
+                                                    {'Sorry, nothing to display here'}
+                                                </em>
+                                            </TableCell>
                                         </TableRow>
-                                    )
-                                    )
-                                ]
-                                :
-                                [
-                                    <TableRow style={{ height: 53 * (rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage)) }}>
-                                        <TableCell colSpan={headers.length} style={{ textAlign: 'center' }}>
-                                            <em style={{ color: 'rgba(0, 0, 0, 0.54)' }}>
-                                                {'Sorry, nothing to display here'}
-                                            </em>
-                                        </TableCell>
-                                    </TableRow>
-                                ]
-                        ]
+                                    ]
+                            ]
 
+                    }
+
+                </TableBody>
+
+                {
+                    !disablePagination ?
+                        <TableFooter>
+                            <TableRow
+                                className={clsx(classes.footerTable, classes.table)}
+                            >
+                                <TablePagination
+                                    rowsPerPageOptions={[5, 10, 25, 50]}
+                                    colSpan={headers.length}
+                                    count={data.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    SelectProps={{
+                                        inputProps: { 'aria-label': 'rows per page' },
+                                        native: true,
+                                    }}
+                                    onChangePage={handleChangePage}
+                                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                                    ActionsComponent={TablePaginationActions}
+                                />
+                            </TableRow>
+                        </TableFooter>
+                        : null
                 }
-
-            </TableBody>
-
-            {
-                !disablePagination ?
-                    <TableFooter>
-                        <TableRow
-                            className={clsx(classes.footerTable, classes.table)}
-                        >
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 25, 50]}
-                                colSpan={headers.length}
-                                count={data.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                SelectProps={{
-                                    inputProps: { 'aria-label': 'rows per page' },
-                                    native: true,
-                                }}
-                                onChangePage={handleChangePage}
-                                onChangeRowsPerPage={handleChangeRowsPerPage}
-                                ActionsComponent={TablePaginationActions}
-                            />
-                        </TableRow>
-                    </TableFooter>
-                    : null
-            }
-        </Table>
+            </Table>
+        </TableContainer>
     )
 }
 
@@ -151,3 +159,24 @@ export default TableCustom
 TableCustom.defaultProps = {
     columnSpan: 6
 }
+
+// const headers = ['Frozen yoghurt', 'Ice cream sandwich', 'Eclair', 'Cupcake', 'Gingerbread']
+// const rows = [
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+//     { 'Frozen yoghurt': 159, 'Ice cream sandwich': 159, 'Eclair': 159, 'Cupcake': 159, 'Gingerbread': 159 },
+
+// ]; table data input foramt

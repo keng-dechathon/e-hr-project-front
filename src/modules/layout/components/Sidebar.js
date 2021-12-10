@@ -26,8 +26,26 @@ const useStyles = makeStyles(() => ({
         marginTop: navHeight,
         width: drawerWidth,
         flexShrink: '0',
-
         [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+        [`&::-webkit-scrollbar`]: {
+            width: '12px !important'
+        },
+        [`&::-webkit-scrollbar-track`]: {
+            boxShadow: 'inset 0 0 6px rgba(0,0,0,0.3)',
+            borderRadius: '10px',
+            backgroundColor: '#F5F5F5',
+            background: 'transparent'
+        },
+        [`&::-webkit-scrollbar-thumb`]: {
+            background: 'transparent',
+            borderRadius: '10px',
+            boxShadow: 'inset 0 0 6px rgba(0,0,0,.3)',
+            backgroundColor: '#ffd1dc',
+        },
+        [`&::-webkit-scrollbar-thumb:hover`]: {
+            background: '#ff3968'
+        },
+
     },
     listTopic: {
         // padding:'15px 0 10px 10px',
@@ -36,9 +54,31 @@ const useStyles = makeStyles(() => ({
         fontWeight: 'bold',
     },
     box: {
-        // [`&::-webkit-scrollbar`]: {
-        //  display:'none'
-        // },
+        [`&::-webkit-scrollbar`]: {
+            width: '12px !important',
+
+
+        },
+        [`&::-webkit-scrollbar-thumb:hover`]: {
+            background: '#ff3968 !important'
+
+        },
+
+        [`&:hover::-webkit-scrollbar-thumb`]: {          
+            background: 'transparent',
+            borderRadius: '10px',
+            boxShadow: 'inset 0 0 6px rgba(0,0,0,.3)',
+            backgroundColor: '#ffd1dc',
+
+        },
+        [`&:hover::-webkit-scrollbar-track`]: {
+            boxShadow: 'inset 0 0 6px rgba(0,0,0,0.3)',
+            borderRadius: '10px',
+            backgroundColor: '#F5F5F5',
+            background: 'transparent'
+
+        },
+
     },
     listItem: {
         [`& .css-cveggr-MuiListItemIcon-root`]: {
@@ -52,6 +92,7 @@ const useStyles = makeStyles(() => ({
     margintop: {
         marginTop: '20px',
     },
+
 }));
 
 function Sidebar() {
@@ -73,6 +114,7 @@ function Sidebar() {
             <Drawer
                 variant="permanent"
                 className={classes.drawer}
+
             >
                 <Toolbar />
                 <Box sx={{ overflow: 'auto' }} className={classes.box}>
