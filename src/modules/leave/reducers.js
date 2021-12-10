@@ -1,16 +1,17 @@
 import * as Actions from './actions'
 
 export const initialState = {
-  leaveInformation: {}
+  leaveInformation: {},
 }
 
 export default (state = initialState, action) => {
-  switch (action.type) {  
+  switch (action.type) {
     case Actions.GET_LEAVE_INFORMATION.REQUEST:
       return {
         ...state
       }
     case Actions.GET_LEAVE_INFORMATION.SUCCESS:
+ 
       return {
         ...state,
         leaveInformation: action.payload.data
