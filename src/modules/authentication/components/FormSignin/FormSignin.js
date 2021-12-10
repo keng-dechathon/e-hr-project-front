@@ -38,9 +38,7 @@ const FormSignin = () => {
         setChecked(!Checked)
         console.log(Checked)
     }
-    const onSubmit = async (values) => {
-        console.log(values);
-        console.log(process.env.React_App_API_URL);
+    const onSubmit = async (values) => {       
         await signIn(values, Checked, navigate)     
     }
 

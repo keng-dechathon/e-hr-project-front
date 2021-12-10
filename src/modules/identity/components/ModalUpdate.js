@@ -1,12 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '../../common/Typography/Typography'
-import styles from './CardInformation/styles'
+import styles from './TabsProfile/styles'
 import Divider from '@mui/material/Divider';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import FormUpdatePersonalInfo from './CardInformation/FormUpdatePersonalInfo'
+import FormUpdatePersonalInfo from './TabsProfile/FormUpdatePersonalInfo'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 

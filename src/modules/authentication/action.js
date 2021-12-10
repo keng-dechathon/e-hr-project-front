@@ -1,6 +1,6 @@
 import API from '../../utils/api'
 import { apiUrl } from '../../utils/apiUrl'
-import {setCookie} from '../../utils/cookie'
+import { setCookie } from '../../utils/cookie'
 
 import { pushSnackbarAction } from '../layout/actions'
 
@@ -16,8 +16,8 @@ export const signIn = async (values, Checked, navigate) => {
             const { access_token, ID, NeedResetPassword } = response.data
             const uid = ID
             const a = access_token
-            
-            if (NeedResetPassword) {              
+
+            if (NeedResetPassword) {
                 setCookie('uid', uid, (1000 * 3600))
                 setCookie('a', a, (1000 * 3600))
                 navigate('/reset-password')
@@ -30,7 +30,7 @@ export const signIn = async (values, Checked, navigate) => {
                 } else {
                     setCookie('uid', uid, (1000 * 3600 * 24))
                     setCookie('a', a, (1000 * 3600 * 24))
-                }              
+                }
                 navigate('/Home')
                 return { status: 'success' }
             }
@@ -71,7 +71,7 @@ export const forgotPassword = async (values) => {
 
 
 export const resetPassword = async (values, navigate) => {
-    console.log(values);
+    // console.log(values);
     return API()
         .post(apiUrl.eHRService.auth.resetPassword, {
             oldPassword: values.oldPassword,
@@ -80,16 +80,28 @@ export const resetPassword = async (values, navigate) => {
         })
         .then((response) => {
             pushSnackbarAction('success', 'Reset password success.')
-            setTimeout(() => {
-                navigate('/home')
-                return { status: 'success' }
-            }, 1000)
-
+            if (navigate) {
+                setTimeout(() => {
+                    navigate('/home')
+                    return { status: 'success' }
+                }, 1000)
+            }
             return { status: 'success' }
         })
         .catch((error) => {
             console.log(error);
-            pushSnackbarAction('error', 'email incorrect.')
+            try {
+                let status = error.response.status
+                console.log(status);
+                if (status === 401) {
+                    pushSnackbarAction('Error', 'New Password same as Old Password')
+                }
+                if (status === 404) {
+                    pushSnackbarAction('Error', 'Old Password Incorret')
+                }
+            } catch (e) {
+                pushSnackbarAction('error', 'Server error')
+            }
             return { status: 'fail' }
         })
 }
