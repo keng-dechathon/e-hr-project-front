@@ -9,7 +9,7 @@ export const apiUrl = {
       },
       identity:{
         profile:'/eHRService/Profile',
-        password:'/w/identity/password',
+        leave:'/eHRService/Leave',
       }
     },
   }

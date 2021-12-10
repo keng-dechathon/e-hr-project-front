@@ -51,21 +51,10 @@ const FormUpdatePersonalInfo = (props) => {
     const [lastname, setLastname] = useState(accountInformation.Lastname ? accountInformation.Lastname : '')
     const [user, setUser] = useState('')
     const [imageBase64, setImageBase64] = useState('')
-    // const [images, setImages] = useState([])
-    // const [imageURLs, setImageURLs] = useState([])
-
-
 
     useEffect(() => {
-        setTimeout(() => setUser({ Title: title, Firstname: firstname, Lastname: lastname, BirthDate: getDateFormat(date), Gender: gender, ImageBase64: imageBase64 }))
+        setTimeout(() => setUser({ Title: title, Firstname: firstname, Lastname: lastname, BirthDate: getDateFormat(date), Gender: gender, Img: imageBase64 }))
     }, [title, gender, date, firstname, lastname, imageBase64])
-
-    // useEffect(() => {
-    //     if (images.length < 1) return;
-    //     const newImageURLs = [];
-    //     images.forEach(image => newImageURLs.push(URL.createObjectURL(image)))
-    //     setImageURLs(newImageURLs)
-    // }, [images])
 
     const handleChangeDate = (newValue) => {
         setDate(newValue);
@@ -87,8 +76,10 @@ const FormUpdatePersonalInfo = (props) => {
         const file = event.target.files[0]
         const fileBase64 = await convertFileToBase64(file)
         setImageBase64(fileBase64)
+        // console.log(fileBase64);
         // setImages([...event.target.files])        
     }
+
     const onSubmit = async () => {
         await updateProfile(user)
         dispatch(getAccountInformation())
@@ -118,7 +109,7 @@ const FormUpdatePersonalInfo = (props) => {
                         className={classNames(classes.center, classes.imgBox)}
                     >
 
-                        <label for="file-input">
+                        <label for="file-input" >
                             <Badge
                                 overlap="circular"
                                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -128,7 +119,7 @@ const FormUpdatePersonalInfo = (props) => {
                                     </Avatar>
                                 }
                             >
-                                <Avatar src={imageBase64 ? imageBase64 : pic} className={classes.image} />
+                                <Avatar src={imageBase64 ? imageBase64 : accountInformation.Img ? accountInformation.Img : ''} className={classes.image} />
 
                                 <Avatar className={classes.btnfile} >
                                     <div className={classNames(classes.flex, classes.center)}>

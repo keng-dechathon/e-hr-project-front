@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -8,11 +8,13 @@ import logo from '../../../assets/logo.png'
 import { getAccountInformation } from '../../identity/actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { getinfo } from '../../identity/actions';
 import Skeleton from '@mui/material/Skeleton';
 import { navHeight } from './Attribute';
+import { Divider } from '@mui/material';
 
-const useStyles = makeStyles(() => ({
+
+
+const useStyles = makeStyles((theme) => ({
     logo: {
         width: '72px',
         height: '40px',
@@ -21,13 +23,22 @@ const useStyles = makeStyles(() => ({
         minHeight: navHeight,
     },
     logout: {
-        color: '#FF0000',
+        color: 'rgb(161, 51, 51) !important',
         height: '40px',
+        marginLeft: '20px !important',
+      
+        // [theme.breakpoints.down('xs')]: {
+        //     fontSize: '10px !important',             
+        // },
     },
     name: {
         padding: '6px 6px',
         fontSize: '14px !important',
-    }
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+    },
+
 }));
 
 function Navbar() {
@@ -65,10 +76,13 @@ function Navbar() {
                 <Typography className={classes.name}>
                     Role :
                 </Typography>
-                <Typography className={classes.name} style={{ paddingRight: '40px' }}>
+                <Typography className={classes.name} style={{ paddingRight: '30px' }}>
                     {accountInformation.Role ? accountInformation.Role.toUpperCase() : <Skeleton width={100} height={40} animation="wave" />}
                 </Typography>
-                <Button color="inherit" className={classes.logout} onClick={() => { navigate('/sign-out'); }}>Sign Out</Button>
+                <Divider orientation="vertical" flexItem variant="middle" />
+                <Button color="inherit" className={classes.logout} onClick={() => { navigate('/sign-out'); }}>
+                    Sign Out
+                </Button>
             </Toolbar>
         </AppBar>
     );

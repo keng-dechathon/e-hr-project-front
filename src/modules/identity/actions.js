@@ -2,14 +2,24 @@ import * as Types from './types'
 import { createRequestTypes, createAction } from '../../utils/requestTypes'
 import { apiUrl } from '../../utils/apiUrl'
 import API from '../../utils/api'
-
 import { pushSnackbarAction } from '../layout/actions'
+
 export const GET_ACCOUNT_INFORMATION = createRequestTypes(Types.GET_ACCOUNT_INFORMATION)
+export const GET_LEAVE_INFORMATION = createRequestTypes(Types.GET_LEAVE_INFORMATION)
 
 export const getAccountInformation = (config, data = {}) =>
   createAction(GET_ACCOUNT_INFORMATION.REQUEST, {}, {
     method: 'POST',
     url: apiUrl.eHRService.identity.profile,
+    params: data,
+    ...config
+  }
+  )
+  
+export const getLeaveInformation = (config, data = {}) =>
+  createAction(GET_LEAVE_INFORMATION.REQUEST, {}, {
+    method: 'POST',
+    url: apiUrl.eHRService.identity.leave,
     params: data,
     ...config
   }
@@ -34,8 +44,6 @@ export const getinfo = async () => {
 }
 
 export const updateProfile = async (values) => {
-  console.log(values.BirthDate);
-  console.log(values);
   return API()
     .post(apiUrl.eHRService.identity.profile, {
       Img: values.Img ? values.Img : '',

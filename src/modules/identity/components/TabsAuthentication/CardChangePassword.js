@@ -8,19 +8,24 @@ import CardContent from '@mui/material/CardContent';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
-
-
+import FormChangePassword from './FormChangePassword';
+import ModalUpdate from '../ModalUpdate';
 import { green } from '@mui/material/colors';
-
 import LockIcon from '@mui/icons-material/Lock';
 
 const useStyles = makeStyles(styles)
 
 const CardChangePassword = () => {
     const classes = useStyles()
+    const [open, setOpen] = React.useState(false);
 
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     return (
         <>
+            <ModalUpdate open={open} handleClose={handleClose} title="Change Password" >
+                <FormChangePassword handleClose={handleClose} />
+            </ModalUpdate>
             <Card
                 className={classes.card}
             >
@@ -34,8 +39,8 @@ const CardChangePassword = () => {
                     <Typography variant="body1" fontWeight='bold' textAlign='left' className={classes.typography}>
                         Change Password
                     </Typography>
-                    <IconButton className={classes.IconButton}>
-                        <EditIcon/>
+                    <IconButton className={classes.IconButton} onClick={handleOpen}> 
+                        <EditIcon />
                     </IconButton>
                 </CardContent>
             </Card>

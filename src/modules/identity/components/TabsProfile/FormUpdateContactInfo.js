@@ -43,7 +43,7 @@ const FormUpdateContactInfo = (props) => {
         setTimeout(() => setUser({ Email: email, Phone: phone, Address: address }))
     }, [email, phone, address])
 
-   
+
     const handleChangeEmail = (event) => {
         setEmail(event.target.value);
     };
@@ -52,7 +52,7 @@ const FormUpdateContactInfo = (props) => {
     };
     const handleChangeAddress = (event) => {
         setAddress(event.target.value);
-    };   
+    };
 
     const onSubmit = async () => {
         await updateProfile(user)
@@ -66,7 +66,7 @@ const FormUpdateContactInfo = (props) => {
     })
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <>
             <form
                 className={classes.root}
                 onSubmit={handleSubmit}
@@ -74,7 +74,7 @@ const FormUpdateContactInfo = (props) => {
                 <Grid
                     container
                     spacing={2}
-                >                    
+                >
                     <Grid item sm={6} >
                         <InputLabel>Email Address</InputLabel>
                         <TextField
@@ -95,7 +95,7 @@ const FormUpdateContactInfo = (props) => {
                             fullWidth
 
                         />
-                    </Grid>                   
+                    </Grid>
                     <Grid item sm={12}>
                         <InputLabel>Address</InputLabel>
                         <TextField
@@ -109,7 +109,7 @@ const FormUpdateContactInfo = (props) => {
                             rowsMax={4}
                         />
                     </Grid>
-                   
+
                 </Grid>
                 <DialogActions className={classes.dialogAction}>
                     <Button onClick={handleClose}>Cancel</Button>
@@ -125,7 +125,7 @@ const FormUpdateContactInfo = (props) => {
                 </DialogActions>
             </form>
             <Snackbar />
-        </LocalizationProvider>
+        </>
 
     )
 }

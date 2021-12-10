@@ -9,12 +9,12 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import CardPersonalInfo from '../CardInformation/CardPersonalInfo'
-import CardWorkInfo from '../CardInformation/CardWorkInfo'
-import CardContactInfo from '../CardInformation/CardContactInfo'
-import CardChangePassword from '../CardAuthentication/CardChangePassword'
-import CardChangeEmail from '../CardAuthentication/CardChangeEmail'
-
+import CardPersonalInfo from '../TabsProfile/CardPersonalInfo'
+import CardWorkInfo from '../TabsProfile/CardWorkInfo'
+import CardContactInfo from '../TabsProfile/CardContactInfo'
+import CardChangePassword from '../TabsAuthentication/CardChangePassword'
+import CardChangeEmail from '../TabsAuthentication/CardChangeEmail'
+import CardLeaveInfomation from '../TabsLeaveInformation/CardLeaveInfomation'
 import { isEmail,isPhone } from '../../../../utils/validate'
 
 const useStyles = makeStyles(styles)
@@ -26,7 +26,8 @@ const ContentProfile = () => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-    };   
+    };  
+
     return (
         <>
             <div className={classes.margintop} />
@@ -48,7 +49,7 @@ const ContentProfile = () => {
                         <CardContactInfo />
                     </TabPanel>
                     <TabPanel value="2">
-
+                        <CardLeaveInfomation/>
                     </TabPanel>
                     <TabPanel value="3">
                         <Typography variant="h5" fontWeight='bold' className={classes.maintext}>Sign In Method</Typography>

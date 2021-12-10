@@ -97,3 +97,8 @@ export const isPhone = async (value) => {
     return false
   }
 }
+
+export const validateBothSame = (value1, value2) => {
+  if (value1 === value2) return true
+  else return false
+}

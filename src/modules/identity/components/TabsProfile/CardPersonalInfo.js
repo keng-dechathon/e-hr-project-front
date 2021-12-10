@@ -47,13 +47,7 @@ const CardPersonalInfo = () => {
         personalData.push({ "title": "Gender", "value": accountInformation.Gender ? accountInformation.Gender : notSet })
         personalData.push({ "title": "Date of Birth", "value": accountInformation.BirthDate ? getDateFormat2(accountInformation.BirthDate) : notSet })
     }
-
-
-    const fileSelectedHandler = event => {
-        console.log(event.target.files[0]);
-    }
-
-
+    
     setDataInfo()
 
     return (
@@ -85,7 +79,7 @@ const CardPersonalInfo = () => {
                             xs={4}
                             className={classNames(classes.center, classes.imgBox)}
                         >
-                            <Avatar src={pic} sx={{ width: 150, height: 150 }} className={classes.image} />
+                            <Avatar src={accountInformation.Img} className={classes.image} />
                         
                         </Grid>
                         <Grid

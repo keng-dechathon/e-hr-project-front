@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import PrivateRoute from "./modules/authentication/PrivateRoute/PrivateRoute";
+import PrivateRoute from "./modules/authentication/PrivateRoute";
 import SignIn from "./pages/auth/SignIn";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Home from "./pages/common/Home";
