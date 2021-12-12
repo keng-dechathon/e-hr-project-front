@@ -83,6 +83,10 @@ export const validateNationalIDThai = (text='') => {
 }
 
 
+export const isPhoneNumber =  (text) => {
+  return /^\d{10}$/.test(text)
+}
+
 export const isPhone = async (value) => {
   try {
     const phoneParsed = await parsePhoneNumberFromString(

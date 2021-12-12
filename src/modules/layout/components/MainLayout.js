@@ -19,6 +19,18 @@ const useStyles = makeStyles(() => ({
         // background: '#FFFAFA',//#FFF5EE,'#FFE4E1'      
 
     },
+    fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol !important"',     
+      ].join(','),
 }));
 
 function MainLayout({ title, children }) {
@@ -30,7 +42,7 @@ function MainLayout({ title, children }) {
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <Navbar />
-                <Sidebar />
+                <Sidebar/>
                 <Box
                     component="main"
                     sx={{ flexGrow: 1, p: 3 }}

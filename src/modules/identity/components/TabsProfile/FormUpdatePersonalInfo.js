@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Grid from '@material-ui/core/Grid'
-import { useForm, useField } from 'react-final-form-hooks'
+import { useForm } from 'react-final-form-hooks'
 import classNames from 'classnames'
 // import TextFieldOutlined from '../../../common/TextFieldOutlined'
 import Button from '../../../common/Button'
 
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './stylesForm'
-import { useNavigate } from 'react-router-dom';
 import { getDateFormat } from '../../actions'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -24,10 +23,11 @@ import Snackbar from '../../../layout/components/Snackbar'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Typography from '../../../common/Typography/Typography'
 import Avatar from '@mui/material/Avatar';
-import pic from '../../../../assets/pic.png'
 import Badge from '@mui/material/Badge';
 import { convertFileToBase64 } from '../../actions'
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { isEnglish } from '../../../../utils/validate'
+import { pushSnackbarAction } from '../../../layout/actions'
 
 const useStyles = makeStyles(styles)
 
@@ -80,10 +80,15 @@ const FormUpdatePersonalInfo = (props) => {
         // setImages([...event.target.files])        
     }
 
-    const onSubmit = async () => {
-        await updateProfile(user)
-        dispatch(getAccountInformation())
-        handleClose()
+    const onSubmit = async () => {      
+        if (!isEnglish(firstname) || !isEnglish(lastname)) {
+            pushSnackbarAction('error', 'Please fill out the information in English only.')
+        } else {
+            await updateProfile(user)
+            dispatch(getAccountInformation())
+            handleClose()
+        }
+
         // window.location.reload();
     };
 
@@ -113,6 +118,7 @@ const FormUpdatePersonalInfo = (props) => {
                             <Badge
                                 overlap="circular"
                                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                className={classes.badge}
                                 badgeContent={
                                     <Avatar className={classes.smallAvatar} >
                                         <AddAPhotoIcon fontSize='small' />
@@ -153,7 +159,6 @@ const FormUpdatePersonalInfo = (props) => {
                             defaultValue={firstname}
                             onChange={handleChangeFirstname}
                             fullWidth
-
                         />
                     </Grid>
                     <Grid item sm={5} xs>

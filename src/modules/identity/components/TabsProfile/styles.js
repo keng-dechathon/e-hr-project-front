@@ -4,7 +4,6 @@ export default () => ({
     card: {
         maxWidth: '800px !important',
         minWidth: '650px !important',
-        fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
         // backgroundColor: '#F1F3FF !important',
         boxShadow: 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px !important',
         borderRadius: '12px !important',
@@ -57,18 +56,18 @@ export default () => ({
         height: '200px',
         width: '200px',
     },
-  
+
     btnfile: {
         position: 'absolute !important',
-       
+
         background: 'rgb(0, 0, 0) !important',
         background: 'rgba(0, 0, 0, 0.3) !important', /* Black see-through */
-        color: '#f1f1f1 !important',       
+        color: '#f1f1f1 !important',
         transition: '.5s ease !important',
         opacity: '0 !important',
         color: 'white !important',
         fontSize: '20px !important',
-       
+
         // borderBottomLeftRadius: '50px',  /* 100px of height + 10px of border */
         // borderBottomRightRadius: '50px', /* 100px of height + 10px of border */
         textAlign: 'center !important',
@@ -78,21 +77,21 @@ export default () => ({
     },
     imgBox: {
         boxSizing: 'border-box',
-        position: 'relative',        
+        position: 'relative',
         "&:hover": {
             opacity: '1 !important'
         }
     },
-    flex:{
-        display:'flex',
-        flexDirection:'column',
+    flex: {
+        display: 'flex',
+        flexDirection: 'column',
     },
-    image:{
+    image: {
         border: `4px solid #FFFFFF`,
-        boxShadow: ' rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px !important', 
-        width: '150px !important', 
+        boxShadow: ' rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px !important',
+        width: '150px !important',
         height: '150px !important',
-    }
-   
+    },
+  
 })
 

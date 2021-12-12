@@ -22,10 +22,12 @@ const StyledTableCell = withStyles(() => ({
     head: {
         // backgroundColor: theme.palette.primary.main,
         color: '#2F80ED',
+
     },
     body: {
         fontSize: 14,
         color: '#1976d2',
+    
     }
 }))(TableCell)
 
@@ -37,7 +39,10 @@ const StyledTableRow = withStyles((theme) => ({
         '&:nth-of-type(even)': {
             backgroundColor: fade('#1976d2', 0.04),
         },
+       
+
     },
+
 }))(TableRow)
 
 const useStyles = makeStyles(styles)
@@ -65,12 +70,11 @@ const TableCustom = ({
     return (
         <TableContainer component={Card} className={classes.card}>
             <Table>
-                <TableHead>
+                <TableHead style={{borderBottom :'1px solid #f0f0f0'}}>
                     <TableRow>
                         {headers.map((item, index) => (
                             <StyledTableCell
                                 key={index}
-                                
                                 className={classes.bodycell}
                             >
                                 <Typography fontWeight={'medium'}>{item}</Typography>
@@ -102,7 +106,7 @@ const TableCustom = ({
                                                         key={item + row.name}
                                                         className={classes.bodycell}
                                                     >
-                                                        <Typography fontWeight={'medium'}>{row[item]}</Typography>
+                                                        <Typography style={{ fontSize: '0.875rem', fontWeight: '400 !important' }}>{row[item]}</Typography>
                                                     </StyledTableCell>
                                                 ))}
                                             </TableRow>

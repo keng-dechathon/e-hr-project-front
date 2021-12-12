@@ -14,11 +14,11 @@ const CardLeaveInfomation = () => {
 
     const { leaveInformation } = useSelector(state => state.leaveReducer)
 
-    let leaveDataFormat = [{}]//table data format
+    let leaveDataFormat = [{id:'0'}]
     let leaveDataHeader = []
 
 
-    let myLeaveDataFormat = [] //table data format
+    let myLeaveDataFormat = []
     let myLeaveDataHeader = []
 
     useEffect(() => {
@@ -27,63 +27,55 @@ const CardLeaveInfomation = () => {
     }, [])
 
 
-    const setLeaveInfoTableData = () => {
+    // const setLeaveInfoTableData = () => {
+    //     if (Object.keys(leaveInformation).length !== 0) {
+    //         leaveInformation.Leave_infomation.data.forEach((value, index) => {
+    //             console.log(   leaveInformation.Leave_infomation.data);
+    //             leaveDataHeader.push(value.Type_name)
+    //             leaveDataFormat[0][value.Type_name] = value.Leaved
+    //         })
+    //     }
+
+    // }
+    const setLeaveInfoDataGrid = () => {
         if (Object.keys(leaveInformation).length !== 0) {
+
             leaveInformation.Leave_infomation.data.forEach((value, index) => {
-                leaveDataHeader.push(value.Type_name)
-                leaveDataFormat[0][value.Type_name] = value.Leaved               
-            })
-        }
-
-    }
-
-
-
-    const setMyLeaveTableData = () => {
-        if (Object.keys(leaveInformation).length !== 0) {
-
-            // console.log(leaveInformation.Leave_request);
-            leaveInformation.Leave_request.data.map((value, index1) => {
-
-                myLeaveDataHeader = Object.getOwnPropertyNames(value)
-                myLeaveDataFormat.push({})
-                Object.keys(value).map(function (key, index2) {
-                    // console.log(index1);
-                    // console.log(index1+" : "+key+" : "+value[key]);
-                    myLeaveDataFormat[index1][key] = value[key]
-                });
+                let name = value.Type_name        
+                leaveDataHeader.push({ field: name, headerName: name, flex: 1 })
+                leaveDataFormat[0][name] = value.Leaved
 
             })
-            // console.log(myLeaveDataFormat);
+      
         }
-    }
+    
 
+    }
     const setMyLeaveDataGrid = () => {
         if (Object.keys(leaveInformation).length !== 0) {
             leaveInformation.Leave_request.data.map((value, index1) => {
-
-                myLeaveDataFormat.push(value)               
+              
+                myLeaveDataFormat.push(value)
                 Object.keys(value).map(function (key, index2) {
-                    if (index1 == 0) myLeaveDataHeader.push({ field: key, headername: key, flex: 1 })
-                    // console.log(index1);
-                    // console.log(index1+" : "+key+" : "+value[key]);                   
+                    if (index1 == 0) myLeaveDataHeader.push({ field: key, headerName: key, flex: 1 })
                 });
-
             })
-            console.log(myLeaveDataFormat);
+            myLeaveDataHeader.sort((a, b) => (a.field > b.field) ? 1 : ((b.field > a.field) ? -1 : 0))
+            myLeaveDataHeader.sort((a, b) => (a.field == 'id') ? -1 : 1)
         }
-        console.log(myLeaveDataHeader);
+  console.log(myLeaveDataFormat);
+
     }
-    setLeaveInfoTableData()
-    // setMyLeaveTableData()
+    // setLeaveInfoTableData()
+    setLeaveInfoDataGrid()
     setMyLeaveDataGrid()
 
     return (
         <>
-            <Typography variant="h6" fontWeight='bold' className={classes.topic}>Leave Information</Typography>
-            <Table headers={leaveDataHeader} data={leaveDataFormat} disablePagination loading={Object.keys(leaveInformation).length !== 0 ? false : true} className={classes.table} align='center'/>
+            <Typography variant="h6" fontWeight='bold' className={classes.topic}>Leave Information (Day,Hour)</Typography>
+            <DataGrid headers={leaveDataHeader ? leaveDataHeader : ''} rows={leaveDataFormat ? leaveDataFormat : ''} disablePagination={true}/>
             <Typography variant="h6" fontWeight='bold' className={classes.topic}>My Leave</Typography>
-            <DataGrid headers={myLeaveDataHeader?myLeaveDataHeader:''}  rows={myLeaveDataFormat?myLeaveDataFormat:''}/>
+            <DataGrid headers={myLeaveDataHeader ? myLeaveDataHeader : ''} rows={myLeaveDataFormat ? myLeaveDataFormat : ''} />
         </>
     )
 }
