@@ -34,9 +34,9 @@ export default () => ({
         // borderBottomLeftRadius: '50px',  /* 100px of height + 10px of border */
         // borderBottomRightRadius: '50px', /* 100px of height + 10px of border */
         textAlign: 'center !important',
-        "&:hover": {
-            opacity: '1 !important'
-        },
+        // "&:hover": {
+        //     opacity: '1 !important'
+        // },
     },
     imgBox: {
         boxSizing: 'border-box',
@@ -78,29 +78,23 @@ export default () => ({
         display: 'flex',
         boxShadow: 'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px !important',
         background: 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)',
-        '&:hover': {
-            background: 'radial-gradient(circle, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)',
+        // '&:hover': {
+        //     background: 'radial-gradient(circle, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)',
 
-        },
+        // },
     },
-    'smallAvatar:hover + btnfile': {
-        position: 'absolute !important',
-        border: `4px solid #FAF8F6`,
-        background: 'rgb(0, 0, 0) !important',
-        background: 'rgba(0, 0, 0, 0.3) !important', /* Black see-through */
-        color: '#f1f1f1 !important',
-        transition: '.5s ease !important',
-        opacity: '0 !important',
-        color: 'white !important',
-        width: '150px !important',
-        height: '150px !important',
-        // borderBottomLeftRadius: '50px',  /* 100px of height + 10px of border */
-        // borderBottomRightRadius: '50px', /* 100px of height + 10px of border */
-        textAlign: 'center !important',
-        "&:hover": {
-            opacity: '1 !important'
+
+    badge: {
+        [`&:hover`]: {
+            "& $smallAvatar":{
+                background: 'radial-gradient(circle, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)',
+            },
+            "& $btnfile":{
+                opacity: '1 !important',
+            },           
         },
     }
+
 
 
 })

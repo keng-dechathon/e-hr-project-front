@@ -32,7 +32,7 @@ export const updateProfile = async (values) => {
     })
     .then((response) => {
       // console.log(response);
-      pushSnackbarAction('success', 'success')
+      pushSnackbarAction('success', 'update success')
       return { status: 'success' }
     })
     .catch((error) => {

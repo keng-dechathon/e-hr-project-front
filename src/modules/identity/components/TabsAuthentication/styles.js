@@ -4,7 +4,7 @@ export default () => ({
     card: {
         maxWidth: '800px !important',
         minWidth:'600px !important',
-        fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+   
         // backgroundColor: '#F1F3FF !important',
         boxShadow: 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px !important',
         borderRadius: '12px !important',

@@ -25,16 +25,23 @@ export default (theme) => ({
     skeleton: {
         width: '100%',
     },
-    card: {              
+    card: {
         boxShadow: 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px !important',
         borderRadius: '12px !important',
         marginBottom: '35px',
-        minWidth:'850px',     
+        minWidth: '850px',
+        overflow: 'hidden !important',
         // rgba(0, 0, 0, 0.25)
     },
-    bodycell:{
-        textAlign:'center !important'
+    bodycell: {
+        textAlign: 'center !important',
+        border: '1px solid #f0f0f0',
+        padding: '0 10px !important',
+        minWidth: '121.429px !important',
+        height: '52px !important',
+        WebkitFontSmoothing: 'auto',
+        letterSpacing: 'normal',
     }
- 
+
 })
 

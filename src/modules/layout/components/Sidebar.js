@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import { makeStyles } from '@material-ui/core/styles'
 import { useNavigate } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
@@ -20,6 +14,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Skeleton from '@mui/material/Skeleton';
 import { Link } from 'react-router-dom'
 import { drawerWidth, navHeight } from './Attribute';
+import { borderRadius } from '@mui/lab/node_modules/@mui/system';
 
 const useStyles = makeStyles(() => ({
     drawer: {
@@ -27,71 +22,58 @@ const useStyles = makeStyles(() => ({
         width: drawerWidth,
         flexShrink: '0',
         [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-        [`&::-webkit-scrollbar`]: {
-            width: '12px !important'
-        },
-        [`&::-webkit-scrollbar-track`]: {
-            boxShadow: 'inset 0 0 6px rgba(0,0,0,0.3)',
-            borderRadius: '10px',
-            backgroundColor: '#F5F5F5',
-            background: 'transparent'
-        },
-        [`&::-webkit-scrollbar-thumb`]: {
-            background: 'transparent',
-            borderRadius: '10px',
-            boxShadow: 'inset 0 0 6px rgba(0,0,0,.3)',
-            backgroundColor: '#ffd1dc',
-        },
-        [`&::-webkit-scrollbar-thumb:hover`]: {
-            background: '#ff3968'
-        },
 
     },
     listTopic: {
-        // padding:'15px 0 10px 10px',
-        margin: '0px 0px 0px 15px',
+        margin: '0px 0px 5px 15px',
         color: '#C91F92',
         fontWeight: 'bold',
     },
     box: {
+        background: '#FAF5F7',
+        overflowX: 'hidden !important',
         [`&::-webkit-scrollbar`]: {
-            width: '12px !important',
-
-
+            display: 'none',
         },
-        [`&::-webkit-scrollbar-thumb:hover`]: {
+        [`&:hover::-webkit-scrollbar`]: {
+            width: '10px !important',
+            display: 'block',
+        },
+        [`&:hover::-webkit-scrollbar-thumb:hover`]: {
             background: '#ff3968 !important'
-
         },
 
-        [`&:hover::-webkit-scrollbar-thumb`]: {          
+        [`&:hover::-webkit-scrollbar-thumb`]: {
             background: 'transparent',
-            borderRadius: '10px',
-            boxShadow: 'inset 0 0 6px rgba(0,0,0,.3)',
+            borderRadius: '10px',        
             backgroundColor: '#ffd1dc',
-
         },
-        [`&:hover::-webkit-scrollbar-track`]: {
-            boxShadow: 'inset 0 0 6px rgba(0,0,0,0.3)',
-            borderRadius: '10px',
-            backgroundColor: '#F5F5F5',
-            background: 'transparent'
-
-        },
+    
 
     },
     listItem: {
         [`& .css-cveggr-MuiListItemIcon-root`]: {
             minWidth: '30px',
-            margin: '0 10px'
+            marginRight: '12px !important',
         },
         [`& .css-10hburv-MuiTypography-root`]: {
-            fontSize: '0.8rem'
+            fontWeight: '600px !important',
+            fontSize: '14px !important',
+           
         },
+      borderRadius: '100px 0px 0px  100px!important',
+        marginLeft: '10px !important',
+  
     },
     margintop: {
-        marginTop: '20px',
+        marginTop: '12px',
     },
+    menuOnClick: {
+        backgroundColor: '#C91F92',
+        borderRadius: '100px 0px 0px 100px',
+
+    },
+
 
 }));
 
@@ -100,6 +82,8 @@ function Sidebar() {
     const navigate = useNavigate();
     // console.log(SidebarData);
     const dispatch = useDispatch()
+
+
 
     const { accountInformation } = useSelector(state => state.accountReducer)
 
@@ -121,23 +105,36 @@ function Sidebar() {
                     <div className={classes.margintop} />
                     {SidebarData.map((item, index) => {
                         return (
-                            <List key={index}>
+                            <List key={index} className={classes.list}>
                                 <div className={classes.listTopic}>
                                     {item.title}
                                 </div>
                                 {
-                                    item.subNav.map((subItem) => {
+                                    item.subNav.map((subItem, index1) => {
                                         if (Role) {
                                             return (
                                                 subItem.role.map((role) => {
                                                     if (role == Role) {
+                                                        console.log(window.location.pathname);
+                                                        // console.log("AD : " + subItem.title);
                                                         return (
                                                             <Link to={subItem.path}>
-                                                                <ListItem button key={subItem.path} className={classes.listItem}>
-                                                                    <ListItemIcon>
+                                                                <ListItem
+                                                                    button
+                                                                    key={subItem.path}
+                                                                    className={classes.listItem}
+                                                                    style={window.location.pathname === subItem.path ? {
+                                                                        backgroundColor: '#C91F92',
+                                                                        borderRadius: '100px 0px 0px 100px',
+                                                                    } : {}}                                                                    
+                                                                >
+                                                                    <ListItemIcon
+                                                                        style={window.location.pathname === subItem.path  ? { color: '#FFFFFF' } : {}}
+                                                                       
+                                                                    >
                                                                         {subItem.icon}
                                                                     </ListItemIcon>
-                                                                    <ListItemText primary={subItem.title} />
+                                                                    <ListItemText primary={subItem.title} style={window.location.pathname === subItem.path? { color: '#FFFFFF' } : {}} />
                                                                 </ListItem>
                                                             </Link>
 

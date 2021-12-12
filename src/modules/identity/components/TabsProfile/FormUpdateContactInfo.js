@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import Grid from '@material-ui/core/Grid'
-import { useForm, useField } from 'react-final-form-hooks'
-import classNames from 'classnames'
-// import TextFieldOutlined from '../../../common/TextFieldOutlined'
-import Button from '../../../common/Button'
-
 import { makeStyles } from '@material-ui/core/styles'
-import styles from './stylesForm'
-import Typography from '../../../common/Typography/Typography'
-import { getDateFormat } from '../../actions'
-import InputLabel from '@mui/material/InputLabel';
-
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import TextField from '@mui/material/TextField';
-import DialogActions from '@mui/material/DialogActions';
+import { useForm } from 'react-final-form-hooks'
 import { getAccountInformation } from '../../actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProfile } from '../../actions'
+
+import InputLabel from '@mui/material/InputLabel';
+import Grid from '@material-ui/core/Grid'
+import TextField from '@mui/material/TextField';
+import DialogActions from '@mui/material/DialogActions';
+
 import Snackbar from '../../../layout/components/Snackbar'
+import Button from '../../../common/Button'
+import styles from './stylesForm'
+
+import { isPhoneNumber, isEmail, isThai } from '../../../../utils/validate'
+import { pushSnackbarAction } from '../../../layout/actions'
+
 const useStyles = makeStyles(styles)
 
 
@@ -55,9 +53,15 @@ const FormUpdateContactInfo = (props) => {
     };
 
     const onSubmit = async () => {
-        await updateProfile(user)
-        dispatch(getAccountInformation())
-        handleClose()
+        console.log(isEmail(email));
+        if (!isEmail(email)) { pushSnackbarAction('error', 'Invalid Email format') }        
+        else if (!isPhoneNumber(phone)) { pushSnackbarAction('error', 'Invalid phone number format.') }
+        else if (isThai(address)) { pushSnackbarAction('error', 'Enter the address in English only.') }
+        else {
+            await updateProfile(user)
+            dispatch(getAccountInformation())
+            handleClose()
+        }
         // window.location.reload();
     };
 

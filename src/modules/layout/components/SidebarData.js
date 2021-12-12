@@ -46,7 +46,7 @@ export const SidebarData = [
       },
       {
         title: 'Leave Request',
-        path: '/leave request',   
+        path: '/leave-request',   
         // icon: <DirectionsRunIcon />,  
         icon: <DescriptionRoundedIcon />,  
         role:['Management','Manager','Staff','Hr','Admin'] ,   
@@ -117,7 +117,7 @@ export const SidebarData = [
         
       },
       {
-        title: 'Working Time / holiday / Day-off',
+        title: 'Time Management',
         path: '/time-management',   
         icon: <WbSunnyIcon />,  
         role:['Hr','Admin','Approver'] ,   
