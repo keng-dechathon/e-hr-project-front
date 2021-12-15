@@ -28,9 +28,10 @@ const useStyles = makeStyles(() => ({
         margin: '0px 0px 5px 15px',
         color: '#C91F92',
         fontWeight: 'bold',
+        borderWidth: '0px !important'
     },
     box: {
-        background: '#FAF5F7',
+        background: '#FFFFFF',
         overflowX: 'hidden !important',
         [`&::-webkit-scrollbar`]: {
             display: 'none',
@@ -45,10 +46,11 @@ const useStyles = makeStyles(() => ({
 
         [`&:hover::-webkit-scrollbar-thumb`]: {
             background: 'transparent',
-            borderRadius: '10px',        
+            borderRadius: '10px',
             backgroundColor: '#ffd1dc',
         },
-    
+        borderWidth: '0px !important',
+
 
     },
     listItem: {
@@ -59,11 +61,11 @@ const useStyles = makeStyles(() => ({
         [`& .css-10hburv-MuiTypography-root`]: {
             fontWeight: '600px !important',
             fontSize: '14px !important',
-           
+
         },
-      borderRadius: '100px 0px 0px  100px!important',
+        borderRadius: '100px 0px 0px  100px!important',
         marginLeft: '10px !important',
-  
+
     },
     margintop: {
         marginTop: '12px',
@@ -115,6 +117,7 @@ function Sidebar() {
                                             return (
                                                 subItem.role.map((role) => {
                                                     if (role == Role) {
+                                                        var regex = new RegExp(subItem.path)
                                                         console.log(window.location.pathname);
                                                         // console.log("AD : " + subItem.title);
                                                         return (
@@ -123,18 +126,19 @@ function Sidebar() {
                                                                     button
                                                                     key={subItem.path}
                                                                     className={classes.listItem}
-                                                                    style={window.location.pathname === subItem.path ? {
+                                                                    style={regex.test(window.location.pathname) ? {
                                                                         backgroundColor: '#C91F92',
+                                                                        width: '100% !important',
                                                                         borderRadius: '100px 0px 0px 100px',
-                                                                    } : {}}                                                                    
+                                                                    } : {}}
                                                                 >
                                                                     <ListItemIcon
-                                                                        style={window.location.pathname === subItem.path  ? { color: '#FFFFFF' } : {}}
-                                                                       
+                                                                        style={regex.test(window.location.pathname) ? { color: '#FFFFFF' } : {}}
+
                                                                     >
                                                                         {subItem.icon}
                                                                     </ListItemIcon>
-                                                                    <ListItemText primary={subItem.title} style={window.location.pathname === subItem.path? { color: '#FFFFFF' } : {}} />
+                                                                    <ListItemText primary={subItem.title} style={regex.test(window.location.pathname) ? { color: '#FFFFFF' } : {}} />
                                                                 </ListItem>
                                                             </Link>
 

@@ -16,21 +16,10 @@ const useStyles = makeStyles(() => ({
         minWidth: `calc(100% - ${drawerWidth})`,
         minHeight: `calc(100vh - ${navHeight})`,
         marginTop: navHeight,
-        // background: '#FFFAFA',//#FFF5EE,'#FFE4E1'      
+        
+        background: '#FFFAFA ',//#FFF5EE,'#FFE4E1'  #FFFAFA    
 
     },
-    fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol !important"',     
-      ].join(','),
 }));
 
 function MainLayout({ title, children }) {
@@ -45,7 +34,7 @@ function MainLayout({ title, children }) {
                 <Sidebar/>
                 <Box
                     component="main"
-                    sx={{ flexGrow: 1, p: 3 }}
+                    sx={{ flexGrow: 1}}
                     className={classes.paper}
                 >
                     {children ? children : ''}
