@@ -3,13 +3,14 @@ export const apiUrl = {
       auth: {
         signin: '/eHRService/Login',
         forgotPassword: '/eHRService/ForgotPassword',
-        resetPassword: '/eHRService/ChangePassword',
-        validateLinkResetPassword: '/w/auth/validate-link-code',
-        createAccount:'/w/auth/account',
+        resetPassword: '/eHRService/ChangePassword',         
       },
       identity:{
         profile:'/eHRService/Profile',
         leave:'/eHRService/Leave',
+      },
+      common:{
+        news:'/eHRService/News'
       }
     },
   }

@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#000',
     letterSpacing: '0.2px',
     fontWeight: 200,
+
   },
   pink: {
     color: '#C91F92',
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   mute: {
     color: '#333132',
-    opacity:'0.5',
+    opacity: '0.5',
   },
   info: {
     color: '#2F80ED',
@@ -33,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
   warning: {
     color: '#FF9800',
   },
-  main:{
-    color:'#1976d2',
+  main: {
+    color: '#1976d2',
   },
   white: {
     color: '#FFFFFF',
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   left: {
     textAlign: 'left',
   }
-  
+
 }))
 
 const TypographyCustom = ({
@@ -79,31 +80,31 @@ const TypographyCustom = ({
   const classes = useStyles()
 
   return (
-    <Typography 
+    <Typography
       className={clsx(classes.default, {
-          // Color
-          [classes.danger]: color === 'danger',
-          [classes.primary]: color === 'primary',
-          [classes.mute]: color === 'mute',
-          [classes.info]: color === 'info',
-          [classes.success]: color === 'success',
-          [classes.warning]: color === 'warning',
-          [classes.white]: color === 'white',
-          [classes.pink]: color === 'pink',
-          [classes.main]: color === 'main'
-        }, {
-          // FontWeight
-          [classes.thin]: fontWeight === 'thin',
-          [classes.light]: fontWeight === 'light',
-          [classes.regular]: fontWeight === 'regular',
-          [classes.medium]: fontWeight === 'medium',
-          [classes.bold]: fontWeight === 'bold',
-          [classes.extraBold]: fontWeight === 'extraBold',
-        }, {
-          // Alignment
-          [classes.right]: textAlign === 'right',
-          [classes.left]: textAlign === 'left',
-        }, className)} 
+        // Color
+        [classes.danger]: color === 'danger',
+        [classes.primary]: color === 'primary',
+        [classes.mute]: color === 'mute',
+        [classes.info]: color === 'info',
+        [classes.success]: color === 'success',
+        [classes.warning]: color === 'warning',
+        [classes.white]: color === 'white',
+        [classes.pink]: color === 'pink',
+        [classes.main]: color === 'main'
+      }, {
+        // FontWeight
+        [classes.thin]: fontWeight === 'thin',
+        [classes.light]: fontWeight === 'light',
+        [classes.regular]: fontWeight === 'regular',
+        [classes.medium]: fontWeight === 'medium',
+        [classes.bold]: fontWeight === 'bold',
+        [classes.extraBold]: fontWeight === 'extraBold',
+      }, {
+        // Alignment
+        [classes.right]: textAlign === 'right',
+        [classes.left]: textAlign === 'left',
+      }, className)}
       variant={variant}
       {...props}
     >

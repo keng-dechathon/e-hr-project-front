@@ -29,7 +29,7 @@ const ContentProfile = () => {
     };  
 
     return (
-        <>
+        <div className={classes.padding}>
             <div className={classes.margintop} />
             <TypographyCustom variant='h3' color='pink' fontWeight='medium'>
                 Account Profile
@@ -58,7 +58,7 @@ const ContentProfile = () => {
                     </TabPanel>
                 </TabContext>
             </Box>
-        </>
+        </div>
     )
 }
 
