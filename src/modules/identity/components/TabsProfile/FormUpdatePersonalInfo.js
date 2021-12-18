@@ -7,7 +7,7 @@ import Button from '../../../common/Button'
 
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './stylesForm'
-import { getDateFormat } from '../../actions'
+import { getDateFormat } from '../../../../utils/miscellaneous' 
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -24,7 +24,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Typography from '../../../common/Typography/Typography'
 import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
-import { convertFileToBase64 } from '../../actions'
+import { convertFileToBase64 } from '../../../../utils/miscellaneous' 
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { isEnglish } from '../../../../utils/validate'
 import { pushSnackbarAction } from '../../../layout/actions'
@@ -93,7 +93,7 @@ const FormUpdatePersonalInfo = (props) => {
     };
 
 
-
+    
     const { handleSubmit, submitting } = useForm({
         onSubmit: onSubmit,
     })
@@ -135,7 +135,7 @@ const FormUpdatePersonalInfo = (props) => {
                                 </Avatar>
                             </Badge>
                         </label>
-                        <input type='file' id='file-input' className={classes.fileinput} onChange={onChangeImage} />
+                        <input type='file' id='file-input' accept="image/*" className={classes.fileinput} onChange={onChangeImage} />
                     </Grid>
                     <Grid item sm={2} xs={3}>
                         <InputLabel>Title *</InputLabel>
@@ -149,7 +149,6 @@ const FormUpdatePersonalInfo = (props) => {
                             <MenuItem value="Mr.">Mr.</MenuItem>
                             <MenuItem value="Mrs.">Mrs.</MenuItem>
                         </Select>
-
                     </Grid>
                     <Grid item sm={5} xs>
                         <InputLabel>First name *</InputLabel>

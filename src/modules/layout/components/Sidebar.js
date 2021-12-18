@@ -117,8 +117,10 @@ function Sidebar() {
                                             return (
                                                 subItem.role.map((role) => {
                                                     if (role == Role) {
-                                                        var regex = new RegExp(subItem.path)
-                                                        console.log(window.location.pathname);
+                                                      
+                                                        var regex = new RegExp("^"+subItem.path+"$")
+                                                        var regex2 = new RegExp(subItem.path+"/")
+                                                        // console.log(window.location.pathname);
                                                         // console.log("AD : " + subItem.title);
                                                         return (
                                                             <Link to={subItem.path}>
@@ -126,19 +128,19 @@ function Sidebar() {
                                                                     button
                                                                     key={subItem.path}
                                                                     className={classes.listItem}
-                                                                    style={regex.test(window.location.pathname) ? {
+                                                                    style={regex.test(window.location.pathname)||regex2.test(window.location.pathname) ? {
                                                                         backgroundColor: '#C91F92',
                                                                         width: '100% !important',
                                                                         borderRadius: '100px 0px 0px 100px',
                                                                     } : {}}
                                                                 >
                                                                     <ListItemIcon
-                                                                        style={regex.test(window.location.pathname) ? { color: '#FFFFFF' } : {}}
+                                                                        style={regex.test(window.location.pathname)||regex2.test(window.location.pathname) ? { color: '#FFFFFF' } : {}}
 
                                                                     >
                                                                         {subItem.icon}
                                                                     </ListItemIcon>
-                                                                    <ListItemText primary={subItem.title} style={regex.test(window.location.pathname) ? { color: '#FFFFFF' } : {}} />
+                                                                    <ListItemText primary={subItem.title} style={regex.test(window.location.pathname)||regex2.test(window.location.pathname)? { color: '#FFFFFF' } : {}} />
                                                                 </ListItem>
                                                             </Link>
 

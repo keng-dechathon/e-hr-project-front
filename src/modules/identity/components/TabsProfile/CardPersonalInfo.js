@@ -14,10 +14,10 @@ import Divider from '@mui/material/Divider';
 import { getAccountInformation } from '../../actions'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { capitalizeFirstLetter } from '../../actions';
+import { capitalizeFirstLetter } from '../../../../utils/miscellaneous';
 import Grid from '@material-ui/core/Grid'
 import Skeleton from '@mui/material/Skeleton';
-import { getDateFormat2 } from '../../actions';
+import { getDateFormat2 } from '../../../../utils/miscellaneous'; 
 import ModalUpdate from '../ModalUpdate';
 import FormUpdatePersonalInfo from './FormUpdatePersonalInfo';
 

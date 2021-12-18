@@ -14,6 +14,7 @@ import TimesheetViewer from "./pages/common/TimesheetViewer";
 import TimeSheetRecord from "./pages/common/TimeSheetRecord";
 import LeaveRequest from "./pages/common/LeaveRequest";
 import NewsView from "./modules/news/components/view/NewsView";
+import NewsManagement from "./pages/common/NewsManagement";
 export default function App() {
 
   return (
@@ -46,6 +47,9 @@ export default function App() {
           </Route>
           <Route exact path='/news/:id' element={<PrivateRoute />}>
             <Route exact path='/news/:id' element={<MainLayout title='News View'><NewsView /></MainLayout>} />
+          </Route>
+          <Route exact path='/news-management' element={<PrivateRoute />}>
+            <Route exact path='/news-management' element={<MainLayout title='News Management'><NewsManagement /></MainLayout>} />
           </Route>
         </Routes>
       </Fragment>
