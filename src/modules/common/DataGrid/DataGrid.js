@@ -50,6 +50,8 @@ const DataGridCustom = ({
   checkboxSelection = false,
   loading = false,
   disablePagination = false,
+  className,
+  ...props
 }) => {
   const classes = useStyles()
   return (
@@ -65,7 +67,8 @@ const DataGridCustom = ({
             checkboxSelection={checkboxSelection}
             autoHeight={true}
             autoWidth={true}
-
+            className={className}           
+            {...props}
           /> :
           <StyledDataGrid
             rows={rows}
@@ -76,9 +79,11 @@ const DataGridCustom = ({
             checkboxSelection={checkboxSelection}
             autoHeight={true}
             autoWidth={true}
+            className={className}
             components={{
               Footer: () => <div></div>,
             }}
+            {...props}
           />
       }
 

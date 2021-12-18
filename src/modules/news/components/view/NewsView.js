@@ -119,7 +119,7 @@ const NewsView = (props) => {
 
                 <Card className={classes.card} key={id}>
                     <Typography variant="h5" color="text.primary">{item.length !== 0 ? item[0].Topic : <Skeleton width={'100%'} height={40} animation="wave" />}</Typography>
-                    <Typography variant="subtitle1" color="text.secondary" className={classes.date}><AccessTimeIcon className={classes.icon} /> {item.length !== 0 ? item[0].Date : <Skeleton width={'100%'} height={40} animation="wave" />}</Typography>
+                    <Typography variant="subtitle1" color="text.secondary" className={classes.date}><AccessTimeIcon className={classes.icon} /> {item.length !== 0 ? item[0].Start : <Skeleton width={'100%'} height={40} animation="wave" />}</Typography>
                     <div className={item.length !== 0 && item[0].Img ? classes.ImgBox:''}>
                         <div
                             className={item.length !== 0 && item[0].Img ? classes.img:''}

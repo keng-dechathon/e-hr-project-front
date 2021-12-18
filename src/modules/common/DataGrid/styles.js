@@ -8,8 +8,7 @@ export default (theme) => ({
         width: '100%',
     },
     card: {
-        boxShadow: 'rgba(0, 0, 0, 0.15) 0px 5px 15px 0px !important',
-        borderRadius: '12px !important',
+       border:'1px solid #fafafa',
         marginBottom: '35px',
         minWidth: '850px',
         

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     card: {
         display: 'flex',
         padding: '10px',
-        minWidth: '450px',
+        minWidth: '800px',
         width: '100%',
         // backgroundColor: '#F1F3FF !important',
         // boxShadow: 'rgba(0, 0, 0, 0.10) 0px 5px 10px 0px !important',
@@ -131,7 +131,7 @@ const NewsItem = ({ items, loading }) => {
                                     </div>
 
                                     <Typography variant="subtitle2" color="text.secondary" className={classNames(classes.text, classes.date)}>
-                                        {value.Date}
+                                        {value.Start}
                                     </Typography>
                                 </div>
                             </Card>
@@ -157,7 +157,7 @@ const NewsItem = ({ items, loading }) => {
                                         </div>
 
                                         <Typography variant="subtitle2" color="text.secondary" className={classNames(classes.text, classes.date)}>
-                                            {value.Date}
+                                            {value.Start}
                                         </Typography>
                                     </div>
                                 </Card>
@@ -204,8 +204,8 @@ const NewsItem = ({ items, loading }) => {
                         More News
                     </Button>
                     :
-                    <Typography variant="h6" color="text.secondary" className={classNames(classes.text, classes.date)} style={{ marginTop: '20px' }}>
-                        ***That's all news.***
+                    <Typography variant="h6" color="text.secondary" className={classNames(classes.text, classes.date)} style={{ marginTop: '30px' }}>
+                        That's all news.
                     </Typography>
             }
 

@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
-import NewsSlider from './NewsCarousels'
 import { getNewsInformation } from '../../actions'
 import { useSelector, useDispatch } from 'react-redux'
-import NewsItem from './NewsItem'
+
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-
+import CardNewsList from './CardNewsList';
 const useStyles = makeStyles(() => ({
     emptyNews: {
         width: '100%',
@@ -24,7 +23,7 @@ const useStyles = makeStyles(() => ({
         marginBottom: '10px',
     },
     box: {
-        padding: '16px 40px 40px 40px'
+        padding: '40px '
     },
     tabitem: {
         marginRight: '30px !important',
@@ -49,11 +48,14 @@ const useStyles = makeStyles(() => ({
         },
 
     },
+    tabpanel:{
+        padding:' 16px 0 !important',
+    }
 }));
 
 
 
-const ContantNews = () => {
+const ContantNewsManagement = () => {
     const classes = useStyles()
 
 
@@ -71,24 +73,24 @@ const ContantNews = () => {
     const createNewsItem = () => {
         if (Object.keys(newsInformation).length !== 0) {           
             newsInformation.data.map((value, index) => {
-              
                 items.push(value)
             })
-        }  console.log(newsInformation);
+        }
+       
     }
     createNewsItem()
+    
     return (
         <>
-            <NewsSlider items={items} loading={Object.keys(newsInformation).length !== 0 ? false : true} />
-            <Box className={classes.box}>
+          <Box className={classes.box}>
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange} className={classes.tablist}>
-                            <Tab label="News" value="1" className={classes.tabitem} />
+                            <Tab label="News Management" value="1" className={classes.tabitem} />
                         </TabList>
                     </Box>
-                    <TabPanel value="1">
-                        <NewsItem items={items} loading={Object.keys(newsInformation).length !== 0 ? false : true} />
+                    <TabPanel value="1" className={classes.tabpanel}>
+                       <CardNewsList items={items}/>
                     </TabPanel>
                 </TabContext>
             </Box>
@@ -96,4 +98,4 @@ const ContantNews = () => {
     )
 }
 
-export default ContantNews
+export default ContantNewsManagement

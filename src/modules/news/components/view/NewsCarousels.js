@@ -13,7 +13,6 @@ const useStyles = makeStyles(() => ({
             height: `100% !important`,
             justifyContent: 'center',
             alignItems: 'center'
-
         },
         // boxShadow: 'rgba(0, 0, 0, 0.3) 0px 5px 20px 0px !important',
     },
@@ -63,7 +62,7 @@ const NewsSlider = ({ items, loading }) => {
         )
     }
     function Item(props) {
-        console.log(props)
+        
         return (
             <Link to={"/news/" + props.item.News_id}>
                 <Paper
