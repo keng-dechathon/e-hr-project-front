@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import svgimg from '../../../../assets/svgimg.svg'
-
+import noimg from '../../../../assets/noimg.png'
 import { makeStyles } from '@material-ui/core/styles'
 import { useTheme } from '@mui/material/styles';
 
 import Card from '@mui/material/Card';
-import {  Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { Typography } from "@mui/material";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -116,7 +116,7 @@ const NewsItem = ({ items, loading }) => {
                                 <div
                                     className={classes.img}
                                     style={{
-                                        backgroundImage: `url(${value.Img ? value.Img : svgimg})`,
+                                        backgroundImage: `url(${value.Img && value.Img !== 'null' ? value.Img : noimg})`,
 
                                     }}
                                 />
@@ -142,7 +142,7 @@ const NewsItem = ({ items, loading }) => {
                                     <div
                                         className={classes.img}
                                         style={{
-                                            backgroundImage: `url(${value.Img ? value.Img : svgimg})`,
+                                            backgroundImage: `url(${value.Img && value.Img !== 'null' ? value.Img : noimg})`,
 
                                         }}
                                     />
