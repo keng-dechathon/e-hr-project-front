@@ -70,11 +70,10 @@ const ContantNews = () => {
 
     const createNewsItem = () => {
         if (Object.keys(newsInformation).length !== 0) {           
-            newsInformation.data.map((value, index) => {
-              
+            newsInformation.data.map((value, index) => {              
                 items.push(value)
             })
-        }  console.log(newsInformation);
+        }  
     }
     createNewsItem()
     return (

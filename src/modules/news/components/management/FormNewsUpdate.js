@@ -8,14 +8,14 @@ import moment from 'moment';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import { updateNews } from '../../actions'
 import DialogActions from '@mui/material/DialogActions';
-import { getNewsInformation } from '../../actions'
+import { getAllNewsInformation } from '../../actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { TextField } from '@mui/material'
 import Snackbar from '../../../layout/components/Snackbar'
 import { convertFileToBase64 } from '../../../../utils/miscellaneous'
 import { Grid } from '@mui/material'
 import { InputLabel } from '@mui/material'
-
+import { addNews } from '../../actions';
 import { Box } from '@mui/system'
 
 const useStyles = makeStyles(() => ({
@@ -32,11 +32,11 @@ const useStyles = makeStyles(() => ({
         paddingRight: '0 !important',
 
     },
-    center:{
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center',
-        textAlign:'center'
+    center: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center'
     }
 
 }));
@@ -46,22 +46,22 @@ const useStyles = makeStyles(() => ({
 
 const FormNewsUpdate = (props) => {
     const classes = useStyles()
-    const { handleClose, id } = props
+    const { handleClose, id, option } = props
 
     const dispatch = useDispatch()
-    const { newsInformation } = useSelector(state => state.newsReducer)
+    const { allNewsInformation } = useSelector(state => state.newsReducer)
 
-    useEffect(() => {
-        dispatch(getNewsInformation())
+    useEffect(() => {        
+        dispatch(getAllNewsInformation())
     }, [])
 
 
-    const item = Object.keys(newsInformation).length !== 0 ? newsInformation.data.filter(value => value.News_id === id) : ''
+    const item = Object.keys(allNewsInformation).length !== 0 && option != 'add' ? allNewsInformation.data.filter(value => value.News_id === id) : ''
     const [newsId, setNewsID] = useState(item.length !== 0 ? item[0].News_id ? item[0].News_id : '' : '')
     const [topic, setTopic] = useState(item.length !== 0 ? item[0].Topic ? item[0].Topic : '' : '')
     const [detail, setDetail] = useState(item.length !== 0 ? item[0].Detail ? item[0].Detail : '' : '')
-    const [start, setStart] = useState(item.length !== 0 ? item[0].Start ? new Date(moment(item[0].Start).format()) : '' : '')
-    const [end, setEnd] = useState(item.length !== 0 ? item[0].End ? new Date(moment(item[0].End).format()) : '' : '')
+    const [start, setStart] = useState(item.length !== 0 ? item[0].Start ? new Date(moment(item[0].Start).format()) : moment().format() : moment().format())
+    const [end, setEnd] = useState(item.length !== 0 ? item[0].End ? new Date(moment(item[0].End).format()) : moment().format() : moment().format())
     const [user, setUser] = useState('')
     const [imageBase64, setImageBase64] = useState('')
 
@@ -89,12 +89,13 @@ const FormNewsUpdate = (props) => {
     const onChangeImage = async (event) => {
         const file = event.target.files[0]
         const fileBase64 = await convertFileToBase64(file)
-        setImageBase64(fileBase64)      
+        setImageBase64(fileBase64)
     }
 
-    const onSubmit = async () => {       
-        await updateNews(user)
-        dispatch(getNewsInformation())
+    const onSubmit = async () => {
+        if (option === 'update') await updateNews(user)
+        else if (option === 'add') await addNews(user)
+        dispatch(getAllNewsInformation())
         handleClose()
     };
 
@@ -104,7 +105,7 @@ const FormNewsUpdate = (props) => {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <form           
+            <form
                 onSubmit={handleSubmit}
             >
                 <Grid

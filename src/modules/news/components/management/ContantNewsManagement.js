@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
-import { getNewsInformation } from '../../actions'
+import { getAllNewsInformation } from '../../actions'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Box from '@mui/material/Box';
@@ -48,8 +48,8 @@ const useStyles = makeStyles(() => ({
         },
 
     },
-    tabpanel:{
-        padding:' 16px 0 !important',
+    tabpanel: {
+        padding: ' 16px 0 !important',
     }
 }));
 
@@ -62,27 +62,30 @@ const ContantNewsManagement = () => {
     const dispatch = useDispatch()
     const [value, setValue] = React.useState('1');
     let items = []
-    const { newsInformation } = useSelector(state => state.newsReducer)
+    const { allNewsInformation } = useSelector(state => state.newsReducer)
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
     useEffect(() => {
-        dispatch(getNewsInformation())
+
+        dispatch(getAllNewsInformation())
     }, [])
 
     const createNewsItem = () => {
-        if (Object.keys(newsInformation).length !== 0) {           
-            newsInformation.data.map((value, index) => {
+        if (Object.keys(allNewsInformation).length !== 0) {
+            allNewsInformation.data.map((value, index) => {
                 items.push(value)
             })
         }
-       
+
     }
+
     createNewsItem()
-    
+
     return (
         <>
-          <Box className={classes.box}>
+            <Box className={classes.box}>
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange} className={classes.tablist}>
@@ -90,7 +93,7 @@ const ContantNewsManagement = () => {
                         </TabList>
                     </Box>
                     <TabPanel value="1" className={classes.tabpanel}>
-                       <CardNewsList items={items}/>
+                        <CardNewsList items={items} />
                     </TabPanel>
                 </TabContext>
             </Box>
