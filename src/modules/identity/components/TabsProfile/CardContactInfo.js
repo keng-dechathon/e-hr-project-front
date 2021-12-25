@@ -13,7 +13,7 @@ import { getAccountInformation } from '../../actions'
 import { useSelector, useDispatch } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import Skeleton from '@mui/material/Skeleton';
-import ModalUpdate from '../ModalUpdate';
+import ModalUpdate from '../../../common/ModalUpdate';
 import FormUpdateContactInfo from './FormUpdateContactInfo'
 const useStyles = makeStyles(styles)
 

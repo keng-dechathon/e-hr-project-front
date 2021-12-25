@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
 import { withStyles, makeStyles } from '@material-ui/core/styles'
-import { DataGrid } from '@mui/x-data-grid';
 import Card from '@mui/material/Card';
 import styles from './styles';
 import { styled } from '@mui/material/styles';
 import TableContainer from '@mui/material/TableContainer';
-
+import { GridOverlay, DataGrid } from '@mui/x-data-grid';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const useStyles = makeStyles(styles)
 
@@ -37,11 +37,23 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiPaginationItem-root': {
     borderRadius: 0,
 
-  },
+  }, 
+  '& .MuiDataGrid-columnHeaderTitleContainer': {
+    padding:'0px',
 
+  }, 
 
 }));
 
+function CustomLoadingOverlay() {
+  return (
+    <GridOverlay>
+      <div style={{ position: 'absolute', top: 0, width: '100%' }}>
+        <LinearProgress />
+      </div>
+    </GridOverlay>
+  );
+}
 const DataGridCustom = ({
   headers,
   rows,
@@ -59,6 +71,10 @@ const DataGridCustom = ({
       {
         !disablePagination ?
           <StyledDataGrid
+            components={{
+              LoadingOverlay: CustomLoadingOverlay,
+            }}
+            loading={loading}
             rows={rows}
             columns={headers}
             pageSize={pageSize}
@@ -67,10 +83,14 @@ const DataGridCustom = ({
             checkboxSelection={checkboxSelection}
             autoHeight={true}
             autoWidth={true}
-            className={className}           
+            className={className}
             {...props}
           /> :
           <StyledDataGrid
+            components={{
+              LoadingOverlay: CustomLoadingOverlay,
+            }}
+            loading={loading}
             rows={rows}
             columns={headers}
             pageSize={pageSize}

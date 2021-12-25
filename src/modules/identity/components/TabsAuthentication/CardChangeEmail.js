@@ -9,10 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
 import EmailIcon from '@mui/icons-material/Email';
-
 import { green } from '@mui/material/colors';
-
-import LockIcon from '@mui/icons-material/Lock';
 
 const useStyles = makeStyles(styles)
 

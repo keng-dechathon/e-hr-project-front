@@ -80,8 +80,7 @@ const FormNewsUpdate = (props) => {
     }
 
     const handleChangeStart = (value) => {
-        setStart(new Date(moment(value).format()))
-        console.log(start);
+        setStart(new Date(moment(value).format()))    
     }
     const handleChangeEnd = (value) => {
         setEnd(new Date(moment(value).format()))

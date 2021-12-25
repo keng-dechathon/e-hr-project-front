@@ -49,13 +49,12 @@ const useStyles = makeStyles((theme) => ({
     },
     bodyText: {
         marginTop: '30px !important',
-        padding: '0 50px  !important',
-
+        padding: '0 50px  !important',        
         textOverflow: 'ellipsis',
         wordBreak: 'break-all',
     },
-    bodyText2:{
-        marginTop: '30px !important',       
+    bodyText2: {
+        marginTop: '30px !important',
         textOverflow: 'ellipsis',
         wordBreak: 'break-all',
     },
@@ -69,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
         height: '17px  !important',
         marginRight: '7px'
     },
- 
+
 }));
 
 const NewsView = (props) => {
@@ -111,7 +110,7 @@ const NewsView = (props) => {
                     <Typography color="text.primary" style={{
                         textOverflow: 'ellipsis',
                         wordBreak: 'break-all',
-                        maxWidth:'1000px',
+                        maxWidth: '1000px',
                     }}>
                         {item.length !== 0 ? item[0].Topic : <Skeleton width={'100%'} height={40} animation="wave" />}
                     </Typography>
@@ -120,16 +119,15 @@ const NewsView = (props) => {
                 <Card className={classes.card} key={id}>
                     <Typography variant="h5" color="text.primary">{item.length !== 0 ? item[0].Topic : <Skeleton width={'100%'} height={40} animation="wave" />}</Typography>
                     <Typography variant="subtitle1" color="text.secondary" className={classes.date}><AccessTimeIcon className={classes.icon} /> {item.length !== 0 ? item[0].Start : <Skeleton width={'100%'} height={40} animation="wave" />}</Typography>
-                    <div className={item.length !== 0 && item[0].Img ? classes.ImgBox:''}>
+                    <div className={item.length !== 0 && item[0].Img && item[0].Img !== 'null' ? classes.ImgBox : ''}>
                         <div
-                            className={item.length !== 0 && item[0].Img ? classes.img:''}
+                            className={item.length !== 0 && item[0].Img !== 'null' && item[0].Img ? classes.img : ''}
                             style={{
                                 backgroundImage: `url(${item.length !== 0 ? item[0].Img : ''})`,
-
                             }}
                         />
-                        <Typography variant="body1" color="text.secondary" className={item.length !== 0 && item[0].Img ?classes.bodyText:classes.bodyText2}>
-                            {item.length !== 0 ? item[0].Detail === '' ? 'no description' : item[0].Detail : <Skeleton width={'100%'} height={40} animation="wave" />}
+                        <Typography variant="body1" color="text.secondary" className={item.length !== 0 && item[0].Img && item[0].Img !== 'null' ? classes.bodyText : classes.bodyText2}>
+                            {item.length !== 0 ? item[0].Detail === '' && item[0].Detail !== 'null' ? 'no description' : item[0].Detail : <Skeleton width={'100%'} height={40} animation="wave" />}
                         </Typography>
                     </div>
 

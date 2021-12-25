@@ -2,21 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '../../../common/Typography/Typography'
 import styles from './styles'
-import classNames from 'classnames'
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import EditIcon from '@mui/icons-material/Edit';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
 import { getAccountInformation } from '../../actions'
 import { useSelector, useDispatch } from 'react-redux'
-import pic from '../../../../assets/pic.png'
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Grid from '@material-ui/core/Grid'
 import Skeleton from '@mui/material/Skeleton';
+
 const useStyles = makeStyles(styles)
 
 const CardWorkInfo = () => {

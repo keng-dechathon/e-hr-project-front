@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     card: {
         display: 'flex',
         padding: '10px',
-        minWidth: '800px',
+        minWidth: '400px',
         width: '100%',
         // backgroundColor: '#F1F3FF !important',
         // boxShadow: 'rgba(0, 0, 0, 0.10) 0px 5px 10px 0px !important',
@@ -88,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
         minHeight: '100px',
     },
     ButtonSubmit: {
+        minWidth: '400px',
         backgroundColor: '#C91F92 !important',
         marginTop: '10px',
         color: '#FFFFFF',

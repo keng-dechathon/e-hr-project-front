@@ -10,7 +10,11 @@ export const apiUrl = {
         leave:'/eHRService/Leave',
       },
       common:{
-        news:'/eHRService/News'
+        news:'/eHRService/News',
+        holidays:'/eHRService/Holiday',
+        workingTime:'/eHRService/WorkingTime',
+        dayOff:'/eHRService/DayOff',
+        employeeInfomation:'/eHRService/EmployeeInfomation',
       }
     },
   }

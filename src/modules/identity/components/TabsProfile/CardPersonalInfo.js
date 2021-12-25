@@ -18,7 +18,7 @@ import { capitalizeFirstLetter } from '../../../../utils/miscellaneous';
 import Grid from '@material-ui/core/Grid'
 import Skeleton from '@mui/material/Skeleton';
 import { getDateFormat2 } from '../../../../utils/miscellaneous'; 
-import ModalUpdate from '../ModalUpdate';
+import ModalUpdate from '../../../common/ModalUpdate';
 import FormUpdatePersonalInfo from './FormUpdatePersonalInfo';
 
 const useStyles = makeStyles(styles)
