@@ -15,6 +15,7 @@ import TimeSheetRecord from "./pages/common/TimeSheetRecord";
 import LeaveRequest from "./pages/common/LeaveRequest";
 import NewsView from "./modules/news/components/view/NewsView";
 import NewsManagement from "./pages/common/NewsManagement";
+import TimeManagement from "./pages/common/TimeManagement";
 export default function App() {
 
   return (
@@ -26,7 +27,6 @@ export default function App() {
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/reset-password' element={<ResetPassword />} />
           <Route path='/sign-out' element={<SignOut />} />
-          
           <Route exact path='/home' element={<PrivateRoute />}>
             <Route exact path='/home' element={<MainLayout title='home'><Home /></MainLayout>} />
           </Route>
@@ -50,6 +50,9 @@ export default function App() {
           </Route>
           <Route exact path='/news-management' element={<PrivateRoute />}>
             <Route exact path='/news-management' element={<MainLayout title='News Management'><NewsManagement /></MainLayout>} />
+          </Route>
+          <Route exact path='/time-management' element={<PrivateRoute />}>
+            <Route exact path='/time-management' element={<MainLayout title='Time Management'><TimeManagement /></MainLayout>} />
           </Route>
         </Routes>
       </Fragment>

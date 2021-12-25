@@ -12,10 +12,10 @@ import DataGrid from '../../../common/DataGrid';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import FormNewsUpdate from './FormNewsUpdate';
-import ModalUpdate from './ModalUpdate';
 import { deleteNews } from '../../actions';
-import { QuickSearchToolbar, escapeRegExp } from './SearchTextfield'
+import { QuickSearchToolbar, escapeRegExp } from '../../../common/QuickSearchToolbar/QuickSearchToolbar'
 import { Button } from '@mui/material'
+import ModalUpdate from '../../../common/ModalUpdate'
 
 
 const useStyles = makeStyles(() => ({
@@ -42,14 +42,9 @@ const useStyles = makeStyles(() => ({
         },
     },
     Img: {
-        height: '90px'
+        height: '90px',
+       
     },
-    // searchBox: {
-
-    //     display: 'flex',
-    //     alignItems: 'center',
-    //     width: '100%',
-    // },
     ButtonAdd: {
         display: 'flex'
     }
@@ -66,10 +61,11 @@ const CardNewsList = ({ items }) => {
     }, [])
 
     const headerArray = { News_id: 'ID', Img: 'Image', Topic: 'Name', Detail: 'Description', Date: 'Create at', Start: 'Begin at', End: 'Expire at' }
+
     let newsHeader = React.useMemo(() => [])
     let newsInfo = []
+
     const [searchInfo, setSearchInfo] = useState([])
-    const [value, setValue] = useState('1');
     const [isEdit, setIsEdit] = useState(false)
     const [nowID, setNowID] = useState(0)
     const [isDelete, setIsDelete] = useState(false)
@@ -77,16 +73,14 @@ const CardNewsList = ({ items }) => {
     const [searchText, setSearchText] = useState('')
     const [option, setOption] = useState('')
     const [pageSize, setPageSize] = useState(5);
+    const [sortModel, setSortModel] = useState([
+        {
+            field: 'News_id',
+            sort: 'desc',
+        },
+    ]);
 
-    const handleChange = (newValue) => {
-        setValue(newValue);
-    };
-    const handleClose = () => {
-        setIsEdit(false)
-    }
-    const onDelete = async (deleteID) => {
-        await deleteNews(deleteID)
-    }
+    const handleClose = () => { setIsEdit(false) }
 
     const deletesNews = React.useCallback(
         (id) => () => {
@@ -109,17 +103,16 @@ const CardNewsList = ({ items }) => {
     const addNews = () => {
         setOption('add')
         setIsEdit(true)
-
     }
-
 
     useEffect(() => {
         if (deleteID !== '' && isDelete) {
-            console.log(deleteID);
+
             const onDelete = async (id) => {
                 await deleteNews([id])
                 dispatch(getAllNewsInformation())
             }
+
             onDelete(deleteID)
             setIsDelete(false)
             setDeleteID('')
@@ -131,21 +124,32 @@ const CardNewsList = ({ items }) => {
             items.map((item, index) => {
                 if (index === 0) {
                     Object.keys(item).map((name, value) => {
-                        if (name === 'News_id' && headerArray[name]) newsHeader.push({ field: name, headerName: headerArray[name], width: '70' })
+                        if (name === 'News_id' && headerArray[name]) newsHeader.push({
+                            type: "number",
+                            field: name,
+                            headerName: headerArray[name],
+                            width: '70',
+                            align: 'left',
+                            headerAlign: 'left',
+
+                        })
                         if (name === 'Img' && headerArray[name]) newsHeader.push({
                             field: name,
                             headerName: headerArray[name],
                             width: '80',
                             align: 'center',
                             flex: 1,
+                            sortable: false,
                             renderCell: (params) => <img src={params.value && params.value != 'null' ? params.value : noimg} className={classes.Img} />
                         })
                         if (name === 'Start' || name === 'End' || name === 'Date' && headerArray[name]) newsHeader.push({
                             field: name,
                             headerName: headerArray[name],
+                            type: 'dateTime',
                             width: '180',
+                            sortable: false
                         })
-                        if (name === 'Topic' || name === 'Detail' && headerArray[name]) newsHeader.push({ field: name, headerName: headerArray[name], flex: 1 })
+                        if (name === 'Topic' || name === 'Detail' && headerArray[name]) newsHeader.push({ field: name, headerName: headerArray[name], flex: 1, sortable: false })
 
                     })
                 }
@@ -182,8 +186,7 @@ const CardNewsList = ({ items }) => {
         if (newsInfo.length !== 0) {
             const filteredRows = newsInfo.filter((row) => {
                 return Object.keys(row).some((field) => {
-                    console.log(field);
-                    if (field !== 'Img') return searchRegex.test(row[field].toString());
+                    if (field !== 'Img' && field !== 'Creator') return searchRegex.test(row[field].toString());
                 });
             });
             setSearchInfo(filteredRows)
@@ -191,7 +194,7 @@ const CardNewsList = ({ items }) => {
     };
 
     setNewsDataGrid()
-
+    console.log(sortModel);
     return (
         <>
             <ModalUpdate open={isEdit} handleClose={handleClose} title="News Update" >
@@ -199,8 +202,7 @@ const CardNewsList = ({ items }) => {
             </ModalUpdate>
 
             <Box className={classes.box}>
-                <Card sx={{ minWidth: 850 }}>
-
+                <Card>
                     <CardContent>
                         <Box
                             sx={{
@@ -217,13 +219,15 @@ const CardNewsList = ({ items }) => {
                             <Button variant="outlined" className={classes.ButtonAdd} onClick={addNews}><pre>+ ADD</pre></Button>
                         </Box>
                         <DataGrid
+                            sortingOrder={['desc', 'asc']}
+                            sortModel={sortModel}
+                            onSortModelChange={(model) => newsInfo.length !== 0 ? setSortModel(model) : ''}
                             pageSize={pageSize}
                             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                             rowsPerPageOptions={[5, 10, 20, 50]}
-                            pagination
                             headers={newsHeader ? newsHeader : ''}
-                            rows={searchText ? searchInfo : newsInfo ? newsInfo : ''}
-                            className={classes.datagrid} rowHeight={90}
+                            rows={searchText ? searchInfo : newsInfo ? newsInfo : ''}                         
+                            rowHeight={90}
                         />
                     </CardContent>
                 </Card>

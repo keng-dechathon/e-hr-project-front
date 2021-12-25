@@ -8,10 +8,9 @@ export default (theme) => ({
         width: '100%',
     },
     card: {
-       border:'1px solid #fafafa',
         marginBottom: '35px',
-        minWidth: '850px',
-        
+        width: '100%',
+
         // rgba(0, 0, 0, 0.25)
     },
 

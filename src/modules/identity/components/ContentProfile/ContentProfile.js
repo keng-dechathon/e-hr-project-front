@@ -52,7 +52,7 @@ const ContentProfile = () => {
                         <CardLeaveInfomation/>
                     </TabPanel>
                     <TabPanel value="3">
-                        <Typography variant="h5" fontWeight='bold' className={classes.maintext}>Sign In Method</Typography>
+                        <Typography variant="h6" fontWeight='bold' className={classes.maintext}>Sign In Method</Typography>
                         <CardChangeEmail />
                         <CardChangePassword />
                     </TabPanel>

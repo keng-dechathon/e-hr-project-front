@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '../../../common/Typography/Typography'
 import styles from './styles'
-import Table from '../../../common/Table';
 import { getLeaveInformation } from '../../../leave/actions';
 import { useSelector, useDispatch } from 'react-redux'
 import DataGrid from '../../../common/DataGrid';

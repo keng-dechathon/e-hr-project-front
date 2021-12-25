@@ -68,7 +68,6 @@ const ContantNewsManagement = () => {
     };
 
     useEffect(() => {
-
         dispatch(getAllNewsInformation())
     }, [])
 

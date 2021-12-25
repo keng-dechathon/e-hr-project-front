@@ -67,7 +67,7 @@ export const convertFileToBase64 = (file) => {
       const fileReader = new FileReader();
       if (file && file.type.match('image.*')) {
         fileReader.readAsDataURL(file);
-      }    
+      }
 
       fileReader.onload = () => {
         resolve(fileReader.result);
@@ -82,3 +82,13 @@ export const convertFileToBase64 = (file) => {
 
   });
 };
+
+export const getDayOffAmount = (hours) => {
+  if (hours < 24) return hours + ' Hr(s). '
+  else {
+    let day = Math.floor(hours / 24)
+    let hour = hours % 24
+    if (hour === 0) return day + ' Day(s) '
+    else return day + ' Day(s) ' + hour + ' Hr(s).'
+  }
+}

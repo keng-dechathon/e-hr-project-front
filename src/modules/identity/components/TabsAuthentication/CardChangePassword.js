@@ -9,7 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
 import FormChangePassword from './FormChangePassword';
-import ModalUpdate from '../ModalUpdate';
+import ModalUpdate from '../../../common/ModalUpdate';
 import { green } from '@mui/material/colors';
 import LockIcon from '@mui/icons-material/Lock';
 
