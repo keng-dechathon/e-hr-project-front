@@ -15,6 +15,7 @@ export const apiUrl = {
         workingTime:'/eHRService/WorkingTime',
         dayOff:'/eHRService/DayOff',
         employeeInfomation:'/eHRService/EmployeeInfomation',
+        team:'/eHRService/Team',
       }
     },
   }

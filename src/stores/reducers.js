@@ -5,6 +5,8 @@ import leaveReducer from '../modules/leave/reducers'
 import newsReducer from '../modules/news/reducers'
 import timeReducer from '../modules/timeManagement/reducers'
 import employeeReducer from '../modules/employeeInfomation/reducers'
+import teamReducer from '../modules/team/reducers'
+
 export default combineReducers({
    layoutReducer,
    accountReducer,
@@ -12,4 +14,5 @@ export default combineReducers({
    newsReducer,
    timeReducer,
    employeeReducer,
+   teamReducer,
 })

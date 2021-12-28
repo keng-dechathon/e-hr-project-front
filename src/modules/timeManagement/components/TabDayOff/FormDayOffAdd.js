@@ -4,7 +4,7 @@ import Button from '../../../common/Button'
 import { makeStyles } from '@material-ui/core/styles'
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import { addHoliday } from '../../actions';
+
 import DialogActions from '@mui/material/DialogActions';
 import { getDayOffInformation } from '../../actions'
 import { useSelector, useDispatch } from 'react-redux'
@@ -47,7 +47,7 @@ const useStyles = makeStyles(() => ({
 const customStyles = {
     control: base => ({
         ...base,
-
+        'min-height': '56px',
     })
 };
 const FormDayOffAdd = (props) => {
@@ -146,7 +146,7 @@ const FormDayOffAdd = (props) => {
                             defaultValue={dayoff}
                             onChange={(e) => { setDayoff(e.target.value) }}
                             fullWidth
-                            size="small"
+
 
                         />
                     </Grid>
@@ -162,7 +162,7 @@ const FormDayOffAdd = (props) => {
                             defaultValue={timeoff}
                             onChange={(e) => { setTimeoff(e.target.value) }}
                             fullWidth
-                            size="small"
+
                         />
                     </Grid>
                     <Grid item sm={12}>
@@ -176,8 +176,6 @@ const FormDayOffAdd = (props) => {
                             multiline
                             rows={3}
                             rowsMax={4}
-                            size="small"
-
                         />
                     </Grid>
 
@@ -191,7 +189,7 @@ const FormDayOffAdd = (props) => {
                         type="submit"
                         autoFocus
                     >
-                        ADD +
+                        + ADD
                     </Button>
                 </DialogActions>
                 <Snackbar />

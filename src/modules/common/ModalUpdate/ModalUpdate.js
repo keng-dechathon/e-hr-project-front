@@ -14,7 +14,7 @@ const ModalUpdate = (props) => {
   
     const theme = useTheme()
 
-    const { open, handleClose, children, title } = props
+    const { open, handleClose, children, title,fullscreen,...rest } = props
 
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -23,7 +23,9 @@ const ModalUpdate = (props) => {
             <Dialog
                 open={open}
                 onClose={handleClose}
-                fullScreen={fullScreen}
+                fullScreen={fullscreen?fullscreen:fullScreen}
+                
+                {...rest}
             >
                 <DialogTitle id="alert-dialog-title">
                     <Typography variant="h6" fontWeight='bold' >
