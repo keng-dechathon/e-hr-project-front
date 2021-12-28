@@ -16,6 +16,7 @@ import LeaveRequest from "./pages/common/LeaveRequest";
 import NewsView from "./modules/news/components/view/NewsView";
 import NewsManagement from "./pages/common/NewsManagement";
 import TimeManagement from "./pages/common/TimeManagement";
+import Team from "./pages/common/TeamManagement";
 export default function App() {
 
   return (
@@ -53,6 +54,9 @@ export default function App() {
           </Route>
           <Route exact path='/time-management' element={<PrivateRoute />}>
             <Route exact path='/time-management' element={<MainLayout title='Time Management'><TimeManagement /></MainLayout>} />
+          </Route>
+          <Route exact path='/team-management' element={<PrivateRoute />}>
+            <Route exact path='/team-management' element={<MainLayout title='Teams Management'><Team /></MainLayout>} />
           </Route>
         </Routes>
       </Fragment>
