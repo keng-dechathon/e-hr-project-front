@@ -6,8 +6,7 @@ export const apiUrl = {
         resetPassword: '/eHRService/ChangePassword',         
       },
       identity:{
-        profile:'/eHRService/Profile',
-        leave:'/eHRService/Leave',
+        profile:'/eHRService/Profile',      
       },
       common:{
         news:'/eHRService/News',
@@ -15,7 +14,8 @@ export const apiUrl = {
         workingTime:'/eHRService/WorkingTime',
         dayOff:'/eHRService/DayOff',
         employeeInfomation:'/eHRService/EmployeeInfomation',
-        team:'/eHRService/Team',
+        team:'/eHRService/Team',  
+        leave:'/eHRService/Leave',       
       }
     },
   }

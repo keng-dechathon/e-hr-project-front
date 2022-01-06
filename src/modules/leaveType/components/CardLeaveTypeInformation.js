@@ -1,56 +1,55 @@
 import React, { useState, useEffect } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
-// import FormHolidaysUpdate from './FormHolidaysUpdate'
-import { getTeamsInformation } from '../actions'
+
+
 import { useSelector, useDispatch } from 'react-redux'
-import EditIcon from '@mui/icons-material/Edit';
-import FormAddMember from './FormAddMember';
-import { deleteMember } from '../actions';
+import FormLeaveTypeUpdate from './FormLeaveTypeUpdate';
 import Box from '@mui/material/Box';
 import { Card } from '@mui/material';
 import { CardContent } from '@mui/material';
 import DataGrid from '../../common/DataGrid';
-import FormUpdateTeam from './FormUpdateTeam';
-import ModalUpdate from '../../common/ModalUpdate';
-import FormAddTeam from './FormAddTeam';
+import EditIcon from '@mui/icons-material/Edit';
 import { GridActionsCellItem } from '@mui/x-data-grid';
+import { getLeaveTypeInformation } from '../actions';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { getMemberInformation } from '../actions';
-
+import ModalUpdate from '../../common/ModalUpdate'
+import { deleteLeaveType } from '../actions';
 import { QuickSearchToolbar, escapeRegExp } from '../../common/QuickSearchToolbar/QuickSearchToolbar'
 import { Button } from '@mui/material'
+
 
 const useStyles = makeStyles(() => ({
     ButtonAdd: {
         display: 'flex'
     },
-    box:{
-        marginTop:'20px',
+    box: {
+        marginTop: '20px',
     },
-    cardcontant:{
+    cardcontant: {
         padding: 0,
         "&:last-child": {
-          paddingBottom: 0
+            paddingBottom: 0
         }
-    }
+    },
 }));
 
 
 
-const CardTeamMembers = (props) => {
+const CardLeaveTypeInformation = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
 
-    const { memberInformation } = useSelector(state => state.teamReducer)
-    const { teamID, host } = props
+    const { leaveTypeInformation } = useSelector(state => state.leaveTypeReducer)
 
-    const [open, setopen] = useState(false)
-    const [deleteID, setDeleteID] = useState('')
+    const [option, setOption] = useState('')
+    const [open, setOpen] = useState(false)
+    const [ID, setID] = useState('')
     const [searchText, setSearchText] = useState('')
     const [searchInfo, setSearchInfo] = useState([])
-
     const [pageSize, setPageSize] = useState(5);
+    const [deleteID, setDeleteID] = useState('')
+
     const [sortModel, setSortModel] = useState([
         {
             field: 'ID',
@@ -58,44 +57,47 @@ const CardTeamMembers = (props) => {
         },
     ]);
 
-    const headerArray = { id: 'ID', Name: 'Name', Position: 'Position' }
+    const headerArray = { Type_name: 'Name', Num_per_year: 'Number of days can leave ', Num_can_add: 'Number of days can add' }
 
     let Header = React.useMemo(() => [])
     let Info = []
 
     useEffect(() => {
-        dispatch(getTeamsInformation())
-        dispatch(getMemberInformation('', '', teamID))
+        dispatch(getLeaveTypeInformation())
     }, [])
-
-
-
-    const handleClose = () => { setopen(false) }
-
-
 
     useEffect(() => {
         if (deleteID !== '') {
             const onDelete = async (id) => {
-                await deleteMember(teamID, [id])
-                dispatch(getMemberInformation('', '', teamID))
+                await deleteLeaveType([id])
+                dispatch(getLeaveTypeInformation())
             }
             onDelete(deleteID)
             setDeleteID('')
         }
     }, [deleteID])
 
+    const handleClose = () => { setOpen(false) }
+
+    const onClickUpdate = React.useCallback(
+        (id) => () => {
+            setOpen(true)
+            setOption('update')
+            setID(id)
+        },
+        [],
+    );
+
     const onClickDelete = React.useCallback(
-        (id) => () => {            
+        (id) => () => {
             setDeleteID(id)
         },
         [],
     );
 
-
     const onClickAdd = () => {
-        setopen(true)
-
+        setOpen(true)
+        setOption('add')
     }
 
     const requestSearch = (searchValue) => {
@@ -104,7 +106,6 @@ const CardTeamMembers = (props) => {
         if (Info.length !== 0) {
             const filteredRows = Info.filter((row) => {
                 return Object.keys(row).some((field) => {
-                    console.log(row[field].toString());
                     return searchRegex.test(row[field].toString());
                 });
             });
@@ -113,37 +114,49 @@ const CardTeamMembers = (props) => {
     };
 
     const setDataGrid = () => {
-        if (Object.keys(memberInformation).length !== 0) {
-            memberInformation.data.map((item, index) => {
+        if (Object.keys(leaveTypeInformation).length !== 0) {
+            leaveTypeInformation.data.map((item, index) => {
                 if (index === 0) {
                     Object.keys(item).map((name, value) => {
-                        if (name === 'id' && headerArray[name]) {
+                        if (name === 'Type_name' && headerArray[name]) {
                             Header[0] = {
-                                type: "number",
                                 field: name,
                                 headerName: headerArray[name],
-                                width: '80',
-                                align: 'left',
-                                headerAlign: 'left',
+                                flex: 1,
+                                sortable: false,
                             }
                         }
-                        if (name === 'Name' && headerArray[name]) {
+                        if (name === 'Num_per_year' && headerArray[name]) {
                             Header[1] = {
                                 field: name,
                                 headerName: headerArray[name],
                                 flex: 1,
+                                sortable: false,
                             }
                         }
-                        if (name === 'Position' && headerArray[name]) {
+                        if (name === 'Num_can_add' && headerArray[name]) {
                             Header[2] = {
                                 field: name,
                                 headerName: headerArray[name],
                                 flex: 1,
+                                sortable: false,
                             }
                         }
+
                     })
                 }
                 Info.push(item)
+            })
+            Header.push({
+                field: 'total',
+                headerName: 'Total',
+                flex: 1,
+                sortable: false,
+                renderCell: (params) => (
+                    <div>
+                        {parseInt(params.row.Num_can_add) + parseInt(params.row.Num_per_year)}
+                    </div>
+                ),
             })
             Header.push({
                 field: 'actions',
@@ -151,9 +164,13 @@ const CardTeamMembers = (props) => {
                 width: 90,
                 getActions: (params) => [
                     <GridActionsCellItem
+                        icon={<EditIcon />}
+                        label="edit"
+                        onClick={onClickUpdate(params.id)}
+                    />,
+                    <GridActionsCellItem
                         icon={<DeleteForeverIcon />}
                         label="Delete"
-                        disabled={params.row.Name === host ? true : false}
                         onClick={onClickDelete(params.id)}
                     />,
                 ],
@@ -163,8 +180,8 @@ const CardTeamMembers = (props) => {
     setDataGrid()
     return (
         <>
-            <ModalUpdate open={open} handleClose={handleClose} title='Add Member' >
-                <FormAddMember handleClose={handleClose} Info={Info} teamID={teamID} host={host} />
+            <ModalUpdate open={open} handleClose={handleClose} title="Leave Type Update" >
+                <FormLeaveTypeUpdate handleClose={handleClose} option={option} id={ID} />
             </ModalUpdate>
             <Box className={classes.box}>
                 <Card >
@@ -175,7 +192,7 @@ const CardTeamMembers = (props) => {
                                 justifyContent: 'flex-end',
                                 justifyItems: 'center',
                                 alignItems: 'center',
-                                                          
+
                             }}
                         >
                             <QuickSearchToolbar value={searchText} onChange={(event) => requestSearch(event.target.value)} clearSearch={() => requestSearch('')} />
@@ -191,15 +208,16 @@ const CardTeamMembers = (props) => {
                             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                             rowsPerPageOptions={[5, 10, 20, 50]}
                             pagination
+                            disableSelectionOnClick
+                            className={classes.datagrid}
                             headers={Header ? Header : ''}
                             rows={searchText ? searchInfo : Info ? Info : ''}
                         />
                     </CardContent>
-
                 </Card>
             </Box>
         </>
     )
 }
 
-export default CardTeamMembers
+export default CardLeaveTypeInformation

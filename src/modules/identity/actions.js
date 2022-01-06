@@ -19,6 +19,7 @@ export const getAccountInformation = (config, data = {}) =>
 export const updateProfile = async (values) => {
   return API()
     .post(apiUrl.eHRService.identity.profile, {
+      Option:'Update',
       Img: values.Img ? values.Img : '',
       Email: values.Email ? values.Email : '',
       Address: values.Address ? values.Address : '',

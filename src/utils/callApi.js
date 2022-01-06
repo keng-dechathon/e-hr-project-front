@@ -4,7 +4,6 @@ import { getCookieFromBrowser } from './cookie'
 
 const configApi = async (action = {}) => {
   const { fetchConfig = {}, payload } = action
-  
   const { method, url, header, params, fixBaseURL } = fetchConfig
   let defaultHeader = {   
     'Authorization': `Bearer ${getCookieFromBrowser('a') ? getCookieFromBrowser('a') : ''}`,
