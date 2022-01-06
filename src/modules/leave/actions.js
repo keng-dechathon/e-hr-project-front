@@ -7,7 +7,7 @@ export const GET_LEAVE_INFORMATION = createRequestTypes(Types.GET_LEAVE_INFORMAT
 export const getLeaveInformation = (config, data = {}) =>
     createAction(GET_LEAVE_INFORMATION.REQUEST, {}, {
         method: 'POST',
-        url: apiUrl.eHRService.identity.leave,
+        url: apiUrl.eHRService.common.leave,
         params: data,
         ...config
     }
