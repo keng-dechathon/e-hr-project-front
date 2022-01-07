@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { getAllNewsInformation } from '../../actions'
 import { useSelector, useDispatch } from 'react-redux'
-
+import Typography from '../../../common/Typography/Typography'
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -85,16 +85,21 @@ const ContantNewsManagement = () => {
     return (
         <>
             <Box className={classes.box}>
-                <TabContext value={value}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <TabList onChange={handleChange} className={classes.tablist}>
-                            <Tab label="News Management" value="1" className={classes.tabitem} />
-                        </TabList>
-                    </Box>
-                    <TabPanel value="1" className={classes.tabpanel}>
-                        <CardNewsList items={items} />
-                    </TabPanel>
-                </TabContext>
+                <Typography variant='h3' color='pink' fontWeight='medium'>
+                    News Management
+                </Typography>
+                <Box sx={{ width: '100%', typography: 'body1', marginTop: '10px' }}>
+                    <TabContext value={value}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <TabList onChange={handleChange} className={classes.tablist}>
+                                <Tab label="News" value="1" className={classes.tabitem} />
+                            </TabList>
+                        </Box>
+                        <TabPanel value="1" className={classes.tabpanel}>
+                            <CardNewsList items={items} />
+                        </TabPanel>
+                    </TabContext>
+                </Box>
             </Box>
         </>
     )

@@ -47,7 +47,13 @@ const useStyles = makeStyles(() => ({
     },
     ButtonAdd: {
         display: 'flex'
-    }
+    },
+    cardcontant: {
+        padding: 0,
+        "&:last-child": {
+            paddingBottom: '0 !important'
+        }
+    },
 }));
 
 
@@ -203,7 +209,7 @@ const CardNewsList = ({ items }) => {
 
             <Box className={classes.box}>
                 <Card>
-                    <CardContent>
+                    <CardContent className={classes.cardcontant}>
                         <Box
                             sx={{
                                 display: 'flex',

@@ -7,8 +7,7 @@ export default () => ({
         // rgba(0, 0, 0, 0.25)
     },
     cardheader: {
-        padding: '14px !important',
-        height: '40px' ,
+        padding: '6px 10px !important',
         [`& .css-1qvr50w-MuiTypography-root  `]: {
 
             fontWeight: '550',

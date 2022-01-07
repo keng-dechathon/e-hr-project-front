@@ -63,6 +63,9 @@ export default function App() {
           <Route exact path='/employee-information' element={<PrivateRoute />}>
             <Route exact path='/employee-information' element={<MainLayout title='Employee Information'><EmployeeInformation /></MainLayout>} />
           </Route>
+          <Route exact path='/employee-management' element={<PrivateRoute />}>
+            <Route exact path='/employee-management' element={<MainLayout title='Employee Management'><EmployeeInformation /></MainLayout>} />
+          </Route>
           <Route exact path='/leave-type' element={<PrivateRoute />}>
             <Route exact path='/leave-type' element={<MainLayout title='Leave Type'><LeaveType /></MainLayout>} />
           </Route>

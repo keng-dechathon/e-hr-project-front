@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 // import FormHolidaysUpdate from './FormHolidaysUpdate'
 import { getEmployeeInformtion } from '../actions';
 import { useSelector, useDispatch } from 'react-redux'
+import EditIcon from '@mui/icons-material/Edit';
 
 import Box from '@mui/material/Box';
 import { Card } from '@mui/material';
@@ -14,22 +15,21 @@ import DrawerEmpInformation from './DrawerEmpInformation';
 import Typography from '../../common/Typography/Typography';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 import { purple, red, lightGreen, pink, blue, lightBlue, lime } from '@mui/material/colors';
-
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import SearchIcon from '@mui/icons-material/Search';
 import { QuickSearchToolbar, escapeRegExp } from '../../common/QuickSearchToolbar/QuickSearchToolbar'
 import { Button } from '@mui/material'
-
+import { isPath } from '../../../utils/miscellaneous';
+import { empInfoPath, empMgnt } from './path';
 const useStyles = makeStyles(() => ({
     ButtonAdd: {
         display: 'flex'
     },
-    box: {
-        marginTop: '20px',
-    },
+
     cardcontant: {
         padding: 0,
         "&:last-child": {
-            paddingBottom: 0
+            paddingBottom: '0 !important'
         }
     },
     datagrid: {
@@ -54,7 +54,6 @@ const CardEmpInformation = (props) => {
     const [ID, setID] = useState('')
     const [searchText, setSearchText] = useState('')
     const [searchInfo, setSearchInfo] = useState([])
-
     const [pageSize, setPageSize] = useState(5);
     const [sortModel, setSortModel] = useState([
         {
@@ -66,22 +65,24 @@ const CardEmpInformation = (props) => {
     const headerArray = { Img: 'Name', Position: 'Position', Company: 'Company', Team_Info: 'Owner' }
     const avatarColor = [pink[500], lightGreen[500], red[500], purple[500], blue[500], lightBlue[500], lime[500]]
 
+
+
     let Header = React.useMemo(() => [])
     let Info = []
 
     useEffect(() => {
-
         dispatch(getEmployeeInformtion())
     }, [])
 
     const onClickShowEmpInfo = React.useCallback(
-        (id) => () => {
-            console.log(id);
+        (id) => () => {           
             setOpen(true)
             setID(id)
         },
         [],
     );
+
+
 
     const requestSearch = (searchValue) => {
         setSearchText(searchValue);
@@ -165,18 +166,39 @@ const CardEmpInformation = (props) => {
                 Info[index].Team_Info = item.Team_Info
                 Info[index].id = item.Emp_id
             })
-            Header.push({
-                field: 'actions',
-                type: 'actions',
-                width: 90,
-                getActions: (params) => [
-                    <GridActionsCellItem
-                        icon={<SearchIcon />}
-                        label="search"
-                        onClick={onClickShowEmpInfo(params.id)}
-                    />,
-                ],
-            })
+            if (isPath(empInfoPath)) {
+                Header.push({
+                    field: 'actions',
+                    type: 'actions',
+                    width: 90,
+                    getActions: (params) => [
+                        <GridActionsCellItem
+                            icon={<SearchIcon />}
+                            label="search"
+                            onClick={onClickShowEmpInfo(params.id)}
+                        />,
+                    ],
+                })
+            } else if (isPath(empMgnt)) {
+                Header.push({
+                    field: 'actions',
+                    type: 'actions',
+                    width: 90,
+                    getActions: (params) => [
+                        <GridActionsCellItem
+                            icon={<SearchIcon />}
+                            label="Edit"
+                            onClick={onClickShowEmpInfo(params.id)}
+                        />,
+                        <GridActionsCellItem
+                            icon={<DeleteForeverIcon />}
+                            label="Delete"
+
+                        />,
+                    ],
+                })
+            }
+
         }
     }
     setDataGrid()
@@ -196,7 +218,9 @@ const CardEmpInformation = (props) => {
                             }}
                         >
                             <QuickSearchToolbar value={searchText} onChange={(event) => requestSearch(event.target.value)} clearSearch={() => requestSearch('')} />
-
+                            <Button variant="outlined" className={classes.ButtonAdd} >
+                                <pre>+ ADD</pre>
+                            </Button>
                         </Box>
                         <DataGrid
                             sortingOrder={['desc', 'asc']}

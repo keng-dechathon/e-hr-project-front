@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
     cardcontant: {
         padding: 0,
         "&:last-child": {
-            paddingBottom: 0
+            paddingBottom: '0 !important'
         }
     },
 }));
@@ -192,7 +192,7 @@ const CardLeaveTypeInformation = () => {
                                 justifyContent: 'flex-end',
                                 justifyItems: 'center',
                                 alignItems: 'center',
-
+                               
                             }}
                         >
                             <QuickSearchToolbar value={searchText} onChange={(event) => requestSearch(event.target.value)} clearSearch={() => requestSearch('')} />

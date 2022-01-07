@@ -19,10 +19,16 @@ import ModalUpdate from '../../../common/ModalUpdate'
 
 
 const useStyles = makeStyles(() => ({
- 
+
     ButtonAdd: {
         display: 'flex'
-    }
+    },
+    cardcontant: {
+        padding: 0,
+        "&:last-child": {
+            paddingBottom: '0 !important'
+        }
+    },
 }));
 
 
@@ -47,7 +53,7 @@ const CardWorkingTime = () => {
         },
     ]);
 
-    const headerArray = {Day_Name:'Day Name',start_work:'Start Work',off_work:'Off Work'}
+    const headerArray = { Day_Name: 'Day Name', start_work: 'Start Work', off_work: 'Off Work' }
 
     let workingTimeHeader = React.useMemo(() => [])
     let workTimeInfo = []
@@ -108,31 +114,31 @@ const CardWorkingTime = () => {
             workingTimeInformation.data.map((item, index) => {
                 if (index === 0) {
                     Object.keys(item).map((name, value) => {
-                        if (headerArray[name]&&name==='Day_Name') {
-                            workingTimeHeader[0] = {                               
+                        if (headerArray[name] && name === 'Day_Name') {
+                            workingTimeHeader[0] = {
                                 field: name,
-                                headerName: headerArray[name],                               
+                                headerName: headerArray[name],
                                 flex: 1,
                                 sortable: false
                             }
                         }
-                        else if(headerArray[name]&&name==='start_work'){
-                            workingTimeHeader[1] = {                               
+                        else if (headerArray[name] && name === 'start_work') {
+                            workingTimeHeader[1] = {
                                 field: name,
-                                headerName: headerArray[name],                               
+                                headerName: headerArray[name],
                                 flex: 1,
                                 sortable: false,
-                                type:'time',
+                                type: 'time',
                                 editable: true,
                             }
                         }
-                        else if(headerArray[name]&&name==='off_work'){
-                            workingTimeHeader[2] = {                               
+                        else if (headerArray[name] && name === 'off_work') {
+                            workingTimeHeader[2] = {
                                 field: name,
-                                headerName: headerArray[name],                                                          
+                                headerName: headerArray[name],
                                 flex: 1,
                                 sortable: false,
-                                type:'time',
+                                type: 'time',
                                 editable: true,
                             }
                         }
@@ -149,8 +155,8 @@ const CardWorkingTime = () => {
                     <GridActionsCellItem
                         icon={<EditIcon />}
                         label="Edit"
-                        onClick={onClickUpdate(params.row.Day_Name?params.row.Day_Name:'')}
-                    />,              
+                        onClick={onClickUpdate(params.row.Day_Name ? params.row.Day_Name : '')}
+                    />,
                 ],
             })
         }
@@ -160,30 +166,30 @@ const CardWorkingTime = () => {
         <>
             <ModalUpdate open={open} handleClose={handleClose} title="Working Time Update" >
                 <FormWorkingTimeUpdate id={nowID} handleClose={handleClose} option={option} />
-            </ModalUpdate>       
-                <Card >
-                    <CardContent>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'flex-end',
-                                justifyItems: 'center',
-                                alignItems: 'center',
-                                pt: '10px',
-                                pb: '10px',
+            </ModalUpdate>
+            <Card >
+                <CardContent className={classes.cardcontant}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            justifyItems: 'center',
+                            alignItems: 'center',
+                            pt: '10px',
+                            pb: '10px',
 
-                            }}
-                        >
-                            <QuickSearchToolbar value={searchText} onChange={(event) => requestSearch(event.target.value)} clearSearch={() => requestSearch('')} />
-                            {/* <Button variant="outlined" className={classes.ButtonAdd} onClick={onClickAdd}><pre>+ ADD</pre></Button> */}
-                        </Box>
-                        <DataGrid                                         
-                            headers={workingTimeHeader ? workingTimeHeader : ''}
-                            rows={searchText ? searchInfo : workTimeInfo ? workTimeInfo : ''}   
-                            disablePagination={true}                        
-                        />
-                    </CardContent>
-                </Card>      
+                        }}
+                    >
+                        <QuickSearchToolbar value={searchText} onChange={(event) => requestSearch(event.target.value)} clearSearch={() => requestSearch('')} />
+                        {/* <Button variant="outlined" className={classes.ButtonAdd} onClick={onClickAdd}><pre>+ ADD</pre></Button> */}
+                    </Box>
+                    <DataGrid
+                        headers={workingTimeHeader ? workingTimeHeader : ''}
+                        rows={searchText ? searchInfo : workTimeInfo ? workTimeInfo : ''}
+                        disablePagination={true}
+                    />
+                </CardContent>
+            </Card>
         </>
     )
 }

@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
         marginBottom: '10px',
     },
     box: {
-        padding: '40px '
+        padding: '40px 40px 0 40px '
     },
     tabitem: {
         marginRight: '30px !important',
@@ -68,7 +68,6 @@ const ContentTeamManagement = () => {
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange} className={classes.tablist}>
                             <Tab label="Team" value="1" className={classes.tabitem} />
-
                         </TabList>
                     </Box>
                     <TabPanel value="1" className={classes.tabpanel}>

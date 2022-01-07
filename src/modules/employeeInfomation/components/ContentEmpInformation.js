@@ -7,12 +7,15 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import CardEmpInformation from './CardEmpInformation';
+import { isPath } from '../../../utils/miscellaneous';
+import { empInfoPath, empMgnt } from './path';
+
 const useStyles = makeStyles(() => ({
     Topic: {
         marginBottom: '10px',
     },
     box: {
-        padding: '40px '
+        padding: '40px 40px 0 40px '
     },
     tabitem: {
         marginRight: '30px !important',
@@ -54,17 +57,18 @@ const ContentEmpInformation = () => {
     return (
         <Box className={classes.box}>
             <Typography variant='h3' color='pink' fontWeight='medium'>
-               Employee Information
+                {isPath(empInfoPath) && 'Employee Information' } 
+                {isPath(empMgnt) && 'Employee Management' } 
             </Typography>
             <Box sx={{ width: '100%', typography: 'body1', marginTop: '10px' }}>
                 <TabContext value={value}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <TabList onChange={handleChange} className={classes.tablist}>
-                            <Tab label="Employee" value="1" className={classes.tabitem} />
+                            <Tab label="Employee" value="1" className={classes.tabitem} />                        
                         </TabList>
                     </Box>
                     <TabPanel value="1" className={classes.tabpanel}>
-                   <CardEmpInformation/>
+                        <CardEmpInformation />
                     </TabPanel>
                 </TabContext>
             </Box>

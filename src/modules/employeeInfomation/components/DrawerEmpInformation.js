@@ -16,6 +16,9 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import CardContactInfo from './CardContactInfo';
 import CardPersonalInfo from './CardPersonalInfo';
 import CardWorkInfo from './CardWorkInfo';
+import { lime } from '@mui/material/colors';
+import { isPath } from '../../../utils/miscellaneous';
+import { empMgnt } from './path';
 const useStyles = makeStyles((theme) => ({
     ButtonAdd: {
         display: 'flex'
@@ -44,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: '10px',
     },
     tabitem: {
-        marginRight: '30px !important',
+        marginRight: '20px !important',
         padding: '0 !important',
         minWidth: '150px !important',
         textTransform: 'none !important',
@@ -64,10 +67,9 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: '#C91F92 !important',
 
         },
-
     },
     tabpanel: {
-        padding: ' 8px 16px  !important',
+        padding: ' 8px 20px  !important',
     },
     headername: {
         margin: '0 25px',
@@ -99,7 +101,9 @@ const DrawerEmpInformation = (props) => {
         setOpen(open);
     };
 
-
+    const dispatchEmp = () => {
+        dispatch(getEmployeeInformtionByID('', '', ID))
+    }
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -125,7 +129,6 @@ const DrawerEmpInformation = (props) => {
                 <Box sx={{ width: '100%', typography: 'body1', marginTop: navHeight }}>
                     <Box sx={{ padding: '20px', bgcolor: '#F7F0F3', display: 'flex' }}>
                         <Avatar
-                            alt={empInformationByID.length !== 0 ? empInformationByID.Firstname : ''}
                             src={empInformationByID.length !== 0 ? empInformationByID.Img : ''}
                             sx={{ width: 100, height: 100 }}
                         />
@@ -149,14 +152,22 @@ const DrawerEmpInformation = (props) => {
                     </Box>
                     <TabContext value={value}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <TabList onChange={handleChange} className={classes.tablist}>
-                                <Tab label="Profile" value="1" className={classes.tabitem} />
-                            </TabList>
+                            {
+                                isPath(empMgnt) ?
+                                    <TabList onChange={handleChange} className={classes.tablist}>
+                                        <Tab label="Profile" value="1" className={classes.tabitem} />
+                                        <Tab label="Leave Information" value="2" className={classes.tabitem} />
+                                        <Tab label="Authentication" value="3" className={classes.tabitem} />
+                                    </TabList> :
+                                    <TabList onChange={handleChange} className={classes.tablist}>
+                                        <Tab label="Profile" value="1" className={classes.tabitem} />
+                                    </TabList>
+                            }
                         </Box>
                         <TabPanel value="1" className={classes.tabpanel}>
-                            <CardPersonalInfo />
-                            <CardContactInfo />
-                            <CardWorkInfo />
+                            <CardPersonalInfo id={ID} />
+                            <CardContactInfo id={ID} />
+                            <CardWorkInfo id={ID} />
                         </TabPanel>
                     </TabContext>
                 </Box>
