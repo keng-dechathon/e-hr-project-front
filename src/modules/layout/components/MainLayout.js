@@ -16,7 +16,9 @@ const useStyles = makeStyles(() => ({
         minWidth: `calc(100% - ${drawerWidth})`,
         minHeight: `calc(100vh - ${navHeight})`,
         marginTop: navHeight,
-        background: '#fcfcfc',
+        
+        background: '#FFFAFA ',//#FFF5EE,'#FFE4E1'  #FFFAFA    
+
     },
 }));
 
@@ -29,10 +31,10 @@ function MainLayout({ title, children }) {
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <Navbar />
-                <Sidebar />
+                <Sidebar/>
                 <Box
                     component="main"
-                    sx={{ flexGrow: 1, p: 3 }}
+                    sx={{ flexGrow: 1}}
                     className={classes.paper}
                 >
                     {children ? children : ''}

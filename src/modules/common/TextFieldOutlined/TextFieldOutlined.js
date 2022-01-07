@@ -4,6 +4,7 @@ import { useField } from 'react-final-form-hooks'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 
+
 const useStyles = makeStyles(styles)
 
 const TextFieldOutlined = ({
@@ -23,6 +24,7 @@ const TextFieldOutlined = ({
   helperText,
   rows,
   error,
+  value,
   ...rest
 }) => {
   const classes = useStyles()
@@ -32,6 +34,7 @@ const TextFieldOutlined = ({
       id={id}
       name={name}
       disabled={disabled}
+      value={value}
       fullWidth={fullWidth}
       placeholder={placeholder}
       defaultValue={defaultValue}

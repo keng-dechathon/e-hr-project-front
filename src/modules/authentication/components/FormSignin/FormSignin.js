@@ -38,9 +38,7 @@ const FormSignin = () => {
         setChecked(!Checked)
         console.log(Checked)
     }
-    const onSubmit = async (values) => {
-        console.log(values);
-        console.log(process.env.React_App_API_URL);
+    const onSubmit = async (values) => {       
         await signIn(values, Checked, navigate)     
     }
 
@@ -52,8 +50,7 @@ const FormSignin = () => {
     return (
         <form
             className={classes.root}
-            onSubmit={handleSubmit}
-            autocomplete="on"
+            onSubmit={handleSubmit}           
         >
             <Grid
                 container
@@ -77,7 +74,7 @@ const FormSignin = () => {
                         className={classes.textfield}
                         id={'email'}
                         placeholder={'Enter your email.'}
-                        name={'email'}
+                        name={'email'}                                          
                         form={form}
                         endAdornment={<EmailIcon style={{ color: 'rgba(0, 0, 0, 0.54)' }} />}
                         label="Email"
@@ -119,8 +116,7 @@ const FormSignin = () => {
                                 onChange={onSubmitChecked}
                                 defaultChecked
                                 disableRipple
-                                disableFocusRipple
-                                disableElevation
+                                disableFocusRipple                               
                             />
                         }
                         label="Remember me"

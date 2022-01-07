@@ -5,7 +5,7 @@ import styles from './styles'
 import classNames from 'classnames'
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
+
 import CardContent from '@mui/material/CardContent';
 import EditIcon from '@mui/icons-material/Edit';
 import Avatar from '@mui/material/Avatar';
@@ -13,46 +13,54 @@ import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
 import { getAccountInformation } from '../../actions'
 import { useSelector, useDispatch } from 'react-redux'
-import pic from '../../../../assets/pic.png'
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
+
+import { capitalizeFirstLetter } from '../../../../utils/miscellaneous';
 import Grid from '@material-ui/core/Grid'
 import Skeleton from '@mui/material/Skeleton';
+import { getDateFormat2 } from '../../../../utils/miscellaneous'; 
+import ModalUpdate from '../../../common/ModalUpdate';
+import FormUpdatePersonalInfo from './FormUpdatePersonalInfo';
+
 const useStyles = makeStyles(styles)
 
 const CardPersonalInfo = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const personalData = [], initial = {}
+
     const { accountInformation } = useSelector(state => state.accountReducer)
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
     const notSet = <Typography variant="body1" fontWeight='light' color='mute' className={classes.maintext}>Not Set</Typography>
+    const personalData = []
+
     useEffect(() => {
         dispatch(getAccountInformation())
     }, [])
-    console.log(accountInformation);
-
+ 
     const setDataInfo = () => {
-        personalData.push({ "title": "Full name", "value": accountInformation.Title ? accountInformation.Title + " " + accountInformation.Firstname + " " + accountInformation.Lastname : notSet })
+        personalData.push({ "title": "Title", "value": accountInformation.Title ? accountInformation.Title : notSet })
+        personalData.push({ "title": "Full name", "value": accountInformation.Firstname && accountInformation.Lastname ? capitalizeFirstLetter(accountInformation.Firstname) + " " + capitalizeFirstLetter(accountInformation.Lastname) : notSet })
         personalData.push({ "title": "Gender", "value": accountInformation.Gender ? accountInformation.Gender : notSet })
-        personalData.push({ "title": "Date of Birth", "value": accountInformation.BirthDate ? accountInformation.BirthDate : notSet })
-        personalData.push({ "title": "Address", "value": accountInformation.Address ? accountInformation.Address : notSet })
-
-
+        personalData.push({ "title": "Date of Birth", "value": accountInformation.BirthDate ? getDateFormat2(accountInformation.BirthDate) : notSet })
     }
-
-
-    const fileSelectedHandler = event => {
-        console.log(event.target.files[0]);
-    }
-
+    
     setDataInfo()
+
     return (
         <>
+            <ModalUpdate open={open} handleClose={handleClose} title="Personal Information" >
+                <FormUpdatePersonalInfo handleClose={handleClose} />
+            </ModalUpdate>
+
             <Card
                 className={classNames(classes.card, classes.margintop)}
             >
                 <CardHeader
                     action={
-                        <IconButton>
+                        <IconButton onClick={handleOpen}>
                             <EditIcon />
                         </IconButton>
                     }
@@ -68,10 +76,10 @@ const CardPersonalInfo = () => {
                         <Grid
                             item
                             xs={4}
-                            className={classes.center}
+                            className={classNames(classes.center, classes.imgBox)}
                         >
-                            <Avatar alt="Remy Sharp" src={pic} sx={{ width: 150, height: 150 }} />
-                            {/* <input type='file' onChange={event => fileSelectedHandler(event)} /> */}
+                            <Avatar src={accountInformation.Img} className={classes.image} />
+                        
                         </Grid>
                         <Grid
                             item
@@ -79,7 +87,7 @@ const CardPersonalInfo = () => {
                         >
                             {personalData.map((items, indexs) => {
                                 return (
-                                    <div className={classes.textbox}>
+                                    <div className={Object.keys(accountInformation).length !== 0 ? classes.textbox : classes.textboxSkeleton}>
                                         <Typography variant="body1" fontWeight='bold' className={classes.maintext}>{items.title}</Typography>
                                         <Typography variant="body1" fontWeight='light' className={classes.subtext}>
                                             {Object.keys(accountInformation).length !== 0 ?
@@ -90,12 +98,12 @@ const CardPersonalInfo = () => {
                                         </Typography>
                                     </div>
                                 )
-
                             })}
                         </Grid>
                     </Grid>
                 </CardContent>
             </Card>
+
         </>
     )
 }

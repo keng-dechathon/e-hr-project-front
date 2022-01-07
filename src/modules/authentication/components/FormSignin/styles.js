@@ -41,6 +41,9 @@ export default (theme) => ({
     marginBottom: '50px',
     textAlign: 'center',
   },
-
+  footer:{
+    position:'absolute',
+    width:'100%',
+  }
 })
 

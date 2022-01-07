@@ -1,7 +1,7 @@
 import React from 'react'
 import TypographyCustom from '../../../common/Typography/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import Typography from '@mui/material/Typography'
+import Typography from '../../../common/Typography/Typography'
 import styles from './styles'
 import classNames from 'classnames'
 import Box from '@mui/material/Box';
@@ -9,9 +9,13 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import CardPersonalInfo from '../CardInformation/CardPersonalInfo'
-import CardWorkInfo from '../CardInformation/CardWorkInfo'
-import CardContactInfo from '../CardInformation/CardContactInfo'
+import CardPersonalInfo from '../TabsProfile/CardPersonalInfo'
+import CardWorkInfo from '../TabsProfile/CardWorkInfo'
+import CardContactInfo from '../TabsProfile/CardContactInfo'
+import CardChangePassword from '../TabsAuthentication/CardChangePassword'
+import CardChangeEmail from '../TabsAuthentication/CardChangeEmail'
+import CardLeaveInfomation from '../TabsLeaveInformation/CardLeaveInfomation'
+import { isEmail,isPhone } from '../../../../utils/validate'
 
 const useStyles = makeStyles(styles)
 
@@ -22,10 +26,10 @@ const ContentProfile = () => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-    };
+    };  
 
     return (
-        <>
+        <div className={classes.padding}>
             <div className={classes.margintop} />
             <TypographyCustom variant='h3' color='pink' fontWeight='medium'>
                 Account Profile
@@ -45,14 +49,16 @@ const ContentProfile = () => {
                         <CardContactInfo />
                     </TabPanel>
                     <TabPanel value="2">
-
+                        <CardLeaveInfomation/>
                     </TabPanel>
                     <TabPanel value="3">
-
+                        <Typography variant="h6" fontWeight='bold' className={classes.maintext}>Sign In Method</Typography>
+                        <CardChangeEmail />
+                        <CardChangePassword />
                     </TabPanel>
                 </TabContext>
             </Box>
-        </>
+        </div>
     )
 }
 

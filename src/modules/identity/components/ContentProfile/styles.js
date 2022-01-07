@@ -22,6 +22,9 @@ export default () => ({
         '& .MuiTabs-indicator': {
             backgroundColor: '#C91F92 !important',
         },       
+    },
+    padding:{
+        padding:'24px'
     }
 })
 

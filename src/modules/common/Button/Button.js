@@ -33,7 +33,7 @@ const ButtonCustom = ({
       // disableElevation
       {...rest}
     >
-      {loading ? <CircularProgress color={'#FFF'} size={20} style={{ marginRight: '20px' }} /> : ''}
+      {loading ? <CircularProgress size={20} style={{ marginRight: '20px' }} /> : ''}
 
       {children}
 

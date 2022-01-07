@@ -11,7 +11,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import styles from './styles'
 import { useNavigate } from 'react-router-dom'
 import { resetPassword } from '../../action'
-
+import { validateBothSame } from '../../../../utils/validate'
+import { pushSnackbarAction } from '../../../layout/actions'
 
 const useStyles = makeStyles(styles)
 
@@ -20,10 +21,15 @@ const FormResetPassword = () => {
     const classes = useStyles()
     const [Checked, setChecked] = useState(true)
     const navigate = useNavigate();
-  
+
     const onSubmit = async (values) => {
         console.log(values);
-        await resetPassword(values,navigate)
+        if (validateBothSame(values.newPassword, values.confirmPassword)) {
+            await resetPassword(values, navigate)
+        } else {
+            pushSnackbarAction('Error', 'New password not same')
+        }
+
     }
 
     const { form, handleSubmit, submitting, values } = useForm({

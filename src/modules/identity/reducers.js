@@ -1,7 +1,7 @@
 import * as Actions from './actions'
 
 export const initialState = {
-  accountInformation: {}
+  accountInformation: {},
 }
 
 export default (state = initialState, action) => {
@@ -19,7 +19,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         accountInformation: {}
-      }
+      }   
     default:
       return state
   }
