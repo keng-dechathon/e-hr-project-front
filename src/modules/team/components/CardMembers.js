@@ -28,12 +28,12 @@ const useStyles = makeStyles(() => ({
     box:{
         marginTop:'20px',
     },
-    cardcontant:{
+    cardcontant: {
         padding: 0,
         "&:last-child": {
-          paddingBottom: 0
+            paddingBottom: '0 !important'
         }
-    }
+    },
 }));
 
 

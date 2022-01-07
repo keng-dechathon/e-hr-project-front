@@ -92,3 +92,8 @@ export const getDayOffAmount = (hours) => {
     else return day + ' Day(s) ' + hour + ' Hr(s).'
   }
 }
+
+export const isPath = (path) => {
+  if (window.location.pathname === path) return true
+  else return false
+}

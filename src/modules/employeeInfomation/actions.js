@@ -24,3 +24,34 @@ export const getEmployeeInformtionByID = (config, data = {}, ID) =>
         ...config
     }
     )
+
+
+
+export const updateProfileById = async (values) => {
+    return API()
+        .post(apiUrl.eHRService.identity.profile, {
+            Option: 'Update_Profile_By_Id',
+            Id: values.Id?values.Id:'',
+            Img: values.Img ? values.Img : '',
+            Email: values.Email ? values.Email : '',
+            Address: values.Address ? values.Address : '',
+            Lastname: values.Lastname ? values.Lastname : '',
+            Title: values.Title ? values.Title : '',
+            Gender: values.Gender ? values.Gender : '',
+            Firstname: values.Firstname ? values.Firstname : '',
+            Role: values.Role ? values.Role : '',
+            Position: values.Position ? values.Position : '',
+            Phone: values.Phone ? values.Phone : '',
+            BirthDate: values.BirthDate ? values.BirthDate : '',
+            Company: values.Company ? values.Company : '',
+        })
+        .then((response) => {
+            // console.log(response);
+            pushSnackbarAction('success', 'update success')
+            return { status: 'success' }
+        })
+        .catch((error) => {
+            pushSnackbarAction('Server Error', 'Server Error.')
+            return { status: 'fail' }
+        })
+}

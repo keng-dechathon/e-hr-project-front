@@ -23,7 +23,12 @@ const useStyles = makeStyles(() => ({
     ButtonAdd: {
         display: 'flex'
     },
-
+    cardcontant: {
+        padding: 0,
+        "&:last-child": {
+            paddingBottom: '0 !important'
+        }
+    },
 }));
 
 
@@ -176,7 +181,7 @@ const CardTeam = () => {
             </ModalUpdate>
             <Box className={classes.box}>
                 <Card sx={{ minWidth: 683 }}>
-                    <CardContent>
+                    <CardContent className={classes.cardcontant}>
                         <Box
                             sx={{
                                 display: 'flex',

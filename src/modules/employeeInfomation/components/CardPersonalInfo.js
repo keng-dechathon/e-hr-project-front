@@ -5,26 +5,28 @@ import styles from './styles'
 import classNames from 'classnames'
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-
+import FormUpdatePersonalInfo from './FormUpdatePersonalInfo';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
-
+import ModalUpdate from '../../common/ModalUpdate';
 import { useSelector, useDispatch } from 'react-redux'
-
+import EditIcon from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
 import { capitalizeFirstLetter } from '../../../utils/miscellaneous';
 import Grid from '@material-ui/core/Grid'
 import Skeleton from '@mui/material/Skeleton';
-import { getDateFormat2 } from '../../../utils/miscellaneous'; 
-
+import { getDateFormat2 } from '../../../utils/miscellaneous';
+import { isPath } from '../../../utils/miscellaneous';
+import { empMgnt } from './path';
 
 const useStyles = makeStyles(styles)
 
-const CardPersonalInfo = () => {
+const CardPersonalInfo = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
-
+    const { id } = props
     const { empInformationByID } = useSelector(state => state.employeeReducer)
-  
+
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => setOpen(true);
@@ -33,29 +35,32 @@ const CardPersonalInfo = () => {
     const notSet = <Typography variant="body1" fontWeight='light' color='mute' className={classes.maintext}>Not Set</Typography>
     const personalData = []
 
-    useEffect(() => {
-        // dispatch(getAccountInformation())
-    }, [])
- 
+
     const setDataInfo = () => {
         personalData.push({ "title": "Title", "value": empInformationByID.Title ? empInformationByID.Title : notSet })
         personalData.push({ "title": "Full name", "value": empInformationByID.Firstname && empInformationByID.Lastname ? capitalizeFirstLetter(empInformationByID.Firstname) + " " + capitalizeFirstLetter(empInformationByID.Lastname) : notSet })
         personalData.push({ "title": "Gender", "value": empInformationByID.Gender ? empInformationByID.Gender : notSet })
         personalData.push({ "title": "Date of Birth", "value": empInformationByID.BirthDate ? getDateFormat2(empInformationByID.BirthDate) : notSet })
     }
-    
+
     setDataInfo()
 
     return (
         <>
-            {/* <ModalUpdate open={open} handleClose={handleClose} title="Personal Information" >
-                <FormUpdatePersonalInfo handleClose={handleClose} />
-            </ModalUpdate> */}
+            <ModalUpdate open={open} handleClose={handleClose} title="Personal Information" >
+                <FormUpdatePersonalInfo handleClose={handleClose} id={id}/>
+            </ModalUpdate>
 
             <Card
                 className={classNames(classes.card, classes.margintop)}
             >
-                <CardHeader                   
+                <CardHeader
+                    action={
+                        isPath(empMgnt) ?
+                            <IconButton onClick={handleOpen}>
+                                <EditIcon />
+                            </IconButton> : ''
+                    }
                     title="Personal Information"
                     className={classes.cardheader}
                 />
@@ -64,7 +69,7 @@ const CardPersonalInfo = () => {
                     <Grid
                         container
                         spacing={2}
-                    >                    
+                    >
                         <Grid
                             item
                             xs={8}

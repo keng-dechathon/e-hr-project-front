@@ -6,21 +6,28 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
-
+import ModalUpdate from '../../common/ModalUpdate';
 import { useSelector, useDispatch } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import Skeleton from '@mui/material/Skeleton';
-
+import EditIcon from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
+import { isPath } from '../../../utils/miscellaneous';
+import { empMgnt } from './path';
+import FormUpdateWorkInfo from './FormUpdateWorkInfo';
 const useStyles = makeStyles(styles)
 
-const CardWorkInfo = () => {
+const CardWorkInfo = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const personalData = [], initial = {}
-
+    const [open, setOpen] = React.useState(false);
     const { empInformationByID } = useSelector(state => state.employeeReducer)
-
+    const { id } = props
     const notSet = <Typography variant="body1" fontWeight='light' color='mute' className={classes.maintext}>Not Set</Typography>
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const setDataInfo = () => {
         personalData.push({ "title": "Staff ID", "value": empInformationByID.Emp_id ? empInformationByID.Emp_id : notSet })
@@ -34,13 +41,21 @@ const CardWorkInfo = () => {
     setDataInfo()
     return (
         <>
+            <ModalUpdate open={open} handleClose={handleClose} title="Personal Information" >
+                <FormUpdateWorkInfo handleClose={handleClose} id={id} />
+            </ModalUpdate>
             <Card
                 className={classes.card}
             >
-                <CardHeader              
+                <CardHeader
+                    action={
+                        isPath(empMgnt) ?
+                            <IconButton onClick={handleOpen}>
+                                <EditIcon />
+                            </IconButton> : ''
+                    }
                     title="Work Information"
                     className={classes.cardheader}
-                    
                 />
                 <Divider />
                 <CardContent>
