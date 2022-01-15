@@ -21,6 +21,7 @@ import { QuickSearchToolbar, escapeRegExp } from '../../common/QuickSearchToolba
 import { Button } from '@mui/material'
 import { isPath } from '../../../utils/miscellaneous';
 import { empInfoPath, empMgnt } from './path';
+import { deleteEmployeeById } from '../actions';
 const useStyles = makeStyles(() => ({
     ButtonAdd: {
         display: 'flex'
@@ -54,6 +55,8 @@ const CardEmpInformation = (props) => {
     const [ID, setID] = useState('')
     const [searchText, setSearchText] = useState('')
     const [searchInfo, setSearchInfo] = useState([])
+
+    const [deleteID, setDeleteID] = useState('')
     const [pageSize, setPageSize] = useState(5);
     const [sortModel, setSortModel] = useState([
         {
@@ -74,14 +77,33 @@ const CardEmpInformation = (props) => {
         dispatch(getEmployeeInformtion())
     }, [])
 
+    useEffect(() => {
+        if (deleteID !== '') {
+            const onDelete = async (id) => {
+                await deleteEmployeeById([id])
+                dispatch(getEmployeeInformtion())
+            }
+            onDelete(deleteID)
+            setDeleteID('')
+        }
+    }, [deleteID])
+console.log(empInformation);
+
     const onClickShowEmpInfo = React.useCallback(
-        (id) => () => {           
+        (id) => () => {
             setOpen(true)
             setID(id)
         },
         [],
     );
 
+
+    const onClickDelete = React.useCallback(
+        (id) => () => {
+            setDeleteID(id)
+        },
+        [],
+    );
 
 
     const requestSearch = (searchValue) => {
@@ -193,7 +215,7 @@ const CardEmpInformation = (props) => {
                         <GridActionsCellItem
                             icon={<DeleteForeverIcon />}
                             label="Delete"
-
+                            onClick={onClickDelete(params.id)}
                         />,
                     ],
                 })
@@ -218,9 +240,13 @@ const CardEmpInformation = (props) => {
                             }}
                         >
                             <QuickSearchToolbar value={searchText} onChange={(event) => requestSearch(event.target.value)} clearSearch={() => requestSearch('')} />
-                            <Button variant="outlined" className={classes.ButtonAdd} >
-                                <pre>+ ADD</pre>
-                            </Button>
+                            {
+                                isPath(empMgnt) &&
+                                <Button variant="outlined" className={classes.ButtonAdd} >
+                                    <pre>+ ADD</pre>
+                                </Button>
+                            }
+
                         </Box>
                         <DataGrid
                             sortingOrder={['desc', 'asc']}
