@@ -49,9 +49,7 @@ const FormUpdateContactInfo = (props) => {
     };
 
     const onSubmit = async () => {
-        if (!isEmail(email)) { pushSnackbarAction('error', 'Invalid Email format') }
-        else if (!isPhoneNumber(phone)) { pushSnackbarAction('error', 'Invalid phone number format.') }
-        else if (isThai(address)) { pushSnackbarAction('error', 'Enter the address in English only.') }
+        if (!isPhoneNumber(phone)) { pushSnackbarAction('error', 'Invalid phone number format.') }
         else {
             await updateProfileById(user)
             dispatch(getEmployeeInformtionByID('', '', id))
@@ -82,6 +80,7 @@ const FormUpdateContactInfo = (props) => {
                             name='email'
                             defaultValue={email}
                             onChange={handleChangeEmail}
+                            disabled
                             fullWidth
                         />
                     </Grid>

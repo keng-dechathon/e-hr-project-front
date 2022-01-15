@@ -25,7 +25,7 @@ export function QuickSearchToolbar(props) {
         >
             <TextField
                 variant='outlined'
-                label="Search News"
+                label="Search"
                 value={props.value}
                 onChange={props.onChange}
                 placeholder="Search…"

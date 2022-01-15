@@ -57,16 +57,7 @@ const ContentLeaveType = () => {
                 Leave Type
             </Typography>
             <Box sx={{ width: '100%', typography: 'body1', marginTop: '10px' }}>
-                <TabContext value={value}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <TabList onChange={handleChange} className={classes.tablist}>
-                            <Tab label="Leave Type" value="1" className={classes.tabitem} />
-                        </TabList>
-                    </Box>
-                    <TabPanel value="1" className={classes.tabpanel}>
-                        <CardLeaveTypeInformation/>
-                    </TabPanel>
-                </TabContext>
+                <CardLeaveTypeInformation />
             </Box>
         </Box>
     )
