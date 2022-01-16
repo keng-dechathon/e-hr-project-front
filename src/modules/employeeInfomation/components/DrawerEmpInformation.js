@@ -16,9 +16,10 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import CardContactInfo from './CardContactInfo';
 import CardPersonalInfo from './CardPersonalInfo';
 import CardWorkInfo from './CardWorkInfo';
-import { lime } from '@mui/material/colors';
+import CardChangeEmail from './CardChangeEmail';
 import { isPath } from '../../../utils/miscellaneous';
 import { empMgnt } from './path';
+import CardLeaveInfomation from './CardLeaveInformation';
 const useStyles = makeStyles((theme) => ({
     ButtonAdd: {
         display: 'flex'
@@ -117,10 +118,10 @@ const DrawerEmpInformation = (props) => {
                 open={open}
                 onClose={toggleDrawer(false)}
                 sx={{
-                    width: '800px',
+                    width: '1000px',
                     flexShrink: 0,
                     "& .MuiDrawer-paper": {
-                        width: '800px',
+                        width: '1000px',
                         boxSizing: "border-box"
                     },
                 }}
@@ -168,6 +169,12 @@ const DrawerEmpInformation = (props) => {
                             <CardPersonalInfo id={ID} />
                             <CardContactInfo id={ID} />
                             <CardWorkInfo id={ID} />
+                        </TabPanel>
+                        <TabPanel value="2" className={classes.tabpanel}>
+                            <CardLeaveInfomation  id={ID}/>
+                        </TabPanel>
+                        <TabPanel value="3" className={classes.tabpanel}>
+                            <CardChangeEmail  id={ID}/>
                         </TabPanel>
                     </TabContext>
                 </Box>

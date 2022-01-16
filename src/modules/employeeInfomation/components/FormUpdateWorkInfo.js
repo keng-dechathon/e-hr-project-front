@@ -41,11 +41,11 @@ const FormUpdateWorkInfo = (props) => {
     const positionName = Object.keys(empInformationByID).length !== 0 ? empInformationByID.Position : ''
     const positionID = Object.keys(AllPositionInformation).length !== 0 ? (AllPositionInformation.data.filter(item => item.Position_Name === positionName)) : ''
     const roleName = Object.keys(empInformationByID).length !== 0 ? empInformationByID.Role : ''
-    const roleID =Object.keys(AllRoleInformation).length !== 0 ? (AllRoleInformation.data.filter(item => item.Role_Name === roleName)) : ''
+    const roleID = Object.keys(AllRoleInformation).length !== 0 ? (AllRoleInformation.data.filter(item => item.Role_Name === roleName)) : ''
     const companyName = Object.keys(empInformationByID).length !== 0 ? empInformationByID.Company : ''
-    const companyID =Object.keys(AllCompanyInformation).length !== 0 ? (AllCompanyInformation.data.filter(item => item.Company_Name === companyName)) : ''
-    
-    
+    const companyID = Object.keys(AllCompanyInformation).length !== 0 ? (AllCompanyInformation.data.filter(item => item.Company_Name === companyName)) : ''
+
+
     const [position, setPosition] = useState('')
     const [role, setRole] = useState('')
     const [company, setCompany] = useState('')
@@ -54,7 +54,7 @@ const FormUpdateWorkInfo = (props) => {
 
 
     useEffect(() => {
-        setTimeout(() => setUser({ Position: position === '' ? positionID.length !== 0 ? positionID[0].ID : '' : position, Role: role === '' ? roleID.length !== 0 ? roleID[0].ID : '' : role, Company: company === '' ? companyID.length !== 0 ? companyID[0].ID : '' : company }))
+        setTimeout(() => setUser({ Id: id, Position: position === '' ? positionID.length !== 0 ? positionID[0].ID : '' : position, Role: role === '' ? roleID.length !== 0 ? roleID[0].ID : '' : role, Company: company === '' ? companyID.length !== 0 ? companyID[0].ID : '' : company }))
     }, [position, role, company])
 
     const handleChangePosition = (event) => {

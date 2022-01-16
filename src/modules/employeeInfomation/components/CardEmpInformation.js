@@ -4,8 +4,9 @@ import { makeStyles } from '@material-ui/core/styles'
 // import FormHolidaysUpdate from './FormHolidaysUpdate'
 import { getEmployeeInformtion } from '../actions';
 import { useSelector, useDispatch } from 'react-redux'
-import EditIcon from '@mui/icons-material/Edit';
-
+import Chip from '@mui/material/Chip';
+import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 import { Card } from '@mui/material';
 import { CardContent } from '@mui/material';
@@ -21,7 +22,10 @@ import { QuickSearchToolbar, escapeRegExp } from '../../common/QuickSearchToolba
 import { Button } from '@mui/material'
 import { isPath } from '../../../utils/miscellaneous';
 import { empInfoPath, empMgnt } from './path';
-import { deleteEmployeeById } from '../actions';
+import { deleteEmployeeById, activeEmployee } from '../actions';
+import ModalUpdate from '../../common/ModalUpdate';
+import FormAddEmployee from './FormAddEmployee';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 const useStyles = makeStyles(() => ({
     ButtonAdd: {
         display: 'flex'
@@ -52,20 +56,16 @@ const CardEmpInformation = (props) => {
     const { empInformation } = useSelector(state => state.employeeReducer)
 
     const [open, setOpen] = useState(false)
+    const [openModal, setOpenModal] = useState(false)
     const [ID, setID] = useState('')
     const [searchText, setSearchText] = useState('')
     const [searchInfo, setSearchInfo] = useState([])
-
+    const [activeID, setActiveID] = useState('')
     const [deleteID, setDeleteID] = useState('')
     const [pageSize, setPageSize] = useState(5);
-    const [sortModel, setSortModel] = useState([
-        {
-            field: 'ID',
-            sort: 'desc',
-        },
-    ]);
 
-    const headerArray = { Img: 'Name', Position: 'Position', Company: 'Company', Team_Info: 'Owner' }
+
+    const headerArray = { Img: 'Name', Position: 'Position', Company: 'Company', Team_Info: 'Owner', Active_Status: 'Status' }
     const avatarColor = [pink[500], lightGreen[500], red[500], purple[500], blue[500], lightBlue[500], lime[500]]
 
 
@@ -86,8 +86,17 @@ const CardEmpInformation = (props) => {
             onDelete(deleteID)
             setDeleteID('')
         }
-    }, [deleteID])
-console.log(empInformation);
+        if (activeID !== '') {
+            const onActive = async (id) => {
+                await activeEmployee([id])
+                dispatch(getEmployeeInformtion())
+            }
+            onActive(activeID)
+            setActiveID('')
+        }
+    }, [deleteID, activeID])
+
+    const handleClose = () => { setOpenModal(false) }
 
     const onClickShowEmpInfo = React.useCallback(
         (id) => () => {
@@ -101,6 +110,14 @@ console.log(empInformation);
     const onClickDelete = React.useCallback(
         (id) => () => {
             setDeleteID(id)
+        },
+        [],
+    );
+
+    const onClickActive = React.useCallback(
+        (id) => () => {
+            console.log(id);
+            setActiveID(id)
         },
         [],
     );
@@ -133,7 +150,7 @@ console.log(empInformation);
                                 headerName: headerArray[name],
                                 renderCell: (params) => (
                                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                        <Avatar alt={params.row.Name} src={params.value} sx={{ width: 28, height: 28, bgcolor: avatarColor[6] }} />
+                                        <Avatar alt={params.row.Name} src={params.value !== '' ? params.value : 'null'} sx={{ width: 28, height: 28, bgcolor: avatarColor[6] }} />
                                         <Typography variant="subtitle2" style={{ marginLeft: '10px' }} >{params.row.Name}</Typography>
                                     </div>
                                 ),
@@ -162,10 +179,10 @@ console.log(empInformation);
                                 renderCell: (params) => (
                                     <div>
                                         {
-                                            params.value.map((item, index) => (
+                                            params.value && params.value.map((item, index) => (
                                                 index === 0 ?
                                                     <div style={{ display: 'flex', alignItems: 'center' }} key={index}>
-                                                        <Avatar alt={params.value[0].HostName} src={params.value} sx={{ width: 28, height: 28, bgcolor: avatarColor[6] }} />
+                                                        <Avatar alt={params.value[0].HostName} src={params.value[0].HostImg} sx={{ width: 28, height: 28, bgcolor: avatarColor[6] }} />
                                                         <Typography variant="subtitle2" style={{ marginLeft: '10px' }} >{item.HostName}</Typography>
                                                     </div>
                                                     : ''
@@ -173,7 +190,29 @@ console.log(empInformation);
                                         }
                                     </div>
                                 ),
-                                minWidth: '280',
+                                minWidth: '230',
+                                sortable: false,
+                            }
+                        }
+                        if (name === 'Active_Status' && headerArray[name]) {
+                            Header[4] = {
+                                field: name,
+                                headerName: headerArray[name],
+                                flex: 1,
+                                renderCell: (params) => (
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        {
+                                            <Chip
+                                                label={params.row.Active_Status === true ? 'active' : 'inactive'}
+                                                icon={params.row.Active_Status === true ? <DoneIcon /> : <CloseIcon />}
+                                                size="small"
+                                                color={params.row.Active_Status === true ? "primary" : "success"}
+                                                style={{ minWidth: '80px', justifyContent: 'left' }}
+                                            />
+                                        }
+                                    </div>
+                                ),
+
                                 sortable: false,
                             }
                         }
@@ -186,6 +225,7 @@ console.log(empInformation);
                 Info[index].Position = item.Position
                 Info[index].Company = item.Company
                 Info[index].Team_Info = item.Team_Info
+                Info[index].Active_Status = item.Active_Status
                 Info[index].id = item.Emp_id
             })
             if (isPath(empInfoPath)) {
@@ -213,20 +253,23 @@ console.log(empInformation);
                             onClick={onClickShowEmpInfo(params.id)}
                         />,
                         <GridActionsCellItem
-                            icon={<DeleteForeverIcon />}
+                            icon={params.row.Active_Status === true ? <DeleteForeverIcon /> : <RestartAltIcon />}
                             label="Delete"
-                            onClick={onClickDelete(params.id)}
+                            onClick={params.row.Active_Status === true ? onClickDelete(params.id) : onClickActive(params.id)}
                         />,
                     ],
                 })
             }
-
+            Info.reverse()
         }
     }
     setDataGrid()
     return (
         <>
             <DrawerEmpInformation open={open} setOpen={setOpen} ID={ID} />
+            <ModalUpdate open={openModal} handleClose={handleClose} title='Add Employee' >
+                <FormAddEmployee handleClose={handleClose} />
+            </ModalUpdate>
             <Box className={classes.box}>
                 <Card >
                     <CardContent className={classes.cardcontant} >
@@ -242,7 +285,7 @@ console.log(empInformation);
                             <QuickSearchToolbar value={searchText} onChange={(event) => requestSearch(event.target.value)} clearSearch={() => requestSearch('')} />
                             {
                                 isPath(empMgnt) &&
-                                <Button variant="outlined" className={classes.ButtonAdd} >
+                                <Button variant="outlined" className={classes.ButtonAdd} onClick={() => setOpenModal(true)}>
                                     <pre>+ ADD</pre>
                                 </Button>
                             }
@@ -250,8 +293,6 @@ console.log(empInformation);
                         </Box>
                         <DataGrid
                             sortingOrder={['desc', 'asc']}
-                            sortModel={sortModel}
-                            onSortModelChange={(model) => Info.length !== 0 ? setSortModel(model) : ''}
                             pageSize={pageSize}
                             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                             rowsPerPageOptions={[5, 10, 20, 50]}
