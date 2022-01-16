@@ -58,7 +58,6 @@ export const updateProfileById = async (values) => {
 }
 
 export const deleteEmployeeById = async (id) => {
-    console.log(id);
     return API()
         .post(apiUrl.eHRService.common.employeeMgnt, {
             Option: 'Delete',
@@ -67,6 +66,53 @@ export const deleteEmployeeById = async (id) => {
         .then((response) => {
             // console.log(response);
             pushSnackbarAction('success', 'delete success')
+            return { status: 'success' }
+        })
+        .catch((error) => {
+            pushSnackbarAction('Server Error', 'Server Error.')
+            return { status: 'fail' }
+        })
+}
+
+
+export const addEmployee = async (values) => {
+    return API()
+        .post(apiUrl.eHRService.common.employeeMgnt, {
+            Option: 'Add',
+            Comp_ID: values.Comp_ID ? values.Comp_ID : '',
+            Username: values.Email ? values.Email : '',
+            Position_ID: values.Position_ID ? values.Position_ID : '',
+            Lastname: values.Lastname ? values.Lastname : '',
+            Title: values.Title ? values.Title : '',
+            Gender: values.Gender ? values.Gender : '',
+            Firstname: values.Firstname ? values.Firstname : '',
+            Role: values.Role ? values.Role : '',
+            BirthDate: values.BirthDate ? values.BirthDate : '',
+            Phone: values.Phone ? values.Phone : '',
+            Address: values.Address ? values.Address : '',
+            Img: values.Img ? values.Img : '',
+        })
+        .then((response) => {
+            // console.log(response);
+            pushSnackbarAction('success', 'add success')
+            return { status: 'success' }
+        })
+        .catch((error) => {
+            pushSnackbarAction('Server Error', 'Server Error.')
+            return { status: 'fail' }
+        })
+}
+
+export const activeEmployee = async (id) => {
+    console.log('id : '+id);
+    return API()
+        .post(apiUrl.eHRService.common.employeeMgnt, {
+            Option: 'Change_Active',
+            Value: id ? id : []
+        })
+        .then((response) => {
+            // console.log(response);
+            pushSnackbarAction('success', 'active success')
             return { status: 'success' }
         })
         .catch((error) => {
