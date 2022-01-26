@@ -124,10 +124,11 @@ const DrawerEmpInformation = (props) => {
                         width: '1000px',
                         boxSizing: "border-box"
                     },
+                    zIndex:1253,
                 }}
 
             >
-                <Box sx={{ width: '100%', typography: 'body1', marginTop: navHeight }}>
+                <Box sx={{ width: '100%', typography: 'body1' }}>
                     <Box sx={{ padding: '20px', bgcolor: '#F7F0F3', display: 'flex' }}>
                         <Avatar
                             src={empInformationByID.length !== 0 ? empInformationByID.Img : ''}
