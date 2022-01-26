@@ -17,19 +17,30 @@ import {
   TodayButton,
   MonthView,
   ViewSwitcher,
+  Resources, 
 } from '@devexpress/dx-react-scheduler-material-ui';
-
 import { appointments } from './data';
 
 export default class SchedulerMeeting extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    const { meetRoom } = props
+ 
     this.state = {
       data: appointments,
       currentDate: new Date(),
       currentViewName: 'work-week',
       startDayHour: '9',
-      endDayHour: '19',
+      endDayHour: '19', 
+      resources: [
+        {
+          fieldName: 'roomId',
+          title: 'Room',
+          instances: meetRoom,
+        },
+      
+      ],
     };
     this.currentViewNameChange = (currentViewName) => {
       this.setState({ currentViewName });
@@ -65,8 +76,12 @@ export default class SchedulerMeeting extends React.PureComponent {
       currentViewName,
       startDayHour,
       endDayHour,
+      resources,
     } = this.state;
-
+    const {
+      meetRoom
+    } = this.props;
+    console.log(meetRoom);
     return (
       <Paper>
         <Scheduler
@@ -108,15 +123,21 @@ export default class SchedulerMeeting extends React.PureComponent {
           <Toolbar />
           <DateNavigator />
           <TodayButton />
-          <AppointmentForm />
+          <AppointmentForm/>
           <ViewSwitcher />
           <CurrentTimeIndicator
             shadePreviousCells={true}
             shadePreviousAppointments={true}
             updateInterval='10000'
           />
+          <Resources
+            data={resources}
+            mainResourceName="text"
+          />
+
         </Scheduler>
       </Paper>
     );
   }
+
 }

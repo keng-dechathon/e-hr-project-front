@@ -10,7 +10,7 @@ import { CardContent } from '@mui/material';
 import DataGrid from '../../common/DataGrid';
 import EditIcon from '@mui/icons-material/Edit';
 import { GridActionsCellItem } from '@mui/x-data-grid';
-import { getMeetingInformation } from '../actions';
+import { getMeetingRoomInformation, getMeetingInformationById } from '../actions';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModalUpdate from '../../common/ModalUpdate'
 import { QuickSearchToolbar, escapeRegExp } from '../../common/QuickSearchToolbar/QuickSearchToolbar'
@@ -38,32 +38,18 @@ const CardMeeting = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
 
-    const { meetingInformation } = useSelector(state => state.meetReducer)
+    const { meetingRoomInformation, meetingInformationById } = useSelector(state => state.meetReducer)
+    const { accountInformation } = useSelector(state => state.accountReducer)
 
-    const [option, setOption] = useState('')
     const [open, setOpen] = useState(false)
     const [ID, setID] = useState('')
-    const [searchText, setSearchText] = useState('')
-    const [searchInfo, setSearchInfo] = useState([])
-    const [pageSize, setPageSize] = useState(5);
     const [deleteID, setDeleteID] = useState('')
-
-    const [sortModel, setSortModel] = useState([
-        {
-            field: 'ID',
-            sort: 'desc',
-        },
-    ]);
-
-    const headerArray = { Type_name: 'Name', Num_per_year: 'Number of days can leave ', Num_can_add: 'Number of days can add' }
-
-    let Header = React.useMemo(() => [])
-    let Info = []
-
+    const meetRoom = []
     useEffect(() => {
-        dispatch(getMeetingInformation())
+        dispatch(getMeetingRoomInformation())
+        // dispatch(getMeetingInformationById('','','1'))
     }, [])
-  
+
     useEffect(() => {
         // if (deleteID !== '') {
         //     const onDelete = async (id) => {
@@ -80,7 +66,6 @@ const CardMeeting = () => {
     const onClickUpdate = React.useCallback(
         (id) => () => {
             setOpen(true)
-            setOption('update')
             setID(id)
         },
         [],
@@ -95,16 +80,24 @@ const CardMeeting = () => {
 
     const onClickAdd = () => {
         setOpen(true)
-        setOption('add')
     }
-console.log(meetingInformation);
+    console.log(meetingRoomInformation);
+    const setMeetRoom = () => {
+        if (Object.keys(meetingRoomInformation).length !== 0) {
+            meetingRoomInformation.data.map((item, index) => {
+                console.log(item);
+                meetRoom.push({
+                    id: item.Room_Id,
+                    text: item.Room_Name,
+                    url: item.Description,
+                })
+            })
+        }
+    }
+    setMeetRoom()
 
     return (
         <>
-            <ModalUpdate open={open} handleClose={handleClose} title="Leave Type Update" >
-            </ModalUpdate>
-
-
             <Box
                 sx={{
                     display: 'flex',
@@ -114,7 +107,9 @@ console.log(meetingInformation);
 
                 }}
             >
-                <SchedulerMeeting />
+                {
+                    meetRoom.length !== 0 ? <SchedulerMeeting meetRoom={meetRoom} /> : ''
+                }
             </Box>
 
 
