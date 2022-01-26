@@ -219,6 +219,7 @@ const CardEmpInformation = (props) => {
 
                     })
                 }
+                console.log(item);
                 Info[index] = {}
                 Info[index].Img = item.Img
                 Info[index].Name = item.Name

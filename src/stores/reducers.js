@@ -10,6 +10,7 @@ import leaveTypeReducer from '../modules/leaveType/reducers'
 import positionReducer from '../modules/position/reducers'
 import companyReducer from '../modules/company/reducers'
 import roleReducer from '../modules/userRole/reducers'
+import meetReducer from '../modules/meeting/reducers'
 
 export default combineReducers({
    layoutReducer,
@@ -23,4 +24,5 @@ export default combineReducers({
    positionReducer,
    companyReducer,
    roleReducer,
+   meetReducer,
 })
