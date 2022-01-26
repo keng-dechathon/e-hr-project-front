@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -14,7 +13,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import Skeleton from '@mui/material/Skeleton';
 import { Link } from 'react-router-dom'
 import { drawerWidth, navHeight } from './Attribute';
-import { borderRadius } from '@mui/lab/node_modules/@mui/system';
+import { styled, useTheme } from '@mui/material/styles';
+import MuiDrawer from '@mui/material/Drawer';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import IconButton from '@mui/material/IconButton';
+import Divider from '@mui/material/Divider';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const useStyles = makeStyles(() => ({
     drawer: {
@@ -75,15 +80,66 @@ const useStyles = makeStyles(() => ({
         borderRadius: '100px 0px 0px 100px',
 
     },
-
+    list:{
+        paddingTop:'0 !important',
+    }
 
 }));
 
-function Sidebar() {
+
+const openedMixin = (theme) => ({
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: 'hidden',
+});
+
+const closedMixin = (theme) => ({
+    transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: `calc(${theme.spacing(7)} + 1px)`,
+    [theme.breakpoints.up('sm')]: {
+        width: `calc(${theme.spacing(8)} + 1px)`,
+      },
+});
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
+        width: drawerWidth,
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
+        boxSizing: 'border-box',
+        ...(open && {
+            ...openedMixin(theme),
+            '& .MuiDrawer-paper': openedMixin(theme),
+        }),
+        ...(!open && {
+            ...closedMixin(theme),
+            '& .MuiDrawer-paper': closedMixin(theme),
+        }),
+    }),
+);
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+}));
+function Sidebar(props) {
     const classes = useStyles()
+    const theme = useTheme();
     const navigate = useNavigate();
     // console.log(SidebarData);
     const dispatch = useDispatch()
+    const { handleDrawerClose, open } = props
+
 
 
 
@@ -95,31 +151,40 @@ function Sidebar() {
 
     let Role = accountInformation.Role
 
+
     return (
         <>
+            <CssBaseline />
             <Drawer
                 variant="permanent"
                 className={classes.drawer}
-
+                open={open}
             >
-                <Toolbar />
+                <DrawerHeader>
+                    <IconButton onClick={handleDrawerClose}>
+                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    </IconButton>
+                </DrawerHeader>
+                {/* <Toolbar /> */}
+                <Divider />
                 <Box sx={{ overflow: 'auto' }} className={classes.box}>
                     <div className={classes.margintop} />
                     {SidebarData.map((item, index) => {
                         return (
                             <List key={index} className={classes.list}>
-                                <div className={classes.listTopic}>
-                                    {item.title}
-                                </div>
+                                {open ?
+                                    <div className={classes.listTopic}>
+                                        {item.title}
+                                    </div> : item.title !== 'Main' && <Divider />
+                                }
                                 {
                                     item.subNav.map((subItem, index1) => {
                                         if (Role) {
                                             return (
                                                 subItem.role.map((role) => {
                                                     if (role == Role) {
-                                                      
-                                                        var regex = new RegExp("^"+subItem.path+"$")
-                                                        var regex2 = new RegExp(subItem.path+"/")
+                                                        var regex = new RegExp("^" + subItem.path + "$")
+                                                        var regex2 = new RegExp(subItem.path + "/")
                                                         // console.log(window.location.pathname);
                                                         // console.log("AD : " + subItem.title);
                                                         return (
@@ -127,20 +192,20 @@ function Sidebar() {
                                                                 <ListItem
                                                                     button
                                                                     key={subItem.path}
-                                                                    className={classes.listItem}
-                                                                    style={regex.test(window.location.pathname)||regex2.test(window.location.pathname) ? {
+                                                                    className={open && classes.listItem}
+                                                                    style={regex.test(window.location.pathname) || regex2.test(window.location.pathname) ? {
                                                                         backgroundColor: '#C91F92',
                                                                         width: '100% !important',
-                                                                        borderRadius: '100px 0px 0px 100px',
+                                                                        borderRadius: open && '100px 0px 0px 100px',
                                                                     } : {}}
                                                                 >
                                                                     <ListItemIcon
-                                                                        style={regex.test(window.location.pathname)||regex2.test(window.location.pathname) ? { color: '#FFFFFF' } : {}}
+                                                                        style={regex.test(window.location.pathname) || regex2.test(window.location.pathname) ? { color: '#FFFFFF' } : {}}
 
                                                                     >
                                                                         {subItem.icon}
                                                                     </ListItemIcon>
-                                                                    <ListItemText primary={subItem.title} style={regex.test(window.location.pathname)||regex2.test(window.location.pathname)? { color: '#FFFFFF' } : {}} />
+                                                                    <ListItemText primary={subItem.title} style={regex.test(window.location.pathname) || regex2.test(window.location.pathname) ? { color: '#FFFFFF' } : {}} />
                                                                 </ListItem>
                                                             </Link>
 

@@ -20,6 +20,7 @@ export const apiUrl = {
         company:'/eHRService/Company',
         role:'/eHRService/Role',  
         employeeMgnt:'/eHRService/Employee_mgmt',
+        meeting:'/eHRService/MeetingRoomBooking',
       }
     },
   }
