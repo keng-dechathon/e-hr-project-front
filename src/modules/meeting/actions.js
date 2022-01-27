@@ -25,3 +25,26 @@ export const getMeetingInformationById = (config, data = {}, Emp_Id) =>
     }
     )
 
+
+    export const addMeeting = async (values) => { 
+        return API()
+            .post(apiUrl.eHRService.common.meeting, {          
+                Option:'Add_Meeting',
+                Value:values.members?values.members:'',
+                Date:values.Date?values.Date:'',
+                Start_at:values.Start_at?values.Start_at:'',
+                End_at:values.End_at?values.End_at:'',
+                Room_Id:values.Room_Id?values.Room_Id:'',
+                Subject:values.Subject?values.Subject:'',
+                Description:values.Description?values.Description:'',
+            })
+            .then((response) => {
+                // console.log(response);
+                pushSnackbarAction('success', 'add success')
+                return { status: 'success' }
+            })
+            .catch((error) => {
+                pushSnackbarAction('Server Error', 'Server Error.')
+                return { status: 'fail' }
+            })
+    }
