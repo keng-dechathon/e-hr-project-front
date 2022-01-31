@@ -68,3 +68,22 @@ export const addMeeting = async (values) => {
             return { status: 'fail' }
         })
 }
+
+
+export const deleteMeeting = async (Meeting_id) => {
+    return API()
+        .post(apiUrl.eHRService.common.meeting, {
+            Option: 'Delete_Meeting',
+            Meeting_id: Meeting_id ? Meeting_id : '',
+       
+        })
+        .then((response) => {
+            // console.log(response);
+            pushSnackbarAction('success', 'delete success')
+            return { status: 'success' }
+        })
+        .catch((error) => {
+            pushSnackbarAction('Server Error', 'Server Error.')
+            return { status: 'fail' }
+        })
+}

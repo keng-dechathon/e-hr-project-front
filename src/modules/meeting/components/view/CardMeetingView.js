@@ -6,7 +6,7 @@ import { getEmployeeInformtion } from '../../../employeeInfomation/actions';
 import { useSelector, useDispatch } from 'react-redux'
 import Box from '@mui/material/Box';
 
-import { getMeetingRoomInformation, getMeetingInformationById, getMeetingInformationByMultiId, getMeetingInformationByRoomId } from '../../actions';
+import { getMeetingRoomInformation, getMeetingInformationByMultiId, getMeetingInformationByRoomId } from '../../actions';
 
 import moment from 'moment';
 import MenuItem from '@mui/material/MenuItem';
@@ -19,7 +19,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import ScedulerMeetingFunc from './ScedulerMeetingFunc'
-import PersonIcon from '@mui/icons-material/Person';
+import LinearProgress from '@mui/material/LinearProgress';
 import FaceIcon from '@mui/icons-material/Face';
 const useStyles = makeStyles(() => ({
 
@@ -36,7 +36,7 @@ const CardMeeting = () => {
     const [selectState, setSelectState] = React.useState([]);
     const [selectStateFilter, setSelectStateFilter] = React.useState(1);
     const [resetStatus, setResetStatus] = React.useState(false);
-    const meetRoom = [], myMeeting = [], members = [], memberOption = []
+    const meetRoom = [], members = [], memberOption = []
     let allMeet = []
 
 
@@ -44,7 +44,6 @@ const CardMeeting = () => {
         // dispatch(getMeetingInformationByRoomId())
         dispatch(getEmployeeInformtion())
         dispatch(getMeetingRoomInformation())
-        dispatch(getMeetingInformationById('', '', String(uid)))
         dispatch(getMeetingInformationByMultiId('', '', [String(uid)]))
     }, [uid])
 
@@ -66,35 +65,6 @@ const CardMeeting = () => {
         }
     }
 
-    const setMyMeet = () => {
-        if (Object.keys(meetingInformationById).length !== 0) {
-            meetingInformationById.data.map((item, index) => {
-                let day = moment(item.Date).format('DD')
-                let month = moment(item.Date).format('MM') - 1
-                let year = moment(item.Date).format('YYYY')
-                let hourStart = moment(item.Start_at, ["h:mm A"]).format("HH")
-                let minStart = moment(item.Start_at, ["h:mm A"]).format("mm")
-                let hourEnd = moment(item.End_at, ["h:mm A"]).format("HH")
-                let minEnd = moment(item.End_at, ["h:mm A"]).format("mm")
-                let location = Object.keys(meetingRoomInformation).length !== 0 ? meetingRoomInformation.data.filter(room => room.Room_Id === item.Room_Id)[0].Room_Name : 'null'
-
-                let members = [parseInt(uid)].concat(item.Members.map(n => parseInt(n))).filter(function (item, pos, self) {
-                    return self.indexOf(item) == pos;
-                })
-                myMeeting.push({
-                    id: item.Meet_Id,
-                    roomId: item.Room_Id,
-                    title: item.Subject,
-                    startDate: new Date(year, month, day, hourStart, minStart),
-                    endDate: new Date(year, month, day, hourEnd, minEnd),
-                    location: location,
-                    members: members,
-                    creator: item.Creator,
-                    uid: uid,
-                })
-            })
-        }
-    }
     const setAllMeet = () => {
         let i = 0, info = {}
 
@@ -161,6 +131,7 @@ const CardMeeting = () => {
 
         setAllMeet()
     }
+
     const handleClickReset = () => {
         allMeet = []
         dispatch(getMeetingInformationByMultiId('', '', [String(uid)]))
@@ -174,11 +145,12 @@ const CardMeeting = () => {
         setSelectState([])
     }
 
-    setMember()
-    setMyMeet()
+    setMember()  
     setMeetRoom()
     setAllMeet()
-console.log(selectState)
+
+console.log(allMeet)
+
     return (
         <>
             <Box
@@ -239,8 +211,10 @@ console.log(selectState)
                         <ScedulerMeetingFunc meetRoom={meetRoom} myMeeting={myMeeting} members={members} uid={uid} filter={selectStateFilter} />
                 } */}
                 {
-                    allMeet.length !== 0 && meetRoom.length !== 0 && members.length !== 0 && uid !== '' &&
+                    allMeet.length !== 0 && meetRoom.length !== 0 && members.length !== 0 && uid !== '' ?
                     <ScedulerMeetingFunc meetRoom={meetRoom} myMeeting={allMeet} members={members} uid={uid} filter={selectStateFilter} />
+                    :
+                    selectStateFilter ===1 ?<LinearProgress color="secondary" />:''
                 }
             </Box>
 
