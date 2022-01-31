@@ -21,10 +21,10 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { navHeight } from '../../layout/components/Attribute';
+import { navHeight } from '../../../layout/components/Attribute';
 import moment from 'moment';
 
-import { addMeeting } from '../actions';
+import { addMeeting } from '../../actions';
 const style = ({ palette }) => ({
   icon: {
     color: palette.action.active,
@@ -64,6 +64,9 @@ const Header = withStyles(style, { name: 'Header' })(({
     className={classNames(classes.secondRoom, classes.header)}
     appointmentData={appointmentData}
   >
+    {/* {
+      console.log(appointmentData)
+    } */}
   </AppointmentTooltip.Header>
 ));
 
@@ -87,13 +90,14 @@ export default class SchedulerMeeting extends React.PureComponent {
     super(props);
 
     const { meetRoom, myMeeting, members, uid } = props
-
+    console.log(myMeeting);
     this.state = {
       data: myMeeting,
       currentDate: new Date(),
       currentViewName: 'work-week',
       startDayHour: '9',
       endDayHour: '19',
+      showOpenButton: true,
       resources: [
         {
           fieldName: 'roomId',
@@ -112,7 +116,10 @@ export default class SchedulerMeeting extends React.PureComponent {
       this.setState({ currentViewName });
     };
     this.commitChanges = this.commitChanges.bind(this);
+
   }
+
+
 
   commitChanges({ added, changed, deleted }) {
     this.setState((state) => {
@@ -129,8 +136,8 @@ export default class SchedulerMeeting extends React.PureComponent {
           Subject: added.title,
           Description: added.notes,
         }
-        addMeeting(values, this.props.uid)
-
+        // addMeeting(values, this.props.uid)
+        addMeeting(values)
         // const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
         // data = [...data, { id: startingAddedId, ...added }];
       }
@@ -200,7 +207,7 @@ export default class SchedulerMeeting extends React.PureComponent {
             contentComponent={Content}
             commandButtonComponent={CommandButton}
             showOpenButton
-            showDeleteButton
+          // showDeleteButton
           />
           <ConfirmationDialog
             ignoreCancel
@@ -208,7 +215,9 @@ export default class SchedulerMeeting extends React.PureComponent {
           <Toolbar />
           <DateNavigator />
           <TodayButton />
-          <AppointmentForm />
+          <AppointmentForm
+            readOnly
+          />
           <Resources
             data={resources}
             mainResourceName="roomId"

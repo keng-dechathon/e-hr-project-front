@@ -87,3 +87,9 @@ body::-webkit-scrollbar-thumb:hover {
   
   background: #ff3968; 
 }
+
+.Select-menu-outer {
+  z-index: 1000 !important;
+  position:relative ;
+}
+  

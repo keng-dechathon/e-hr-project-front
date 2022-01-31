@@ -2,7 +2,9 @@ import * as Actions from './actions'
 
 export const initialState = {
     meetingRoomInformation: {},
-    meetingInformationById: {}
+    meetingInformationById: {},
+    meetingInformationByMultiId: {},
+    meetingInformationByRoomId:{},
 }
 
 export default (state = initialState, action) => {
@@ -22,7 +24,7 @@ export default (state = initialState, action) => {
                 meetingRoomInformation: {}
             }
         case Actions.GET_MEETINGBYID_INFORMATION.REQUEST:
-            
+
             return {
                 ...state
             }
@@ -36,6 +38,36 @@ export default (state = initialState, action) => {
                 ...state,
                 meetingInformationById: {}
             }
+        case Actions.GET_MEETINGBYMULTIID_INFORMATION.REQUEST:
+
+            return {
+                ...state
+            }
+        case Actions.GET_MEETINGBYMULTIID_INFORMATION.SUCCESS:
+            return {
+                ...state,
+                meetingInformationByMultiId: action.payload.data
+            }
+        case Actions.GET_MEETINGBYMULTIID_INFORMATION.FAILURE:
+            return {
+                ...state,
+                meetingInformationByMultiId: {}
+            }
+            case Actions.GET_MEETINGBYROOMID_INFORMATION.REQUEST:
+
+                return {
+                    ...state
+                }
+            case Actions.GET_MEETINGBYROOMID_INFORMATION.SUCCESS:
+                return {
+                    ...state,
+                    meetingInformationByRoomId: action.payload.data
+                }
+            case Actions.GET_MEETINGBYROOMID_INFORMATION.FAILURE:
+                return {
+                    ...state,
+                    meetingInformationByRoomId: {}
+                }
         default:
             return state
     }
