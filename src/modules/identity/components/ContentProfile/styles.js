@@ -1,6 +1,6 @@
 export default () => ({
     margintop: {
-        marginTop: '40px',
+        marginTop: '10px',
     },
     tabitem: {
         marginRight: '30px !important',
