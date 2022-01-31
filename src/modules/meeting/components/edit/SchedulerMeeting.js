@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react'
 import Paper from '@material-ui/core/Paper';
 import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
 import {
@@ -23,8 +23,12 @@ import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { navHeight } from '../../../layout/components/Attribute';
 import moment from 'moment';
-
+import IconButton from '@material-ui/core/IconButton';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { addMeeting } from '../../actions';
+import ConfirmDialog from './ConfirmDialog'
 const style = ({ palette }) => ({
   icon: {
     color: palette.action.active,
@@ -50,7 +54,14 @@ const style = ({ palette }) => ({
     backgroundColor: 'rgba(255,255,255,0.65)',
   },
 });
+const ShowConfirmDialog = () => {
+  const [open, setOpen] = useState(false)
+  return (
+    <>
 
+    </>
+  )
+}
 
 const Header = withStyles(style, { name: 'Header' })(({
   children,
@@ -64,9 +75,20 @@ const Header = withStyles(style, { name: 'Header' })(({
     className={classNames(classes.secondRoom, classes.header)}
     appointmentData={appointmentData}
   >
-    {/* {
-      console.log(appointmentData)
-    } */}
+    <IconButton
+      /* eslint-disable-next-line no-alert */
+      onClick={() => alert(JSON.stringify(appointmentData))}
+      className={classes.commandButton}
+    >
+      <EditIcon />
+    </IconButton>
+    <IconButton
+      /* eslint-disable-next-line no-alert */
+      onClick={() => alert(JSON.stringify(appointmentData))}
+      className={classes.commandButton}
+    >
+      <DeleteIcon />
+    </IconButton>
   </AppointmentTooltip.Header>
 ));
 
@@ -84,153 +106,146 @@ const CommandButton = withStyles(style, { name: 'CommandButton' })(({
   <AppointmentTooltip.CommandButton {...restProps} className={classes.commandButton} />
 ));
 
-export default class SchedulerMeeting extends React.PureComponent {
-
-  constructor(props) {
-    super(props);
-
-    const { meetRoom, myMeeting, members, uid } = props
-    console.log(myMeeting);
-    this.state = {
-      data: myMeeting,
-      currentDate: new Date(),
-      currentViewName: 'work-week',
-      startDayHour: '9',
-      endDayHour: '19',
-      showOpenButton: true,
-      resources: [
-        {
-          fieldName: 'roomId',
-          title: 'Room',
-          instances: meetRoom,
-        },
-        {
-          fieldName: 'members',
-          title: 'Members',
-          instances: members,
-          allowMultiple: true,
-        },
-      ],
-    };
-    this.currentViewNameChange = (currentViewName) => {
-      this.setState({ currentViewName });
-    };
-    this.commitChanges = this.commitChanges.bind(this);
-
-  }
+export default function SchedulerMeeting(props) {
 
 
+  const { meetRoom, myMeeting, members, uid } = props
+  console.log(myMeeting);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+  const [deleteID, setDeleteID] = useState('')
+  let data = myMeeting
+  let currentDate = new Date()
+  let startDayHour = '9'
+  let endDayHour = '19'
+  let resources = [
+    {
+      fieldName: 'roomId',
+      title: 'Room',
+      instances: meetRoom,
+    },
+    {
+      fieldName: 'members',
+      title: 'Members',
+      instances: members,
+      allowMultiple: true,
+    },
+  ]
+  console.log(openDeleteDialog);
+  const [state, setState] = React.useState({
+    currentViewName: 'Week'
+  })
 
-  commitChanges({ added, changed, deleted }) {
-    this.setState((state) => {
-      let { data } = state;
+  const currentViewNameChange = (currentViewName) => {
+    setState({ currentViewName })
+  };
 
-      if (added) {
-        console.log(added);
-        let values = {
-          members: added.members.map((n) => { return String(n) }),
-          Date: moment(added.startDate).format('YYYY-MM-DD'),
-          Start_at: moment(added.startDate).format("HH:mm:ss"),
-          End_at: moment(added.endDate).format("HH:mm:ss"),
-          Room_Id: String(added.roomId),
-          Subject: added.title,
-          Description: added.notes,
-        }
-        // addMeeting(values, this.props.uid)
-        addMeeting(values)
-        // const startingAddedId = data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        // data = [...data, { id: startingAddedId, ...added }];
+  const handleOpenConfirmDialog = () => {
+    setOpenDeleteDialog(false)
+  };
+
+  const Header = withStyles(style, { name: 'Header' })(({
+    children,
+    appointmentData,
+    classes,
+    onClick,
+    ...restProps
+  }) => (
+    <AppointmentTooltip.Header
+      {...restProps}
+      className={classNames(classes.secondRoom, classes.header)}
+      appointmentData={appointmentData}
+    >
+      <IconButton
+        /* eslint-disable-next-line no-alert */
+        onClick={() => alert(JSON.stringify(appointmentData))}
+        className={classes.commandButton}
+      >
+        <EditIcon />
+      </IconButton>
+      <IconButton
+        /* eslint-disable-next-line no-alert */
+        onClick={() => {
+          setDeleteID(appointmentData.id)
+          setOpenDeleteDialog(true)
+        }}
+        className={classes.commandButton}
+      >
+        <DeleteIcon />
+      </IconButton>
+    </AppointmentTooltip.Header>
+  ));
+
+  const Content = withStyles(style, { name: 'Content' })(({
+    children, appointmentData, classes, ...restProps
+  }) => (
+    <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
+
+    </AppointmentTooltip.Content>
+  ));
+
+  const CommandButton = withStyles(style, { name: 'CommandButton' })(({
+    classes, ...restProps
+  }) => (
+    <AppointmentTooltip.CommandButton {...restProps} className={classes.commandButton} />
+  ));
+
+
+
+
+  return (
+    <Paper style={{ overflow: 'hidden' }}>
+      {
+        uid ?
+          <ConfirmDialog open={openDeleteDialog} handleOpenConfirmDialog={handleOpenConfirmDialog} deleteID={deleteID ? deleteID : ''} uid={uid} />
+          : ''
       }
-      if (changed) {
-        console.log(changed);
-        data = data.map(appointment => (
-          changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment));
-      }
-      if (deleted !== undefined) {
-        console.log(deleted);
-        data = data.filter(appointment => appointment.id !== deleted);
-      }
-      return { data };
-    });
-  }
+      <Scheduler
+        data={data}
+      // height='auto'  
+      // height={657}
+      // height={560}
+      // height={window.innerHeight - 96.03 - parseInt(navHeight.slice(0, -2))}
+      >
+        <ViewState
+          defaultCurrentDate={currentDate}
+          currentViewName={state.currentViewName}
+          onCurrentViewNameChange={currentViewNameChange}
+        />
+        <DayView
+          startDayHour={startDayHour}
+          endDayHour={endDayHour}
+        />
+        <WeekView
+          startDayHour={startDayHour}
+          endDayHour={endDayHour}
+        />
+        <MonthView />
+        <Appointments />
+        {/* <DragDropProvider /> */}
+        <AppointmentTooltip
+          headerComponent={Header}
+          contentComponent={Content}
+          commandButtonComponent={CommandButton}
+        // showOpenButton
+        // showDeleteButton
+        />
+        <Toolbar />
+        <DateNavigator />
+        <TodayButton />
 
-
-  render() {
-    const {
-      data,
-      currentDate,
-      currentViewName,
-      startDayHour,
-      endDayHour,
-      resources,
-    } = this.state;
-
-    return (
-      <Paper style={{ overflow: 'hidden' }}>
-        <Scheduler
-          data={data}
-          // height='auto'  
-          // height={657}
-          // height={560}
-          height={window.innerHeight - 96.03 - parseInt(navHeight.slice(0, -2))}
-        >
-          <ViewState
-            defaultCurrentDate={currentDate}
-            currentViewName={currentViewName}
-            onCurrentViewNameChange={this.currentViewNameChange}
-          />
-          <EditingState
-            onCommitChanges={this.commitChanges}
-          />
-
-          <IntegratedEditing />
-          <DayView
-            startDayHour={startDayHour}
-            endDayHour={endDayHour}
-          />
-          <WeekView
-            startDayHour={startDayHour}
-            endDayHour={endDayHour}
-          />
-          <WeekView
-            name="work-week"
-            displayName="Work Week"
-            excludedDays={[0, 6]}
-            startDayHour={startDayHour}
-            endDayHour={endDayHour}
-          />
-          <MonthView />
-          <Appointments />
-          {/* <DragDropProvider /> */}
-          <AppointmentTooltip
-            headerComponent={Header}
-            contentComponent={Content}
-            commandButtonComponent={CommandButton}
-            showOpenButton
-          // showDeleteButton
-          />
-          <ConfirmationDialog
-            ignoreCancel
-          />
-          <Toolbar />
-          <DateNavigator />
-          <TodayButton />
-          <AppointmentForm
-            readOnly
-          />
-          <Resources
-            data={resources}
-            mainResourceName="roomId"
-          />
-          <ViewSwitcher />
-          <CurrentTimeIndicator
-            shadePreviousCells={true}
-            shadePreviousAppointments={true}
-            updateInterval='10000'
-          />
-        </Scheduler>
-      </Paper>
-    );
-  }
-
+        <Resources
+          data={resources}
+          mainResourceName="roomId"
+        />
+        <ViewSwitcher />
+        <CurrentTimeIndicator
+          shadePreviousCells={true}
+          shadePreviousAppointments={true}
+          updateInterval='10000'
+        />
+      </Scheduler>
+    </Paper >
+  );
 }
+
+

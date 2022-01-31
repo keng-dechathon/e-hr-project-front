@@ -69,6 +69,7 @@ const AutoComplete = ({
       isOptionEqualToValue={(option, value) => option.id === value.id}
       onChange={handleChange}
       disableCloseOnSelect
+      disabled={disabled}
       getOptionLabel={(option) => option.text}
       renderOption={(props, option, { selected }) => (
         <li {...props}>
