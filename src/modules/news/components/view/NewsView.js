@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
     img: {
         display: 'flex  !important',
-        width: '590px !important',
+        width: '90% !important',
         height: '400px  !important',
         backgroundRepeat: 'no-repeat  !important',
         borderRadius: '0 !important  !important',

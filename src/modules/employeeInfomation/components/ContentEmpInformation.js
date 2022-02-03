@@ -57,20 +57,11 @@ const ContentEmpInformation = () => {
     return (
         <Box className={classes.box}>
             <Typography variant='h3' color='pink' fontWeight='medium'>
-                {isPath(empInfoPath) && 'Employee Information' } 
-                {isPath(empMgnt) && 'Employee Management' } 
+                {isPath(empInfoPath) && 'Employee Information'}
+                {isPath(empMgnt) && 'Employee Management'}
             </Typography>
             <Box sx={{ width: '100%', typography: 'body1', marginTop: '10px' }}>
-                <TabContext value={value}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <TabList onChange={handleChange} className={classes.tablist}>
-                            <Tab label="Employee" value="1" className={classes.tabitem} />                        
-                        </TabList>
-                    </Box>
-                    <TabPanel value="1" className={classes.tabpanel}>
-                        <CardEmpInformation />
-                    </TabPanel>
-                </TabContext>
+                <CardEmpInformation />
             </Box>
         </Box>
     )

@@ -84,6 +84,7 @@ const FormUpdateContactInfo = (props) => {
                         <TextField
                             id='email'
                             name='email'
+                            disabled
                             defaultValue={email}
                             onChange={handleChangeEmail}
                             fullWidth

@@ -28,26 +28,91 @@ export const getEmployeeInformtionByID = (config, data = {}, ID) =>
 
 
 export const updateProfileById = async (values) => {
+    console.log(values);
     return API()
-        .post(apiUrl.eHRService.identity.profile, {
-            Option: 'Update_Profile_By_Id',
-            Id: values.Id?values.Id:'',
+        .post(apiUrl.eHRService.common.employeeMgnt, {
+            Option: 'Update',
+            Emp_id: values.Id ? values.Id : '',
             Img: values.Img ? values.Img : '',
-            Email: values.Email ? values.Email : '',
+            Username: values.Username ? values.Username : '',
             Address: values.Address ? values.Address : '',
             Lastname: values.Lastname ? values.Lastname : '',
             Title: values.Title ? values.Title : '',
             Gender: values.Gender ? values.Gender : '',
             Firstname: values.Firstname ? values.Firstname : '',
             Role: values.Role ? values.Role : '',
-            Position: values.Position ? values.Position : '',
+            Position_ID: values.Position ? values.Position : '',
             Phone: values.Phone ? values.Phone : '',
             BirthDate: values.BirthDate ? values.BirthDate : '',
-            Company: values.Company ? values.Company : '',
+            Comp_ID: values.Company ? values.Company : '',
         })
         .then((response) => {
             // console.log(response);
             pushSnackbarAction('success', 'update success')
+            return { status: 'success' }
+        })
+        .catch((error) => {
+            pushSnackbarAction('Server Error', 'Server Error.')
+            return { status: 'fail' }
+        })
+}
+
+export const deleteEmployeeById = async (id) => {
+    return API()
+        .post(apiUrl.eHRService.common.employeeMgnt, {
+            Option: 'Delete',
+            Value: id
+        })
+        .then((response) => {
+            // console.log(response);
+            pushSnackbarAction('success', 'delete success')
+            return { status: 'success' }
+        })
+        .catch((error) => {
+            pushSnackbarAction('Server Error', 'Server Error.')
+            return { status: 'fail' }
+        })
+}
+
+
+export const addEmployee = async (values) => {
+    return API()
+        .post(apiUrl.eHRService.common.employeeMgnt, {
+            Option: 'Add',
+            Comp_ID: values.Comp_ID ? values.Comp_ID : '',
+            Username: values.Email ? values.Email : '',
+            Position_ID: values.Position_ID ? values.Position_ID : '',
+            Lastname: values.Lastname ? values.Lastname : '',
+            Title: values.Title ? values.Title : '',
+            Gender: values.Gender ? values.Gender : '',
+            Firstname: values.Firstname ? values.Firstname : '',
+            Role: values.Role ? values.Role : '',
+            BirthDate: values.BirthDate ? values.BirthDate : '',
+            Phone: values.Phone ? values.Phone : '',
+            Address: values.Address ? values.Address : '',
+            Img: values.Img ? values.Img : '',
+        })
+        .then((response) => {
+            // console.log(response);
+            pushSnackbarAction('success', 'add success')
+            return { status: 'success' }
+        })
+        .catch((error) => {
+            pushSnackbarAction('Server Error', 'Server Error.')
+            return { status: 'fail' }
+        })
+}
+
+export const activeEmployee = async (id) => {
+    console.log('id : '+id);
+    return API()
+        .post(apiUrl.eHRService.common.employeeMgnt, {
+            Option: 'Change_Active',
+            Value: id ? id : []
+        })
+        .then((response) => {
+            // console.log(response);
+            pushSnackbarAction('success', 'active success')
             return { status: 'success' }
         })
         .catch((error) => {

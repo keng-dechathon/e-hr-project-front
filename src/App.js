@@ -19,6 +19,7 @@ import TimeManagement from "./pages/common/TimeManagement";
 import Team from "./pages/common/TeamManagement";
 import EmployeeInformation from "./pages/common/EmployeeInformation";
 import LeaveType from "./pages/common/LeaveType"
+import MeetingRoom from "./pages/common/MeetingRoom";
 export default function App() {
 
   return (
@@ -68,6 +69,9 @@ export default function App() {
           </Route>
           <Route exact path='/leave-type' element={<PrivateRoute />}>
             <Route exact path='/leave-type' element={<MainLayout title='Leave Type'><LeaveType /></MainLayout>} />
+          </Route>
+          <Route exact path='/meeting-room-booking' element={<PrivateRoute />}>
+            <Route exact path='/meeting-room-booking' element={<MainLayout title='Meeting Room Booking'><MeetingRoom /></MainLayout>} />
           </Route>
         </Routes>
       </Fragment>

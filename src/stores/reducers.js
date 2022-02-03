@@ -7,6 +7,10 @@ import timeReducer from '../modules/timeManagement/reducers'
 import employeeReducer from '../modules/employeeInfomation/reducers'
 import teamReducer from '../modules/team/reducers'
 import leaveTypeReducer from '../modules/leaveType/reducers'
+import positionReducer from '../modules/position/reducers'
+import companyReducer from '../modules/company/reducers'
+import roleReducer from '../modules/userRole/reducers'
+import meetReducer from '../modules/meeting/reducers'
 
 export default combineReducers({
    layoutReducer,
@@ -17,4 +21,8 @@ export default combineReducers({
    employeeReducer,
    teamReducer,
    leaveTypeReducer,
+   positionReducer,
+   companyReducer,
+   roleReducer,
+   meetReducer,
 })

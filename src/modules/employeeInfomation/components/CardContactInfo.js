@@ -45,7 +45,7 @@ const CardContactInfo = (props) => {
     setDataInfo()
     return (
         <>
-            <ModalUpdate open={open} handleClose={handleClose} title="Personal Information" >
+            <ModalUpdate open={open} handleClose={handleClose} title="Contact Information" >
                 <FormUpdateContactInfo handleClose={handleClose} id={id} />
             </ModalUpdate>
             <Card

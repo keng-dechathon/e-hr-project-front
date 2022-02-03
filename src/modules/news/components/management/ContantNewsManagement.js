@@ -89,16 +89,7 @@ const ContantNewsManagement = () => {
                     News Management
                 </Typography>
                 <Box sx={{ width: '100%', typography: 'body1', marginTop: '10px' }}>
-                    <TabContext value={value}>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <TabList onChange={handleChange} className={classes.tablist}>
-                                <Tab label="News" value="1" className={classes.tabitem} />
-                            </TabList>
-                        </Box>
-                        <TabPanel value="1" className={classes.tabpanel}>
-                            <CardNewsList items={items} />
-                        </TabPanel>
-                    </TabContext>
+                    <CardNewsList items={items} />
                 </Box>
             </Box>
         </>

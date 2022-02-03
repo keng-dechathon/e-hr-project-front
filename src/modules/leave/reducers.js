@@ -2,6 +2,7 @@ import * as Actions from './actions'
 
 export const initialState = {
   leaveInformation: {},
+  leaveInformationByID:{},
 }
 
 export default (state = initialState, action) => {
@@ -21,6 +22,21 @@ export default (state = initialState, action) => {
         ...state,
         leaveInformation: {}
       }
+      case Actions.GET_LEAVEBYID_INFORMATION.REQUEST:
+        return {
+          ...state
+        }
+      case Actions.GET_LEAVEBYID_INFORMATION.SUCCESS:
+   
+        return {
+          ...state,
+          leaveInformationByID: action.payload.data
+        }
+      case Actions.GET_LEAVEBYID_INFORMATION.FAILURE:
+        return {
+          ...state,
+          leaveInformationByID: {}
+        }
     default:
       return state
   }
