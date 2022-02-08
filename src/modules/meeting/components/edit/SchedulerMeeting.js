@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import Paper from '@material-ui/core/Paper';
-import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
+import React, { useEffect, useState } from "react";
+import Paper from "@material-ui/core/Paper";
+import {
+  ViewState,
+  EditingState,
+  IntegratedEditing,
+} from "@devexpress/dx-react-scheduler";
 import {
   Scheduler,
   DayView,
@@ -18,207 +22,197 @@ import {
   MonthView,
   ViewSwitcher,
   Resources,
-} from '@devexpress/dx-react-scheduler-material-ui';
-import { withStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
-import { navHeight } from '../../../layout/components/Attribute';
-import moment from 'moment';
-import IconButton from '@material-ui/core/IconButton';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { addMeeting } from '../../actions';
-import ConfirmDialog from './ConfirmDialog'
+} from "@devexpress/dx-react-scheduler-material-ui";
+import { withStyles } from "@material-ui/core/styles";
+import classNames from "classnames";
+import { navHeight } from "../../../layout/components/Attribute";
+import moment from "moment";
+import IconButton from "@material-ui/core/IconButton";
+import MoreIcon from "@material-ui/icons/MoreVert";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { addMeeting } from "../../actions";
+import ModalUpdate from "../../../common/ModalUpdate";
+import ConfirmDialog from "./ConfirmDialog";
+import { makeStyles } from "@material-ui/core/styles";
+import { Button } from "@mui/material";
+import FormUpdateScheduler from "./FormUpdateScheduler";
 const style = ({ palette }) => ({
   icon: {
     color: palette.action.active,
   },
   textCenter: {
-    textAlign: 'center',
+    textAlign: "center",
   },
   firstRoom: {
-    background: 'url(https://js.devexpress.com/Demos/DXHotels/Content/Pictures/Lobby-4.jpg)',
+    background:
+      "url(https://js.devexpress.com/Demos/DXHotels/Content/Pictures/Lobby-4.jpg)",
   },
   secondRoom: {
-    background: 'url(https://js.devexpress.com/Demos/DXHotels/Content/Pictures/MeetingRoom-4.jpg)',
+    background:
+      "url(https://js.devexpress.com/Demos/DXHotels/Content/Pictures/MeetingRoom-4.jpg)",
   },
   thirdRoom: {
-    background: 'url(https://js.devexpress.com/Demos/DXHotels/Content/Pictures/MeetingRoom-0.jpg)',
+    background:
+      "url(https://js.devexpress.com/Demos/DXHotels/Content/Pictures/MeetingRoom-0.jpg)",
   },
   header: {
-    height: '210px',
-    backgroundSize: 'cover',
+    height: "210px",
+    backgroundSize: "cover",
   },
   commandButton: {
-    margin: '5px 5px',
-    backgroundColor: 'rgba(255,255,255,0.65)',
+    margin: "5px 5px",
+    backgroundColor: "rgba(255,255,255,0.65)",
   },
 });
-const ShowConfirmDialog = () => {
-  const [open, setOpen] = useState(false)
-  return (
-    <>
 
-    </>
+const useStyles = makeStyles((theme) => ({
+  addButton: {
+    margin: "0 10px 0 auto !important",
+    minHeight: "39px",
+    border: "1px solid rgba(0, 0, 0, 0.23)",
+  },
+}));
+
+const Content = withStyles(style, { name: "Content" })(
+  ({ children, appointmentData, classes, ...restProps }) => (
+    <AppointmentTooltip.Content
+      {...restProps}
+      appointmentData={appointmentData}
+    ></AppointmentTooltip.Content>
   )
-}
+);
 
-const Header = withStyles(style, { name: 'Header' })(({
-  children,
-  appointmentData,
-  classes,
-  onClick,
-  ...restProps
-}) => (
-  <AppointmentTooltip.Header
-    {...restProps}
-    className={classNames(classes.secondRoom, classes.header)}
-    appointmentData={appointmentData}
-  >
-    <IconButton
-      /* eslint-disable-next-line no-alert */
-      onClick={() => alert(JSON.stringify(appointmentData))}
+const CommandButton = withStyles(style, { name: "CommandButton" })(
+  ({ classes, ...restProps }) => (
+    <AppointmentTooltip.CommandButton
+      {...restProps}
       className={classes.commandButton}
-    >
-      <EditIcon />
-    </IconButton>
-    <IconButton
-      /* eslint-disable-next-line no-alert */
-      onClick={() => alert(JSON.stringify(appointmentData))}
-      className={classes.commandButton}
-    >
-      <DeleteIcon />
-    </IconButton>
-  </AppointmentTooltip.Header>
-));
-
-const Content = withStyles(style, { name: 'Content' })(({
-  children, appointmentData, classes, ...restProps
-}) => (
-  <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
-
-  </AppointmentTooltip.Content>
-));
-
-const CommandButton = withStyles(style, { name: 'CommandButton' })(({
-  classes, ...restProps
-}) => (
-  <AppointmentTooltip.CommandButton {...restProps} className={classes.commandButton} />
-));
+    />
+  )
+);
 
 export default function SchedulerMeeting(props) {
+  const { meetRoom, myMeeting, members, uid } = props;
+  const classes = useStyles();
 
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openUpdateForm, setOpenUpdateForm] = useState(false);
+  const [editInfo, setEditInfo] = useState("");
+  const [option, setOption] = useState("");
+  const [deleteID, setDeleteID] = useState("");
+  const [appointmentVisible, setAppointmentVisible] = useState(false);
+  const [state, setState] = React.useState({
+    currentViewName: "Week",
+  });
 
-  const { meetRoom, myMeeting, members, uid } = props
-  console.log(myMeeting);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
-  const [deleteID, setDeleteID] = useState('')
-  let data = myMeeting
-  let currentDate = new Date()
-  let startDayHour = '9'
-  let endDayHour = '19'
+  let data = myMeeting;
+  let currentDate = new Date();
+  let startDayHour = "9";
+  let endDayHour = "19";
   let resources = [
     {
-      fieldName: 'roomId',
-      title: 'Room',
+      fieldName: "roomId",
+      title: "Room",
       instances: meetRoom,
     },
     {
-      fieldName: 'members',
-      title: 'Members',
+      fieldName: "members",
+      title: "Members",
       instances: members,
       allowMultiple: true,
     },
-  ]
-  console.log(openDeleteDialog);
-  const [state, setState] = React.useState({
-    currentViewName: 'Week'
-  })
+  ];
 
-  const currentViewNameChange = (currentViewName) => {
-    setState({ currentViewName })
+  const currentViewNameChange = (currentViewName) =>
+    setState({ currentViewName });
+
+  const handleCloseUpdate = () => {
+    setOpenUpdateForm(false);
+    setEditInfo("");
+    setOption("");
+    if (option !== "add") setAppointmentVisible(true);
+  };
+  const handleCloseConfirmDialog = () => {
+    setOpenDeleteDialog(false);
+    setDeleteID("");
+  };
+  const onVisibilityChange = () => {
+    setAppointmentVisible(!appointmentVisible);
   };
 
-  const handleOpenConfirmDialog = () => {
-    setOpenDeleteDialog(false)
-  };
+  const Header = withStyles(style, { name: "Header" })(
+    ({ children, appointmentData, classes, onClick, ...restProps }) => (
+      <AppointmentTooltip.Header
+        {...restProps}
+        className={classNames(classes.secondRoom, classes.header)}
+        appointmentData={appointmentData}
+      >
+        <IconButton
+          onClick={() => {
+            setEditInfo(appointmentData);
+            setOpenUpdateForm(true);
+            setOption("update");
+            setAppointmentVisible(false);
+          }}
+          className={classes.commandButton}
+        >
+          <EditIcon />
+        </IconButton>
+        <IconButton
+          onClick={() => {
+            setDeleteID(appointmentData.id);
+            setOpenDeleteDialog(true);
+          }}
+          className={classes.commandButton}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </AppointmentTooltip.Header>
+    )
+  );
 
-  const Header = withStyles(style, { name: 'Header' })(({
-    children,
-    appointmentData,
-    classes,
-    onClick,
-    ...restProps
-  }) => (
-    <AppointmentTooltip.Header
-      {...restProps}
-      className={classNames(classes.secondRoom, classes.header)}
-      appointmentData={appointmentData}
+  const FlexibleSpace = () => (
+    <Button
+      className={classes.addButton}
+      onClick={() => {
+        setOpenUpdateForm(true);
+        setOption("add");
+      }}
+      variant="outlined"
     >
-      <IconButton
-        /* eslint-disable-next-line no-alert */
-        onClick={() => alert(JSON.stringify(appointmentData))}
-        className={classes.commandButton}
-      >
-        <EditIcon />
-      </IconButton>
-      <IconButton
-        /* eslint-disable-next-line no-alert */
-        onClick={() => {
-          setDeleteID(appointmentData.id)
-          setOpenDeleteDialog(true)
-        }}
-        className={classes.commandButton}
-      >
-        <DeleteIcon />
-      </IconButton>
-    </AppointmentTooltip.Header>
-  ));
-
-  const Content = withStyles(style, { name: 'Content' })(({
-    children, appointmentData, classes, ...restProps
-  }) => (
-    <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
-
-    </AppointmentTooltip.Content>
-  ));
-
-  const CommandButton = withStyles(style, { name: 'CommandButton' })(({
-    classes, ...restProps
-  }) => (
-    <AppointmentTooltip.CommandButton {...restProps} className={classes.commandButton} />
-  ));
-
-
-
+      ADD +
+    </Button>
+  );
 
   return (
-    <Paper style={{ overflow: 'hidden' }}>
-      {
-        uid ?
-          <ConfirmDialog open={openDeleteDialog} handleOpenConfirmDialog={handleOpenConfirmDialog} deleteID={deleteID ? deleteID : ''} uid={uid} />
-          : ''
-      }
-      <Scheduler
-        data={data}
-      // height='auto'  
-      // height={657}
-      // height={560}
-      // height={window.innerHeight - 96.03 - parseInt(navHeight.slice(0, -2))}
+    <Paper style={{ overflow: "hidden" }}>
+      <ConfirmDialog
+        open={openDeleteDialog}
+        handleCloseConfirmDialog={handleCloseConfirmDialog}
+        deleteID={deleteID ? deleteID : ""}
+      />
+      <ModalUpdate
+        open={openUpdateForm}
+        handleClose={handleCloseUpdate}
+        title="Scheduler Update"
       >
+        <FormUpdateScheduler
+          handleClose={handleCloseUpdate}
+          option={option}
+          data={editInfo}
+          meetRoom={meetRoom ? meetRoom : ""}
+          members={members ? members : ""}
+        />
+      </ModalUpdate>
+      <Scheduler data={data}>
         <ViewState
           defaultCurrentDate={currentDate}
           currentViewName={state.currentViewName}
           onCurrentViewNameChange={currentViewNameChange}
         />
-        <DayView
-          startDayHour={startDayHour}
-          endDayHour={endDayHour}
-        />
-        <WeekView
-          startDayHour={startDayHour}
-          endDayHour={endDayHour}
-        />
+        <DayView startDayHour={startDayHour} endDayHour={endDayHour} />
+        <WeekView startDayHour={startDayHour} endDayHour={endDayHour} />
         <MonthView />
         <Appointments />
         {/* <DragDropProvider /> */}
@@ -226,26 +220,25 @@ export default function SchedulerMeeting(props) {
           headerComponent={Header}
           contentComponent={Content}
           commandButtonComponent={CommandButton}
-        // showOpenButton
-        // showDeleteButton
+          visible={appointmentVisible}
+          onVisibilityChange={onVisibilityChange}
+          // showOpenButton
+          // showDeleteButton
         />
-        <Toolbar />
+        <Toolbar flexibleSpaceComponent={FlexibleSpace} />
         <DateNavigator />
         <TodayButton />
-
-        <Resources
-          data={resources}
-          mainResourceName="roomId"
-        />
+        <Resources data={resources} mainResourceName="roomId" />
         <ViewSwitcher />
         <CurrentTimeIndicator
           shadePreviousCells={true}
           shadePreviousAppointments={true}
-          updateInterval='10000'
+          updateInterval="10000"
         />
       </Scheduler>
-    </Paper >
+      {/* <IconButton className={classes.addButton}>
+        <AddIcon style={{ color: "white", width: "25px", height: "25px" }} />
+      </IconButton> */}
+    </Paper>
   );
 }
-
-

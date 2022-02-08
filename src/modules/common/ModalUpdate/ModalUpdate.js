@@ -24,8 +24,8 @@ const ModalUpdate = (props) => {
                 open={open}
                 onClose={handleClose}
                 fullScreen={fullscreen?fullscreen:fullScreen}
-                
-                {...rest}
+                disableEnforceFocus
+                {...rest}               
             >
                 <DialogTitle id="alert-dialog-title">
                     <Typography variant="h6" fontWeight='bold' >

@@ -6,25 +6,25 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { deleteMeeting } from '../../actions';
-import { getMeetingRoomInformation, getMeetingInformationById, getMeetingInformationByMultiId, getMeetingInformationByRoomId } from '../../actions';
-import { useSelector, useDispatch } from 'react-redux'
+import { getMeetingInformationByCreator } from "../../actions";
+import {  useDispatch } from 'react-redux'
 
 
 export default function ConfirmDialog(props) {
-    const { open, handleOpenConfirmDialog,deleteID,uid } = props
+    const { open, handleCloseConfirmDialog,deleteID } = props
     const dispatch = useDispatch()
 
     const onClickDelete = async (id) => {
         await deleteMeeting(String(deleteID))
-        dispatch(getMeetingInformationByMultiId('','',[String(uid)]))
-        handleOpenConfirmDialog()
+        dispatch(getMeetingInformationByCreator())
+        handleCloseConfirmDialog()
     }
 
     return (
         <div>
             <Dialog
                 open={open}
-                onClose={handleOpenConfirmDialog}
+                onClose={handleCloseConfirmDialog}
                 aria-labelledby="alert-dialog-title"
                 disableEnforceFocus 
                 aria-describedby="alert-dialog-description"
@@ -39,7 +39,7 @@ export default function ConfirmDialog(props) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleOpenConfirmDialog}>Disagree</Button>
+                    <Button onClick={handleCloseConfirmDialog}>Disagree</Button>
                     <Button onClick={onClickDelete} autoFocus>
                         Agree
                     </Button>

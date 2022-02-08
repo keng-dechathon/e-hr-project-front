@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import MainHead from './MainHead';
 import Snackbar from './Snackbar';
 import { drawerWidth, navHeight } from './Attribute';
+import { padding } from '@mui/system';
 
 const useStyles = makeStyles(() => ({
     paper: {
@@ -46,7 +47,6 @@ function MainLayout({ title, children }) {
                 >
                     {children ? children : ''}
                 </Box>
-
             </Box>
             <Snackbar />
         </>
