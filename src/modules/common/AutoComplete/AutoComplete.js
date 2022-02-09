@@ -42,7 +42,7 @@ const AutoComplete = ({
   const handleChange = (event, values) => {
     let temp;
     if (multiple === true) {
-      temp = values
+      temp = values;
     } else {
       temp = values.id;
     }
@@ -76,7 +76,13 @@ const AutoComplete = ({
         </li>
       )}
       style={{ width: "1000px" }}
-      renderInput={(params) => <TextField {...params} label={label} />}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={label}
+          required={multiple?value.length===0:!value} // check array
+        />
+      )}
       {...props}
     />
   );
