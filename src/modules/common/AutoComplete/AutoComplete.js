@@ -33,7 +33,6 @@ const AutoComplete = ({
   //   value.length >= limit
   // );
   const [limitReached, setLimitReached] = useState(false);
-  console.log(selectState);
   const [value, setValue] = React.useState(defaultValue && defaultValue);
   // useEffect(() => {
   //   if (defaultValue) {
@@ -42,7 +41,6 @@ const AutoComplete = ({
   // }, []);
   const handleChange = (event, values) => {
     let temp;
-    console.log(values);
     if (multiple === true) {
       temp = values
     } else {

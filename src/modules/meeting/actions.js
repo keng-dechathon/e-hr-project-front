@@ -3,7 +3,7 @@ import { createRequestTypes, createAction } from "../../utils/requestTypes";
 import { apiUrl } from "../../utils/apiUrl";
 import { pushSnackbarAction } from "../layout/actions";
 import API from "../../utils/api";
-
+import store from "../../stores/stores";
 export const GET_MEETINGROOM_INFORMATION = createRequestTypes(
   Types.GET_MEETINGROOM_INFORMATION
 );
@@ -17,9 +17,25 @@ export const GET_MEETINGBYROOMID_INFORMATION = createRequestTypes(
   Types.GET_MEETINGBYROOMID_INFORMATION
 );
 export const GET_MEETINGBYCREATOR_INFORMATION = createRequestTypes(
-    Types.GET_MEETINGBYCREATOR_INFORMATION
-  );
-  
+  Types.GET_MEETINGBYCREATOR_INFORMATION
+);
+
+export const updateAddState = (
+  Emp_message = "false",
+  Room_message = "false",
+  Emp = {}
+) =>
+  store.dispatch({
+    type: "UPDATE_ADD_STATE",
+    Emp_message: Emp_message,
+    Emp: Emp,
+    Room_message: Room_message,
+  });
+
+export const clearAddState = () =>
+  store.dispatch({
+    type: "CLEAR_ADD_STATE",
+  });
 
 export const getMeetingRoomInformation = (config, data = {}) =>
   createAction(
@@ -72,7 +88,7 @@ export const getMeetingInformationByRoomId = (config, data = {}, Emp_Id) =>
 export const getMeetingInformationByCreator = (config, data = {}) =>
   createAction(
     GET_MEETINGBYCREATOR_INFORMATION.REQUEST,
-    { Option: "Get_Create_Meeting"},
+    { Option: "Get_Create_Meeting" },
     {
       method: "POST",
       url: apiUrl.eHRService.common.meeting,
@@ -94,12 +110,20 @@ export const addMeeting = async (values) => {
       Description: values.Description ? values.Description : "",
     })
     .then((response) => {
-      // console.log(response);
       pushSnackbarAction("success", "add success");
       return { status: "success" };
     })
     .catch((error) => {
-      pushSnackbarAction("Server Error", "Server Error.");
+      console.log(error);
+      if (error.response.status === 400) {
+        updateAddState(
+          error.response.data.Emp_message,
+          error.response.data.Room_message,
+          error.response.data.Emp
+        );
+      } else {
+        pushSnackbarAction("Server Error", "Server Error.");
+      }
       return { status: "fail" };
     });
 };

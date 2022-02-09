@@ -6,6 +6,7 @@ export const initialState = {
   meetingInformationByMultiId: {},
   meetingInformationByRoomId: {},
   meetingInformationByCreator: {},
+  addState: {},
 };
 
 export default (state = initialState, action) => {
@@ -79,6 +80,20 @@ export default (state = initialState, action) => {
       return {
         ...state,
         meetingInformationByCreator: {},
+      };
+    case "UPDATE_ADD_STATE":
+      return {
+        ...state,
+        addState: {
+          Emp_message: action.Emp_message,
+          Emp: action.Emp,
+          Room_message: action.Room_message,
+        },
+      };
+    case "CLEAR_ADD_STATE":
+      return {
+        ...state,
+        addState: {},
       };
     default:
       return state;

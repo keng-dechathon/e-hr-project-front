@@ -32,11 +32,14 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { addMeeting } from "../../actions";
+import { useSelector, useDispatch } from "react-redux";
+import ForceUpdateDialog from "./ForceUpdateDialog";
 import ModalUpdate from "../../../common/ModalUpdate";
-import ConfirmDialog from "./ConfirmDialog";
+import ConfirmDialog from "./ConfirmDeleteDialog";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@mui/material";
 import FormUpdateScheduler from "./FormUpdateScheduler";
+import { clearAddState } from "../../actions";
 const style = ({ palette }) => ({
   icon: {
     color: palette.action.active,
@@ -95,7 +98,10 @@ const CommandButton = withStyles(style, { name: "CommandButton" })(
 export default function SchedulerMeeting(props) {
   const { meetRoom, myMeeting, members, uid } = props;
   const classes = useStyles();
-
+  const { addState } = useSelector((state) => state.meetReducer);
+  const [openForceUpdate, setOpenForceUpdate] = useState(
+    Object.keys(addState).length === 0 ? false : true
+  );
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openUpdateForm, setOpenUpdateForm] = useState(false);
   const [editInfo, setEditInfo] = useState("");
@@ -105,7 +111,8 @@ export default function SchedulerMeeting(props) {
   const [state, setState] = React.useState({
     currentViewName: "Week",
   });
-
+  console.log(openForceUpdate);
+console.log(addState);
   let data = myMeeting;
   let currentDate = new Date();
   let startDayHour = "9";
@@ -128,10 +135,17 @@ export default function SchedulerMeeting(props) {
     setState({ currentViewName });
 
   const handleCloseUpdate = () => {
-    setOpenUpdateForm(false);
-    setEditInfo("");
-    setOption("");
-    if (option !== "add") setAppointmentVisible(true);
+    if (Object.keys(addState).length === 0) {
+      setOpenUpdateForm(false);
+      clearAddState()
+      setEditInfo("");
+      setOption("");
+      if (option !== "add") setAppointmentVisible(true);
+    }
+  };
+  const handleCloseForceUpdate = () => {
+    setOpenForceUpdate(false)
+    clearAddState()
   };
   const handleCloseConfirmDialog = () => {
     setOpenDeleteDialog(false);
@@ -187,6 +201,10 @@ export default function SchedulerMeeting(props) {
 
   return (
     <Paper style={{ overflow: "hidden" }}>
+      <ForceUpdateDialog
+        open={openForceUpdate}
+        handleClose={handleCloseForceUpdate}     
+      />
       <ConfirmDialog
         open={openDeleteDialog}
         handleCloseConfirmDialog={handleCloseConfirmDialog}

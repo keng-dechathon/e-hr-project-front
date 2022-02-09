@@ -40,8 +40,12 @@ const FormUpdateScheduler = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const { addState } = useSelector(
+    (state) => state.meetReducer
+  );
+  
   const { handleClose, data, option, meetRoom, members } = props;
-console.log(data);
+
   const membersFormat = [];
   const [selectStateMeetRoom, setSelectStateMeetRoom] = React.useState(
     data.length !== 0 ? data.roomId : ""
@@ -69,7 +73,7 @@ console.log(data);
   useEffect(() => {
     setTimeout(() =>
       setUser({
-        members: selectStateMembers.map(id=>String(id)),
+        members: selectStateMembers.map(item=>String(item.id)),
         Date: moment(start).format("YYYY-MM-DD"),
         Start_at: moment(start).format("HH:mm:ss"),
         End_at: moment(end).format("HH:mm:ss"),
@@ -101,7 +105,6 @@ console.log(data);
       });
     }
   };
-console.log(membersFormat);
   const { handleSubmit, submitting } = useForm({
     onSubmit: onSubmit,
   });

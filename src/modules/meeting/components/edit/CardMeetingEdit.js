@@ -55,7 +55,6 @@ const CardMeetingEdit = () => {
 
   const setAllMeet = () => {
     let i = 0;
-    console.log(meetingInformationByCreator.data);
     if (Object.keys(meetingInformationByCreator).length !== 0) {
       Object.keys(meetingInformationByCreator.data).map(function (key) {
         meetingInformationByCreator.data[key].map((item) => {
