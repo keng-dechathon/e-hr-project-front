@@ -63,6 +63,7 @@ const AutoComplete = ({
       onChange={handleChange}
       disableCloseOnSelect
       disabled={disabled}
+      required={required}
       getOptionLabel={(option) => option.text}
       renderOption={(props, option, { selected }) => (
         <li {...props} key={option.id}>
@@ -77,7 +78,7 @@ const AutoComplete = ({
         </li>
       )}
       style={{ width: "1000px" }}
-      renderInput={(params) => <TextField {...params} label={label} required={required} />}
+      renderInput={(params) => <TextField {...params} label={label} />}
       {...props}
     />
   );

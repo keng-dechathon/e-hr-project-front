@@ -111,7 +111,7 @@ export default function ScedulerMeetingFunc(props) {
     };
 
 
-
+console.log(members);
 
     return (
         <Paper style={{ overflow: 'hidden' }}>

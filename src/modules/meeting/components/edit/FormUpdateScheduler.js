@@ -69,11 +69,11 @@ console.log(data);
   useEffect(() => {
     setTimeout(() =>
       setUser({
-        members: selectStateMembers,
+        members: selectStateMembers.map(id=>String(id)),
         Date: moment(start).format("YYYY-MM-DD"),
         Start_at: moment(start).format("HH:mm:ss"),
         End_at: moment(end).format("HH:mm:ss"),
-        Room_Id: selectStateMeetRoom,
+        Room_Id: String(selectStateMeetRoom) ,
         Subject: title,
         Description: note,
       })
