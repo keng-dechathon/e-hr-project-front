@@ -15,13 +15,22 @@ import DateTimePicker from "@mui/lab/DateTimePicker";
 import moment from "moment";
 import AutoComplete from "../../../common/AutoComplete";
 import { getMeetingInformationByCreator } from "../../actions";
-
+import ForceUpdateDialog from "./ForceUpdateDialog";
+import { clearAddState } from "../../actions";
+import { forceAddMeeting } from "../../actions";
 const useStyles = makeStyles(() => ({
   ButtonSubmit: {
     background: "#04AA6D",
     color: "#FFFFFF",
     "&:hover": {
       background: "#ffa000",
+    },
+  },
+  ButtonSubmitForce: {
+    background: "#FF5959",
+    color: "#FFFFFF",
+    "&:hover": {
+      background: "#FF7272",
     },
   },
   dialogAction: {
@@ -37,16 +46,21 @@ const useStyles = makeStyles(() => ({
 }));
 
 const FormUpdateScheduler = (props) => {
+  const {
+    handleClose,
+    data,
+    option,
+    meetRoom,
+    members,
+  } = props;
+
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const { addState } = useSelector(
-    (state) => state.meetReducer
-  );
-  
-  const { handleClose, data, option, meetRoom, members } = props;
-
   const membersFormat = [];
+  const { addState } = useSelector((state) => state.meetReducer);
+  const [openForceUpdate, setOpenForceUpdate] = useState(false);
+  const [attentioned, setAttentioned] = useState(false);
+  const [status, setStatus] = useState(false);
   const [selectStateMeetRoom, setSelectStateMeetRoom] = React.useState(
     data.length !== 0 ? data.roomId : ""
   );
@@ -71,27 +85,50 @@ const FormUpdateScheduler = (props) => {
   );
   const [user, setUser] = useState("");
   useEffect(() => {
-    setTimeout(() =>
+    setTimeout(() => {
       setUser({
-        members: selectStateMembers.map(item=>String(item.id)),
+        members: selectStateMembers.map((item) => String(item.id)),
         Date: moment(start).format("YYYY-MM-DD"),
         Start_at: moment(start).format("HH:mm:ss"),
         End_at: moment(end).format("HH:mm:ss"),
-        Room_Id: String(selectStateMeetRoom) ,
+        Room_Id: String(selectStateMeetRoom),
         Subject: title,
         Description: note,
-      })
-    );
+      });
+    });
   }, [selectStateMembers, start, end, selectStateMeetRoom, title, note]);
 
+  useEffect(() => {
+    if (
+      Object.keys(addState).length === 0 &&
+      Object.getPrototypeOf(addState) === Object.prototype
+    ) {
+      setOpenForceUpdate(false);
+    } else {
+      setOpenForceUpdate(true);
+    }
+    if (status === true) handleClose();
+  }, [addState, status]);
+  
   const onSubmit = async () => {
-    if (option === "update") {
-    } else if (option === "add") {
-      await addMeeting(user);
+    if (!attentioned) {
+      if (option === "update") {
+      } else if (option === "add") {
+        await addMeeting(user, setStatus);
+      }
+    } else {
+      if (option === "update") {
+      } else if (option === "add") {
+        await forceAddMeeting(user, setStatus);
+      }
     }
     dispatch(getMeetingInformationByCreator());
+  };
 
-    handleClose();
+  const handleCloseForceUpdate = () => {
+    setAttentioned(true);
+    setOpenForceUpdate(false);
+    clearAddState();
   };
 
   const setMembersFormat = () => {
@@ -105,12 +142,20 @@ const FormUpdateScheduler = (props) => {
       });
     }
   };
+
   const { handleSubmit, submitting } = useForm({
     onSubmit: onSubmit,
   });
+
   setMembersFormat();
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <ForceUpdateDialog
+        open={openForceUpdate}
+        handleClose={handleCloseForceUpdate}
+        user={user}
+      />
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -204,11 +249,13 @@ const FormUpdateScheduler = (props) => {
           <Button
             loading={submitting}
             variant={"contained"}
-            className={classes.ButtonSubmit}
+            className={
+              !attentioned ? classes.ButtonSubmit : classes.ButtonSubmitForce
+            }
             type="submit"
             autoFocus
           >
-            Update
+            {attentioned ? "Force Update!" : "Update"}
           </Button>
         </DialogActions>
       </form>

@@ -23,13 +23,15 @@ export const GET_MEETINGBYCREATOR_INFORMATION = createRequestTypes(
 export const updateAddState = (
   Emp_message = "false",
   Room_message = "false",
-  Emp = {}
+  Emp = {},
+  Status =""
 ) =>
   store.dispatch({
     type: "UPDATE_ADD_STATE",
     Emp_message: Emp_message,
     Emp: Emp,
     Room_message: Room_message,
+    Status:Status,
   });
 
 export const clearAddState = () =>
@@ -97,7 +99,7 @@ export const getMeetingInformationByCreator = (config, data = {}) =>
     }
   );
 
-export const addMeeting = async (values) => {
+export const addMeeting = async (values,setStatus) => {
   return API()
     .post(apiUrl.eHRService.common.meeting, {
       Option: "Add_Meeting",
@@ -110,16 +112,58 @@ export const addMeeting = async (values) => {
       Description: values.Description ? values.Description : "",
     })
     .then((response) => {
+      setStatus(true)
       pushSnackbarAction("success", "add success");
       return { status: "success" };
     })
     .catch((error) => {
+      setStatus(false)
       console.log(error);
       if (error.response.status === 400) {
         updateAddState(
           error.response.data.Emp_message,
           error.response.data.Room_message,
-          error.response.data.Emp
+          error.response.data.Emp,
+          error.response.status
+          
+        );
+      } else {
+        pushSnackbarAction("Server Error", "Server Error.");
+      }
+      return { status: "fail" };
+    });
+};
+
+
+export const forceAddMeeting = async (values,setStatus) => {
+  console.log('is force');
+  return API()
+    .post(apiUrl.eHRService.common.meeting, {
+      Option: "Confirm",
+      Value: values.members ? values.members : "",
+      Date: values.Date ? values.Date : "",
+      Start_at: values.Start_at ? values.Start_at : "",
+      End_at: values.End_at ? values.End_at : "",
+      Room_Id: values.Room_Id ? values.Room_Id : "",
+      Subject: values.Subject ? values.Subject : "",
+      Description: values.Description ? values.Description : "",
+    })
+    .then((response) => {
+      setStatus(true)
+      clearAddState()
+      pushSnackbarAction("success", "add success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      setStatus(false)
+      console.log(error);
+      if (error.response.status === 400) {
+        clearAddState()
+        updateAddState(
+          error.response.data.Emp_message,
+          error.response.data.Room_message,
+          error.response.data.Emp,
+          error.response.status          
         );
       } else {
         pushSnackbarAction("Server Error", "Server Error.");

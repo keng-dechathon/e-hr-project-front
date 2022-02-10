@@ -88,6 +88,7 @@ export default (state = initialState, action) => {
           Emp_message: action.Emp_message,
           Emp: action.Emp,
           Room_message: action.Room_message,
+          Status:action.Status,
         },
       };
     case "CLEAR_ADD_STATE":

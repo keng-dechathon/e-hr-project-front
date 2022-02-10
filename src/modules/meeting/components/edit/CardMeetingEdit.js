@@ -104,7 +104,7 @@ const CardMeetingEdit = () => {
   setMember();
   setMeetRoom();
   setAllMeet();
-
+console.log(allMeet);
   return (
     <>
       <Box>

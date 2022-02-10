@@ -40,15 +40,19 @@ const AutoComplete = ({
   //   }
   // }, []);
   const handleChange = (event, values) => {
-    let temp;
-    if (multiple === true) {
-      temp = values;
-    } else {
-      temp = values.id;
+    try {
+      let temp;
+      if (multiple === true && values) {
+        temp = values;
+      } else {
+        temp = values.id;
+      }
+      setValue(values);
+      setLimitReached(values.length >= limit);
+      setSelectState(temp);
+    } catch (e) {
+      console.log(e);
     }
-    setValue(values);
-    setLimitReached(values.length >= limit);
-    setSelectState(temp);
   };
 
   return (
@@ -80,7 +84,7 @@ const AutoComplete = ({
         <TextField
           {...params}
           label={label}
-          required={multiple?value.length===0:!value} // check array
+          required={multiple ? value.length === 0 : !value} // check array
         />
       )}
       {...props}

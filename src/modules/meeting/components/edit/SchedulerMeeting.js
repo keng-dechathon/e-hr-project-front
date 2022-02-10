@@ -40,6 +40,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@mui/material";
 import FormUpdateScheduler from "./FormUpdateScheduler";
 import { clearAddState } from "../../actions";
+
 const style = ({ palette }) => ({
   icon: {
     color: palette.action.active,
@@ -99,9 +100,7 @@ export default function SchedulerMeeting(props) {
   const { meetRoom, myMeeting, members, uid } = props;
   const classes = useStyles();
   const { addState } = useSelector((state) => state.meetReducer);
-  const [openForceUpdate, setOpenForceUpdate] = useState(
-    Object.keys(addState).length === 0 ? false : true
-  );
+
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openUpdateForm, setOpenUpdateForm] = useState(false);
   const [editInfo, setEditInfo] = useState("");
@@ -111,8 +110,8 @@ export default function SchedulerMeeting(props) {
   const [state, setState] = React.useState({
     currentViewName: "Week",
   });
-  console.log(openForceUpdate);
-console.log(addState);
+  const [userState, setUserState] = useState("");
+
   let data = myMeeting;
   let currentDate = new Date();
   let startDayHour = "9";
@@ -133,20 +132,20 @@ console.log(addState);
 
   const currentViewNameChange = (currentViewName) =>
     setState({ currentViewName });
-
+console.log(option);
   const handleCloseUpdate = () => {
     if (Object.keys(addState).length === 0) {
       setOpenUpdateForm(false);
-      clearAddState()
       setEditInfo("");
       setOption("");
-      if (option !== "add") setAppointmentVisible(true);
+      if (option !== "add"&&option!=="") {
+          setAppointmentVisible(true);
+          console.log('faf');
+      }
+      
     }
   };
-  const handleCloseForceUpdate = () => {
-    setOpenForceUpdate(false)
-    clearAddState()
-  };
+
   const handleCloseConfirmDialog = () => {
     setOpenDeleteDialog(false);
     setDeleteID("");
@@ -189,9 +188,9 @@ console.log(addState);
   const FlexibleSpace = () => (
     <Button
       className={classes.addButton}
-      onClick={() => {
-        setOpenUpdateForm(true);
+      onClick={() => { 
         setOption("add");
+        setOpenUpdateForm(true);       
       }}
       variant="outlined"
     >
@@ -201,10 +200,6 @@ console.log(addState);
 
   return (
     <Paper style={{ overflow: "hidden" }}>
-      <ForceUpdateDialog
-        open={openForceUpdate}
-        handleClose={handleCloseForceUpdate}     
-      />
       <ConfirmDialog
         open={openDeleteDialog}
         handleCloseConfirmDialog={handleCloseConfirmDialog}
@@ -221,6 +216,7 @@ console.log(addState);
           data={editInfo}
           meetRoom={meetRoom ? meetRoom : ""}
           members={members ? members : ""}
+          setUserState={setUserState}
         />
       </ModalUpdate>
       <Scheduler data={data}>
