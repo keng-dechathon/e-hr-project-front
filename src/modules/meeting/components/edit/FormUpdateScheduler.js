@@ -18,6 +18,8 @@ import { getMeetingInformationByCreator } from "../../actions";
 import ForceUpdateDialog from "./ForceUpdateDialog";
 import { clearAddState } from "../../actions";
 import { forceAddMeeting } from "../../actions";
+import { editMeeting } from "../../actions";
+
 const useStyles = makeStyles(() => ({
   ButtonSubmit: {
     background: "#04AA6D",
@@ -46,16 +48,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 const FormUpdateScheduler = (props) => {
-  const {
-    handleClose,
-    data,
-    option,
-    meetRoom,
-    members,
-  } = props;
+  const { handleClose, data, option, meetRoom, members } = props;
 
   const classes = useStyles();
   const dispatch = useDispatch();
+  console.log(data);
   const membersFormat = [];
   const { addState } = useSelector((state) => state.meetReducer);
   const [openForceUpdate, setOpenForceUpdate] = useState(false);
@@ -87,17 +84,18 @@ const FormUpdateScheduler = (props) => {
   useEffect(() => {
     setTimeout(() => {
       setUser({
-        members: selectStateMembers.map((item) => String(item.id)),
+        members: selectStateMembers.map((id) => String(id)),
         Date: moment(start).format("YYYY-MM-DD"),
         Start_at: moment(start).format("HH:mm:ss"),
         End_at: moment(end).format("HH:mm:ss"),
         Room_Id: String(selectStateMeetRoom),
         Subject: title,
         Description: note,
+        Meeting_id: data.id,
       });
     });
   }, [selectStateMembers, start, end, selectStateMeetRoom, title, note]);
-
+  
   useEffect(() => {
     if (
       Object.keys(addState).length === 0 &&
@@ -109,10 +107,11 @@ const FormUpdateScheduler = (props) => {
     }
     if (status === true) handleClose();
   }, [addState, status]);
-  
+
   const onSubmit = async () => {
     if (!attentioned) {
       if (option === "update") {
+        await editMeeting(user, setStatus);
       } else if (option === "add") {
         await addMeeting(user, setStatus);
       }
@@ -130,7 +129,7 @@ const FormUpdateScheduler = (props) => {
     setOpenForceUpdate(false);
     clearAddState();
   };
-
+  console.log(option);
   const setMembersFormat = () => {
     if (
       selectStateMembers.length !== 0 &&

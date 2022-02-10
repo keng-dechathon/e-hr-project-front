@@ -132,17 +132,16 @@ export default function SchedulerMeeting(props) {
 
   const currentViewNameChange = (currentViewName) =>
     setState({ currentViewName });
-console.log(option);
+  console.log(option);
   const handleCloseUpdate = () => {
     if (Object.keys(addState).length === 0) {
       setOpenUpdateForm(false);
       setEditInfo("");
       setOption("");
-      if (option !== "add"&&option!=="") {
-          setAppointmentVisible(true);
-          console.log('faf');
+      if (option !== "add" && option !== "") {
+        setAppointmentVisible(true);
+        console.log("faf");
       }
-      
     }
   };
 
@@ -188,9 +187,9 @@ console.log(option);
   const FlexibleSpace = () => (
     <Button
       className={classes.addButton}
-      onClick={() => { 
+      onClick={() => {
         setOption("add");
-        setOpenUpdateForm(true);       
+        setOpenUpdateForm(true);
       }}
       variant="outlined"
     >

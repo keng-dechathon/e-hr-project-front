@@ -24,14 +24,14 @@ export const updateAddState = (
   Emp_message = "false",
   Room_message = "false",
   Emp = {},
-  Status =""
+  Status = ""
 ) =>
   store.dispatch({
     type: "UPDATE_ADD_STATE",
     Emp_message: Emp_message,
     Emp: Emp,
     Room_message: Room_message,
-    Status:Status,
+    Status: Status,
   });
 
 export const clearAddState = () =>
@@ -99,7 +99,7 @@ export const getMeetingInformationByCreator = (config, data = {}) =>
     }
   );
 
-export const addMeeting = async (values,setStatus) => {
+export const addMeeting = async (values, setStatus) => {
   return API()
     .post(apiUrl.eHRService.common.meeting, {
       Option: "Add_Meeting",
@@ -112,12 +112,12 @@ export const addMeeting = async (values,setStatus) => {
       Description: values.Description ? values.Description : "",
     })
     .then((response) => {
-      setStatus(true)
+      setStatus(true);
       pushSnackbarAction("success", "add success");
       return { status: "success" };
     })
     .catch((error) => {
-      setStatus(false)
+      setStatus(false);
       console.log(error);
       if (error.response.status === 400) {
         updateAddState(
@@ -125,7 +125,6 @@ export const addMeeting = async (values,setStatus) => {
           error.response.data.Room_message,
           error.response.data.Emp,
           error.response.status
-          
         );
       } else {
         pushSnackbarAction("Server Error", "Server Error.");
@@ -134,9 +133,8 @@ export const addMeeting = async (values,setStatus) => {
     });
 };
 
-
-export const forceAddMeeting = async (values,setStatus) => {
-  console.log('is force');
+export const forceAddMeeting = async (values, setStatus) => {
+  console.log("is force");
   return API()
     .post(apiUrl.eHRService.common.meeting, {
       Option: "Confirm",
@@ -149,21 +147,21 @@ export const forceAddMeeting = async (values,setStatus) => {
       Description: values.Description ? values.Description : "",
     })
     .then((response) => {
-      setStatus(true)
-      clearAddState()
+      setStatus(true);
+      clearAddState();
       pushSnackbarAction("success", "add success");
       return { status: "success" };
     })
     .catch((error) => {
-      setStatus(false)
+      setStatus(false);
       console.log(error);
       if (error.response.status === 400) {
-        clearAddState()
+        clearAddState();
         updateAddState(
           error.response.data.Emp_message,
           error.response.data.Room_message,
           error.response.data.Emp,
-          error.response.status          
+          error.response.status
         );
       } else {
         pushSnackbarAction("Server Error", "Server Error.");
@@ -184,6 +182,33 @@ export const deleteMeeting = async (Meeting_id) => {
       return { status: "success" };
     })
     .catch((error) => {
+      pushSnackbarAction("Server Error", "Server Error.");
+      return { status: "fail" };
+    });
+};
+
+export const editMeeting = async (values,setStatus) => {
+  console.log(values);
+  return API()
+    .post(apiUrl.eHRService.common.meeting, {
+      Option: "Update",
+      Meeting_id: values.Meeting_id ? values.Meeting_id : "",
+      Date: values.Date ? values.Date : "",
+      Start_at: values.Start_at ? values.Start_at : "",
+      End_at: values.End_at ? values.End_at : "",
+      Room_Id: values.Room_Id ? values.Room_Id : "",
+      Subject: values.Subject ? values.Subject : "",
+      Description: values.Description ? values.Description : "",
+      Value: values.members ? values.members : "",
+    })
+    .then((response) => {
+      setStatus(true);
+      // console.log(response);
+      pushSnackbarAction("success", "update success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      setStatus(false);
       pushSnackbarAction("Server Error", "Server Error.");
       return { status: "fail" };
     });
