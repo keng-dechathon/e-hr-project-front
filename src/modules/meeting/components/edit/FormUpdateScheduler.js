@@ -59,10 +59,14 @@ const FormUpdateScheduler = (props) => {
   const [attentioned, setAttentioned] = useState(false);
   const [status, setStatus] = useState(false);
   const [selectStateMeetRoom, setSelectStateMeetRoom] = React.useState(
-    data.length !== 0 ? data.roomId : ""
+    data.length !== 0 ?  meetRoom.filter((item) => item.id === data.roomId)[0] : ""
   );
   const [selectStateMembers, setSelectStateMembers] = React.useState(
-    data.length !== 0 ? data.members : []
+    data.length !== 0
+      ? data.members.map((id) => {
+          return members.filter((item) => id === item.id)[0];
+        })
+      : []
   );
   const [title, setTitle] = useState(
     data.length !== 0 ? (data.title ? data.title : "") : ""
@@ -80,22 +84,23 @@ const FormUpdateScheduler = (props) => {
   const [end, setEnd] = useState(
     data.length !== 0 ? (data.endDate ? data.endDate : new Date()) : new Date()
   );
+  console.log(selectStateMembers);
   const [user, setUser] = useState("");
   useEffect(() => {
     setTimeout(() => {
       setUser({
-        members: selectStateMembers.map((id) => String(id)),
+        members: selectStateMembers.map((item) => String(item.id)),
         Date: moment(start).format("YYYY-MM-DD"),
         Start_at: moment(start).format("HH:mm:ss"),
         End_at: moment(end).format("HH:mm:ss"),
-        Room_Id: String(selectStateMeetRoom),
+        Room_Id: String(selectStateMeetRoom.id),
         Subject: title,
         Description: note,
         Meeting_id: data.id,
       });
     });
   }, [selectStateMembers, start, end, selectStateMeetRoom, title, note]);
-  
+
   useEffect(() => {
     if (
       Object.keys(addState).length === 0 &&
@@ -216,7 +221,7 @@ const FormUpdateScheduler = (props) => {
                 selectState={selectStateMeetRoom}
                 required
                 defaultValue={
-                  meetRoom.filter((item) => item.id === selectStateMeetRoom)[0]
+                  selectStateMeetRoom
                 }
                 setSelectState={setSelectStateMeetRoom}
                 multiple={false}
@@ -232,7 +237,7 @@ const FormUpdateScheduler = (props) => {
               <AutoComplete
                 option={members}
                 selectState={selectStateMembers}
-                defaultValue={membersFormat}
+                defaultValue={selectStateMembers}
                 setSelectState={setSelectStateMembers}
                 style={{ backgroundColor: "white" }}
                 label="Members"

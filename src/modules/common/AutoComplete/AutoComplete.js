@@ -42,14 +42,14 @@ const AutoComplete = ({
   const handleChange = (event, values) => {
     try {
       let temp;
-      if (multiple === true && values) {
-        temp = values;
-      } else {
-        temp = values.id;
-      }
+      // if (multiple === true && values) {
+      //   temp = values;
+      // } else {
+      //   temp = values.id;
+      // }
       setValue(values);
       setLimitReached(values.length >= limit);
-      setSelectState(temp);
+      setSelectState(values);
     } catch (e) {
       console.log(e);
     }
