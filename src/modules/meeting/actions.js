@@ -187,7 +187,7 @@ export const deleteMeeting = async (Meeting_id) => {
     });
 };
 
-export const editMeeting = async (values,setStatus) => {
+export const editMeeting = async (values, setStatus) => {
   console.log(values);
   return API()
     .post(apiUrl.eHRService.common.meeting, {
@@ -209,7 +209,16 @@ export const editMeeting = async (values,setStatus) => {
     })
     .catch((error) => {
       setStatus(false);
-      pushSnackbarAction("Server Error", "Server Error.");
+      if (error.response.status === 400) {
+        updateAddState(
+          error.response.data.Emp_message,
+          error.response.data.Room_message,
+          error.response.data.Emp,
+          error.response.status
+        );
+      } else {
+        pushSnackbarAction("Server Error", "Server Error.");
+      }
       return { status: "fail" };
     });
 };

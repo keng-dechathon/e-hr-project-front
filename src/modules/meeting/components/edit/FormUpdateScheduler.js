@@ -59,7 +59,9 @@ const FormUpdateScheduler = (props) => {
   const [attentioned, setAttentioned] = useState(false);
   const [status, setStatus] = useState(false);
   const [selectStateMeetRoom, setSelectStateMeetRoom] = React.useState(
-    data.length !== 0 ?  meetRoom.filter((item) => item.id === data.roomId)[0] : ""
+    data.length !== 0
+      ? meetRoom.filter((item) => item.id === data.roomId)[0]
+      : ""
   );
   const [selectStateMembers, setSelectStateMembers] = React.useState(
     data.length !== 0
@@ -100,7 +102,7 @@ const FormUpdateScheduler = (props) => {
       });
     });
   }, [selectStateMembers, start, end, selectStateMeetRoom, title, note]);
-
+  console.log(addState);
   useEffect(() => {
     if (
       Object.keys(addState).length === 0 &&
@@ -122,6 +124,7 @@ const FormUpdateScheduler = (props) => {
       }
     } else {
       if (option === "update") {
+        await editMeeting(user, setStatus);
       } else if (option === "add") {
         await forceAddMeeting(user, setStatus);
       }
@@ -220,9 +223,7 @@ const FormUpdateScheduler = (props) => {
                 option={meetRoom}
                 selectState={selectStateMeetRoom}
                 required
-                defaultValue={
-                  selectStateMeetRoom
-                }
+                defaultValue={selectStateMeetRoom}
                 setSelectState={setSelectStateMeetRoom}
                 multiple={false}
                 style={{ backgroundColor: "white" }}
@@ -254,12 +255,14 @@ const FormUpdateScheduler = (props) => {
             loading={submitting}
             variant={"contained"}
             className={
-              !attentioned ? classes.ButtonSubmit : classes.ButtonSubmitForce
+              attentioned && option !== "update"
+                ? classes.ButtonSubmitForce
+                : classes.ButtonSubmit
             }
             type="submit"
             autoFocus
           >
-            {attentioned ? "Force Update!" : "Update"}
+            {attentioned && option !== "update" ? "Force Update!" : "Update"}
           </Button>
         </DialogActions>
       </form>

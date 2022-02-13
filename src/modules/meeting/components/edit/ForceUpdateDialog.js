@@ -89,7 +89,6 @@ export default function ForceUpdateDialog(props) {
       }
     }
   }, [addState]);
-  console.log(addState);
   const setDataGrid = () => {
     try {
       let i = 0;

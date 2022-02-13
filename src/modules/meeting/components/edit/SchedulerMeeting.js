@@ -100,7 +100,7 @@ export default function SchedulerMeeting(props) {
   const { meetRoom, myMeeting, members, uid } = props;
   const classes = useStyles();
   const { addState } = useSelector((state) => state.meetReducer);
-
+console.log(myMeeting);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openUpdateForm, setOpenUpdateForm] = useState(false);
   const [editInfo, setEditInfo] = useState("");
