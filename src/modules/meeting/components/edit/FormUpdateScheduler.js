@@ -86,7 +86,6 @@ const FormUpdateScheduler = (props) => {
   const [end, setEnd] = useState(
     data.length !== 0 ? (data.endDate ? data.endDate : new Date()) : new Date()
   );
-  console.log(selectStateMembers);
   const [user, setUser] = useState("");
   useEffect(() => {
     setTimeout(() => {
@@ -98,11 +97,12 @@ const FormUpdateScheduler = (props) => {
         Room_Id: String(selectStateMeetRoom.id),
         Subject: title,
         Description: note,
-        Meeting_id: String(data.id) ,
+        Meeting_id: String(data.id),
       });
     });
   }, [selectStateMembers, start, end, selectStateMeetRoom, title, note]);
-  console.log(typeof data.id);
+
+
   useEffect(() => {
     if (
       Object.keys(addState).length === 0 &&
@@ -137,7 +137,6 @@ const FormUpdateScheduler = (props) => {
     setOpenForceUpdate(false);
     clearAddState();
   };
-  console.log(option);
   const setMembersFormat = () => {
     if (
       selectStateMembers.length !== 0 &&
@@ -155,7 +154,7 @@ const FormUpdateScheduler = (props) => {
   });
 
   setMembersFormat();
-
+console.log(data);
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <ForceUpdateDialog
@@ -180,7 +179,7 @@ const FormUpdateScheduler = (props) => {
           <Grid item xs={12} style={{ display: "flex" }}>
             <DateTimePicker
               value={start}
-              inputFormat="dd/MM/yyyy hh:mm a"
+              inputFormat="dd/MM/yyyy HH:mm "
               onChange={(e) => {
                 setStart(new Date(moment(e).format()));
               }}
@@ -196,7 +195,7 @@ const FormUpdateScheduler = (props) => {
             <DateTimePicker
               value={end}
               disabled={option === "update" ? true : false}
-              inputFormat="dd/MM/yyyy hh:mm a"
+              inputFormat="dd/MM/yyyy HH:mm"
               onChange={(e) => {
                 setEnd(new Date(moment(e).format()));
               }}

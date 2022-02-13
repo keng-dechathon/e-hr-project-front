@@ -71,9 +71,8 @@ const CardMeetingEdit = () => {
                   (room) => room.Room_Id === item.Room_Id
                 )[0].Room_Name
               : "null";
-              
-          let members = item.Members.map((n) => parseInt(n));
 
+          let members = item.Members.map((n) => parseInt(n));
           allMeet[i] = {
             id: item.Meet_Id,
             roomId: item.Room_Id,
@@ -83,6 +82,7 @@ const CardMeetingEdit = () => {
             location: location,
             members: members,
             creator: item.Creator,
+            Description: item.Description,
           };
 
           i += 1;

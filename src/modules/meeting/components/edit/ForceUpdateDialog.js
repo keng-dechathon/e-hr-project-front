@@ -129,28 +129,37 @@ export default function ForceUpdateDialog(props) {
             id="alert-dialog-description"
             style={{ marginBottom: "20px", fontSize: "15px" }}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-              }}
-            >
-              <span style={{ marginRight: "5px" }}>Room :</span>
-              {roomMessage}
-              {roomIcon}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexWrap: "wrap",
-              }}
-            >
-              <span style={{ marginRight: "5px" }}>Employee :</span>
-              {empMessage}
-              {empIcon}
-            </div>
+            {addState.roomMessage !== "" ? (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                }}
+              >
+                <span style={{ marginRight: "5px" }}>Room :</span>
+                {roomMessage}
+                {roomIcon}
+              </div>
+            ) : (
+              ""
+            )}
+
+            {addState.Emp_message !== "" ? (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                }}
+              >
+                <span style={{ marginRight: "5px" }}>Employee :</span>
+                {empMessage}
+                {empIcon}
+              </div>
+            ) : (
+              ""
+            )}
           </DialogContentText>
           {addState ? (
             addState.Emp_message !== "" ? (

@@ -100,7 +100,6 @@ export default function SchedulerMeeting(props) {
   const { meetRoom, myMeeting, members, uid } = props;
   const classes = useStyles();
   const { addState } = useSelector((state) => state.meetReducer);
-console.log(myMeeting);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openUpdateForm, setOpenUpdateForm] = useState(false);
   const [editInfo, setEditInfo] = useState("");
@@ -110,7 +109,6 @@ console.log(myMeeting);
   const [state, setState] = React.useState({
     currentViewName: "Week",
   });
-  const [userState, setUserState] = useState("");
 
   let data = myMeeting;
   let currentDate = new Date();
@@ -132,7 +130,6 @@ console.log(myMeeting);
 
   const currentViewNameChange = (currentViewName) =>
     setState({ currentViewName });
-  console.log(option);
   const handleCloseUpdate = () => {
     if (Object.keys(addState).length === 0) {
       setOpenUpdateForm(false);
@@ -215,7 +212,6 @@ console.log(myMeeting);
           data={editInfo}
           meetRoom={meetRoom ? meetRoom : ""}
           members={members ? members : ""}
-          setUserState={setUserState}
         />
       </ModalUpdate>
       <Scheduler data={data}>
