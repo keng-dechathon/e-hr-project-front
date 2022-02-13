@@ -98,11 +98,11 @@ const FormUpdateScheduler = (props) => {
         Room_Id: String(selectStateMeetRoom.id),
         Subject: title,
         Description: note,
-        Meeting_id: data.id,
+        Meeting_id: String(data.id) ,
       });
     });
   }, [selectStateMembers, start, end, selectStateMeetRoom, title, note]);
-  console.log(addState);
+  console.log(typeof data.id);
   useEffect(() => {
     if (
       Object.keys(addState).length === 0 &&
