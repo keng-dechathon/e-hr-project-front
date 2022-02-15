@@ -1,12 +1,11 @@
-
+import ContentTimeSheetRecord from "../../modules/timeSheetRecord/components/ContentTimeSheetRecord";
 
 const TimeSheetRecord = () => {
-    return (
-        <>
+  return (
+    <>
+      <ContentTimeSheetRecord />
+    </>
+  );
+};
 
-        </>
-
-    )
-}
-
-export default TimeSheetRecord
+export default TimeSheetRecord;
