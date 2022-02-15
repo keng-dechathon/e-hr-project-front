@@ -8,7 +8,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableFooter from '@material-ui/core/TableFooter'
 import TablePagination from '@material-ui/core/TablePagination'
 import TablePaginationActions from '../TablePaginationActions'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
 import clsx from 'clsx'
 import Skeleton from '@material-ui/lab/Skeleton'
 import Typography from '../Typography/Typography'
@@ -37,10 +37,8 @@ const StyledTableRow = withStyles((theme) => ({
             backgroundColor: '#FFFFFF',
         },
         '&:nth-of-type(even)': {
-            backgroundColor: fade('#1976d2', 0.04),
-        },
-       
-
+            backgroundColor: alpha('#1976d2', 0.04),
+        },      
     },
 
 }))(TableRow)

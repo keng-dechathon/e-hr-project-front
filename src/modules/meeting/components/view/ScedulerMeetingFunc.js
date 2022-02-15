@@ -21,10 +21,7 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { navHeight } from '../../../layout/components/Attribute';
-import moment from 'moment';
 
-import { addMeeting } from '../../actions';
 const style = ({ palette }) => ({
     icon: {
         color: palette.action.active,
@@ -109,9 +106,6 @@ export default function ScedulerMeetingFunc(props) {
     const currentViewNameChange = (currentViewName) => {
         setState({currentViewName}) 
     };
-
-
-
 
     return (
         <Paper style={{ overflow: 'hidden' }}>

@@ -21,6 +21,7 @@ export const apiUrl = {
         role:'/eHRService/Role',  
         employeeMgnt:'/eHRService/Employee_mgmt',
         meeting:'/eHRService/MeetingRoomBooking',
+        timesheet:'/eHRService/TimeSheet',
       }
     },
   }
