@@ -1,4 +1,7 @@
 import renderCellExpand from "./renderCellExpand";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { GridActionsCellItem } from '@mui/x-data-grid';
+
 export const columns = [
   {
     field: "date",
@@ -56,4 +59,18 @@ export const columns = [
     renderCell: renderCellExpand,
     sortable: false,
   },
+  {
+    field: 'actions',
+    type: 'actions', 
+    headerClassName: "bg-light-green",
+    width: 90,
+  
+    getActions: (params) => [      
+        <GridActionsCellItem
+            icon={<DeleteForeverIcon />}
+            label="Delete"
+            onClick={()=>{}}
+        />,
+    ],
+}
 ];
