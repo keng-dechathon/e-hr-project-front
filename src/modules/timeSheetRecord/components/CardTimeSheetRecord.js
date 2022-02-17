@@ -19,6 +19,13 @@ import TextField from "@mui/material/TextField";
 import moment from "moment";
 import { getTimeSheetInformationByDate } from "../actions";
 import { getDateFormat } from "../../../utils/miscellaneous";
+import { columns } from "./headers";
+import { updateDateState, clearDateState } from "../actions";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { GridActionsCellItem } from "@mui/x-data-grid";
+import { deleteTimeSheet, addTimeSheet } from "../actions";
+import { values } from "lodash";
+
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
     display: "flex",
@@ -40,27 +47,97 @@ const useStyles = makeStyles(() => ({
 const CardTimeSheetRecord = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { timesheetByDate } = useSelector(state => state.timesheetReducer)
+  const { timesheetByDate, dateState } = useSelector(
+    (state) => state.timesheetReducer
+  );
 
   const [day, setDay] = useState(new Date());
-  const [pageSize, setPageSize] = useState(5);
+  const [deleteID, setDeleteID] = useState("");
 
   useEffect(() => {
-    dispatch(getTimeSheetInformationByDate('','',getDateFormat(new Date())))
+    dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
   }, []);
-console.log(timesheetByDate);
+  useEffect(() => {
+    dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
+    dispatch(updateDateState(getDateFormat(day)));
+  }, [day]);
+
+  useEffect(() => {
+    if (deleteID !== "") {
+      const onDelete = async (id) => {
+        await deleteTimeSheet(String(id));
+        dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
+      };
+      onDelete(deleteID);
+      setDeleteID("");
+    }
+  }, [deleteID]);
+
+  const onClickDelete = React.useCallback(
+    (id) => () => {
+      setDeleteID(id);
+    },
+    []
+  );
+
+  let header = columns;
+  let Info = [];
+  header[8] = {
+    field: "actions",
+    type: "actions",
+    headerName: "Action",
+    headerClassName: "bg-light-green",
+    width: 70,
+    getActions: (params) => [
+      <GridActionsCellItem
+        icon={<DeleteIcon />}
+        label="Delete"
+        onClick={onClickDelete(params.id)}
+      />,
+    ],
+  };
+  const onClickAdd = async () => {
+    const values = { Date: getDateFormat(day),Start_at:moment(new Date()).format("HH:mm:ss"),End_at:moment(new Date()).format("HH:mm:ss") };
+    await addTimeSheet(values);
+    dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
+  };
   const setNextDate = () => {
     let tomorrow = moment(day).add(1, "days");
-    setDay(tomorrow);
+    setDay(new Date(tomorrow));
   };
   const setBeforeDate = () => {
     let yesterday = moment(day).add(-1, "days");
-    setDay(yesterday);
+    setDay(new Date(yesterday));
   };
   const setToDay = () => {
-    setDay(moment());
+    setDay(new Date(moment()));
   };
 
+  const setDataGrid = () => {
+    if (Object.keys(timesheetByDate).length !== 0) {
+      timesheetByDate.data.map((item, index) => {
+        // let Duration = moment.duration(
+        //   moment(item.End_at, "h:mm:ss A").diff(
+        //     moment(item.Start_at, "h:mm:ss A")
+        //   )
+        // );
+        Info.push(item);
+        Info[index].id = item.Sheet_id;
+        // console.log(new Date(item.Date));
+        Info[index].Date = new Date(item.Date);
+        // Info[index].Start = moment(item.Start_at, "h:mm:ss A").format("HH:mm");
+        Info[index].Start = new Date(
+          moment(item.Start_at, "h:mm:ss A").format()
+        );
+        // console.log(new Date(moment(item.Start_at, "h:mm:ss A").format()));
+        Info[index].End = new Date(moment(item.End_at, "h:mm:ss A").format());
+        // Info[index].duration = moment
+        //   .utc(Duration.as("milliseconds"))
+        //   .format("HH:mm");
+      });
+    }
+  };
+  setDataGrid();
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>
@@ -104,11 +181,21 @@ console.log(timesheetByDate);
             }}
             renderInput={(params) => <TextField size="small" {...params} />}
           />
-          <Button variant="outlined" className={classes.ButtonAdd}>
+          <Button
+            variant="outlined"
+            className={classes.ButtonAdd}
+            onClick={onClickAdd}
+          >
             <pre>+ ADD</pre>
           </Button>
         </div>
-        <DataGrid />
+        <DataGrid
+          rowHeight={40}
+          headers={header}
+          rows={Info}
+          // editRowsModel={editRowsModel}
+          // onEditRowsModelChange={handleEditRowsModelChange}
+        />
       </Box>
     </LocalizationProvider>
   );
