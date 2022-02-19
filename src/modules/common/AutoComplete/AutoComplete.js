@@ -26,69 +26,97 @@ const AutoComplete = ({
   multiple = true,
   label,
   defaultValue,
+  resetTextField = false,
+  setResetTextField,
   ...props
 }) => {
   const classes = useStyles();
-  // const [disableInput, setDisableInput] = useState<boolean>(
-  //   value.length >= limit
-  // );
 
-  const [limitReached, setLimitReached] = useState(false);
-  const [value, setValue] = React.useState(defaultValue ? defaultValue:null);
-  // useEffect(() => {
-  //   if (defaultValue) {
-  //     setSelectState(String(defaultValue[0].id));
-  //   }
-  // }, []);
+  const [value, setValue] = React.useState(defaultValue ? defaultValue : null);
+
+  useEffect(() => {
+    if (resetTextField) {
+      setValue(null);
+      setResetTextField(false)
+    }
+  }, [resetTextField]);
   const handleChange = (event, values) => {
     try {
-      // if (multiple === true && values) {
-      //   temp = values;
-      // } else {
-      //   temp = values.id;
-      // }
-      setValue(values);
-      setLimitReached(values.length >= limit);
+      if(values){
+         setValue(values);
       setSelectState(values);
+      }else{
+        setValue(values);
+        setSelectState({});
+      }
+     
     } catch (e) {
       console.log(e);
     }
   };
 
   return (
-    <Autocomplete
-      multiple={multiple}
-      id="checkboxes-tags-demo"
-      options={option}
-      value={value}
-      isOptionEqualToValue={(option, value) => option.id === value.id}
-      onChange={handleChange}
-      disableCloseOnSelect
-      disabled={disabled}
-      required={required}
-      getOptionLabel={(option) => option.text}
-      renderOption={(props, option, { selected }) => (
-        <li {...props} key={option.id}>
-          <Checkbox
-            icon={icon}
-            key={option.id}
-            checkedIcon={checkedIcon}
-            style={{ marginRight: 8 }}
-            checked={selected}
-          />
-          {option.text}
-        </li>
-      )}
-      style={{ width: "1000px" }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={label}
-          required={multiple ? value.length === 0 : !value} // check array
+    <>
+      {multiple === true ? (
+        <Autocomplete
+          multiple={multiple}
+          id="checkboxes-tags-demo"
+          options={option}
+          value={value}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
+          onChange={handleChange}
+          disableCloseOnSelect={multiple === true ? true : false}
+          disabled={disabled}
+          required={required}
+          getOptionLabel={(option) => option.text}
+          renderOption={(props, option, { selected }) => (
+            <li {...props} key={option.id}>
+              <Checkbox
+                icon={icon}
+                key={option.id}
+                checkedIcon={checkedIcon}
+                style={{ marginRight: 8 }}
+                checked={selected}
+              />
+              {option.text}
+            </li>
+          )}
+          style={{ width: "1000px" }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={label}
+              required={multiple ? value.length === 0 : !value} // check array
+            />
+          )}
+          {...props}
+        />
+      ) : (
+        <Autocomplete
+          options={option}
+          value={value}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
+          onChange={handleChange}
+          disabled={disabled}
+          required={required}
+          getOptionLabel={(option) => option.text}
+          renderOption={(props, option, { selected }) => (
+            <li {...props} key={option.id}>
+              {option.text}
+            </li>
+          )}
+          style={{ width: "1000px" }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={label}
+              required={multiple ? value.length === 0 : !value} // check array
+            />
+          )}
+          {...props}
         />
       )}
-      {...props}
-    />
+    </>
   );
 };
 
