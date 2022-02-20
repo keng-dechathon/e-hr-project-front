@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import FormChargeCodeUpdate from "./FormChargeCodeUpdate";
+import FormLocationUpdate from "./FormLocationUpdate";
 import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 import Box from "@mui/material/Box";
@@ -17,7 +17,7 @@ import {
 } from "../../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
 import ModalUpdate from "../../../common/ModalUpdate";
-import { getChargeCode, deleteChargeCode } from "../../actions";
+import { getLocation, deleteLocation } from "../../actions";
 import { headers } from "./headers";
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
@@ -31,14 +31,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CardChargeCode = () => {
+const CardLocation = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { chargeCodeInformation } = useSelector(
+  const { locationInformation } = useSelector(
     (state) => state.timeSheetMngReducer
   );
-  console.log(chargeCodeInformation);
   const [nowID, setNowID] = useState("");
   const [open, setopen] = useState(false);
   const [deleteID, setDeleteID] = useState("");
@@ -73,14 +72,14 @@ const CardChargeCode = () => {
     ],
   };
   useEffect(() => {
-    dispatch(getChargeCode());
+    dispatch(getLocation());
   }, []);
 
   useEffect(() => {
     if (deleteID !== "") {
       const onDelete = async (id) => {
-        await deleteChargeCode(String(id));
-        dispatch(getChargeCode());
+        await deleteLocation(String(id));
+        dispatch(getLocation());
       };
       onDelete(deleteID);
       setDeleteID("");
@@ -126,10 +125,10 @@ const CardChargeCode = () => {
   };
 
   const setDataGrid = () => {
-    if (Object.keys(chargeCodeInformation).length !== 0) {
-      chargeCodeInformation.data.map((item, index) => {
+    if (Object.keys(locationInformation).length !== 0) {
+      locationInformation.data.map((item, index) => {
         Info.push(item);
-        Info[index].id = item.ChargeCode_id;
+        Info[index].id = item.Location_id;
       });
     }
   };
@@ -139,9 +138,9 @@ const CardChargeCode = () => {
       <ModalUpdate
         open={open}
         handleClose={handleClose}
-        title="Charge Code Update"
+        title="Location Update"
       >
-        <FormChargeCodeUpdate
+        <FormLocationUpdate
           id={nowID}
           handleClose={handleClose}
           option={option}
@@ -182,4 +181,4 @@ const CardChargeCode = () => {
   );
 };
 
-export default CardChargeCode;
+export default CardLocation;

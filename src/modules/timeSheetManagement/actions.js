@@ -73,3 +73,76 @@ export const updateChargeCode = async (values) => {
       return { status: "fail" };
     });
 };
+
+export const deleteChargeCode = async (id) => {
+  return API()
+    .post(apiUrl.eHRService.common.chargecode, {
+      ChargeCode_id: id ? id : "",
+      Option: "Delete",
+    })
+    .then((response) => {
+      pushSnackbarAction("delete", "delete success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      console.log(error);
+      pushSnackbarAction("Server Error", "Server Error.");
+      return { status: "fail" };
+    });
+};
+
+export const addLocation = async (values) => {
+  return API()
+    .post(apiUrl.eHRService.common.location, {
+      Location_Name: values.Location_Name ? values.Location_Name : "",
+      Description: values.Description ? values.Description : "",
+      Option: "Add",
+    })
+    .then((response) => {
+      // console.log(response);
+      pushSnackbarAction("success", "add success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      console.log(error);
+      pushSnackbarAction("Server Error", "Server Error.");
+      return { status: "fail" };
+    });
+};
+
+export const updateLocation = async (values) => {
+  return API()
+    .post(apiUrl.eHRService.common.location, {
+      Location_id:values.Location_id?values.Location_id:"",
+      Location_Name: values.Location_Name ? values.Location_Name : "",
+      Description: values.Description ? values.Description : "",
+      Option: "Update",
+    })
+    .then((response) => {
+      // console.log(response);
+      pushSnackbarAction("success", "add success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      console.log(error);
+      pushSnackbarAction("Server Error", "Server Error.");
+      return { status: "fail" };
+    });
+};
+
+export const deleteLocation = async (id) => {
+  return API()
+    .post(apiUrl.eHRService.common.location, {
+      Location_id: id ? id : "",
+      Option: "Delete",
+    })
+    .then((response) => {
+      pushSnackbarAction("delete", "delete success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      console.log(error);
+      pushSnackbarAction("Server Error", "Server Error.");
+      return { status: "fail" };
+    });
+};
