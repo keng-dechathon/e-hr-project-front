@@ -94,54 +94,52 @@ const FormLocationUpdate = (props) => {
   });
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <InputLabel>Name *</InputLabel>
-            <TextField
-              id="name"
-              name="name"
-              required
-              defaultValue={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-              fullWidth
-            />
-          </Grid>
-          <Grid item sm={12}>
-            <InputLabel>Noted</InputLabel>
-            <TextField
-              id="noted"
-              name="noted"
-              defaultValue={noted}
-              onChange={(e) => {
-                setNoted(e.target.value);
-              }}
-              required
-              fullWidth
-              multiline
-              rows={3}
-              rowsMax={4}
-            />
-          </Grid>
+    <form onSubmit={handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <InputLabel>Name *</InputLabel>
+          <TextField
+            id="name"
+            name="name"
+            required
+            defaultValue={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            fullWidth
+          />
         </Grid>
-        <DialogActions className={classes.dialogAction}>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button
-            loading={submitting}
-            variant={"contained"}
-            className={classes.ButtonSubmit}
-            type="submit"
-            autoFocus
-          >
-            {option === "add" ? "ADD + " : "Update"}
-          </Button>
-        </DialogActions>
-        <Snackbar />
-      </form>
-    </LocalizationProvider>
+        <Grid item sm={12}>
+          <InputLabel>Noted</InputLabel>
+          <TextField
+            id="noted"
+            name="noted"
+            defaultValue={noted}
+            onChange={(e) => {
+              setNoted(e.target.value);
+            }}
+            required
+            fullWidth
+            multiline
+            rows={3}
+            rowsMax={4}
+          />
+        </Grid>
+      </Grid>
+      <DialogActions className={classes.dialogAction}>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button
+          loading={submitting}
+          variant={"contained"}
+          className={classes.ButtonSubmit}
+          type="submit"
+          autoFocus
+        >
+          {option === "add" ? "ADD + " : "Update"}
+        </Button>
+      </DialogActions>
+      <Snackbar />
+    </form>
   );
 };
 
