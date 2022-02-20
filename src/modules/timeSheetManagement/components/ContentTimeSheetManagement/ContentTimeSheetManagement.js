@@ -8,6 +8,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CardChargeCode from "../TabChargeCode/CardChargeCode";
+import CardLocation from "../TabLocation/CardLocation";
 const useStyles = makeStyles(styles);
 
 const ContentTimeSheetManagement = () => {
@@ -30,8 +31,12 @@ const ContentTimeSheetManagement = () => {
               <Tab label="Location" value="2" className={classes.tabitem} />
             </TabList>
           </Box>
-          <TabPanel value="1" className={classes.tabpanel}><CardChargeCode/></TabPanel>
-          <TabPanel value="2" className={classes.tabpanel}></TabPanel>
+          <TabPanel value="1" className={classes.tabpanel}>
+            <CardChargeCode />
+          </TabPanel>
+          <TabPanel value="2" className={classes.tabpanel}>
+            <CardLocation />
+          </TabPanel>
         </TabContext>
       </Box>
     </Box>

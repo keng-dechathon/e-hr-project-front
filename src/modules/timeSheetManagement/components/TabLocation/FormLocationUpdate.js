@@ -8,13 +8,13 @@ import moment from "moment";
 import TimePicker from "@mui/lab/TimePicker";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import DialogActions from "@mui/material/DialogActions";
-import { addChargeCode } from "../../actions";
+import { addLocation } from "../../actions";
 import { useSelector, useDispatch } from "react-redux";
 import { TextField } from "@mui/material";
 import Snackbar from "../../../layout/components/Snackbar";
 import { Grid } from "@mui/material";
 import { InputLabel } from "@mui/material";
-import { getChargeCode, updateChargeCode } from "../../actions";
+import { getLocation, updateLocation } from "../../actions";
 import { Box } from "@mui/system";
 
 const useStyles = makeStyles(() => ({
@@ -37,28 +37,27 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const FormChargeCodeUpdate = (props) => {
+const FormLocationUpdate = (props) => {
   const classes = useStyles();
   const { handleClose, id, option } = props;
 
   const dispatch = useDispatch();
-  const { chargeCodeInformation } = useSelector(
+  const { locationInformation } = useSelector(
     (state) => state.timeSheetMngReducer
   );
-
   useEffect(() => {
-    dispatch(getChargeCode());
+    dispatch(getLocation());
   }, []);
 
   const item =
-    Object.keys(chargeCodeInformation).length !== 0 && option != "add"
-      ? chargeCodeInformation.data.filter((value) => value.ChargeCode_id === id)
+    Object.keys(locationInformation).length !== 0 && option != "add"
+      ? locationInformation.data.filter((value) => value.Location_id === id)
       : "";
 
   const [name, setName] = useState(
     item.length !== 0
-      ? item[0].ChargeCode_Name
-        ? item[0].ChargeCode_Name
+      ? item[0].Location_Name
+        ? item[0].Location_Name
         : ""
       : ""
   );
@@ -72,24 +71,22 @@ const FormChargeCodeUpdate = (props) => {
   useEffect(() => {
     setTimeout(() =>
       setUser({
-        ChargeCode_Name: name,
+        Location_Name: name,
         Description: noted,
-        ChargeCode_id: String(id),
+        Location_id: String(id),
       })
     );
   }, [name, noted]);
 
-  let i = 0;
   const onSubmit = async () => {
     console.log(option);
     if (option === "update") {
-      await updateChargeCode(user);
+      await updateLocation(user);
     } else if (option === "add") {
-      await addChargeCode(user);
+      await addLocation(user);
     }
-    dispatch(getChargeCode());
+    dispatch(getLocation());
     handleClose();
-    i++;
   };
 
   const { handleSubmit, submitting } = useForm({
@@ -139,7 +136,7 @@ const FormChargeCodeUpdate = (props) => {
             type="submit"
             autoFocus
           >
-            Update
+            {option === "add" ? "ADD + " : "Update"}
           </Button>
         </DialogActions>
         <Snackbar />
@@ -148,4 +145,4 @@ const FormChargeCodeUpdate = (props) => {
   );
 };
 
-export default FormChargeCodeUpdate;
+export default FormLocationUpdate;
