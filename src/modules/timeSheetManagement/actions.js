@@ -34,3 +34,42 @@ export const getChargeCode = (config, data = {}) =>
       ...config,
     }
   );
+
+export const addChargeCode = async (values) => {
+  return API()
+    .post(apiUrl.eHRService.common.chargecode, {
+      ChargeCode_Name: values.ChargeCode_Name ? values.ChargeCode_Name : "",
+      Description: values.Description ? values.Description : "",
+      Option: "Add",
+    })
+    .then((response) => {
+      // console.log(response);
+      pushSnackbarAction("success", "add success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      console.log(error);
+      pushSnackbarAction("Server Error", "Server Error.");
+      return { status: "fail" };
+    });
+};
+
+export const updateChargeCode = async (values) => {
+  return API()
+    .post(apiUrl.eHRService.common.chargecode, {
+      ChargeCode_id: values.ChargeCode_id ? values.ChargeCode_id : "",
+      ChargeCode_Name: values.ChargeCode_Name ? values.ChargeCode_Name : "",
+      Description: values.Description ? values.Description : "",
+      Option: "Update",
+    })
+    .then((response) => {
+      // console.log(response);
+      pushSnackbarAction("success", "add success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      console.log(error);
+      pushSnackbarAction("Server Error", "Server Error.");
+      return { status: "fail" };
+    });
+};
