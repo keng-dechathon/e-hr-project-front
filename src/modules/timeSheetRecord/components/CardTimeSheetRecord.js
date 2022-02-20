@@ -24,7 +24,6 @@ import { updateDateState, clearDateState } from "../actions";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { deleteTimeSheet, addTimeSheet } from "../actions";
-import { values } from "lodash";
 
 const useStyles = makeStyles(() => ({
   ButtonAdd: {

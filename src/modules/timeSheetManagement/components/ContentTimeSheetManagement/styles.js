@@ -14,7 +14,7 @@ export default () => ({
     tabitem: {
         marginRight: '30px !important',
         padding: '0 !important',      
-        minWidth: '100px !important',
+        minWidth: '140px !important',
         textTransform: 'none !important',
         fontWeight: 'bold !important',
         fontSize: '18px !important',
