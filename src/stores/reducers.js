@@ -13,6 +13,7 @@ import roleReducer from "../modules/userRole/reducers";
 import meetReducer from "../modules/meeting/reducers";
 import timesheetReducer from "../modules/timeSheetRecord/reducers";
 import timeSheetMngReducer from "../modules/timeSheetManagement/reducers"
+import timeSheetViewerReducer from "../modules/timeSheetViewer/reducers"
 
 export default combineReducers({
   layoutReducer,
@@ -29,4 +30,5 @@ export default combineReducers({
   meetReducer,
   timesheetReducer,
   timeSheetMngReducer,
+  timeSheetViewerReducer,
 });

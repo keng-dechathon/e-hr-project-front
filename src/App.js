@@ -10,7 +10,7 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import Profile from "./pages/common/Profile";
 import News from "./pages/common/News";
 import MainLayout from "./modules/layout/components/MainLayout";
-import TimesheetViewer from "./pages/common/TimesheetViewer";
+import TimesheetViewer from "./pages/common/TimeSheetViewer";
 import TimeSheetRecord from "./pages/common/TimeSheetRecord";
 import LeaveRequest from "./pages/common/LeaveRequest";
 import NewsView from "./modules/news/components/view/NewsView";
@@ -20,6 +20,7 @@ import Team from "./pages/common/TeamManagement";
 import EmployeeInformation from "./pages/common/EmployeeInformation";
 import LeaveType from "./pages/common/LeaveType"
 import MeetingRoom from "./pages/common/MeetingRoom";
+import TimeSheetManagement from "./pages/common/TimeSheetManagement"
 export default function App() {
 
   return (
@@ -41,10 +42,10 @@ export default function App() {
             <Route exact path='/news' element={<MainLayout title='News'><News /></MainLayout>} />
           </Route>
           <Route exact path='/time-sheet-viewer' element={<PrivateRoute />}>
-            <Route exact path='/time-sheet-viewer' element={<MainLayout title='Time Sheet Viewer'><TimesheetViewer /></MainLayout>} />
+            <Route exact path='/time-sheet-viewer' element={<MainLayout title='Timesheet Viewer'><TimesheetViewer /></MainLayout>} />
           </Route>
           <Route exact path='/time-sheet-record' element={<PrivateRoute />}>
-            <Route exact path='/time-sheet-record' element={<MainLayout title='Time Sheet Record'><TimeSheetRecord /></MainLayout>} />
+            <Route exact path='/time-sheet-record' element={<MainLayout title='Timesheet Record'><TimeSheetRecord /></MainLayout>} />
           </Route>
           <Route exact path='/leave-request' element={<PrivateRoute />}>
             <Route exact path='/leave-request' element={<MainLayout title='Leave Request'><LeaveRequest /></MainLayout>} />
@@ -72,6 +73,9 @@ export default function App() {
           </Route>
           <Route exact path='/meeting-room-booking' element={<PrivateRoute />}>
             <Route exact path='/meeting-room-booking' element={<MainLayout title='Meeting Room Booking'><MeetingRoom /></MainLayout>} />
+          </Route>
+          <Route exact path='/timesheet-management' element={<PrivateRoute />}>
+            <Route exact path='/timesheet-management' element={<MainLayout title='Timesheet Management'><TimeSheetManagement /></MainLayout>} />
           </Route>
         </Routes>
       </Fragment>
