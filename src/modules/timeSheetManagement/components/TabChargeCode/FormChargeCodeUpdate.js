@@ -61,6 +61,13 @@ const FormChargeCodeUpdate = (props) => {
         : ""
       : ""
   );
+  // const [name, setName] = useState(
+  //   item.length !== 0
+  //     ? item[0].ChargeCode_Name
+  //       ? item[0].ChargeCode_Name
+  //       : ""
+  //     : ""
+  // );
 
   const [noted, setNoted] = useState(
     item.length !== 0 ? (item[0].Description ? item[0].Description : "") : ""
