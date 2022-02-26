@@ -16,7 +16,7 @@ import { deleteHoliday } from '../../actions';
 import { QuickSearchToolbar, escapeRegExp } from '../../../common/QuickSearchToolbar/QuickSearchToolbar'
 import { Button } from '@mui/material'
 import ModalUpdate from '../../../common/ModalUpdate'
-
+import moment from 'moment'
 
 const useStyles = makeStyles(() => ({
     ButtonAdd: {
@@ -126,7 +126,6 @@ const CardHoliday = () => {
                             holidayHeader[2] = {
                                 field: name,
                                 headerName: headerArray[name],
-                                type: 'dateTime',
                                 flex: 1,
                                 sortable: false
                             }
@@ -135,7 +134,6 @@ const CardHoliday = () => {
                             holidayHeader[3] = {
                                 field: name,
                                 headerName: headerArray[name],
-                                type: 'dateTime',
                                 flex: 1,
                                 sortable: false
                             }
@@ -151,6 +149,8 @@ const CardHoliday = () => {
                     })
                 }
                 holidayInfo.push(item)
+                holidayInfo[index].Start = moment(item.Start).format('D  MMMM');
+                holidayInfo[index].End = moment(item.End).format('D  MMMM');
                 holidayInfo[index].id = item.ID
             })
             holidayHeader.push({

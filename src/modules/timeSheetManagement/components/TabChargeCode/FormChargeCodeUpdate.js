@@ -36,7 +36,6 @@ const useStyles = makeStyles(() => ({
     textAlign: "center",
   },
 }));
-
 const FormChargeCodeUpdate = (props) => {
   const classes = useStyles();
   const { handleClose, id, option } = props;
@@ -79,9 +78,8 @@ const FormChargeCodeUpdate = (props) => {
     );
   }, [name, noted]);
 
-  let i = 0;
+  
   const onSubmit = async () => {
-    console.log(option);
     if (option === "update") {
       await updateChargeCode(user);
     } else if (option === "add") {
@@ -89,7 +87,6 @@ const FormChargeCodeUpdate = (props) => {
     }
     dispatch(getChargeCode());
     handleClose();
-    i++;
   };
 
   const { handleSubmit, submitting } = useForm({
