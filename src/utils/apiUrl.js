@@ -24,6 +24,7 @@ export const apiUrl = {
         timesheet:'/eHRService/TimeSheet',
         location:'/eHRService/Location',
         chargecode:'/eHRService/ChargeCode',
+        checkin_checkout:'/eHRService/CheckInCheckOut',
       }
     },
   }
