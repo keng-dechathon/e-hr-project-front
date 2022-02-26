@@ -100,7 +100,7 @@ const FormChargeCodeUpdate = (props) => {
           <TextField
             id="name"
             name="name"
-            required
+            required={true}
             defaultValue={name}
             onChange={(e) => {
               setName(e.target.value);
@@ -117,7 +117,7 @@ const FormChargeCodeUpdate = (props) => {
             onChange={(e) => {
               setNoted(e.target.value);
             }}
-            required
+            required={true}
             fullWidth
             multiline
             rows={3}
