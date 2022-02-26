@@ -78,7 +78,6 @@ const FormChargeCodeUpdate = (props) => {
     );
   }, [name, noted]);
 
-  
   const onSubmit = async () => {
     if (option === "update") {
       await updateChargeCode(user);
