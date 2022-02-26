@@ -107,7 +107,6 @@ const CardTimeSheetViewer = () => {
       );
     }
   };
-  console.log(selectState);
   const setMember = () => {
     if (Object.keys(memberInformation).length !== 0) {
       memberInformation.data.map((item, index) => {

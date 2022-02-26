@@ -35,6 +35,7 @@
     "lodash": "^4.17.21",
     "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.29.1",
+    "moment-range": "^4.0.2",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.3",
     "react-date-range": "^1.4.0",

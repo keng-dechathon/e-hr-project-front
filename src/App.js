@@ -18,69 +18,197 @@ import NewsManagement from "./pages/common/NewsManagement";
 import TimeManagement from "./pages/common/TimeManagement";
 import Team from "./pages/common/TeamManagement";
 import EmployeeInformation from "./pages/common/EmployeeInformation";
-import LeaveType from "./pages/common/LeaveType"
+import LeaveType from "./pages/common/LeaveType";
 import MeetingRoom from "./pages/common/MeetingRoom";
-import TimeSheetManagement from "./pages/common/TimeSheetManagement"
+import TimeSheetManagement from "./pages/common/TimeSheetManagement";
+import CheckIn_CheckOut from "./pages/common/Checkin_CheckOut";
 export default function App() {
-
   return (
-
     <Router>
       <Fragment>
         <Routes>
-          <Route path='/sign-in' element={<SignIn />} />
-          <Route path='/forgot-password' element={<ForgotPassword />} />
-          <Route path='/reset-password' element={<ResetPassword />} />
-          <Route path='/sign-out' element={<SignOut />} />
-          <Route exact path='/home' element={<PrivateRoute />}>
-            <Route exact path='/home' element={<MainLayout title='home'><Home /></MainLayout>} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/sign-out" element={<SignOut />} />
+          <Route exact path="/home" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/home"
+              element={
+                <MainLayout title="home">
+                  <Home />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/profile' element={<PrivateRoute />}>
-            <Route exact path='/profile' element={<MainLayout title='Profile'><Profile /></MainLayout>} />
+          <Route exact path="/profile" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/profile"
+              element={
+                <MainLayout title="Profile">
+                  <Profile />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/news' element={<PrivateRoute />}>
-            <Route exact path='/news' element={<MainLayout title='News'><News /></MainLayout>} />
+          <Route exact path="/news" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/news"
+              element={
+                <MainLayout title="News">
+                  <News />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/time-sheet-viewer' element={<PrivateRoute />}>
-            <Route exact path='/time-sheet-viewer' element={<MainLayout title='Timesheet Viewer'><TimesheetViewer /></MainLayout>} />
+          <Route exact path="/time-sheet-viewer" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/time-sheet-viewer"
+              element={
+                <MainLayout title="Timesheet Viewer">
+                  <TimesheetViewer />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/time-sheet-record' element={<PrivateRoute />}>
-            <Route exact path='/time-sheet-record' element={<MainLayout title='Timesheet Record'><TimeSheetRecord /></MainLayout>} />
+          <Route exact path="/time-sheet-record" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/time-sheet-record"
+              element={
+                <MainLayout title="Timesheet Record">
+                  <TimeSheetRecord />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/leave-request' element={<PrivateRoute />}>
-            <Route exact path='/leave-request' element={<MainLayout title='Leave Request'><LeaveRequest /></MainLayout>} />
+          <Route exact path="/leave-request" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/leave-request"
+              element={
+                <MainLayout title="Leave Request">
+                  <LeaveRequest />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/news/:id' element={<PrivateRoute />}>
-            <Route exact path='/news/:id' element={<MainLayout title='News View'><NewsView /></MainLayout>} />
+          <Route exact path="/news/:id" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/news/:id"
+              element={
+                <MainLayout title="News View">
+                  <NewsView />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/news-management' element={<PrivateRoute />}>
-            <Route exact path='/news-management' element={<MainLayout title='News Management'><NewsManagement /></MainLayout>} />
+          <Route exact path="/news-management" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/news-management"
+              element={
+                <MainLayout title="News Management">
+                  <NewsManagement />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/time-management' element={<PrivateRoute />}>
-            <Route exact path='/time-management' element={<MainLayout title='Time Management'><TimeManagement /></MainLayout>} />
+          <Route exact path="/time-management" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/time-management"
+              element={
+                <MainLayout title="Time Management">
+                  <TimeManagement />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/team-management' element={<PrivateRoute />}>
-            <Route exact path='/team-management' element={<MainLayout title='Teams Management'><Team /></MainLayout>} />
+          <Route exact path="/team-management" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/team-management"
+              element={
+                <MainLayout title="Teams Management">
+                  <Team />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/employee-information' element={<PrivateRoute />}>
-            <Route exact path='/employee-information' element={<MainLayout title='Employee Information'><EmployeeInformation /></MainLayout>} />
+          <Route exact path="/employee-information" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/employee-information"
+              element={
+                <MainLayout title="Employee Information">
+                  <EmployeeInformation />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/employee-management' element={<PrivateRoute />}>
-            <Route exact path='/employee-management' element={<MainLayout title='Employee Management'><EmployeeInformation /></MainLayout>} />
+          <Route exact path="/employee-management" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/employee-management"
+              element={
+                <MainLayout title="Employee Management">
+                  <EmployeeInformation />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/leave-type' element={<PrivateRoute />}>
-            <Route exact path='/leave-type' element={<MainLayout title='Leave Type'><LeaveType /></MainLayout>} />
+          <Route exact path="/leave-type" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/leave-type"
+              element={
+                <MainLayout title="Leave Type">
+                  <LeaveType />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/meeting-room-booking' element={<PrivateRoute />}>
-            <Route exact path='/meeting-room-booking' element={<MainLayout title='Meeting Room Booking'><MeetingRoom /></MainLayout>} />
+          <Route exact path="/meeting-room-booking" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/meeting-room-booking"
+              element={
+                <MainLayout title="Meeting Room Booking">
+                  <MeetingRoom />
+                </MainLayout>
+              }
+            />
           </Route>
-          <Route exact path='/timesheet-management' element={<PrivateRoute />}>
-            <Route exact path='/timesheet-management' element={<MainLayout title='Timesheet Management'><TimeSheetManagement /></MainLayout>} />
+          <Route exact path="/timesheet-management" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/timesheet-management"
+              element={
+                <MainLayout title="Timesheet Management">
+                  <TimeSheetManagement />
+                </MainLayout>
+              }
+            />
+          </Route>
+          <Route exact path="/checkin-checkout" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/checkin-checkout"
+              element={
+                <MainLayout title="Checkin-Checkout">
+                  <CheckIn_CheckOut />
+                </MainLayout>
+              }
+            />
           </Route>
         </Routes>
       </Fragment>
-    </Router >
-
-
+    </Router>
   );
 }

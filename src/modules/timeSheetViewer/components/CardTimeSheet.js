@@ -16,12 +16,16 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import TextField from "@mui/material/TextField";
-import moment from "moment";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
+import Typography from "../../common/Typography/Typography";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { getTimeSheetInformationByDate } from "../../timeSheetRecord/actions";
 import { getDateFormat } from "../../../utils/miscellaneous";
 import { columns } from "./headers";
 import { getTimeSheetById } from "../actions";
 import { getChargeCode, getLocation } from "../../timeSheetManagement/actions";
+import { getHolidaysInformation } from "../../timeManagement/actions";
 
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
@@ -48,7 +52,20 @@ const useStyles = makeStyles(() => ({
     height: "60px",
     justifyContent: "flex-start",
   },
+  attention: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: "10px",
+  },
+  normal: {
+    backgroundColor: "#8bc34a !important",
+  },
+  holiday: {
+    backgroundColor: "#2196f3 !important",
+  },
 }));
+const moment = extendMoment(Moment);
 
 const CardTimeSheet = (props) => {
   const { id } = props;
@@ -60,7 +77,10 @@ const CardTimeSheet = (props) => {
   const { locationInformation, chargeCodeInformation } = useSelector(
     (state) => state.timeSheetMngReducer
   );
+  const { holidaysInformation } = useSelector((state) => state.timeReducer);
+
   const [day, setDay] = useState(new Date());
+  const [isBetween, setIsBetween] = useState(false);
 
   let header = columns;
   let Info = [];
@@ -68,12 +88,17 @@ const CardTimeSheet = (props) => {
   useEffect(() => {
     dispatch(getChargeCode());
     dispatch(getLocation());
+    dispatch(getHolidaysInformation());
     dispatch(getTimeSheetById("", "", id, getDateFormat(day)));
   }, []);
 
   useEffect(() => {
     dispatch(getTimeSheetById("", "", id, getDateFormat(day)));
   }, [day]);
+
+  useEffect(() => {
+    checkIsBetweenDate();
+  }, [holidaysInformation, day]);
 
   const setNextDate = () => {
     let tomorrow = moment(day).add(1, "days");
@@ -121,6 +146,24 @@ const CardTimeSheet = (props) => {
       });
     }
   };
+  const checkIsBetweenDate = () => {
+    if (Object.keys(holidaysInformation).length !== 0) {
+      setIsBetween(false);
+      const nowYear = moment(day).format("YYYY");
+      holidaysInformation.data.map((item) => {
+        const start = new Date(
+          moment(moment(item.Start).format("MMM Do ") + nowYear, "MMM Do YYYY")
+        );
+        const end = new Date(
+          moment(moment(item.End).format("MMM Do ") + nowYear, "MMM Do YYYY").add(1, "days")
+        );
+        const range = moment().range(start, end);
+        if (range.contains(day)) {
+          setIsBetween(true);
+        }
+      });
+    }
+  };
   setDataGrid();
 
   return (
@@ -128,8 +171,8 @@ const CardTimeSheet = (props) => {
       <Box className={classes.box}>
         <div className={classes.header}>
           <Button
-            variant="outlined"
-            className={classes.dateButton}
+            variant="contained"
+            className={isBetween ? classes.holiday : classes.normal}
             onClick={setToDay}
           >
             <pre>TODAY</pre>
@@ -152,11 +195,23 @@ const CardTimeSheet = (props) => {
           </IconButton>
           <DatePicker
             value={day}
+            inputFormat="dd/MM/yyyy"
             onChange={(newValue) => {
               setDay(newValue);
             }}
             renderInput={(params) => <TextField size="small" {...params} />}
           />
+          {isBetween ? (
+            <Typography variant="h7" color="mute" className={classes.attention}>
+              <ErrorOutlineIcon
+                fontSize="small"
+                style={{ marginRight: "5px" }}
+              />
+              This day is holiday
+            </Typography>
+          ) : (
+            ""
+          )}
         </div>
         <DataGrid rowHeight={40} headers={header} rows={Info} />
       </Box>
