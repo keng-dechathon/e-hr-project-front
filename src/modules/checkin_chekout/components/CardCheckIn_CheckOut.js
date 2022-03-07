@@ -93,7 +93,7 @@ const CardCheckIn_CheckOut = () => {
           moment(moment(item.Start).format("MMM Do ") + nowYear, "MMM Do YYYY")
         );
         const end = new Date(
-          moment(moment(item.End).format("MMM Do ") + nowYear, "MMM Do YYYY")
+          moment(moment(item.End).format("MMM Do ") + nowYear, "MMM Do YYYY").add(1, "days")
         );
         const now = new Date();
         const range = moment().range(start, end);
