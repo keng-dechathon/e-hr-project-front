@@ -25,7 +25,7 @@ const AutoComplete = ({
   disabled = false,
   multiple = true,
   label,
-  defaultValue,
+  defaultValue=[],
   resetTextField = false,
   setResetTextField,
   ...props
@@ -33,7 +33,7 @@ const AutoComplete = ({
   const classes = useStyles();
 
   const [value, setValue] = React.useState(defaultValue ? defaultValue : null);
-
+console.log(option);
   useEffect(() => {
     if (resetTextField) {
       setValue(null);
