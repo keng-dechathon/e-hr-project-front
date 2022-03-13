@@ -10,11 +10,26 @@ export const GET_TEAMS_INFORMATION = createRequestTypes(
 export const GET_MEMBERS_INFORMATION = createRequestTypes(
   Types.GET_MEMBERS_INFORMATION
 );
+export const GET_TEAMSBYID_INFORMATION = createRequestTypes(
+  Types.GET_TEAMSBYID_INFORMATION
+);
 
 export const getTeamsInformation = (config, data = {}) =>
   createAction(
     GET_TEAMS_INFORMATION.REQUEST,
     {},
+    {
+      method: "POST",
+      url: apiUrl.eHRService.common.team,
+      params: data,
+      ...config,
+    }
+  );
+
+export const getTeamsInformationById = (config, data = {}, id) =>
+  createAction(
+    GET_TEAMSBYID_INFORMATION.REQUEST,
+    { Option: "Get_Team_By_Emp_id", Emp_id: id },
     {
       method: "POST",
       url: apiUrl.eHRService.common.team,

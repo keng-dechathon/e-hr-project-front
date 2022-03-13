@@ -22,6 +22,7 @@ import LeaveType from "./pages/common/LeaveType";
 import MeetingRoom from "./pages/common/MeetingRoom";
 import TimeSheetManagement from "./pages/common/TimeSheetManagement";
 import CheckIn_CheckOut from "./pages/common/Checkin_CheckOut";
+import LeaveManagement from "./pages/common/LeaveManagement";
 export default function App() {
   return (
     <Router>
@@ -203,6 +204,17 @@ export default function App() {
               element={
                 <MainLayout title="Checkin-Checkout">
                   <CheckIn_CheckOut />
+                </MainLayout>
+              }
+            />
+          </Route>
+          <Route exact path="/leave-management" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/leave-management"
+              element={
+                <MainLayout title="Leave Management">
+                  <LeaveManagement />
                 </MainLayout>
               }
             />

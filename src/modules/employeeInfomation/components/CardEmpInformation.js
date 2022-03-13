@@ -122,6 +122,7 @@ const CardEmpInformation = (props) => {
 
   const onClickShowEmpInfo = React.useCallback(
     (id) => () => {
+      console.log(id);
       setOpen(true);
       setID(id);
     },
@@ -162,7 +163,6 @@ const CardEmpInformation = (props) => {
       empInformation.data.map((item, index) => {
         if (index === 0) {
           Object.keys(item).map((name, value) => {
-            console.log(name);
             if (name === "Img" && headerArray[name]) {
               Header[0] = {
                 field: name,
@@ -283,7 +283,6 @@ const CardEmpInformation = (props) => {
             }
           });
         }
-        console.log(item);
         Info[index] = {};
         Info[index].Img = item.Img;
         Info[index].Name = item.Name;
