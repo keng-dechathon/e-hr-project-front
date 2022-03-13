@@ -1,82 +1,131 @@
-import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles'
-import Typography from '../../../common/Typography/Typography'
-import styles from './styles'
-import { getLeaveInformation } from '../../../leave/actions';
-import { useSelector, useDispatch } from 'react-redux'
-import DataGrid from '../../../common/DataGrid';
-const useStyles = makeStyles(styles)
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "../../../common/Typography/Typography";
+import styles from "./styles";
+import { getLeaveInformation } from "../../../leaveRequest/actions";
+import { useSelector, useDispatch } from "react-redux";
+import DataGrid from "../../../common/DataGrid";
+import { headers } from "./headers";
+import { GridActionsCellItem } from "@mui/x-data-grid";
+import { Button } from "@mui/material";
+import moment from "moment";
+import { getDayOffAmount } from "../../../../utils/miscellaneous";
+import { getLeaveAmount } from "../../../../utils/miscellaneous";
+import { cancleLeaveRequest } from "../../../leaveRequest/actions";
+
+const useStyles = makeStyles(styles);
 
 const CardLeaveInfomation = () => {
-    const classes = useStyles()
-    const dispatch = useDispatch()
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
-    const { leaveInformation } = useSelector(state => state.leaveReducer)
+  const { leaveInformation } = useSelector((state) => state.leaveReducer);
+  useEffect(() => {
+    dispatch(getLeaveInformation());
+  }, []);
 
-    let leaveDataFormat = [{id:'0'}]
-    let leaveDataHeader = []
+  const [option, setOption] = useState("");
+  const [open, setOpen] = useState(false);
+  const [ID, setID] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [searchInfo, setSearchInfo] = useState([]);
+  const [pageSize, setPageSize] = useState(5);
+  const [sortModel, setSortModel] = useState([
+    {
+      field: "ID",
+      sort: "desc",
+    },
+  ]);
+
+  let leaveDataFormat = [{ id: "0" }];
+  let leaveDataHeader = [];
 
 
-    let myLeaveDataFormat = []
-    let myLeaveDataHeader = []
+  let Header = headers;
+  let Info = [];
+  Header[headers.length] = {
+    field: "actions",
+    type: "actions",
+    width: 100,
+    renderCell: (cellValues) => {
+      return (
+        <Button
+          variant="outlined"
+          style={{ border: "none" }}
+          onClick={(event) => {
+            handleClickCancle(event, cellValues);
+          }}
+        >
+          Cancle
+        </Button>
+      );
+    },
+  };
 
-    useEffect(() => {
-        dispatch(getLeaveInformation())
 
-    }, [])
+  const handleClickCancle = async (event, cellValues) => {
+    console.log(cellValues.id);
+    cancleLeaveRequest(String(cellValues.id));
+    dispatch(getLeaveInformation());
+  };
 
-
-    // const setLeaveInfoTableData = () => {
-    //     if (Object.keys(leaveInformation).length !== 0) {
-    //         leaveInformation.Leave_infomation.data.forEach((value, index) => {
-    //             console.log(   leaveInformation.Leave_infomation.data);
-    //             leaveDataHeader.push(value.Type_name)
-    //             leaveDataFormat[0][value.Type_name] = value.Leaved
-    //         })
-    //     }
-
-    // }
-    const setLeaveInfoDataGrid = () => {
-        if (Object.keys(leaveInformation).length !== 0) {
-
-            leaveInformation.Leave_infomation.data.forEach((value, index) => {
-                let name = value.Type_name        
-                leaveDataHeader.push({ field: name, headerName: name, flex: 1 })
-                leaveDataFormat[0][name] = value.Leaved
-
-            })
-      
-        }
-    
-
+  const setLeaveInfoDataGrid = () => {
+    if (Object.keys(leaveInformation).length !== 0) {
+      leaveInformation.Leave_infomation.data.forEach((value, index) => {
+        let name = value.Type_name;
+        leaveDataHeader.push({ field: name, headerName: name, flex: 1 });
+        leaveDataFormat[0][name] = value.Leaved;
+      });
     }
-    const setMyLeaveDataGrid = () => {
-        if (Object.keys(leaveInformation).length !== 0) {
-            leaveInformation.Leave_request.data.map((value, index1) => {
-              
-                myLeaveDataFormat.push(value)
-                Object.keys(value).map(function (key, index2) {
-                    if (index1 == 0) myLeaveDataHeader.push({ field: key, headerName: key, flex: 1 })
-                });
-            })
-            myLeaveDataHeader.sort((a, b) => (a.field > b.field) ? 1 : ((b.field > a.field) ? -1 : 0))
-            myLeaveDataHeader.sort((a, b) => (a.field == 'id') ? -1 : 1)
-        }
-  console.log(myLeaveDataFormat);
+  };
 
+  console.log(leaveInformation);
+  const setDataGrid = () => {
+    if (Object.keys(leaveInformation).length !== 0) {
+      leaveInformation.Leave_request.data.map((item, index) => {
+        let timeDiff = moment.duration(moment(item.End).diff(item.Begin));
+        let hours = Math.floor(timeDiff.asSeconds() / 3600);
+        let min = Math.floor((timeDiff.asSeconds() - hours * 3600) / 60);
+        Info.push(item);
+        Info[index].id = item.id;
+        Info[index].Amount = getLeaveAmount(hours, min);
+      });
+      Info.reverse()
     }
-    // setLeaveInfoTableData()
-    setLeaveInfoDataGrid()
-    setMyLeaveDataGrid()
+  };
+  setDataGrid();
+  setLeaveInfoDataGrid();
+  return (
+    <>
+      <Typography variant="h6" fontWeight="bold" className={classes.topic}>
+        Leave Information (Day,Hour)
+      </Typography>
+      <DataGrid
+        headers={leaveDataHeader ? leaveDataHeader : ""}
+        rows={leaveDataFormat ? leaveDataFormat : ""}
+        disablePagination={true}
+        disableSelectionOnClick
+      />
+      <Typography variant="h6" fontWeight="bold" className={classes.topic}>
+        My Leave
+      </Typography>
+      <DataGrid
+        sortingOrder={["desc", "asc"]}
+        sortModel={sortModel}
+        onSortModelChange={(model) =>
+          Info.length !== 0 ? setSortModel(model) : ""
+        }
+        pageSize={pageSize}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        rowsPerPageOptions={[5, 10, 20, 50]}
+        pagination
+        disableSelectionOnClick
+        className={classes.datagrid}
+        headers={Header ? Header : ""}
+        rows={searchText ? searchInfo : Info ? Info : ""}
+      />
+    </>
+  );
+};
 
-    return (
-        <>
-            <Typography variant="h6" fontWeight='bold' className={classes.topic}>Leave Information (Day,Hour)</Typography>
-            <DataGrid headers={leaveDataHeader ? leaveDataHeader : ''} rows={leaveDataFormat ? leaveDataFormat : ''} disablePagination={true}/>
-            <Typography variant="h6" fontWeight='bold' className={classes.topic}>My Leave</Typography>
-            <DataGrid headers={myLeaveDataHeader ? myLeaveDataHeader : ''} rows={myLeaveDataFormat ? myLeaveDataFormat : ''} />
-        </>
-    )
-}
-
-export default CardLeaveInfomation
+export default CardLeaveInfomation;

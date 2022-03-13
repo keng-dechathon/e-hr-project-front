@@ -33,13 +33,14 @@ const AutoComplete = ({
   const classes = useStyles();
 
   const [value, setValue] = React.useState(defaultValue ? defaultValue : null);
-console.log(option);
+
   useEffect(() => {
     if (resetTextField) {
       setValue(null);
       setResetTextField(false)
     }
   }, [resetTextField]);
+
   const handleChange = (event, values) => {
     try {
       if(values){
