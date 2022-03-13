@@ -85,13 +85,13 @@ function isOverflown(element) {
           <Popper
             open={showFullCell && anchorEl !== null}
             anchorEl={anchorEl}
-            style={{ width, marginLeft: -17 }}
+            style={{ maxWidth:'400px' , marginLeft: -17 }}
           >
             <Paper
               elevation={1}
-              style={{ minHeight: wrapper.current.offsetHeight - 3 }}
+              style={{ minHeight: wrapper.current.offsetHeight - 3,maxWidth:'300px' }}
             >
-              <Typography variant="body2" style={{ padding: 8 }}>
+              <Typography variant="body2" style={{ padding: 8,wordWrap: 'break-word' }}>
                 {value}
               </Typography>
             </Paper>

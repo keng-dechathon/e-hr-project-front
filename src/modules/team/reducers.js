@@ -3,6 +3,7 @@ import * as Actions from './actions'
 export const initialState = {
     teamsInformation: {},
     memberInformation: {},
+    teamInformationById:{},
 }
 
 export default (state = initialState, action) => {
@@ -26,8 +27,7 @@ export default (state = initialState, action) => {
             return {
                 ...state
             }
-        case Actions.GET_MEMBERS_INFORMATION.SUCCESS:
-          
+        case Actions.GET_MEMBERS_INFORMATION.SUCCESS:          
             return {
                 ...state,
                 memberInformation: action.payload.data
@@ -37,6 +37,20 @@ export default (state = initialState, action) => {
                 ...state,
                 memberInformation: {}
             }
+            case Actions.GET_TEAMSBYID_INFORMATION.REQUEST:
+                return {
+                    ...state
+                }
+            case Actions.GET_TEAMSBYID_INFORMATION.SUCCESS:          
+                return {
+                    ...state,
+                    teamInformationById: action.payload.data
+                }
+            case Actions.GET_TEAMSBYID_INFORMATION.FAILURE:
+                return {
+                    ...state,
+                    teamInformationById: {}
+                }
         default:
             return state
     }

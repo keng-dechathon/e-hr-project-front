@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import layoutReducer from "../modules/layout/reducers";
 import accountReducer from "../modules/identity/reducers";
-import leaveReducer from "../modules/leave/reducers";
+import leaveReducer from "../modules/leaveRequest/reducers";
 import newsReducer from "../modules/news/reducers";
 import timeReducer from "../modules/timeManagement/reducers";
 import employeeReducer from "../modules/employeeInfomation/reducers";
@@ -14,7 +14,7 @@ import meetReducer from "../modules/meeting/reducers";
 import timesheetReducer from "../modules/timeSheetRecord/reducers";
 import timeSheetMngReducer from "../modules/timeSheetManagement/reducers"
 import timeSheetViewerReducer from "../modules/timeSheetViewer/reducers"
-
+import leaveManagementReducer from "../modules/leaveManagement/reducers"
 export default combineReducers({
   layoutReducer,
   accountReducer,
@@ -31,4 +31,5 @@ export default combineReducers({
   timesheetReducer,
   timeSheetMngReducer,
   timeSheetViewerReducer,
+  leaveManagementReducer,
 });

@@ -74,15 +74,15 @@ const CardPersonalInfo = (props) => {
                             item
                             xs={8}
                         >
-                            {personalData.map((items) => {
+                            {personalData.map((items,index) => {
                                 return (
-                                    <div className={Object.keys(empInformationByID).length !== 0 ? classes.textbox : classes.textboxSkeleton}>
-                                        <Typography variant="body1" fontWeight='bold' className={classes.maintext}>{items.title}</Typography>
-                                        <Typography variant="body1" fontWeight='light' className={classes.subtext}>
+                                    <div className={Object.keys(empInformationByID).length !== 0 ? classes.textbox : classes.textboxSkeleton}  key={index}>
+                                        <Typography variant="body1" fontWeight='bold' className={classes.maintext}  key={index+"x"}>{items.title}</Typography>
+                                        <Typography variant="body1" fontWeight='light' className={classes.subtext}  key={index+"y"}>
                                             {Object.keys(empInformationByID).length !== 0 ?
                                                 items.value
                                                 :
-                                                <Skeleton width={'100%'} height={40} animation="wave" />
+                                                <Skeleton width={'100%'} height={40} animation="wave" key={index}/>
                                             }
                                         </Typography>
                                     </div>

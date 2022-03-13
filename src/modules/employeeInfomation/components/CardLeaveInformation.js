@@ -1,83 +1,81 @@
-import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles'
-import Typography from '../../common/Typography/Typography'
-import styles from './styles'
-import { getLeaveInformationByID } from '../../leave/actions';
-import { useSelector, useDispatch } from 'react-redux'
-import DataGrid from '../../common/DataGrid';
-
-const useStyles = makeStyles(styles)
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "../../common/Typography/Typography";
+import styles from "./styles";
+import { getLeaveInformationByID } from "../../leaveRequest/actions";
+import { useSelector, useDispatch } from "react-redux";
+import DataGrid from "../../common/DataGrid";
+import moment from "moment";
+import { getDayOffAmount } from "../../../utils/miscellaneous";
+import { getLeaveAmount } from "../../../utils/miscellaneous";
+import { cancleLeaveRequest } from "../../leaveRequest/actions";
+import { headers } from "./headers";
+const useStyles = makeStyles(styles);
 
 const CardLeaveInfomation = (props) => {
-    const classes = useStyles()
-    const dispatch = useDispatch()
-    const { id } = props
-    
-    const { leaveInformationByID } = useSelector(state => state.leaveReducer)
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const { id } = props;
 
-    let leaveDataFormat = [{ id: '0' }]
-    let leaveDataHeader = []
+  const { leaveInformationByID } = useSelector((state) => state.leaveReducer);
 
+  let leaveDataFormat = [{ id: "0" }];
+  let leaveDataHeader = [];
 
-    let myLeaveDataFormat = []
-    let myLeaveDataHeader = []
+  let Header = headers;
+  let Info = [];
+  
 
-    useEffect(() => {
-        dispatch(getLeaveInformationByID('', '', id))
-    }, [])
+  useEffect(() => {
+    dispatch(getLeaveInformationByID("", "", id));
+  }, []);
 
-
-    // const setLeaveInfoTableData = () => {
-    //     if (Object.keys(leaveInformation).length !== 0) {
-    //         leaveInformation.Leave_infomation.data.forEach((value, index) => {
-    //             console.log(   leaveInformation.Leave_infomation.data);
-    //             leaveDataHeader.push(value.Type_name)
-    //             leaveDataFormat[0][value.Type_name] = value.Leaved
-    //         })
-    //     }
-
-    // }
-    const setLeaveInfoDataGrid = () => {
-        if (Object.keys(leaveInformationByID).length !== 0) {
-
-            leaveInformationByID.Leave_infomation.data.forEach((value, index) => {
-                let name = value.Type_name
-                leaveDataHeader.push({ field: name, headerName: name, flex: 1 })
-                leaveDataFormat[0][name] = value.Leaved
-
-            })
-
-        }
-
-
+  const setLeaveInfoDataGrid = () => {
+    if (Object.keys(leaveInformationByID).length !== 0) {
+      leaveInformationByID.Leave_infomation.data.forEach((value, index) => {
+        let name = value.Type_name;
+        leaveDataHeader.push({ field: name, headerName: name, flex: 1 });
+        leaveDataFormat[0][name] = value.Leaved;
+      });
     }
-    const setMyLeaveDataGrid = () => {
-        if (Object.keys(leaveInformationByID).length !== 0) {
-            leaveInformationByID.Leave_request.data.map((value, index1) => {
-                myLeaveDataFormat.push(value)
-                Object.keys(value).map(function (key, index2) {
-                    if (index1 == 0) myLeaveDataHeader.push({ field: key, headerName: key, flex: 1 })
-                });
-            })
-            myLeaveDataHeader.sort((a, b) => (a.field > b.field) ? 1 : ((b.field > a.field) ? -1 : 0))
-            myLeaveDataHeader.sort((a, b) => (a.field == 'id') ? -1 : 1)
-        }
-        console.log(myLeaveDataFormat);
-
+  };  
+  const setDataGrid = () => {
+    if (Object.keys(leaveInformationByID).length !== 0) {
+        leaveInformationByID.Leave_request.data.map((item, index) => {
+        let timeDiff = moment.duration(moment(item.End).diff(item.Begin));
+        let hours = Math.floor(timeDiff.asSeconds() / 3600);
+        let min = Math.floor((timeDiff.asSeconds() - hours * 3600) / 60);
+        Info.push(item);
+        Info[index].id = item.id;
+        Info[index].Amount = getLeaveAmount(hours, min);
+      });
+      Info.reverse()
     }
-    // setLeaveInfoTableData()
-    setLeaveInfoDataGrid()
-    setMyLeaveDataGrid()
+  };
+  setDataGrid();
+  // setLeaveInfoTableData()
+  setLeaveInfoDataGrid();
 
-    return (
-        <>
-        <div style={{marginTop:'15px'}}/>
-            <Typography variant="h6" fontWeight='bold' className={classes.topic}>Leave Information (Day,Hour)</Typography>
-            <DataGrid headers={leaveDataHeader ? leaveDataHeader : ''} rows={leaveDataFormat ? leaveDataFormat : ''} disablePagination={true} />
-            <Typography variant="h6" fontWeight='bold' className={classes.topic}>Leave</Typography>
-            <DataGrid headers={myLeaveDataHeader ? myLeaveDataHeader : ''} rows={myLeaveDataFormat ? myLeaveDataFormat : ''} />
-        </>
-    )
-}
+  return (
+    <>
+      <div style={{ marginTop: "15px" }} />
+      <Typography variant="h6" fontWeight="bold" className={classes.topic}>
+        Leave Information (Day,Hour)
+      </Typography>
+      <DataGrid
+        headers={leaveDataHeader ? leaveDataHeader : ""}
+        rows={leaveDataFormat ? leaveDataFormat : ""}
+        disablePagination={true}
+      />
+      <Typography variant="h6" fontWeight="bold" className={classes.topic}>
+        Leave
+      </Typography>
+      <DataGrid
+        headers={Header ? Header : ""}
+        rows={Info ? Info : ""}
+      />
+    </>
+  );
+};
 
-export default CardLeaveInfomation
+export default CardLeaveInfomation;
