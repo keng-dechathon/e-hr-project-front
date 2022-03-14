@@ -6,21 +6,21 @@ import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import { Card } from "@mui/material";
 import { CardContent } from "@mui/material";
-import DataGrid from "../../common/DataGrid";
+import DataGrid from "../../../common/DataGrid";
 import EditIcon from "@mui/icons-material/Edit";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ModalUpdate from "../../common/ModalUpdate";
-import { responseLeaveRequest } from "../actions";
+import ModalUpdate from "../../../common/ModalUpdate";
+import { responseLeaveRequest } from "../../actions";
 import FormLeaveManagement from "./FormLeaveManagement";
 import {
   QuickSearchToolbar,
   escapeRegExp,
-} from "../../common/QuickSearchToolbar/QuickSearchToolbar";
+} from "../../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
-import { getLeaveManagementInformation } from "../actions";
+import { getLeaveManagementInformation } from "../../actions";
 import { headers } from "./headers";
-import { getLeaveAmount } from "../../../utils/miscellaneous";
+import { getLeaveAmount } from "../../../../utils/miscellaneous";
 import moment from "moment";
 
 const useStyles = makeStyles(() => ({
@@ -48,9 +48,9 @@ const CardLeaveManagement = () => {
   useEffect(() => {
     dispatch(getLeaveManagementInformation());
   }, []);
-
+  const [status, setStatus] = useState("");
   const [open, setOpen] = useState(false);
-  const [ID, setID] = useState("");
+  const [columnData, setColumnData] = useState({});
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
   const [pageSize, setPageSize] = useState(5);
@@ -98,12 +98,15 @@ const CardLeaveManagement = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setStatus("");
+    setColumnData({})
   };
 
   const handleClickResponse = (event, cellValues, status) => {
-    console.log(cellValues);
-    setID(String(cellValues.id));
+    setColumnData(cellValues);
     setOpen(true);
+    setStatus(status);
+    console.log(cellValues);
   };
 
   const requestSearch = (searchValue) => {
@@ -140,7 +143,11 @@ const CardLeaveManagement = () => {
         handleClose={handleClose}
         title="Approve Request"
       >
-        <FormLeaveManagement handleClose={handleClose} id={ID} />
+        <FormLeaveManagement
+          handleClose={handleClose}
+          columnData={columnData}
+          status={status}
+        />
       </ModalUpdate>
       <Box className={classes.box}>
         <Card>
@@ -151,6 +158,7 @@ const CardLeaveManagement = () => {
                 justifyContent: "flex-end",
                 justifyItems: "center",
                 alignItems: "center",
+                pb: "10px",
               }}
             >
               <QuickSearchToolbar

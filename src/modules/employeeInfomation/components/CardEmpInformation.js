@@ -352,12 +352,13 @@ const CardEmpInformation = (props) => {
         <Card>
           <CardContent className={classes.cardcontant}>
             <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                justifyItems: "center",
-                alignItems: "center",
-              }}
+                   sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    justifyItems: "center",
+                    alignItems: "center",
+                    pb: "10px",
+                  }}
             >
               <QuickSearchToolbar
                 value={searchText}

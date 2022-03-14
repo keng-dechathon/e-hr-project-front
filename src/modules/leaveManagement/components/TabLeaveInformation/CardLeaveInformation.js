@@ -2,42 +2,34 @@ import React, { useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import DataGrid from "../../common/DataGridTimeSheet";
-import Select from "@mui/material/Select";
-import SearchIcon from "@mui/icons-material/Search";
-import CardTimeSheet from "./CardTimeSheet";
 import { useSelector, useDispatch } from "react-redux";
-import IconButton from "@mui/material/IconButton";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import Box from "@mui/material/Box";
 import { Card } from "@mui/material";
 import { CardContent } from "@mui/material";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import DataGrid from "../../../common/DataGrid";
+
+import SearchIcon from "@mui/icons-material/Search";
+
 import { Button } from "@mui/material";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
-import TextField from "@mui/material/TextField";
+import { getLeaveManagementInformation } from "../../actions";
+import { headers } from "./headers";
+import { getLeaveAmount } from "../../../../utils/miscellaneous";
 import moment from "moment";
-import { InputLabel } from "@mui/material";
-import { getTimeSheetById } from "../actions";
-import { getMemberInformation } from "../../team/actions";
-import { getDateFormat } from "../../../utils/miscellaneous";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { GridActionsCellItem } from "@mui/x-data-grid";
-import { getTeamByHostInformation } from "../actions";
+import { Select } from "@mui/material";
+import { getTeamByHostInformation } from "../../../timeSheetViewer/actions";
 import { Stack } from "@mui/material";
+import AutoComplete from "../../../common/AutoComplete";
 import MenuItem from "@mui/material/MenuItem";
 import { FormHelperText } from "@mui/material";
-import AutoComplete from "../../common/AutoComplete";
+import { getMemberInformation } from "../../../team/actions";
+import { getLeaveInformationByID } from "../../../leaveRequest/actions";
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
     display: "flex",
-    right: "40px !important",
-    position: "absolute  !important",
   },
   box: {
     marginTop: "20px",
+    paddingTop:"10px",
   },
   cardcontant: {
     padding: 0,
@@ -45,19 +37,23 @@ const useStyles = makeStyles(() => ({
       paddingBottom: "0 !important",
     },
   },
-  dateButton: {},
 }));
 
-const CardTimeSheetViewer = () => {
+const CardLeaveInformation = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  
+
+  const { leaveManagementInformation } = useSelector(
+    (state) => state.leaveManagementReducer
+  );
   const { teamByHostInformation } = useSelector(
     (state) => state.timeSheetViewerReducer
   );
   const { memberInformation } = useSelector((state) => state.teamReducer);
+  const { leaveInformationByID } = useSelector((state) => state.leaveReducer);
 
   useEffect(() => {
+    dispatch(getLeaveManagementInformation());
     dispatch(getTeamByHostInformation());
   }, []);
 
@@ -65,8 +61,26 @@ const CardTimeSheetViewer = () => {
   const [selectStateFilter, setSelectStateFilter] = React.useState("");
   const [filterOption, setFilterOption] = React.useState([]);
   const [resetTextField, setResetTextField] = React.useState(false);
+
+  const [searchText, setSearchText] = useState("");
+  const [searchInfo, setSearchInfo] = useState([]);
+  const [pageSize, setPageSize] = useState(5);
+  const [sortModel, setSortModel] = useState([
+    {
+      field: "ID",
+      sort: "desc",
+    },
+  ]);
+  console.log(selectState);
+  let Header = headers;
+  let Info = [];
   const members = [];
-console.log(selectState);
+
+  const handleChangeSelect = (event) => {
+    setSelectStateFilter(event.target.value);
+    setSelectState([]);
+  };
+
   useEffect(() => {
     if (Object.keys(teamByHostInformation).length !== 0) {
       setFilterOption(teamByHostInformation.data);
@@ -81,31 +95,13 @@ console.log(selectState);
       dispatch(getMemberInformation("", "", String(selectStateFilter)));
       setSelectState({});
       setResetTextField(true);
-      dispatch(
-        getTimeSheetById(
-          "",
-          "",
-          String(selectState.id),
-          getDateFormat(new Date())
-        )
-      );
+      dispatch(getLeaveInformationByID("", "", String(selectState.id)));
     }
   }, [selectStateFilter]);
 
-  const handleChangeSelect = (event) => {
-    setSelectStateFilter(event.target.value);
-    setSelectState([]);
-  };
   const handleClick = () => {
     if (Object.keys(selectState).length !== 0) {
-      dispatch(
-        getTimeSheetById(
-          "",
-          "",
-          String(selectState.id),
-          getDateFormat(new Date())
-        )
-      );
+      dispatch(getLeaveInformationByID("", "",  String(selectState.id)));
     }
   };
   const setMember = () => {
@@ -120,10 +116,25 @@ console.log(selectState);
   };
 
   setMember();
+
+  const setDataGrid = () => {
+    if (Object.keys(leaveInformationByID).length !== 0) {
+      leaveInformationByID.Leave_request.data.map((item, index) => {
+        let timeDiff = moment.duration(moment(item.End).diff(item.Begin));
+        let hours = Math.floor(timeDiff.asSeconds() / 3600);
+        let min = Math.floor((timeDiff.asSeconds() - hours * 3600) / 60);
+        Info.push(item);
+        Info[index].id = item.id;
+        Info[index].Amount = getLeaveAmount(hours, min);
+      });
+      Info.reverse();
+    }
+  };
+  setDataGrid();
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <>
       <Box className={classes.box}>
-        <div
+        <Box
           style={{
             display: "inline-block !important",
             position: "relative !important",
@@ -182,16 +193,25 @@ console.log(selectState);
               GO
             </Button>
           </Stack>
-        </div>
-
-        <CardTimeSheet
-          id={
-            Object.keys(selectState).length !== 0 ? String(selectState.id) : ""
+        </Box>
+        <DataGrid
+          sortingOrder={["desc", "asc"]}
+          sortModel={sortModel}
+          onSortModelChange={(model) =>
+            Info.length !== 0 ? setSortModel(model) : ""
           }
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[5, 10, 20, 50]}
+          pagination
+          disableSelectionOnClick
+          className={classes.datagrid}
+          headers={Header ? Header : ""}
+          rows={searchText ? searchInfo : Info ? Info : ""}
         />
       </Box>
-    </LocalizationProvider>
+    </>
   );
 };
 
-export default CardTimeSheetViewer;
+export default CardLeaveInformation;

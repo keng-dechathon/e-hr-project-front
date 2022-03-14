@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import moment from "moment";
-import renderCellExpand from "../../common/DataGridTimeSheet/renderCellExpand";
+import renderCellExpand from "../../../common/DataGridTimeSheet/renderCellExpand";
 
 function renderEmergency(params) {
   if (params.value) {
@@ -13,42 +13,41 @@ function renderEmergency(params) {
 
 export const headers = [
   {
-    field: "Sender_Name",
-    headerName: "Employee Name",
-    width: 190,
-    renderCell: renderCellExpand,
-  },
-  {
     field: "Begin",
-    headerName: "Begin",
-    width: 190,
+    headerName: "Begin",    
+    width:190,
     renderCell: renderCellExpand,
   },
   {
-    field: "Amount",
-    headerName: "Amount",
-    width: 170,
+    field: "End",
+    headerName: "End",
+    width:190,
     renderCell: renderCellExpand,
   },
   {
     field: "Type_name",
     headerName: "Type",
-    width: 110,
+    width:110,
     renderCell: renderCellExpand,
   },
   {
     field: "Emergency",
     headerName: "Emergency",
-    width: 90,
+    flex: 0.4,
     renderCell: renderEmergency,
   },
   {
     field: "Leave_status",
     headerName: "Status",
-    width: 170,
+    width:170,
     renderCell: renderCellExpand,
   },
-
+  {
+    field: "Amount",
+    headerName: "Amount",
+    width:170,
+    renderCell: renderCellExpand,
+  },
   {
     field: "Detail",
     headerName: "Description",
