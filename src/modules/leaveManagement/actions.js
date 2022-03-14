@@ -22,14 +22,15 @@ export const getLeaveManagementInformation = (config, data = {}) =>
   );
 
 export const responseLeaveRequest = async (values) => {
+  console.log(values);
   return API()
     .post(apiUrl.eHRService.common.leave, {
       Option: "Response_Leave_Req",
-      Status: values.Status,
-      Req_id: values.Req_id,
-      Comment: values.Comment,
-      Leave_type: values.Leave_type,
-      Depend: values.Depend,
+      Status: values.Status ,
+      Req_id: values.Req_id ? values.Req_id : "",
+      Comment: values.Comment ? values.Comment : "",
+      Leave_type: values.Leave_type ? values.Leave_type : "",
+      Depend: values.Depend ? values.Depend : "",
     })
     .then((response) => {
       if (values.Status) pushSnackbarAction("success", "Approve success");
