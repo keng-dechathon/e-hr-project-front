@@ -24,7 +24,6 @@ const CardLeaveInfomation = (props) => {
 
   let Header = headers;
   let Info = [];
-  
 
   useEffect(() => {
     dispatch(getLeaveInformationByID("", "", id));
@@ -34,22 +33,27 @@ const CardLeaveInfomation = (props) => {
     if (Object.keys(leaveInformationByID).length !== 0) {
       leaveInformationByID.Leave_infomation.data.forEach((value, index) => {
         let name = value.Type_name;
-        leaveDataHeader.push({ field: name, headerName: name, flex: 1 });
+        leaveDataHeader.push({
+          field: name,
+          headerName: name,
+          flex: 1,
+          headerClassName: "bg-light-green",
+        });
         leaveDataFormat[0][name] = value.Leaved;
       });
     }
-  };  
+  };
   const setDataGrid = () => {
     if (Object.keys(leaveInformationByID).length !== 0) {
-        leaveInformationByID.Leave_request.data.map((item, index) => {
+      leaveInformationByID.Leave_request.data.map((item, index) => {
         let timeDiff = moment.duration(moment(item.End).diff(item.Begin));
         let hours = Math.floor(timeDiff.asSeconds() / 3600);
         let min = Math.floor((timeDiff.asSeconds() - hours * 3600) / 60);
         Info.push(item);
         Info[index].id = item.id;
-        Info[index].Amount = getLeaveAmount(hours, min);
+        // Info[index].Amount = getLeaveAmount(hours, min);
       });
-      Info.reverse()
+      Info.reverse();
     }
   };
   setDataGrid();
@@ -70,10 +74,7 @@ const CardLeaveInfomation = (props) => {
       <Typography variant="h6" fontWeight="bold" className={classes.topic}>
         Leave
       </Typography>
-      <DataGrid
-        headers={Header ? Header : ""}
-        rows={Info ? Info : ""}
-      />
+      <DataGrid headers={Header ? Header : ""} rows={Info ? Info : ""} />
     </>
   );
 };

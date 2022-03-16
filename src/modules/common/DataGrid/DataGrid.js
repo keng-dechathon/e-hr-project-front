@@ -27,6 +27,9 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     borderTop:'none !important',
     borderBottom:'none !important',
   },
+  "& .css-okt5j6-MuiDataGrid-columnHeaders":{
+    borderBottom: 'none !important'
+  },
   "& .bg-light-green": {
     backgroundColor: '#8BDB81',
     color:'white',
@@ -97,6 +100,8 @@ const DataGridCustom = ({
           checkboxSelection={checkboxSelection}
           autoHeight={true}
           autoWidth={true}
+          headerHeight={42}
+          rowHeight={42}
           className={className}
           {...props}
         />
@@ -104,6 +109,8 @@ const DataGridCustom = ({
         <StyledDataGrid
           loading={loading}
           rows={rows}
+          headerHeight={42}
+          rowHeight={42}
           columns={headers}
           pageSize={pageSize}
           disableExtendRowFullWidth={true}

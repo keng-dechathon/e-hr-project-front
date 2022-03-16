@@ -50,6 +50,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
     width: "100%",
     height: "60px",
+    marginBottom:'5px',
     justifyContent: "flex-start",
   },
   attention: {

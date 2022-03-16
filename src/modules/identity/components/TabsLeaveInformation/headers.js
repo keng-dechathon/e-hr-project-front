@@ -14,49 +14,65 @@ function renderEmergency(params) {
 export const headers = [
   {
     field: "Begin",
-    headerName: "Begin",    
-    width:190,
+    headerName: "Begin",
+    width: 190,
+    headerClassName: "bg-light-green",
+
     renderCell: renderCellExpand,
   },
   {
     field: "End",
     headerName: "End",
-    width:190,
+    headerClassName: "bg-light-green",
+
+    width: 190,
     renderCell: renderCellExpand,
   },
   {
     field: "Type_name",
     headerName: "Type",
-    width:110,
+    headerClassName: "bg-light-green",
+
+    width: 110,
     renderCell: renderCellExpand,
   },
   {
     field: "Emergency",
     headerName: "Emergency",
+    headerClassName: "bg-light-green",
+
     flex: 0.4,
     renderCell: renderEmergency,
   },
   {
     field: "Leave_status",
+    headerClassName: "bg-light-green",
+
     headerName: "Status",
-    width:170,
+    width: 170,
     renderCell: renderCellExpand,
   },
   {
     field: "Amount",
-    headerName: "Amount",
-    width:170,
+    headerName: "Amount (Hrs)",
+    headerClassName: "bg-light-green",
+
+    width: 170,
     renderCell: renderCellExpand,
   },
   {
     field: "Detail",
     headerName: "Description",
+    headerClassName: "bg-light-green",
+
     flex: 1,
     renderCell: renderCellExpand,
   },
   {
     field: "Comment",
     headerName: "Comment",
+    headerClassName: "bg-light-green",
+
     flex: 1,
     renderCell: renderCellExpand,
   },

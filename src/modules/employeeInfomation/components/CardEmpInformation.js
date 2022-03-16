@@ -166,6 +166,8 @@ const CardEmpInformation = (props) => {
             if (name === "Img" && headerArray[name]) {
               Header[0] = {
                 field: name,
+                headerClassName: "bg-light-green",
+
                 headerName: headerArray[name],
                 renderCell: (params) => (
                   <div
@@ -195,6 +197,8 @@ const CardEmpInformation = (props) => {
             if (name === "Position" && headerArray[name]) {
               Header[1] = {
                 field: name,
+                headerClassName: "bg-light-green",
+
                 headerName: headerArray[name],
                 flex: 1,
               };
@@ -202,6 +206,8 @@ const CardEmpInformation = (props) => {
             if (name === "Company" && headerArray[name]) {
               Header[2] = {
                 field: name,
+                headerClassName: "bg-light-green",
+
                 headerName: headerArray[name],
                 flex: 1,
               };
@@ -209,6 +215,8 @@ const CardEmpInformation = (props) => {
             if (name === "Team_Info" && headerArray[name]) {
               Header[3] = {
                 field: name,
+                headerClassName: "bg-light-green",
+
                 headerName: headerArray[name],
                 renderCell: (params) => (
                   <div>
@@ -248,6 +256,8 @@ const CardEmpInformation = (props) => {
             if (name === "Active_Status" && headerArray[name]) {
               Header[4] = {
                 field: name,
+                headerClassName: "bg-light-green",
+
                 headerName: headerArray[name],
                 flex: 1,
                 renderCell: (params) => (
@@ -296,6 +306,8 @@ const CardEmpInformation = (props) => {
         Header.push({
           field: "actions",
           type: "actions",
+          headerClassName: "bg-light-green",
+          headerName: "Action",
           width: 90,
           getActions: (params) => [
             <GridActionsCellItem
@@ -310,6 +322,8 @@ const CardEmpInformation = (props) => {
           field: "actions",
           type: "actions",
           width: 90,
+          headerClassName: "bg-light-green",
+          headerName: "Action",
           getActions: (params) => [
             <GridActionsCellItem
               icon={<SearchIcon />}
@@ -349,45 +363,41 @@ const CardEmpInformation = (props) => {
         <FormAddEmployee handleClose={handleClose} />
       </ModalUpdate>
       <Box className={classes.box}>
-        <Card>
-          <CardContent className={classes.cardcontant}>
-            <Box
-                   sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    justifyItems: "center",
-                    alignItems: "center",
-                    pb: "10px",
-                  }}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            justifyItems: "center",
+            alignItems: "center",
+            pb: "10px",
+          }}
+        >
+          <QuickSearchToolbar
+            value={searchText}
+            onChange={(event) => requestSearch(event.target.value)}
+            clearSearch={() => requestSearch("")}
+          />
+          {isPath(empMgnt) && (
+            <Button
+              variant="outlined"
+              className={classes.ButtonAdd}
+              onClick={() => setOpenModal(true)}
             >
-              <QuickSearchToolbar
-                value={searchText}
-                onChange={(event) => requestSearch(event.target.value)}
-                clearSearch={() => requestSearch("")}
-              />
-              {isPath(empMgnt) && (
-                <Button
-                  variant="outlined"
-                  className={classes.ButtonAdd}
-                  onClick={() => setOpenModal(true)}
-                >
-                  <pre>+ ADD</pre>
-                </Button>
-              )}
-            </Box>
-            <DataGrid
-              sortingOrder={["desc", "asc"]}
-              pageSize={pageSize}
-              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[5, 10, 20, 50]}
-              pagination
-              disableSelectionOnClick
-              className={classes.datagrid}
-              headers={Header ? Header : ""}
-              rows={searchText ? searchInfo : Info ? Info : ""}
-            />
-          </CardContent>
-        </Card>
+              <pre>+ ADD</pre>
+            </Button>
+          )}
+        </Box>
+        <DataGrid
+          sortingOrder={["desc", "asc"]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[5, 10, 20, 50]}
+          pagination
+          disableSelectionOnClick
+          className={classes.datagrid}
+          headers={Header ? Header : ""}
+          rows={searchText ? searchInfo : Info ? Info : ""}
+        />
       </Box>
     </>
   );
