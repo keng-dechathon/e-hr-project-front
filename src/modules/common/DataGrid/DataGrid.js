@@ -21,6 +21,18 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   "& .MuiDataGrid-columnsContainer": {
     backgroundColor: theme.palette.mode === "light" ? "#fafafa" : "#1d1d1d",
   },
+  "& .bg-black": {
+    backgroundColor: 'black',
+    color:'white',
+    borderTop:'none !important',
+    borderBottom:'none !important',
+  },
+  "& .bg-light-green": {
+    backgroundColor: '#8BDB81',
+    color:'white',
+    borderTop:'none !important',
+    borderBottom:'none !important',
+  },
   "& .MuiDataGrid-iconSeparator": {
     display: "none",
   },
