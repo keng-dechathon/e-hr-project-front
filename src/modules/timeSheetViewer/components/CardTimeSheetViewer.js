@@ -51,7 +51,7 @@ const useStyles = makeStyles(() => ({
 const CardTimeSheetViewer = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  
+
   const { teamByHostInformation } = useSelector(
     (state) => state.timeSheetViewerReducer
   );
@@ -66,11 +66,11 @@ const CardTimeSheetViewer = () => {
   const [filterOption, setFilterOption] = React.useState([]);
   const [resetTextField, setResetTextField] = React.useState(false);
   const members = [];
-console.log(selectState);
+
   useEffect(() => {
     if (Object.keys(teamByHostInformation).length !== 0) {
       setFilterOption(teamByHostInformation.data);
-      if (selectStateFilter === "") {
+      if (selectStateFilter === "" && teamByHostInformation.data.length !== 0) {
         setSelectStateFilter(teamByHostInformation.data[0].Team_id);
       }
     }
@@ -134,7 +134,8 @@ console.log(selectState);
           }}
         >
           <Stack direction="row" spacing={2}>
-            {Object.keys(memberInformation).length !== 0 ? (
+            {selectStateFilter === "" ||
+            Object.keys(memberInformation).length !== 0 ? (
               <div>
                 <AutoComplete
                   size="small"
@@ -142,6 +143,7 @@ console.log(selectState);
                   selectState={selectState}
                   setSelectState={setSelectState}
                   setResetTextField={setResetTextField}
+                  defaultValue={false}
                   multiple={false}
                   resetTextField={resetTextField}
                   style={{ backgroundColor: "white", minWidth: "400px" }}
@@ -161,15 +163,26 @@ console.log(selectState);
                 displayEmpty
                 size="small"
                 inputProps={{ "aria-label": "Without label" }}
-                style={{ backgroundColor: "white" }}
+                style={{ backgroundColor: "white", minWidth: "100px" }}
+                placeholder="Your have no team."
               >
-                {filterOption.map((item) => {
-                  return (
-                    <MenuItem value={item.Team_id} key={item.Team_id}>
-                      {item.Teamname}
+                {Object.keys(teamByHostInformation).length !== 0 ? (
+                  teamByHostInformation.data.length !== 0 ? (
+                    filterOption.map((item) => {
+                      return (
+                        <MenuItem value={item.Team_id} key={item.Team_id}>
+                          {item.Teamname}
+                        </MenuItem>
+                      );
+                    })
+                  ) : (
+                    <MenuItem disabled value="">
+                      <em>Your have no team.</em>
                     </MenuItem>
-                  );
-                })}
+                  )
+                ) : (
+                  ""
+                )}
               </Select>
             </div>
             <Button

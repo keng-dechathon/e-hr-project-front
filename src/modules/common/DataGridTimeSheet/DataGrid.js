@@ -111,6 +111,7 @@ const DataGridCustom = ({
         <StyledDataGrid
           components={{
             LoadingOverlay: CustomLoadingOverlay,
+            Footer: () => <div></div>,
           }}
           disableColumnMenu
           disableColumnFilter
@@ -125,10 +126,7 @@ const DataGridCustom = ({
           autoHeight={true}
           autoWidth={true}
           className={className}
-          headerHeight={40}
-          components={{
-            Footer: () => <div></div>,
-          }}
+          headerHeight={40}         
           {...props}
         />
       )}

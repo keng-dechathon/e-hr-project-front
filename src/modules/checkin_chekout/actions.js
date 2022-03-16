@@ -4,6 +4,27 @@ import { apiUrl } from "../../utils/apiUrl";
 import { pushSnackbarAction } from "../layout/actions";
 import API from "../../utils/api";
 
+export const GET_CHECK_INFORMATION = createRequestTypes(
+  Types.GET_CHECK_INFORMATION
+);
+
+export const getCheckInformation = (config, data = {}, Type, Emp_id, Date) =>
+  createAction(
+    GET_CHECK_INFORMATION.REQUEST,
+    {
+      Option: "Get_Check_List_Show_Emp_id",
+      Type: Type,
+      Emp_id: Emp_id,
+      Date: Date,
+    },
+    {
+      method: "POST",
+      url: apiUrl.eHRService.common.checkin_checkout,
+      params: data,
+      ...config,
+    }
+  );
+
 export const checkIn = async () => {
   return API()
     .post(apiUrl.eHRService.common.checkin_checkout, {
