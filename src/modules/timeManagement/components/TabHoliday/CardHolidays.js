@@ -51,7 +51,7 @@ const CardHoliday = () => {
             sort: 'desc',
         },
     ]);
-    const headerArray = { ID: 'ID', Start: 'Begin', Holiday_Name: 'Name', End: 'End' }
+    const headerArray = { Start: 'Begin', Holiday_Name: 'Name', End: 'End' }
 
     let holidayHeader = React.useMemo(() => [])
     let holidayInfo = []

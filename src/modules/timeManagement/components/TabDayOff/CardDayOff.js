@@ -1,225 +1,153 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from "@material-ui/core/styles";
 // import FormHolidaysUpdate from './FormHolidaysUpdate'
-import { getDayOffInformation } from '../../actions'
-import { useSelector, useDispatch } from 'react-redux'
-import EditIcon from '@mui/icons-material/Edit';
-import Box from '@mui/material/Box';
-import { Card } from '@mui/material';
-import { CardContent } from '@mui/material';
-import DataGrid from '../../../common/DataGrid';
-import { GridActionsCellItem } from '@mui/x-data-grid';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { getDayOffAmount } from '../../../../utils/miscellaneous';
-import { deleteDayOff } from '../../actions';
-import { QuickSearchToolbar, escapeRegExp } from '../../../common/QuickSearchToolbar/QuickSearchToolbar'
-import { Button } from '@mui/material'
-import ModalUpdate from '../../../common/ModalUpdate'
-import FormDayOffUpdate from './FormDayOffUpdate';
-import FormDayOffAdd from './FormDayOffAdd';
+import { getDayOffInformation } from "../../actions";
+import { useSelector, useDispatch } from "react-redux";
+import EditIcon from "@mui/icons-material/Edit";
+import Box from "@mui/material/Box";
+import { Card } from "@mui/material";
+import { CardContent } from "@mui/material";
+import DataGrid from "../../../common/DataGrid";
+import { GridActionsCellItem } from "@mui/x-data-grid";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { getDayOffAmount } from "../../../../utils/miscellaneous";
+// import { deleteDayOff } from '../../actions';
+import { headers } from "./headers";
+import {
+  QuickSearchToolbar,
+  escapeRegExp,
+} from "../../../common/QuickSearchToolbar/QuickSearchToolbar";
+import { Button } from "@mui/material";
+import ModalUpdate from "../../../common/ModalUpdate";
+import FormDayOffUpdate from "./FormDayOffUpdate";
 const useStyles = makeStyles(() => ({
-    ButtonAdd: {
-        display: 'flex'
+  ButtonAdd: {
+    display: "flex",
+  },
+  cardcontant: {
+    padding: 0,
+    "&:last-child": {
+      paddingBottom: "0 !important",
     },
-    cardcontant: {
-        padding: 0,
-        "&:last-child": {
-            paddingBottom: '0 !important'
-        }
-    },
+  },
 }));
 
-
-
 const CardDayOff = () => {
-    const classes = useStyles()
-    const dispatch = useDispatch()
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
-    const { dayOffInformation } = useSelector(state => state.timeReducer)
+  const { dayOffInformation } = useSelector((state) => state.timeReducer);
 
-    const [nowID, setNowID] = useState('')
-    const [open, setopen] = useState(false)
-    const [deleteID, setDeleteID] = useState('')
-    const [searchText, setSearchText] = useState('')
-    const [searchInfo, setSearchInfo] = useState([])
-    const [option, setOption] = useState('')
-    const [pageSize, setPageSize] = useState(5);
-    const [sortModel, setSortModel] = useState([
-        {
-            field: 'ID',
-            sort: 'desc',
-        },
-    ]);
-    const headerArray = { ID: 'ID', Name: 'Name', Hour: 'Amount', Detail: 'Detail' }
+  const [nowID, setNowID] = useState("");
+  const [open, setopen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchInfo, setSearchInfo] = useState([]);
+  const [pageSize, setPageSize] = useState(5);
+ 
 
-    let dayOffHeader = React.useMemo(() => [])
-    let dayOffInfo = []
+  let Header = headers;
+  let Info = [];
+  Header[headers.length] = {
+    field: "actions",
+    type: "actions",
+    headerName: "Action",
+    width: 70,
+    getActions: (params) => [
+      <GridActionsCellItem
+        icon={<EditIcon />}
+        label="Update"
+        onClick={onClickUpdate(params.id)}
+      />,
+    ],
+  };
 
-    useEffect(() => {
-        dispatch(getDayOffInformation())
-    }, [])
+  useEffect(() => {
+    dispatch(getDayOffInformation());
+  }, []);
 
-    useEffect(() => {
-        if (deleteID !== '') {
-            const onDelete = async (id) => {
-                await deleteDayOff([id])
-                dispatch(getDayOffInformation())
-            }
-            onDelete(deleteID)
-            setDeleteID('')
-        }
-    }, [deleteID])
+  const onClickUpdate = React.useCallback(
+    (id) => () => {
+      setopen(true);
+      setNowID(id);
+    },
+    []
+  );
 
-    const onClickDelete = React.useCallback(
-        (id) => () => {
+  const handleClose = () => {
+    setopen(false);
+    setNowID("")
+  };
 
-            setDeleteID(id)
-        },
-        [],
-    );
-    const onClickUpdate = React.useCallback(
-        (id) => () => {
-            setopen(true)
-            setOption('update')
-            setNowID(id)
-        },
-        [],
-    );
-    const onClickAdd = () => {
-        setopen(true)
-        setOption('add')
+  const requestSearch = (searchValue) => {
+    setSearchText(searchValue);
+    const searchRegex = new RegExp(escapeRegExp(searchValue), "i");
+    if (Info.length !== 0) {
+      const filteredRows = Info.filter((row) => {
+        return Object.keys(row).some((field) => {
+          if (field !== "Type_ID")
+            return searchRegex.test(row[field].toString());
+        });
+      });
+      setSearchInfo(filteredRows);
     }
+  };
 
-    const handleClose = () => { setopen(false) }
-
-    const requestSearch = (searchValue) => {
-        setSearchText(searchValue);
-        const searchRegex = new RegExp(escapeRegExp(searchValue), 'i');
-        if (dayOffInfo.length !== 0) {
-            const filteredRows = dayOffInfo.filter((row) => {
-                return Object.keys(row).some((field) => {
-                    console.log(row[field].toString());
-                    return searchRegex.test(row[field].toString());
-                });
-            });
-            setSearchInfo(filteredRows)
-        }
-    };
-  
-    const setDayOffDataGrid = () => {
-        if (Object.keys(dayOffInformation).length !== 0) {
-            dayOffInformation.data.map((item, index) => {
-                if (index === 0) {
-                    Object.keys(item).map((name, value) => {
-                        if (name === 'ID' && headerArray[name]) {
-                            dayOffHeader[0] = {
-                                type: "number",
-                                field: name,
-                                headerName: headerArray[name],
-                                width: '80',
-                                align: 'left',
-                                headerAlign: 'left',
-                            }
-                        }
-                        else if (name === 'Name' && headerArray[name]) {
-                            dayOffHeader[1] = {
-                                field: name,
-                                headerName: headerArray[name],
-                                flex: 1,
-                            }
-                        }
-                        else if (name === 'Detail' && headerArray[name]) {
-                            dayOffHeader[2] = {
-                                field: name,
-                                headerName: headerArray[name],
-                                flex: 1,
-                                sortable: false
-                            }
-                        }
-                        else if (name === 'Hour' && headerArray[name]) {
-                            dayOffHeader[3] = {
-                                field: name,
-                                headerName: headerArray[name],
-                                flex: 1,
-
-                            }
-                        }
-
-                    })
-                }
-                dayOffInfo.push({})
-                dayOffInfo[index].ID = item.ID
-                dayOffInfo[index].Name = item.Name
-                dayOffInfo[index].Detail = item.Detail
-                dayOffInfo[index].Hour = getDayOffAmount(item.Hour)
-                dayOffInfo[index].id = item.ID
-            })
-            dayOffHeader.push({
-                field: 'actions',
-                type: 'actions',
-                width: 90,
-                getActions: (params) => [
-                    <GridActionsCellItem
-                        icon={<EditIcon />}
-                        label="Edit"
-                        onClick={onClickUpdate(params.id)}
-                    />,
-                    <GridActionsCellItem
-                        icon={<DeleteForeverIcon />}
-                        label="Delete"
-                        onClick={onClickDelete(params.id)}
-                    />,
-                ],
-            })
-        }
+  const setDataGrid = () => {
+    if (Object.keys(dayOffInformation).length !== 0) {
+      dayOffInformation.data.map((item, index) => {
+        Info.push(item);
+        Info[index].id = item.Emp_id;
+      });
+      Info.reverse();
     }
-    setDayOffDataGrid()
-    return (
-        <>
-            <ModalUpdate open={open} handleClose={handleClose} title="DayOff Update" >
-                {
-                    option === 'update' ? <FormDayOffUpdate id={nowID} handleClose={handleClose} option={option} />
-                        :
-                        option === 'add' ? <FormDayOffAdd id={nowID} handleClose={handleClose} option={option} />
-                            : ''
-                }
+  };
 
-            </ModalUpdate>
+  setDataGrid();
 
-            <Box className={classes.box}>
-                <Card sx={{ minWidth: 683 }}>
-                    <CardContent className={classes.cardcontant}>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'flex-end',
-                                justifyItems: 'center',
-                                alignItems: 'center',
-                                pt: '10px',
-                                pb: '10px',
+  return (
+    <>
+      <ModalUpdate open={open} handleClose={handleClose} title="DayOff Update">
+        <FormDayOffUpdate
+          id={nowID}
+          handleClose={handleClose}
+        />
+      </ModalUpdate>
 
-                            }}
-                        >
-                            <QuickSearchToolbar value={searchText} onChange={(event) => requestSearch(event.target.value)} clearSearch={() => requestSearch('')} />
-                            <Button variant="outlined" className={classes.ButtonAdd} onClick={onClickAdd}><pre>+ ADD</pre></Button>
-                        </Box>
-                        <DataGrid
-                            sortingOrder={['desc', 'asc']}
-                            sortModel={sortModel}
-                            onSortModelChange={(model) => dayOffInfo.length !== 0 ? setSortModel(model) : ''}
-                            pageSize={pageSize}
-                            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                            rowsPerPageOptions={[5, 10, 20, 50]}
-                            pagination
-                            headers={dayOffHeader ? dayOffHeader : ''}
-                            rows={searchText ? searchInfo : dayOffInfo ? dayOffInfo : ''}
-                        />
-                    </CardContent>
-                </Card>
+      <Box className={classes.box}>
+        <Card sx={{ minWidth: 683 }}>
+          <CardContent className={classes.cardcontant}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                justifyItems: "center",
+                alignItems: "center",
+                pt: "10px",
+                pb: "10px",
+              }}
+            >
+              <QuickSearchToolbar
+                value={searchText}
+                onChange={(event) => requestSearch(event.target.value)}
+                clearSearch={() => requestSearch("")}
+              />
+             
             </Box>
-        </>
-    )
-}
+            <DataGrid
+              sortingOrder={["desc", "asc"]}
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[5, 10, 20, 50]}
+              pagination
+              headers={Header ? Header : ""}
+              rows={searchText ? searchInfo : Info ? Info : ""}
+            />
+          </CardContent>
+        </Card>
+      </Box>
+    </>
+  );
+};
 
-export default CardDayOff
+export default CardDayOff;
