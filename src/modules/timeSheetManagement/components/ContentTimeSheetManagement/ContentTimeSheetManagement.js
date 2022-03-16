@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "../../../common/Typography/Typography";
 import Box from "@mui/material/Box";
@@ -9,6 +9,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CardChargeCode from "../TabChargeCode/CardChargeCode";
 import CardLocation from "../TabLocation/CardLocation";
+
 const useStyles = makeStyles(styles);
 
 const ContentTimeSheetManagement = () => {

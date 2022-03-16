@@ -7,6 +7,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import CardLeaveTypeInformation from './CardLeaveTypeInformation';
+import { Divider } from '@mui/material';
 const useStyles = makeStyles(() => ({
     Topic: {
         marginBottom: '10px',
@@ -56,7 +57,8 @@ const ContentLeaveType = () => {
             <Typography variant='h3' color='pink' fontWeight='medium'>
                 Leave Type
             </Typography>
-            <Box sx={{ width: '100%', typography: 'body1', marginTop: '10px' }}>
+            <Box sx={{ width: '100%', typography: 'body1', marginTop: '15px' }}>
+                <Divider/>
                 <CardLeaveTypeInformation />
             </Box>
         </Box>

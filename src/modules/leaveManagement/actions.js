@@ -26,7 +26,7 @@ export const responseLeaveRequest = async (values) => {
   return API()
     .post(apiUrl.eHRService.common.leave, {
       Option: "Response_Leave_Req",
-      Status: values.Status ,
+      Status: values.Status,
       Req_id: values.Req_id ? values.Req_id : "",
       Comment: values.Comment ? values.Comment : "",
       Leave_type: values.Leave_type ? values.Leave_type : "",
@@ -35,6 +35,29 @@ export const responseLeaveRequest = async (values) => {
     .then((response) => {
       if (values.Status) pushSnackbarAction("success", "Approve success");
       else if (values.Status) pushSnackbarAction("success", "Deline success");
+      else pushSnackbarAction("success", " success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      pushSnackbarAction("Server Error", "Server Error.");
+      return { status: "fail" };
+    });
+};
+
+export const responseCancleRequest = async (values) => {
+  console.log(values);
+  return API()
+    .post(apiUrl.eHRService.common.leave, {
+      Option: "Response_Cancellation",
+      Status: values.Status,
+      Req_id: values.Req_id ? values.Req_id : "",
+      Comment: values.Comment ? values.Comment : "",
+    })
+    .then((response) => {
+      if (values.Status)
+        pushSnackbarAction("success", "Approve cancellation success");
+      else if (values.Status)
+        pushSnackbarAction("success", "Deline cancellation success");
       else pushSnackbarAction("success", " success");
       return { status: "success" };
     })

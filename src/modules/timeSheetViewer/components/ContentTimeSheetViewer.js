@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "../../common/Typography/Typography";
 import Box from "@mui/material/Box";
 import CardTimeSheetViewer from "./CardTimeSheetViewer";
+import { Divider } from "@mui/material";
 const useStyles = makeStyles(() => ({
   margintop: {
     marginTop: "40px",
@@ -23,7 +24,8 @@ const ContentTimeSheetViewer = () => {
       <Typography variant="h3" color="pink" fontWeight="medium">
         Time Sheet Viewer
       </Typography>
-      <Box sx={{ width: "100%", typography: "body1", marginTop: "10px" }}>
+      <Box sx={{ width: "100%", typography: "body1", marginTop: "15px" }}>
+        <Divider/>
         <CardTimeSheetViewer/>
       </Box>
     </Box>

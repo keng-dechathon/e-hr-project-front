@@ -126,7 +126,7 @@ const CardLeaveInformation = () => {
         Info.push(item);
         console.log(timeDiff);
         Info[index].id = item.id;
-        Info[index].Amount = getLeaveAmount(hours, min);
+        // Info[index].Amount = getLeaveAmount(hours, min);
       });
       Info.reverse();
     }

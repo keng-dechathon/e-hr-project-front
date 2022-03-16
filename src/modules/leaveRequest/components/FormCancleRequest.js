@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-final-form-hooks";
-import Button from "../../../common/Button";
+import Button from "../../common/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { DialogActions } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { useSelector, useDispatch } from "react-redux";
 import { TextField } from "@mui/material";
-import Snackbar from "../../../layout/components/Snackbar";
+import Snackbar from "../../layout/components/Snackbar";
 import { Grid } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import FormLabel from "@mui/material/FormLabel";
@@ -15,20 +15,18 @@ import { MenuItem } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import Select from "@mui/material/Select";
-import { getLeaveTypeInformation } from "../../../leaveType/actions";
+import { getLeaveTypeInformation } from "../../leaveType/actions";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import moment from "moment";
 import FormHelperText from "@mui/material/FormHelperText";
-import AutoComplete from "../../../common/AutoComplete";
-import { getEmployeeInformtion } from "../../../employeeInfomation/actions";
-import { getTeamsInformationById } from "../../../team/actions";
-import { pushSnackbarAction } from "../../../layout/actions";
-import { getLeaveManagementInformation } from "../../actions";
-import { responseLeaveRequest } from "../../actions";
-import { responseCancleRequest } from "../../actions";
+import AutoComplete from "../../common/AutoComplete";
+import { getEmployeeInformtion } from "../../employeeInfomation/actions";
+import { getTeamsInformationById } from "../../team/actions";
+import { pushSnackbarAction } from "../../layout/actions";
+import { cancleLeaveRequest,getLeaveRequestInformation } from "../actions";
 
 const useStyles = makeStyles(() => ({
   ButtonSubmit: {
@@ -51,9 +49,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const FormLeaveManagement = (props) => {
+const FormCancleRequest = (props) => {
   const classes = useStyles();
-  const { handleClose, columnData, status } = props;
+  const { handleClose, columnData } = props;
   const dispatch = useDispatch();
   const { leaveTypeInformation } = useSelector(
     (state) => state.leaveTypeReducer
@@ -94,7 +92,7 @@ const FormLeaveManagement = (props) => {
     Object.keys(columnData).length !== 0 ? columnData.row.Comment : ""
   );
   let dependList = [];
-  console.log(comment);
+
   useEffect(() => {
     setType(
       columnData && Object.keys(leaveTypeInformation).length !== 0
@@ -105,89 +103,41 @@ const FormLeaveManagement = (props) => {
     );
   }, [leaveTypeInformation]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (status) {
-        setUser({
-          Status: String(status),
-          Req_id: String(columnData.id),
-          Leave_type: String(type),
-          Depend: String(depend.id),
-          Comment: comment,
-        });
-      } else {
-        setUser({
-          Status: String(status),
-          Req_id: String(columnData.id),
-          Leave_type: String(type),
-          Comment: comment,
-        });
-      }
-    });
-  }, [type, start, end, detail, emergency, depend, comment]);
-
   const setDependList = () => {
     if (
       Object.keys(teamInformationById).length !== 0 &&
       Object.keys(empInformation).length !== 0
     ) {
-      if (
-        accountInformation.Role === "Management" ||
-        accountInformation.Role === "Manager"
-      ) {
-        dependList = [];
-        let approver = empInformation.data.filter(
-          (user) => user.Role === "Approver"
-        );
-        approver.map((item, index) => {
-          console.log(item);
-          dependList.push({
-            id: parseInt(item.Emp_id),
-            text: empInformation.data.filter(
-              (user) => String(user.Emp_id) === String(item.Emp_id)
-            )[0].Name,
-          });
+      dependList = [];
+      let approver = empInformation.data.filter(
+        (user) => user.Role === "Approver"
+      );
+      approver.map((item, index) => {
+        console.log(item);
+        dependList.push({
+          id: parseInt(item.Emp_id),
+          text: empInformation.data.filter(
+            (user) => String(user.Emp_id) === String(item.Emp_id)
+          )[0].Name,
         });
-      } else {
-        dependList = [];
-        teamInformationById.data.map((item, index) => {
-          dependList.push({
-            id: parseInt(item.Team_host),
-            text: empInformation.data.filter(
-              (user) => String(user.Emp_id) === String(item.Team_host)
-            )[0].Name,
-          });
-        });
-      }
+      });
     }
   };
 
   const handleChangeType = (event) => {
     setType(event.target.value);
   };
-  const handleChecked = (event) => {
-    setEmergency(event.target.checked);
-  };
+
   const onSubmit = async () => {
-    if (
-      columnData.row.accRole === "Approver" &&
-      columnData.row.Leave_status === "Cancellation Request"
-    ) {
-      await responseCancleRequest(user);
-      dispatch(getLeaveManagementInformation());
-      handleClose();
-    } else {
-      await responseLeaveRequest(user);
-      dispatch(getLeaveManagementInformation());
-      handleClose();
-    }
+    await cancleLeaveRequest(String(columnData.id), String(depend.id));
+    dispatch(getLeaveRequestInformation());
+    handleClose();
   };
 
   const { handleSubmit, submitting } = useForm({
     onSubmit: onSubmit,
   });
   setDependList();
-  console.log(comment);
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <form onSubmit={handleSubmit}>
@@ -264,50 +214,28 @@ const FormLeaveManagement = (props) => {
           <Grid item xs={12}>
             <Divider sx={{ borderBottomWidth: 1 }} />
           </Grid>
-          {status && (
-            <Grid item xs={12}>
-              {Object.keys(teamInformationById).length !== 0 &&
-              Object.keys(empInformation).length !== 0 &&
-              columnData.row.accRole !== "Approver" &&
-              columnData.row.Leave_status !== "Cancellation Request" ? (
-                <div>
-                  <AutoComplete
-                    option={dependList}
-                    selectState={depend}
-                    setSelectState={setDepend}
-                    multiple={false}
-                    required
-                    defaultValue={false}
-                    label={
-                      "Select " +
-                      (accountInformation.Role === "Management" ||
-                      accountInformation.Role === "Manager"
-                        ? "Approver"
-                        : "Management or Manager")
-                    }
-                    style={{
-                      backgroundColor: "white",
-                      minWidth: "400px",
-                    }}
-                  />
-                </div>
-              ) : (
-                ""
-              )}
-            </Grid>
-          )}
 
           <Grid item xs={12}>
-            <TextField
-              label="Comment"
-              id="Comment"
-              name="Comment"
-              multiline
-              rows={3}
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              fullWidth
-            />
+            {Object.keys(teamInformationById).length !== 0 &&
+            Object.keys(empInformation).length !== 0 ? (
+              <div>
+                <AutoComplete
+                  option={dependList}
+                  selectState={depend}
+                  setSelectState={setDepend}
+                  multiple={false}
+                  required
+                  defaultValue={false}
+                  label={"Select Approver"}
+                  style={{
+                    backgroundColor: "white",
+                    minWidth: "400px",
+                  }}
+                />
+              </div>
+            ) : (
+              ""
+            )}
           </Grid>
         </Grid>
         <DialogActions className={classes.dialogAction}>
@@ -319,7 +247,7 @@ const FormLeaveManagement = (props) => {
             type="submit"
             autoFocus
           >
-            Approve
+            Send Cancellation
           </Button>
         </DialogActions>
         <Snackbar />
@@ -328,4 +256,4 @@ const FormLeaveManagement = (props) => {
   );
 };
 
-export default FormLeaveManagement;
+export default FormCancleRequest;

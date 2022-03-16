@@ -4,6 +4,7 @@ import API from "../../utils/api";
 import { createRequestTypes, createAction } from "../../utils/requestTypes";
 import { pushSnackbarAction } from "../layout/actions";
 import { apiUrl } from "../../utils/apiUrl";
+import { values } from "lodash";
 
 export const GET_LEAVE_INFORMATION = createRequestTypes(
   Types.GET_LEAVE_INFORMATION
@@ -51,11 +52,12 @@ export const getLeaveRequestInformation = (config, data = {}) =>
     }
   );
 
-export const cancleLeaveRequest = async (id) => {
+export const cancleLeaveRequest = async (id, depend) => {
   return API()
     .post(apiUrl.eHRService.common.leave, {
-      Option: "Delete_Leave_Req",
-      Req_id: id,
+      Option: "Send_Cancellation",
+      Req_id: id ? id : "",
+      Depend: depend ? depend : "",
     })
     .then((response) => {
       pushSnackbarAction("success", "update success");

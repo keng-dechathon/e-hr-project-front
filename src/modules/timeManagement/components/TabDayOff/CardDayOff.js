@@ -44,7 +44,6 @@ const CardDayOff = () => {
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
   const [pageSize, setPageSize] = useState(5);
- 
 
   let Header = headers;
   let Info = [];
@@ -52,6 +51,8 @@ const CardDayOff = () => {
     field: "actions",
     type: "actions",
     headerName: "Action",
+    headerClassName: "bg-light-green",
+
     width: 70,
     getActions: (params) => [
       <GridActionsCellItem
@@ -76,7 +77,7 @@ const CardDayOff = () => {
 
   const handleClose = () => {
     setopen(false);
-    setNowID("")
+    setNowID("");
   };
 
   const requestSearch = (searchValue) => {
@@ -108,43 +109,35 @@ const CardDayOff = () => {
   return (
     <>
       <ModalUpdate open={open} handleClose={handleClose} title="DayOff Update">
-        <FormDayOffUpdate
-          id={nowID}
-          handleClose={handleClose}
-        />
+        <FormDayOffUpdate id={nowID} handleClose={handleClose} />
       </ModalUpdate>
 
       <Box className={classes.box}>
-        <Card sx={{ minWidth: 683 }}>
-          <CardContent className={classes.cardcontant}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                justifyItems: "center",
-                alignItems: "center",
-                pt: "10px",
-                pb: "10px",
-              }}
-            >
-              <QuickSearchToolbar
-                value={searchText}
-                onChange={(event) => requestSearch(event.target.value)}
-                clearSearch={() => requestSearch("")}
-              />
-             
-            </Box>
-            <DataGrid
-              sortingOrder={["desc", "asc"]}
-              pageSize={pageSize}
-              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[5, 10, 20, 50]}
-              pagination
-              headers={Header ? Header : ""}
-              rows={searchText ? searchInfo : Info ? Info : ""}
-            />
-          </CardContent>
-        </Card>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            justifyItems: "center",
+            alignItems: "center",
+            pt: "10px",
+            pb: "10px",
+          }}
+        >
+          <QuickSearchToolbar
+            value={searchText}
+            onChange={(event) => requestSearch(event.target.value)}
+            clearSearch={() => requestSearch("")}
+          />
+        </Box>
+        <DataGrid
+          sortingOrder={["desc", "asc"]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[5, 10, 20, 50]}
+          pagination
+          headers={Header ? Header : ""}
+          rows={searchText ? searchInfo : Info ? Info : ""}
+        />
       </Box>
     </>
   );
