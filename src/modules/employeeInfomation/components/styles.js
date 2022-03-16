@@ -14,6 +14,9 @@ export default () => ({
             fontSize: '18px !important',
         },
     },
+    topic:{
+        marginBottom:'15px'
+    },
     input: {
         display: "none",
     },

@@ -40,12 +40,13 @@ const CardLeaveInfomation = () => {
   let leaveDataFormat = [{ id: "0" }];
   let leaveDataHeader = [];
 
-
   let Header = headers;
   let Info = [];
   Header[headers.length] = {
     field: "actions",
     type: "actions",
+    headerClassName: "bg-light-green",
+    headerName: "Action",
     width: 100,
     renderCell: (cellValues) => {
       return (
@@ -62,7 +63,6 @@ const CardLeaveInfomation = () => {
     },
   };
 
-
   const handleClickCancle = async (event, cellValues) => {
     console.log(cellValues.id);
     cancleLeaveRequest(String(cellValues.id));
@@ -73,7 +73,12 @@ const CardLeaveInfomation = () => {
     if (Object.keys(leaveInformation).length !== 0) {
       leaveInformation.Leave_infomation.data.forEach((value, index) => {
         let name = value.Type_name;
-        leaveDataHeader.push({ field: name, headerName: name, flex: 1 });
+        leaveDataHeader.push({
+          field: name,
+          headerName: name,
+          flex: 1,
+          headerClassName: "bg-light-green",
+        });
         leaveDataFormat[0][name] = value.Leaved;
       });
     }
@@ -87,10 +92,13 @@ const CardLeaveInfomation = () => {
         let hours = Math.floor(timeDiff.asSeconds() / 3600);
         let min = Math.floor((timeDiff.asSeconds() - hours * 3600) / 60);
         Info.push(item);
+        if (item.Detail === "null") {
+          Info[index].Detail = "-";
+        }
         Info[index].id = item.id;
-        Info[index].Amount = getLeaveAmount(hours, min);
+        // Info[index].Amount = getLeaveAmount(hours, min);
       });
-      Info.reverse()
+      Info.reverse();
     }
   };
   setDataGrid();

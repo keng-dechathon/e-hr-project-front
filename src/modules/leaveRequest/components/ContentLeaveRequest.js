@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '../../common/Typography/Typography';
 import Box from '@mui/material/Box';
 import CardLeaveRequest from './CardLeaveRequest';
+import { Divider } from "@mui/material";
+
 const useStyles = makeStyles(() => ({
     Topic: {
         marginBottom: '10px',
@@ -52,7 +54,9 @@ const ContentLeaveRequest = () => {
             <Typography variant='h3' color='pink' fontWeight='medium'>
                 Leave Request
             </Typography>
-            <Box sx={{ width: '100%', typography: 'body1', marginTop: '10px' }}>
+            
+            <Box sx={{ width: '100%', typography: 'body1', marginTop: '15px' }}>
+                <Divider/>
                 <CardLeaveRequest/>
             </Box>
         </Box>

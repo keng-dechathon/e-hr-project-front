@@ -6,6 +6,8 @@ export const headers = [
     field: "Name",
     headerName: "Name",
     flex: 1,
+    headerClassName: "bg-light-green",
+
     renderCell: renderCellExpand,
     sortable: false,
   },
@@ -13,6 +15,8 @@ export const headers = [
     field: "Hour",
     headerName: "Hours",
     flex: 1,
+    headerClassName: "bg-light-green",
+
     renderCell: renderCellExpand,
     sortable: false,
   },

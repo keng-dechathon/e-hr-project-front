@@ -8,6 +8,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CardLeaveInformation from "./TabLeaveInformation/CardLeaveInformation";
+import { Divider } from "@mui/material";
 const useStyles = makeStyles(() => ({
   Topic: {
     marginBottom: "10px",
@@ -56,7 +57,6 @@ const ContentLeaveManagement = () => {
       <Typography variant="h3" color="pink" fontWeight="medium">
         Leave Management
       </Typography>
-
       <Box sx={{ width: "100%", typography: "body1", marginTop: "10px" }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

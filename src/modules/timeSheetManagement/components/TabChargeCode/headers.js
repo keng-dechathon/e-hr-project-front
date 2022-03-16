@@ -11,6 +11,7 @@ export const headers = [
     headerName: "Name",
     flex: 0.5,
     renderCell: renderCellExpand,
+    headerClassName: "bg-light-green",
 
   },
   {
@@ -18,6 +19,7 @@ export const headers = [
     headerName: "Description",
     flex: 1,
     renderCell: renderCellExpand,
+    headerClassName: "bg-light-green",
 
   }, 
 ];

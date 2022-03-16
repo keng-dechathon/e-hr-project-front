@@ -308,9 +308,7 @@ const CardCheckIn_CheckOut = () => {
           className={classes.datagrid}
           disableSelectionOnClick   
           headers={Header ? Header : ""}
-          rows={Info ? Info : ""}
-          headerHeight={45}
-          rowHeight={45}
+          rows={Info ? Info : ""}       
         />
       </Box>
     </LocalizationProvider>

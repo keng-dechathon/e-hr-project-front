@@ -58,6 +58,8 @@ const CardLocation = () => {
     field: "actions",
     type: "actions",
     width: 90,
+    headerClassName: "bg-light-green",
+    headerName: "Action",
     getActions: (params) => [
       <GridActionsCellItem
         icon={<EditIcon />}
@@ -146,37 +148,34 @@ const CardLocation = () => {
           option={option}
         />
       </ModalUpdate>
-      <Card>
-        <CardContent className={classes.cardcontant}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              justifyItems: "center",
-              alignItems: "center",
-              pt: "10px",
-              pb: "10px",
-            }}
-          >
-            <QuickSearchToolbar
-              value={searchText}
-              onChange={(event) => requestSearch(event.target.value)}
-              clearSearch={() => requestSearch("")}
-            />
-            <Button
-              variant="outlined"
-              className={classes.ButtonAdd}
-              onClick={onClickAdd}
-            >
-              <pre>+ ADD</pre>
-            </Button>
-          </Box>
-          <DataGrid
-            headers={Header ? Header : ""}
-            rows={searchText ? searchInfo : Info ? Info : ""}
-          />
-        </CardContent>
-      </Card>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          justifyItems: "center",
+          alignItems: "center",
+          pt: "10px",
+          pb: "10px",
+        }}
+      >
+        <QuickSearchToolbar
+          value={searchText}
+          onChange={(event) => requestSearch(event.target.value)}
+          clearSearch={() => requestSearch("")}
+        />
+        <Button
+          variant="outlined"
+          className={classes.ButtonAdd}
+          onClick={onClickAdd}
+        >
+          <pre>+ ADD</pre>
+        </Button>
+      </Box>
+      <DataGrid
+        headers={Header ? Header : ""}
+        rows={searchText ? searchInfo : Info ? Info : ""}
+      />
     </>
   );
 };

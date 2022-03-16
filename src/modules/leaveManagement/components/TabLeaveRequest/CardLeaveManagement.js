@@ -22,7 +22,6 @@ import { getLeaveManagementInformation } from "../../actions";
 import { headers } from "./headers";
 import { getLeaveAmount } from "../../../../utils/miscellaneous";
 import moment from "moment";
-
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
     display: "flex",
@@ -45,6 +44,8 @@ const CardLeaveManagement = () => {
   const { leaveManagementInformation } = useSelector(
     (state) => state.leaveManagementReducer
   );
+  const { accountInformation } = useSelector((state) => state.accountReducer);
+
   useEffect(() => {
     dispatch(getLeaveManagementInformation());
   }, []);
@@ -63,10 +64,13 @@ const CardLeaveManagement = () => {
 
   let Header = headers;
   let Info = [];
+
   Header[headers.length] = {
     field: "actions",
     type: "actions",
+    headerName: "Action",
     width: "185",
+    headerClassName: "bg-light-green",
     renderCell: (cellValues) => {
       return (
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -78,6 +82,19 @@ const CardLeaveManagement = () => {
             onClick={(event) => {
               handleClickResponse(event, cellValues, false);
             }}
+            disabled={
+              cellValues.row.accRole === "Approver" &&
+              cellValues.row.Leave_status === "Cancellation Request"
+                ? false
+                : cellValues.row.Leave_status === "Approved by chief" ||
+                  cellValues.row.Leave_status === "Declined by chief" ||
+                  cellValues.row.Leave_status === "Approved by approver" ||
+                  cellValues.row.Leave_status === "Declined by approver" ||
+                  cellValues.row.Leave_status === "Approved cancellation" ||
+                  cellValues.row.Leave_status === "Declined cancellation"
+                ? true
+                : false
+            }
           >
             Decline
           </Button>
@@ -88,6 +105,19 @@ const CardLeaveManagement = () => {
             onClick={(event) => {
               handleClickResponse(event, cellValues, true);
             }}
+            disabled={
+              cellValues.row.accRole === "Approver" &&
+              cellValues.row.Leave_status === "Cancellation Request"
+                ? false
+                : cellValues.row.Leave_status === "Approved by chief" ||
+                  cellValues.row.Leave_status === "Declined by chief" ||
+                  cellValues.row.Leave_status === "Approved by approver" ||
+                  cellValues.row.Leave_status === "Declined by approver" ||
+                  cellValues.row.Leave_status === "Approved cancellation" ||
+                  cellValues.row.Leave_status === "Declined cancellation"
+                ? true
+                : false
+            }
           >
             Approve
           </Button>
@@ -99,14 +129,13 @@ const CardLeaveManagement = () => {
   const handleClose = () => {
     setOpen(false);
     setStatus("");
-    setColumnData({})
+    setColumnData({});
   };
 
   const handleClickResponse = (event, cellValues, status) => {
     setColumnData(cellValues);
     setOpen(true);
     setStatus(status);
-    console.log(cellValues);
   };
 
   const requestSearch = (searchValue) => {
@@ -123,14 +152,22 @@ const CardLeaveManagement = () => {
   };
 
   const setDataGrid = () => {
-    if (Object.keys(leaveManagementInformation).length !== 0) {
+    if (
+      Object.keys(leaveManagementInformation).length !== 0 &&
+      Object.keys(accountInformation).length !== 0
+    ) {
       leaveManagementInformation.data.map((item, index) => {
         let timeDiff = moment.duration(moment(item.End).diff(item.Begin));
         let hours = Math.floor(timeDiff.asSeconds() / 3600);
         let min = Math.floor((timeDiff.asSeconds() - hours * 3600) / 60);
         Info.push(item);
+        if (item.Detail === "null") {
+          Info[index].Detail = "-";
+        }
         Info[index].id = item.Request_id;
-        Info[index].Amount = getLeaveAmount(hours, min);
+        Info[index].accRole = accountInformation.Role;
+
+        // Info[index].Amount = getLeaveAmount(hours, min);
       });
       Info.reverse();
     }
@@ -150,40 +187,36 @@ const CardLeaveManagement = () => {
         />
       </ModalUpdate>
       <Box className={classes.box}>
-        <Card>
-          <CardContent className={classes.cardcontant}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                justifyItems: "center",
-                alignItems: "center",
-                pb: "10px",
-              }}
-            >
-              <QuickSearchToolbar
-                value={searchText}
-                onChange={(event) => requestSearch(event.target.value)}
-                clearSearch={() => requestSearch("")}
-              />
-            </Box>
-            <DataGrid
-              sortingOrder={["desc", "asc"]}
-              sortModel={sortModel}
-              onSortModelChange={(model) =>
-                Info.length !== 0 ? setSortModel(model) : ""
-              }
-              pageSize={pageSize}
-              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[5, 10, 20, 50]}
-              pagination
-              disableSelectionOnClick
-              className={classes.datagrid}
-              headers={Header ? Header : ""}
-              rows={searchText ? searchInfo : Info ? Info : ""}
-            />
-          </CardContent>
-        </Card>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            justifyItems: "center",
+            alignItems: "center",
+            pb: "10px",
+          }}
+        >
+          <QuickSearchToolbar
+            value={searchText}
+            onChange={(event) => requestSearch(event.target.value)}
+            clearSearch={() => requestSearch("")}
+          />
+        </Box>
+        <DataGrid
+          sortingOrder={["desc", "asc"]}
+          sortModel={sortModel}
+          onSortModelChange={(model) =>
+            Info.length !== 0 ? setSortModel(model) : ""
+          }
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[5, 10, 20, 50]}
+          pagination
+          disableSelectionOnClick
+          className={classes.datagrid}
+          headers={Header ? Header : ""}
+          rows={searchText ? searchInfo : Info ? Info : ""}
+        />
       </Box>
     </>
   );
