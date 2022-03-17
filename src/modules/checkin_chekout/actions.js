@@ -36,7 +36,14 @@ export const checkIn = async () => {
       return { status: "success" };
     })
     .catch((error) => {
-      pushSnackbarAction("Server Error", "Server Error.");
+      try {
+        let status = error.response.status;
+        if (status === 404) {
+          pushSnackbarAction("error", error.response.data.Message);
+        }
+      } catch (e) {
+        pushSnackbarAction("error", "Server error");
+      }
       return { status: "fail" };
     });
 };

@@ -71,7 +71,7 @@ const NewsSlider = ({ items, loading }) => {
                         backgroundImage: `url(${props.item.Img ? props.item.Img : svgimg})`,
                     }}
                 >
-                    <h2>{props.item.Topic === '-' || !props.item.Topic ? '' : props.item.Topic}</h2>
+                    {/* <h2>{props.item.Topic === '-' || !props.item.Topic ? '' : props.item.Topic}</h2> */}
                     {/* <p>{props.item.Detail === '-' || !props.item.Detail ? '' : props.item.Detail}</p> */}
 
                 </Paper>

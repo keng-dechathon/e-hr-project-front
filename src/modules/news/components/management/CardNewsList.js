@@ -145,7 +145,6 @@ const CardNewsList = ({ items }) => {
                 width: "80",
                 align: "center",
                 headerClassName: "bg-light-green",
-
                 flex: 1,
                 sortable: false,
                 renderCell: (params) => (
@@ -169,7 +168,7 @@ const CardNewsList = ({ items }) => {
                 headerName: headerArray[name],
                 type: "dateTime",
                 headerClassName: "bg-light-green",
-                width: "180",
+                width: "200",
                 sortable: false,
               });
             if (name === "Topic" || (name === "Detail" && headerArray[name]))

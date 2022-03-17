@@ -67,13 +67,15 @@ const ContantNewsManagement = () => {
   }, []);
 
   const createNewsItem = () => {
-    if (Object.keys(allNewsInformation).length !== 0) {
+    if (
+      Object.keys(allNewsInformation).length !== 0 &&
+      allNewsInformation.status !== 404
+    ) {
       allNewsInformation.data.map((value, index) => {
         items.push(value);
       });
     }
   };
-
   createNewsItem();
 
   return (

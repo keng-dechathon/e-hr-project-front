@@ -83,7 +83,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     top: "10px",
     right: "10px !important",
-    position: "absolute  !important",
+    position: "fixed",
+    marginRight:"15px",
   },
 }));
 

@@ -56,6 +56,11 @@ const CardLeaveInfomation = () => {
           onClick={(event) => {
             handleClickCancle(event, cellValues);
           }}
+          disabled={
+            cellValues.row.Leave_status !== "Requested"
+              ? true
+              : false
+          }
         >
           Cancle
         </Button>
