@@ -96,6 +96,7 @@ const CardTimeSheetRecord = () => {
     setIsBetween(false);
     checkIsBetweenDate();
   }, [holidaysInformation, day]);
+  
   const onClickDelete = React.useCallback(
     (id) => () => {
       setDeleteID(id);
@@ -172,7 +173,10 @@ const CardTimeSheetRecord = () => {
           moment(moment(item.Start).format("MMM Do ") + nowYear, "MMM Do YYYY")
         );
         const end = new Date(
-          moment(moment(item.End).format("MMM Do ") + nowYear, "MMM Do YYYY").add(1, "days")
+          moment(
+            moment(item.End).format("MMM Do ") + nowYear,
+            "MMM Do YYYY"
+          ).add(1, "days")
         );
         const now = day;
         const range = moment().range(start, end);
