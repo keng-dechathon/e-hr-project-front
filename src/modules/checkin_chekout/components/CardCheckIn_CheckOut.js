@@ -123,10 +123,32 @@ const CardCheckIn_CheckOut = () => {
 
   const onClickCheckIn = async () => {
     await checkIn();
+    if (Object.keys(accountInformation).length !== 0) {
+      dispatch(
+        getCheckInformation(
+          "",
+          "",
+          showType,
+          String(accountInformation.Emp_id),
+          moment(day).format("YYYY-MM-DD")
+        )
+      );
+    }
   };
 
   const onClickCheckOut = async () => {
     await checkOut();
+    if (Object.keys(accountInformation).length !== 0) {
+      dispatch(
+        getCheckInformation(
+          "",
+          "",
+          showType,
+          String(accountInformation.Emp_id),
+          moment(day).format("YYYY-MM-DD")
+        )
+      );
+    }
   };
 
   const setNextDate = () => {

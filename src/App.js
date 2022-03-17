@@ -23,6 +23,13 @@ import MeetingRoom from "./pages/common/MeetingRoom";
 import TimeSheetManagement from "./pages/common/TimeSheetManagement";
 import CheckIn_CheckOut from "./pages/common/Checkin_CheckOut";
 import LeaveManagement from "./pages/common/LeaveManagement";
+// import LeaveEmployeeInformation from "./pages/common/LeaveEmployeeInformation";
+import Checkin_CheckOut_View from "./pages/common/Checkin_CheckOut_View";
+import ExpenseRequest from "./pages/common/ExpenseRequest";
+import DocumentRequest from "./pages/common/DocumentRequest";
+import ExpenseManagement from "./pages/common/ExpenseManagement";
+import DocumentManagement from "./pages/common/DocumentManagement";
+import Report from "./pages/common/Report";
 export default function App() {
   return (
     <Router>
@@ -215,6 +222,87 @@ export default function App() {
               element={
                 <MainLayout title="Leave Management">
                   <LeaveManagement />
+                </MainLayout>
+              }
+            />
+          </Route>
+          {/* <Route
+            exact
+            path="/leave-employee-information"
+            element={<PrivateRoute />}
+          >
+            <Route
+              exact
+              path="/leave-employee-information"
+              element={
+                <MainLayout title="Leave Employee Information">
+                  <LeaveEmployeeInformation />
+                </MainLayout>
+              }
+            />
+          </Route> */}
+          <Route exact path="/checkin-checkout-view" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/checkin-checkout-view"
+              element={
+                <MainLayout title="CheckIn-CheckOut (View)">
+                  <Checkin_CheckOut_View />
+                </MainLayout>
+              }
+            />
+          </Route>
+          <Route exact path="/expense-request" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/expense-request"
+              element={
+                <MainLayout title="Expense Request">
+                  <ExpenseRequest />
+                </MainLayout>
+              }
+            />
+          </Route>
+          <Route exact path="/document-request" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/document-request"
+              element={
+                <MainLayout title="Document Request">
+                  <DocumentRequest />
+                </MainLayout>
+              }
+            />
+          </Route>
+          <Route exact path="/expense-management" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/expense-management"
+              element={
+                <MainLayout title="Expense Management">
+                  <ExpenseManagement />
+                </MainLayout>
+              }
+            />
+          </Route>
+          <Route exact path="/document-management" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/document-management"
+              element={
+                <MainLayout title="Document Management">
+                  <DocumentManagement />
+                </MainLayout>
+              }
+            />
+          </Route>
+          <Route exact path="/report" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/report"
+              element={
+                <MainLayout title="Report">
+                  <Report />
                 </MainLayout>
               }
             />
