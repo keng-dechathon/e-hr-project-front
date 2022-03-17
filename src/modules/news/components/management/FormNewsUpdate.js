@@ -120,6 +120,7 @@ const FormNewsUpdate = (props) => {
                             id='topic'
                             name='topic'
                             required
+                            size='small'
                             defaultValue={topic}
                             onChange={handleChangeTopic}
                             fullWidth
@@ -130,13 +131,14 @@ const FormNewsUpdate = (props) => {
                         <TextField
                             id='detail'
                             name='detail'
+                            size='small'
                             defaultValue={detail}
                             onChange={handleChangeDetail}
                             required
                             fullWidth
                             multiline
-                            rows={3}
-                            rowsMax={4}
+                            rows={5}
+                            rowsMax={5}
                         />
                     </Grid>
                     <Grid item xs={12} >
@@ -148,14 +150,14 @@ const FormNewsUpdate = (props) => {
                             value={start}
                             onChange={handleChangeStart}
 
-                            renderInput={(params) => <TextField fullWidth required {...params} />}
+                            renderInput={(params) => <TextField fullWidth required {...params} size='small'/>}
                         />
                         <Box sx={{ mx: 2 }} className={classes.center}> to </Box>
                         <DateTimePicker
                             inputFormat="dd/MM/yyyy hh:mm a"
                             value={end}
                             onChange={handleChangeEnd}
-                            renderInput={(params) => <TextField fullWidth required {...params} />}
+                            renderInput={(params) => <TextField fullWidth required {...params} size='small'/>}
                         />
                     </Grid>
                     <Grid item xs={12} >
