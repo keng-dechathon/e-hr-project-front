@@ -19,7 +19,7 @@ import {
 } from "../../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
 import ModalUpdate from "../../../common/ModalUpdate";
-
+import { headers } from "./headers";
 const useStyles = makeStyles(() => ({
   tabitem: {
     marginRight: "30px !important",
@@ -76,7 +76,7 @@ const CardNewsList = ({ items }) => {
     End: "Expire at",
   };
 
-  let newsHeader = React.useMemo(() => []);
+  let newsHeader = headers;
   let newsInfo = [];
 
   const [searchInfo, setSearchInfo] = useState([]);
@@ -93,7 +93,25 @@ const CardNewsList = ({ items }) => {
       sort: "desc",
     },
   ]);
-
+  newsHeader.push({
+    field: "actions",
+    type: "actions",
+    headerName: "Action",
+    width: 90,
+    headerClassName: "bg-light-green",
+    getActions: (params) => [
+      <GridActionsCellItem
+        icon={<EditIcon />}
+        label="Edit"
+        onClick={updateNews(params.id)}
+      />,
+      <GridActionsCellItem
+        icon={<DeleteForeverIcon />}
+        label="Delete"
+        onClick={deletesNews(params.id)}
+      />,
+    ],
+  });
   const handleClose = () => {
     setIsEdit(false);
   };
@@ -136,73 +154,73 @@ const CardNewsList = ({ items }) => {
   const setNewsDataGrid = () => {
     if (Object.keys(items).length !== 0) {
       items.map((item, index) => {
-        if (index === 0) {
-          Object.keys(item).map((name, value) => {
-            if (name === "Img" && headerArray[name])
-              newsHeader.push({
-                field: name,
-                headerName: headerArray[name],
-                width: "80",
-                align: "center",
-                headerClassName: "bg-light-green",
-                flex: 1,
-                sortable: false,
-                renderCell: (params) => (
-                  <img
-                    src={
-                      params.value && params.value != "null"
-                        ? params.value
-                        : noimg
-                    }
-                    className={classes.Img}
-                  />
-                ),
-              });
-            if (
-              name === "Start" ||
-              name === "End" ||
-              (name === "Date" && headerArray[name])
-            )
-              newsHeader.push({
-                field: name,
-                headerName: headerArray[name],
-                type: "dateTime",
-                headerClassName: "bg-light-green",
-                width: "200",
-                sortable: false,
-              });
-            if (name === "Topic" || (name === "Detail" && headerArray[name]))
-              newsHeader.push({
-                field: name,
-                headerName: headerArray[name],
-                flex: 1,
-                headerClassName: "bg-light-green",
-                sortable: false,
-              });
-          });
-        }
+        // if (index === 0) {
+        //   Object.keys(item).map((name, value) => {
+        //     if (name === "Img" && headerArray[name])
+        //       newsHeader.push({
+        //         field: name,
+        //         headerName: headerArray[name],
+        //         width: "80",
+        //         align: "center",
+        //         headerClassName: "bg-light-green",
+        //         flex: 1,
+        //         sortable: false,
+        //         renderCell: (params) => (
+        //           <img
+        //             src={
+        //               params.value && params.value != "null"
+        //                 ? params.value
+        //                 : noimg
+        //             }
+        //             className={classes.Img}
+        //           />
+        //         ),
+        //       });
+        //     if (
+        //       name === "Start" ||
+        //       name === "End" ||
+        //       (name === "Date" && headerArray[name])
+        //     )
+        //       newsHeader.push({
+        //         field: name,
+        //         headerName: headerArray[name],
+        //         type: "dateTime",
+        //         headerClassName: "bg-light-green",
+        //         width: "200",
+        //         sortable: false,
+        //       });
+        //     if (name === "Topic" || (name === "Detail" && headerArray[name]))
+        //       newsHeader.push({
+        //         field: name,
+        //         headerName: headerArray[name],
+        //         flex: 1,
+        //         headerClassName: "bg-light-green",
+        //         sortable: false,
+        //       });
+        //   });
+        // }
         newsInfo.push(item);
         newsInfo[index].id = item.News_id;
       });
-      newsHeader.push({
-        field: "actions",
-        type: "actions",
-        headerName: "Action",
-        width: 90,
-        headerClassName: "bg-light-green",
-        getActions: (params) => [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            onClick={updateNews(params.id)}
-          />,
-          <GridActionsCellItem
-            icon={<DeleteForeverIcon />}
-            label="Delete"
-            onClick={deletesNews(params.id)}
-          />,
-        ],
-      });
+      // newsHeader.push({
+      //   field: "actions",
+      //   type: "actions",
+      //   headerName: "Action",
+      //   width: 90,
+      //   headerClassName: "bg-light-green",
+      //   getActions: (params) => [
+      //     <GridActionsCellItem
+      //       icon={<EditIcon />}
+      //       label="Edit"
+      //       onClick={updateNews(params.id)}
+      //     />,
+      //     <GridActionsCellItem
+      //       icon={<DeleteForeverIcon />}
+      //       label="Delete"
+      //       onClick={deletesNews(params.id)}
+      //     />,
+      //   ],
+      // });
     }
   };
 
