@@ -15,7 +15,7 @@ import FormAddTeam from "./FormAddTeam";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { deleteTeam } from "../actions";
-
+import { headers } from "./headers";
 import {
   QuickSearchToolbar,
   escapeRegExp,
@@ -60,9 +60,29 @@ const CardTeam = () => {
     Team_host: "Host",
   };
 
-  let Header = React.useMemo(() => []);
+  let Header = headers;
   let Info = [];
+  Header[Header.length] = {
+    field: "actions",
+    type: "actions",
+    headerName: "Action",
 
+    headerClassName: "bg-light-green",
+
+    width: 90,
+    getActions: (params) => [
+      <GridActionsCellItem
+        icon={<EditIcon />}
+        label="Edit"
+        onClick={onClickUpdate(params.row)}
+      />,
+      <GridActionsCellItem
+        icon={<DeleteForeverIcon />}
+        label="Delete"
+        onClick={onClickDelete(params.id)}
+      />,
+    ],
+  };
   useEffect(() => {
     dispatch(getTeamsInformation());
   }, []);
@@ -118,64 +138,8 @@ const CardTeam = () => {
   const setDataGrid = () => {
     if (Object.keys(teamsInformation).length !== 0) {
       teamsInformation.data.map((item, index) => {
-        if (index === 0) {
-          Object.keys(item).map((name, value) => {
-            if (name === "Team_id" && headerArray[name]) {
-              Header[0] = {
-                type: "number",
-                field: name,
-                headerName: headerArray[name],
-                width: "80",
-                headerClassName: "bg-light-green",
-
-                align: "left",
-                headerAlign: "left",
-              };
-            }
-            if (name === "Teamname" && headerArray[name]) {
-              Header[1] = {
-                field: name,
-                headerClassName: "bg-light-green",
-
-                headerName: headerArray[name],
-                flex: 1,
-              };
-            }
-
-            if (name === "Team_host" && headerArray[name]) {
-              Header[2] = {
-                field: name,
-                headerClassName: "bg-light-green",
-
-                headerName: headerArray[name],
-                flex: 1,
-              };
-            }
-          });
-        }
         Info.push(item);
         Info[index].id = item.Team_id;
-      });
-      Header.push({
-        field: "actions",
-        type: "actions",
-        headerName: "Action",
-
-        headerClassName: "bg-light-green",
-
-        width: 90,
-        getActions: (params) => [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            onClick={onClickUpdate(params.row)}
-          />,
-          <GridActionsCellItem
-            icon={<DeleteForeverIcon />}
-            label="Delete"
-            onClick={onClickDelete(params.id)}
-          />,
-        ],
       });
     }
   };

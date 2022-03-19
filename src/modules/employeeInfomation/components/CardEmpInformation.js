@@ -49,12 +49,12 @@ const useStyles = makeStyles(() => ({
     },
   },
   datagrid: {
-    "& .MuiDataGrid-cell": {
-      borderRight: "0px !important",
-    },
-    "& .MuiDataGrid-columnHeader": {
-      borderRight: "0px !important",
-    },
+    // "& .MuiDataGrid-cell": {
+    //   borderRight: "0px !important",
+    // },
+    // "& .MuiDataGrid-columnHeader": {
+    //   borderRight: "0px !important",
+    // },
   },
 }));
 
@@ -73,13 +73,6 @@ const CardEmpInformation = (props) => {
   const [deleteID, setDeleteID] = useState("");
   const [pageSize, setPageSize] = useState(5);
 
-  const headerArray = {
-    Img: "Name",
-    Position: "Position",
-    Company: "Company",
-    Team_Info: "Owner",
-    Active_Status: "Status",
-  };
   const avatarColor = [
     pink[500],
     lightGreen[500],
@@ -90,7 +83,108 @@ const CardEmpInformation = (props) => {
     lime[500],
   ];
 
-  let Header = React.useMemo(() => []);
+  let Header = [
+    {
+      field: "Img",
+      headerClassName: "bg-light-green",
+
+      headerName: "Name",
+      renderCell: (params) => (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Avatar
+            alt={params.row.Name}
+            src={params.value !== "" ? params.value : "null"}
+            sx={{ width: 28, height: 28, bgcolor: avatarColor[6] }}
+          />
+          <Typography variant="subtitle2" style={{ marginLeft: "15px" }}>
+            {params.row.Name}
+          </Typography>
+        </div>
+      ),
+      flex: 1,
+      sortable: false,
+    },
+    {
+      field: "Position",
+      headerClassName: "bg-light-green",
+      headerName: "Position",
+      minWidth: "200",
+    },
+    {
+      field: "Company",
+      headerClassName: "bg-light-green",
+      minWidth: "200",
+      headerName: "Company",
+    },
+    {
+      field: "Team_Info",
+      headerClassName: "bg-light-green",
+      headerName: "Owner",
+      renderCell: (params) => (
+        <div>
+          {params.value &&
+            params.value.map((item, index) =>
+              index === 0 ? (
+                <div
+                  style={{ display: "flex", alignItems: "center" }}
+                  key={index}
+                >
+                  <Avatar
+                    alt={params.value[0].HostName}
+                    src={params.value[0].HostImg}
+                    sx={{
+                      width: 28,
+                      height: 28,
+                      bgcolor: avatarColor[6],
+                    }}
+                  />
+                  <Typography
+                    variant="subtitle2"
+                    style={{ marginLeft: "15px" }}
+                  >
+                    {item.HostName}
+                  </Typography>
+                </div>
+              ) : (
+                ""
+              )
+            )}
+        </div>
+      ),
+      flex: 1,
+      sortable: false,
+    },
+    {
+      field: "Active_Status",
+      headerClassName: "bg-light-green",
+      headerName: "Status",
+      minWidth: "150",
+      align:'center',
+      renderCell: (params) => (
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {
+            <Chip
+              label={params.row.Active_Status === true ? "active" : "inactive"}
+              icon={
+                params.row.Active_Status === true ? <DoneIcon /> : <CloseIcon />
+              }
+              size="small"
+              color={params.row.Active_Status === true ? "primary" : "success"}
+              style={{ minWidth: "80px", justifyContent: "left" }}
+            />
+          }
+        </div>
+      ),
+
+      sortable: false,
+    },
+  ];
   let Info = [];
 
   useEffect(() => {
@@ -161,138 +255,6 @@ const CardEmpInformation = (props) => {
   const setDataGrid = () => {
     if (Object.keys(empInformation).length !== 0) {
       empInformation.data.map((item, index) => {
-        if (index === 0) {
-          Object.keys(item).map((name, value) => {
-            if (name === "Img" && headerArray[name]) {
-              Header[0] = {
-                field: name,
-                headerClassName: "bg-light-green",
-
-                headerName: headerArray[name],
-                renderCell: (params) => (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Avatar
-                      alt={params.row.Name}
-                      src={params.value !== "" ? params.value : "null"}
-                      sx={{ width: 28, height: 28, bgcolor: avatarColor[6] }}
-                    />
-                    <Typography
-                      variant="subtitle2"
-                      style={{ marginLeft: "10px" }}
-                    >
-                      {params.row.Name}
-                    </Typography>
-                  </div>
-                ),
-                minWidth: "280",
-                sortable: false,
-              };
-            }
-            if (name === "Position" && headerArray[name]) {
-              Header[1] = {
-                field: name,
-                headerClassName: "bg-light-green",
-
-                headerName: headerArray[name],
-                flex: 1,
-              };
-            }
-            if (name === "Company" && headerArray[name]) {
-              Header[2] = {
-                field: name,
-                headerClassName: "bg-light-green",
-
-                headerName: headerArray[name],
-                flex: 1,
-              };
-            }
-            if (name === "Team_Info" && headerArray[name]) {
-              Header[3] = {
-                field: name,
-                headerClassName: "bg-light-green",
-
-                headerName: headerArray[name],
-                renderCell: (params) => (
-                  <div>
-                    {params.value &&
-                      params.value.map((item, index) =>
-                        index === 0 ? (
-                          <div
-                            style={{ display: "flex", alignItems: "center" }}
-                            key={index}
-                          >
-                            <Avatar
-                              alt={params.value[0].HostName}
-                              src={params.value[0].HostImg}
-                              sx={{
-                                width: 28,
-                                height: 28,
-                                bgcolor: avatarColor[6],
-                              }}
-                            />
-                            <Typography
-                              variant="subtitle2"
-                              style={{ marginLeft: "10px" }}
-                            >
-                              {item.HostName}
-                            </Typography>
-                          </div>
-                        ) : (
-                          ""
-                        )
-                      )}
-                  </div>
-                ),
-                minWidth: "230",
-                sortable: false,
-              };
-            }
-            if (name === "Active_Status" && headerArray[name]) {
-              Header[4] = {
-                field: name,
-                headerClassName: "bg-light-green",
-
-                headerName: headerArray[name],
-                flex: 1,
-                renderCell: (params) => (
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    {
-                      <Chip
-                        label={
-                          params.row.Active_Status === true
-                            ? "active"
-                            : "inactive"
-                        }
-                        icon={
-                          params.row.Active_Status === true ? (
-                            <DoneIcon />
-                          ) : (
-                            <CloseIcon />
-                          )
-                        }
-                        size="small"
-                        color={
-                          params.row.Active_Status === true
-                            ? "primary"
-                            : "success"
-                        }
-                        style={{ minWidth: "80px", justifyContent: "left" }}
-                      />
-                    }
-                  </div>
-                ),
-
-                sortable: false,
-              };
-            }
-          });
-        }
         Info[index] = {};
         Info[index].Img = item.Img;
         Info[index].Name = item.Name;

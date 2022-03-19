@@ -5,9 +5,9 @@ import { getDateFormat, getDateFormat2 } from "../../../utils/miscellaneous";
 import { renderTime, renderTimeEditInputCell } from "./TimeEditInputCell";
 import moment from "moment";
 import { updateTimeSheet } from "../actions";
-
-import { RenderSelectChargeCode,RenderSelectLocation } from "./RenderSelect";
-
+import { setCookie } from "../../../utils/cookie";
+import { RenderSelectChargeCode, RenderSelectLocation } from "./RenderSelect";
+import { getCookieFromBrowser, removeCookie } from "../../../utils/cookie";
 const getDuration = (params) => {
   let Duration = moment.duration(
     moment(params.row.End, "h:mm:ss A").diff(
@@ -16,15 +16,65 @@ const getDuration = (params) => {
   );
   return moment.utc(Duration.as("milliseconds")).format("HH:mm");
 };
-const handleUpdateDetail = async (params) => {
-  console.log(params.props.value);
-  const values = { Detail: params.props.value, Sheet_id: String(params.id) };
-  await updateTimeSheet(values);
+export const handleUpdateDetail = async (params) => {
+  if (
+    getCookieFromBrowser("Sheet_Id") !== undefined &&
+    getCookieFromBrowser("Sheet_Id") !== String(params.id)
+  ) {
+    const values = {
+      Detail: getCookieFromBrowser("Sheet_Detail"),
+      Sheet_id: getCookieFromBrowser("Sheet_Id"),
+    };
+    await updateTimeSheet(values);
+    removeCookie("Sheet_Detail");
+    removeCookie("Sheet_Id");
+    setCookie(
+      "Sheet_Detail",
+      params.props.value,
+      new Date().getTime() + 31556926
+    );
+    setCookie("Sheet_Id", String(params.id), new Date().getTime() + 31556926);
+    console.log("Da");
+  } else {
+    setCookie(
+      "Sheet_Detail",
+      params.props.value,
+      new Date().getTime() + 31556926
+    );
+    setCookie("Sheet_Id", String(params.id), new Date().getTime() + 31556926);
+    console.log("ad");
+  }
 };
-const handleUpdateRemark = async (params) => {
+export const handleUpdateRemark = async (params) => {
   console.log(params.props.value);
   const values = { Remark: params.props.value, Sheet_id: String(params.id) };
-  await updateTimeSheet(values);
+  if (
+    getCookieFromBrowser("Remark") !== undefined &&
+    getCookieFromBrowser("SheetRemark_Id") !== String(params.id)
+  ) {
+    const values = {
+      Remark: getCookieFromBrowser("Remark"),
+      Sheet_id: getCookieFromBrowser("SheetRemark_Id"),
+    };
+    await updateTimeSheet(values);
+    removeCookie("Remark");
+    removeCookie("SheetRemark_Id");
+    setCookie(
+      "Remark",
+      params.props.value,
+      new Date().getTime() + 31556926
+    );
+    setCookie("SheetRemark_Id", String(params.id), new Date().getTime() + 31556926);
+    console.log("Da");
+  } else {
+    setCookie(
+      "Remark",
+      params.props.value,
+      new Date().getTime() + 31556926
+    );
+    setCookie("SheetRemark_Id", String(params.id), new Date().getTime() + 31556926);
+    console.log("ad");
+  }
 };
 
 export const columns = [
@@ -97,7 +147,6 @@ export const columns = [
     sortable: false,
     editable: true,
     preProcessEditCellProps: (params) => {
-      console.log(params.props.value);
       handleUpdateDetail(params);
       return { ...params.props };
     },
