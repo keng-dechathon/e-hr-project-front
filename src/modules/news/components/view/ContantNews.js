@@ -69,7 +69,7 @@ const ContantNews = () => {
     }, [])
 
     const createNewsItem = () => {
-        if (Object.keys(newsInformation).length !== 0) {           
+        if (Object.keys(newsInformation).length !== 0&&newsInformation.status!==404) {           
             newsInformation.data.map((value, index) => {              
                 items.push(value)
             })

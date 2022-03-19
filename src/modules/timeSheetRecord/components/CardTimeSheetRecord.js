@@ -29,6 +29,8 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 import { deleteTimeSheet, addTimeSheet } from "../actions";
 import { getHolidaysInformation } from "../../timeManagement/actions";
 import { Stack } from "@mui/material";
+import { getCookieFromBrowser, removeCookie } from "../../../utils/cookie";
+import { updateTimeSheet } from "../actions";
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
     display: "flex",
@@ -73,6 +75,7 @@ const CardTimeSheetRecord = () => {
   const [isBetween, setIsBetween] = useState(false);
 
   useEffect(() => {
+    checkTimeSheetCookie();
     dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
     dispatch(getHolidaysInformation());
   }, []);
@@ -96,13 +99,39 @@ const CardTimeSheetRecord = () => {
     setIsBetween(false);
     checkIsBetweenDate();
   }, [holidaysInformation, day]);
-  
+
   const onClickDelete = React.useCallback(
     (id) => () => {
       setDeleteID(id);
     },
     []
   );
+  const checkTimeSheetCookie = async () => {
+    if (
+      getCookieFromBrowser("Sheet_Id") !== undefined &&
+      getCookieFromBrowser("Sheet_Detail") !== undefined
+    ) {
+      const values = {
+        Detail: getCookieFromBrowser("Sheet_Detail"),
+        Sheet_id: getCookieFromBrowser("Sheet_Id"),
+      };
+      await updateTimeSheet(values);
+      removeCookie("Sheet_Detail");
+      removeCookie("Sheet_Id");
+    }
+    if (
+      getCookieFromBrowser("Remark") !== undefined &&
+      getCookieFromBrowser("SheetRemark_Id") !== undefined
+    ) {
+      const values = {
+        Remark: getCookieFromBrowser("Remark"),
+        Sheet_id: getCookieFromBrowser("SheetRemark_Id"),
+      };
+      await updateTimeSheet(values);
+      removeCookie("Remark");
+      removeCookie("SheetRemark_Id");
+    }
+  };
 
   let header = columns;
   let Info = [];
