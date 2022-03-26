@@ -80,6 +80,7 @@ const CardTimeSheetRecord = () => {
     dispatch(getHolidaysInformation());
   }, []);
   useEffect(() => {
+    checkTimeSheetCookie();
     dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
     dispatch(updateDateState(getDateFormat(day)));
   }, [day]);
@@ -131,6 +132,7 @@ const CardTimeSheetRecord = () => {
       removeCookie("Remark");
       removeCookie("SheetRemark_Id");
     }
+    dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
   };
 
   let header = columns;

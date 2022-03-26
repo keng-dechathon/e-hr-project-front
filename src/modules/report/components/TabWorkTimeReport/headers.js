@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 import moment from "moment";
-import renderCellExpand from "../../common/DataGridTimeSheet/renderCellExpand";
+import renderCellExpand from "../../../common/DataGridTimeSheet/renderCellExpand";
 
 export const headers = [
   {
-    field: "Date",
-    headerName: "Date",
+    field: "Name",
+    headerName: "Name",
     width: 190,
     headerClassName: "bg-light-green",
     renderCell: renderCellExpand,

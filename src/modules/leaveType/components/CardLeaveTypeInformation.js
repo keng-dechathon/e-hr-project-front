@@ -62,7 +62,7 @@ const CardLeaveTypeInformation = () => {
   let Header = headers;
   let Info = [];
 
-  Header.push({
+  Header[headers.length] = {
     field: "actions",
     type: "actions",
     headerClassName: "bg-light-green",
@@ -80,7 +80,7 @@ const CardLeaveTypeInformation = () => {
         onClick={onClickDelete(params.id)}
       />,
     ],
-  });
+  };
 
   useEffect(() => {
     dispatch(getLeaveTypeInformation());
@@ -137,14 +137,15 @@ const CardLeaveTypeInformation = () => {
 
   const setDataGrid = () => {
     if (Object.keys(leaveTypeInformation).length !== 0) {
-      leaveTypeInformation.data.map((item,index) => {
+      leaveTypeInformation.data.map((item, index) => {
         Info.push(item);
-        Info[index].Num_per_year=String(item.Num_per_year)
-        Info[index].Num_can_add=String(item.Num_can_add)
+        Info[index].Num_per_year = String(item.Num_per_year);
+        Info[index].Num_can_add = String(item.Num_can_add);
       });
     }
   };
   setDataGrid();
+  
   return (
     <>
       <ModalUpdate
