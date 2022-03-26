@@ -76,6 +76,9 @@ const useStyles = makeStyles(() => ({
   },
   list: {
     paddingTop: "0 !important",
+    [`& .css-bshv44-MuiButtonBase-root-MuiListItem-root`]: {
+      paddingLeft: "19px !important",
+    },
   },
 }));
 

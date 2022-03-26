@@ -50,7 +50,7 @@ export const headers = [
   {
     field: "Amount",
     headerName: "Amount (Hrs)",
-    width:170,
+    width:120,
     headerClassName: "bg-light-green",
     renderCell: renderCellExpand,
   },
