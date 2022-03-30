@@ -203,7 +203,7 @@ const CardTimeSheet = (props) => {
             renderInput={(params) => <TextField size="small" {...params} />}
           />
           {isBetween ? (
-            <Typography variant="h7" color="mute" className={classes.attention}>
+            <Typography variant="subtitle1" color="mute" className={classes.attention}>
               <ErrorOutlineIcon
                 fontSize="small"
                 style={{ marginRight: "5px" }}

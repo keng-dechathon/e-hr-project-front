@@ -29,7 +29,7 @@ import ErrorIcon from "@mui/icons-material/Error";
 import CardCheckCount from "./CardCheckCount";
 import { Card } from "@mui/material";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -59,7 +59,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 //     },
 //   ],
 // };
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   box: {
     marginTop: "20px",
   },
@@ -75,6 +75,9 @@ const useStyles = makeStyles(() => ({
     // position: "absolute  !important",
     width: "100%",
     justifyContent: "flex-end",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center !important",
+    },
   },
   box: {
     marginTop: "20px",
@@ -93,11 +96,16 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
     alignItems: "center",
   },
-  attention2: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: "10px",
+  attention2: {  
+    [theme.breakpoints.up(900)]: {
+      display: "flex",
+      justifyContent: "left",
+      alignItems: "center",
+      marginLeft:"15px",
+    },
+    [theme.breakpoints.down(900)]: {
+      display: "none",
+    },
   },
   normal: {
     backgroundColor: "#8bc34a !important",
@@ -105,6 +113,23 @@ const useStyles = makeStyles(() => ({
   holiday: {
     backgroundColor: "#2196f3 !important",
   },
+  daySearch: {
+    width: "100% !important",
+    alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center !important",
+    },
+  },
+  typeBT:{
+    [theme.breakpoints.down(900)]: {
+      width: "100%",
+    },
+  },
+  datePicker:{
+    [theme.breakpoints.down(900)]: {
+      width: "100%",
+    },
+  }
 }));
 
 const CardCheckChart = () => {
@@ -137,7 +162,7 @@ const CardCheckChart = () => {
   }, []);
   useEffect(() => {
     checkIsBetweenDate();
-  }, [holidaysInformation]);
+  }, [holidaysInformation,day]);
   useEffect(() => {
     dispatch(getAllCheckInformation("", "", getDateFormat(day), showType));
   }, [day, showType]);
@@ -152,21 +177,21 @@ const CardCheckChart = () => {
         label: "# of Votes",
         data: [inTime, outInTime, late, overTime, outEarly],
         backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
+          "#ffa600",
+          "#ff7c43",
+          "#f95d6a",
+          "#a05195",
+          "#AED6F1 ",
+          "#003f5c",
         ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
+        // borderColor: [
+        //   "rgba(255, 99, 132, 1)",
+        //   "rgba(54, 162, 235, 1)",
+        //   "rgba(255, 206, 86, 1)",
+        //   "rgba(75, 192, 192, 1)",
+        //   "rgba(153, 102, 255, 1)",
+        //   "rgba(255, 159, 64, 1)",
+        // ],
         borderWidth: 1,
       },
     ],
@@ -196,10 +221,12 @@ const CardCheckChart = () => {
             "MMM Do YYYY"
           ).add(1, "days")
         );
-        const now = new Date();
+        const now = day;
         const range = moment().range(start, end);
         if (range.contains(now)) {
           setIsBetween(true);
+        }else{
+          setIsBetween(false);
         }
       });
     }
@@ -236,56 +263,45 @@ const CardCheckChart = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Card style={{ padding: "0 15px" }}>
-        <div
-          style={{
-            display: "inline-block !important",
-            position: "relative !important",
-            width: "100%",
-            height: "40px",
-            marginTop: "15px",
-            marginBottom: "15px",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Stack direction="row" style={{ alignItems: "center" }}>
-            <Button
-              variant="contained"
-              className={isBetween ? classes.holiday : classes.normal}
-              onClick={setToDay}
-            >
-              <pre>TODAY</pre>
-            </Button>
-            <IconButton
-              color="primary"
-              aria-label="before"
-              component="span"
-              onClick={setBeforeDate}
-            >
-              <KeyboardArrowLeftIcon />
-            </IconButton>
-            <IconButton
-              color="primary"
-              aria-label="before"
-              component="span"
-              onClick={setNextDate}
-            >
-              <ChevronRightIcon />
-            </IconButton>
-            <DatePicker
-              value={day}
-              inputFormat="dd/MM/yyyy"
-              onChange={(newValue) => {
-                setDay(newValue);
-              }}
-              renderInput={(params) => <TextField size="small" {...params} />}
-            />
-            {isBetween ? (
-              <Typography
-                variant="h7"
-                color="mute"
-                className={classes.attention2}
+      <Card style={{ padding: "15px" }}>
+        <Grid container spacing={2}>
+          <Grid item sm={12} md={8}>
+            <Stack direction="row" className={classes.daySearch}>
+              <Button
+                variant="contained"
+                className={isBetween ? classes.holiday : classes.normal}
+                onClick={setToDay}
+                style={{height:"37px"}}
               >
+                <pre>TODAY</pre>
+              </Button>
+              <IconButton
+                color="primary"
+                aria-label="before"
+                component="span"
+                onClick={setBeforeDate}
+              >
+                <KeyboardArrowLeftIcon />
+              </IconButton>
+              <IconButton
+                color="primary"
+                aria-label="before"
+                component="span"
+                onClick={setNextDate}
+              >
+                <ChevronRightIcon />
+              </IconButton>
+              <DatePicker
+                value={day}
+                inputFormat="dd/MM/yyyy"
+              
+                onChange={(newValue) => {
+                  setDay(newValue);
+                }}
+                renderInput={(params) => <TextField size="small" {...params}   className={classes.datePicker}/>}
+              />
+                 {isBetween ? (
+              <Typography variant="subtitle1" color="mute" className={classes.attention2}>
                 <ErrorOutlineIcon
                   fontSize="small"
                   style={{ marginRight: "5px" }}
@@ -295,9 +311,13 @@ const CardCheckChart = () => {
             ) : (
               ""
             )}
+            </Stack>
+          </Grid>        
+          <Grid item sm={12} md={4} style={{ width: "100%" }}>
             <Stack direction="row" spacing={1} className={classes.ButtonAdd}>
               <Button
                 variant={showType === "Day" ? "outlined" : "contained"}
+                className={classes.typeBT}
                 onClick={() => {
                   setShowType("Day");
                 }}
@@ -305,6 +325,7 @@ const CardCheckChart = () => {
                 <pre>DAY</pre>
               </Button>
               <Button
+               className={classes.typeBT}
                 variant={showType === "Month" ? "outlined" : "contained"}
                 onClick={() => {
                   setShowType("Month");
@@ -313,6 +334,7 @@ const CardCheckChart = () => {
                 <pre>month</pre>
               </Button>
               <Button
+               className={classes.typeBT}
                 variant={showType === "Year" ? "outlined" : "contained"}
                 onClick={() => {
                   setShowType("Year");
@@ -321,23 +343,24 @@ const CardCheckChart = () => {
                 <pre>Year</pre>
               </Button>
             </Stack>
-          </Stack>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-          }}
-        >
-          <div
-            class="chart-container"
-            style={{ padding: "15px", width: "470px" ,minWidth:"300px" }}
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+            }}
           >
-            <Doughnut data={data} />
-          </div>
-        </div>
+            <div
+              style={{ padding: "15px", width: "470px", minWidth: "300px" }}
+            >
+              <Pie data={data} />
+            </div>
+          </Grid>
+        </Grid>
       </Card>
     </LocalizationProvider>
   );

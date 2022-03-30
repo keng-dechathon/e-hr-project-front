@@ -1,7 +1,7 @@
 import * as Types from "./types";
 import { createRequestTypes, createAction } from "../../utils/requestTypes";
 import { apiUrl } from "../../utils/apiUrl";
-import { getDateFormat } from "../../utils/miscellaneous"; 
+import { getDateFormat } from "../../utils/miscellaneous";
 export const GET_ALLCHECK_INFORMATION = createRequestTypes(
   Types.GET_ALLCHECK_INFORMATION
 );
@@ -10,6 +10,9 @@ export const GET_TODAYCHECK_INFORMATION = createRequestTypes(
 );
 export const GET_YEARCHECK_INFORMATION = createRequestTypes(
   Types.GET_YEARCHECK_INFORMATION
+);
+export const GET_ALLLEAVE_INFORMATION = createRequestTypes(
+  Types.GET_ALLLEAVE_INFORMATION
 );
 
 export const getAllCheckInformation = (config, data = {}, date, type) =>
@@ -28,7 +31,7 @@ export const getAllCheckInformation = (config, data = {}, date, type) =>
     }
   );
 
-  export const getAllToDayCheckInformation = (config, data = {}) =>
+export const getAllToDayCheckInformation = (config, data = {}) =>
   createAction(
     GET_TODAYCHECK_INFORMATION.REQUEST,
     {
@@ -44,9 +47,7 @@ export const getAllCheckInformation = (config, data = {}, date, type) =>
     }
   );
 
-  
-
-  export const getAllYearCheckInformation = (config, data = {}) =>
+export const getAllYearCheckInformation = (config, data = {}) =>
   createAction(
     GET_YEARCHECK_INFORMATION.REQUEST,
     {
@@ -57,6 +58,20 @@ export const getAllCheckInformation = (config, data = {}, date, type) =>
     {
       method: "POST",
       url: apiUrl.eHRService.common.checkin_checkout,
+      params: data,
+      ...config,
+    }
+  );
+
+export const getAllLeaveInformation = (config, data = {}) =>
+  createAction(
+    GET_ALLLEAVE_INFORMATION.REQUEST,
+    {
+      Option: "Get_All_Leaved_Req",
+    },
+    {
+      method: "POST",
+      url: apiUrl.eHRService.common.leave,
       params: data,
       ...config,
     }

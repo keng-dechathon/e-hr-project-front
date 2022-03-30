@@ -22,6 +22,7 @@ import Typography from "../../../common/Typography/Typography";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { headers } from "./headers";
 import { Divider } from "@mui/material";
+import { getLeaveTypeInformation } from "../../../leaveType/actions";
 import { getDateFormat } from "../../../../utils/miscellaneous";
 import { getAllYearCheckInformation } from "../../actions";
 const useStyles = makeStyles(() => ({}));
@@ -34,30 +35,37 @@ const CardTable = () => {
 
   useEffect(() => {
     dispatch(getAllYearCheckInformation());
+    dispatch(getLeaveTypeInformation());
   }, []);
-  console.log(empInformation);
+  useEffect(() => {
+    setDataGrid();
+  }, [allCheckInformation, empInformation]);
   const [day, setDay] = useState(new Date());
   const [showType, setShowType] = useState("Day");
   const [pageSize, setPageSize] = useState(50);
   let Header = headers;
-  let Info = [];
+  const [isSetInfo, setIsSetInfo] = useState(false);
+  const [Info, setInfo] = useState([]);
 
   const setDataGrid = () => {
     if (
       Object.keys(allCheckInformation).length !== 0 &&
       Object.keys(empInformation).length !== 0
     ) {
+      setInfo([]);
+      setIsSetInfo(false);
       allCheckInformation.data.map((item, index) => {
-        Info.push(item);
-        Info[index].id = item.CheckId;
-        Info[index].Name = empInformation.data.filter(
+        item.id = item.CheckId;
+        item.Name = empInformation.data.filter(
           (temp) => String(temp.Emp_id) === String(item.Emp_id)
         )[0].Name;
+        setInfo((Info) => [...Info, item]);
       });
-      Info.reverse();
+      setIsSetInfo(true);      
+      setInfo((Info) => Info.reverse());
     }
   };
-  setDataGrid();
+  console.log(allCheckInformation);
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>
@@ -66,6 +74,7 @@ const CardTable = () => {
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           rowsPerPageOptions={[50, 100]}
           pagination
+          loading={isSetInfo ? false : true}
           className={classes.datagrid}
           disableSelectionOnClick
           headers={Header ? Header : ""}

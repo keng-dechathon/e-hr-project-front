@@ -18,7 +18,6 @@ import { Grid } from "@mui/material";
 import { getEmployeeInformtion } from "../../../employeeInfomation/actions";
 import CardTable from "./CardTable";
 import CardCheckCount from "./CardCheckCount";
-
 const useStyles = makeStyles(() => ({
   box: {
     marginTop: "20px",
@@ -74,13 +73,13 @@ const CardWorkTimeReport = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={9}>
+        <Grid item sm={12} md={9}  style={{width:"100%"}}>
           <CardCheckChart />
         </Grid>
-        <Grid item xs={12} sm={3}>
+        <Grid item sm={12} md={3} style={{width:"100%"}}>
           <CardCheckCount />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item sm={12}  style={{width:"100%"}}>
           <CardTable />
         </Grid>
       </Grid>

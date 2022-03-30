@@ -74,7 +74,7 @@ const useStyles = makeStyles(() => ({
     // justifyContent: "flex-end ",
     alignItems: "center",
     marginBottom: "15px",
-    height: "170px",
+    height: "175.33px",
     padding: "10px",
   },
 }));
@@ -157,7 +157,7 @@ const CardCheckCount = () => {
             />
             <div style={{ position: "absolute", right: "15px" }}>
               <Typography
-                variant="h7"
+                variant="subtitle1"
                 color="white"
                 style={{
                   display: "flex",
@@ -199,7 +199,7 @@ const CardCheckCount = () => {
             />
             <div style={{ position: "absolute", right: "15px" }}>
               <Typography
-                variant="h7"
+                variant="subtitle1"
                 color="white"
                 style={{
                   display: "flex",
@@ -218,7 +218,7 @@ const CardCheckCount = () => {
                   width: "100%",
                 }}
               >
-                {toDayLate + "/" + empCount}
+                {toDayLate}
               </Typography>
             </div>
           </Card>
@@ -247,7 +247,7 @@ const CardCheckCount = () => {
               />
               <div style={{ position: "absolute", right: "15px" }}>
                 <Typography
-                  variant="h7"
+                  variant="subtitle1"
                   color="white"
                   style={{
                     display: "flex",
@@ -290,7 +290,7 @@ const CardCheckCount = () => {
             />
             <div style={{ position: "absolute", right: "15px" }}>
               <Typography
-                variant="h7"
+                variant="subtitle1"
                 color="white"
                 style={{
                   display: "flex",
@@ -309,7 +309,7 @@ const CardCheckCount = () => {
                   width: "100%",
                 }}
               >
-                {toDayLeave + "/" + empCount}
+                {toDayLeave}
               </Typography>
             </div>
           </Card>

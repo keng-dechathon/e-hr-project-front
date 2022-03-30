@@ -71,7 +71,7 @@ const CardEmpInformation = (props) => {
   const [searchInfo, setSearchInfo] = useState([]);
   const [activeID, setActiveID] = useState("");
   const [deleteID, setDeleteID] = useState("");
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(50);
 
   const avatarColor = [
     pink[500],
@@ -353,7 +353,7 @@ const CardEmpInformation = (props) => {
           sortingOrder={["desc", "asc"]}
           pageSize={pageSize}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[5, 10, 20, 50]}
+          rowsPerPageOptions={[50,100]}
           pagination
           disableSelectionOnClick
           className={classes.datagrid}

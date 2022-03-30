@@ -77,7 +77,6 @@ const useStyles = makeStyles(() => ({
   holiday: {
     backgroundColor: "#2196f3 !important",
   },
-
 }));
 const moment = extendMoment(Moment);
 
@@ -96,17 +95,15 @@ const CardCheckIn_CheckOut = () => {
     dispatch(getHolidaysInformation());
   }, []);
 
-  useEffect(() => {
-    checkIsBetweenDate();
-  }, [holidaysInformation]);
-
   const [isBetween, setIsBetween] = useState(false);
   const [day, setDay] = useState(new Date());
   const [showType, setShowType] = useState("Day");
   const [pageSize, setPageSize] = useState(10);
   let Header = headers;
   let Info = [];
-
+  useEffect(() => {
+    checkIsBetweenDate();
+  }, [holidaysInformation, day]);
   useEffect(() => {
     if (Object.keys(accountInformation).length !== 0) {
       dispatch(
@@ -162,7 +159,7 @@ const CardCheckIn_CheckOut = () => {
   const setToDay = () => {
     setDay(new Date(moment()));
   };
-
+  console.log(day);
   const checkIsBetweenDate = () => {
     if (Object.keys(holidaysInformation).length !== 0) {
       const nowYear = moment(new Date()).format("YYYY");
@@ -176,26 +173,26 @@ const CardCheckIn_CheckOut = () => {
             "MMM Do YYYY"
           ).add(1, "days")
         );
-        const now = new Date();
         const range = moment().range(start, end);
-        if (range.contains(now)) {
+        if (range.contains(day)) {
           setIsBetween(true);
+        } else {
+          setIsBetween(false);
         }
       });
     }
   };
   const setDataGrid = () => {
     if (Object.keys(checkInformation).length !== 0) {
-      checkInformation.data.map((item, index) => {      
+      checkInformation.data.map((item, index) => {
         Info.push(item);
-        Info[index].Date =  moment(item.Check_in).format(" MMMM Do YYYY");
+        Info[index].Date = moment(item.Check_in).format(" MMMM Do YYYY");
         Info[index].id = item.CheckId;
       });
       Info.reverse();
     }
   };
-  console.log(Info);
-  setDataGrid()
+  setDataGrid();
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>
@@ -224,7 +221,7 @@ const CardCheckIn_CheckOut = () => {
             <pre>Check-out</pre>
           </Button>
           {isBetween ? (
-            <Typography variant="h7" color="mute" className={classes.attention}>
+            <Typography variant="subtitle1" color="mute" className={classes.attention}>
               <ErrorOutlineIcon
                 fontSize="small"
                 style={{ marginRight: "5px" }}
@@ -281,7 +278,7 @@ const CardCheckIn_CheckOut = () => {
             />
             {isBetween ? (
               <Typography
-                variant="h7"
+                variant="subtitle1"
                 color="mute"
                 className={classes.attention2}
               >
@@ -322,15 +319,15 @@ const CardCheckIn_CheckOut = () => {
             </Stack>
           </Stack>
         </div>
-        <DataGrid        
+        <DataGrid
           pageSize={pageSize}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           rowsPerPageOptions={[10, 20, 50]}
           pagination
           className={classes.datagrid}
-          disableSelectionOnClick   
+          disableSelectionOnClick
           headers={Header ? Header : ""}
-          rows={Info ? Info : ""}       
+          rows={Info ? Info : ""}
         />
       </Box>
     </LocalizationProvider>
