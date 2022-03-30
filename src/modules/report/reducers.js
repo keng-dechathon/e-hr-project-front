@@ -4,6 +4,7 @@ export const initialState = {
   allCheckInformation: {},
   toDayCheckInformation: {},
   yearCheckInformation: {},
+  allLeaveInformation: {},
 };
 
 export default (state = initialState, action) => {
@@ -36,20 +37,34 @@ export default (state = initialState, action) => {
         ...state,
         toDayCheckInformation: {},
       };
-      case Actions.GET_YEARCHECK_INFORMATION.REQUEST:
-        return {
-          ...state,
-        };
-      case Actions.GET_YEARCHECK_INFORMATION.SUCCESS:
-        return {
-          ...state,
-          yearCheckInformation: action.payload.data,
-        };
-      case Actions.GET_YEARCHECK_INFORMATION.FAILURE:
-        return {
-          ...state,
-          yearCheckInformation: {},
-        };
+    case Actions.GET_YEARCHECK_INFORMATION.REQUEST:
+      return {
+        ...state,
+      };
+    case Actions.GET_YEARCHECK_INFORMATION.SUCCESS:
+      return {
+        ...state,
+        yearCheckInformation: action.payload.data,
+      };
+    case Actions.GET_YEARCHECK_INFORMATION.FAILURE:
+      return {
+        ...state,
+        yearCheckInformation: {},
+      };
+    case Actions.GET_ALLLEAVE_INFORMATION.REQUEST:
+      return {
+        ...state,
+      };
+    case Actions.GET_ALLLEAVE_INFORMATION.SUCCESS:
+      return {
+        ...state,
+        allLeaveInformation: action.payload.data,
+      };
+    case Actions.GET_ALLLEAVE_INFORMATION.FAILURE:
+      return {
+        ...state,
+        allLeaveInformation: {},
+      };
     default:
       return state;
   }

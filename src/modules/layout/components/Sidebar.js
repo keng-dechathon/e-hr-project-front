@@ -21,12 +21,27 @@ import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import CssBaseline from "@mui/material/CssBaseline";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   drawer: {
     marginTop: navHeight,
     width: drawerWidth,
     flexShrink: "0",
     [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: "border-box" },
+    [theme.breakpoints.down("xs")]: {
+      display: "none",
+    },
+  },
+  drawerOpen: {
+    marginTop: navHeight,
+    width: drawerWidth,
+    flexShrink: "0",
+    [`& .MuiDrawer-paper`]: {
+      width: drawerWidth,
+      boxSizing: "border-box",
+      [theme.breakpoints.down("xs")]: {
+        width: "100vw !important",
+      },
+    },
   },
   listTopic: {
     margin: "0px 0px 5px 15px",
@@ -147,7 +162,11 @@ function Sidebar(props) {
   return (
     <>
       <CssBaseline />
-      <Drawer variant="permanent" className={classes.drawer} open={open}>
+      <Drawer
+        variant="permanent"
+        className={open ? classes.drawerOpen : classes.drawer}
+        open={open}
+      >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (

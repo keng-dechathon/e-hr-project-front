@@ -8,6 +8,9 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CardWorkTimeReport from "./TabWorkTimeReport/CardWorkTimeReport";
+import CardLeaveReport from "./TabLeave/CardLeaveReport";
+import CardLeaveSummarize from "./TabLeave/CardLeaveSummarize";
+import CardRestOfLeave from "./TabLeave/CardRestOfLeave";
 const useStyles = makeStyles(() => ({
   margintop: {
     marginTop: "40px",
@@ -22,13 +25,13 @@ const useStyles = makeStyles(() => ({
     marginTop: "10px",
   },
   tabitem: {
-    marginRight: "30px !important",
+    marginRight: "10px !important",
     padding: "0 !important",
     minWidth: "100px !important",
     textTransform: "none !important",
     fontWeight: "bold !important",
     fontSize: "18px !important",
-    padding:"0px 10px",
+    padding: "0px 10px",
     "&:hover": {
       color: "#C91F92 !important",
       opacity: 1,
@@ -68,14 +71,36 @@ const ContentReport = () => {
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} className={classes.tablist}>
-              <Tab label="Work Time" value="1" className={classes.tabitem} />
-              <Tab label="Leave" value="2" className={classes.tabitem} />
+              <Tab label="Work-time" value="1" className={classes.tabitem} />
+              <Tab
+                label="Leave request"
+                value="2"
+                className={classes.tabitem}
+              />
+              <Tab
+                label="Leave summarize"
+                value="3"
+                className={classes.tabitem}
+              />
+              <Tab
+                label="The rest of leave"
+                value="4"
+                className={classes.tabitem}
+              />
             </TabList>
           </Box>
           <TabPanel value="1" className={classes.tabpanel}>
-            <CardWorkTimeReport/>
+            <CardWorkTimeReport />
           </TabPanel>
-          <TabPanel value="2" className={classes.tabpanel}></TabPanel>
+          <TabPanel value="2" className={classes.tabpanel}>
+            <CardLeaveReport />
+          </TabPanel>
+          <TabPanel value="3" className={classes.tabpanel}>
+            <CardLeaveSummarize />
+          </TabPanel>
+          <TabPanel value="4" className={classes.tabpanel}>
+            <CardRestOfLeave/>
+          </TabPanel>
         </TabContext>
       </Box>
     </Box>
