@@ -137,7 +137,7 @@ const CardTimeSheetRecord = () => {
 
   let header = columns;
   let Info = [];
-  header[8] = {
+  header[columns.length] = {
     field: "actions",
     type: "actions",
     headerName: "Action",
@@ -213,6 +213,8 @@ const CardTimeSheetRecord = () => {
         const range = moment().range(start, end);
         if (range.contains(now)) {
           setIsBetween(true);
+        }else{
+          setIsBetween(false);
         }
       });
     }
@@ -265,7 +267,7 @@ const CardTimeSheetRecord = () => {
             />
             {isBetween ? (
               <Typography
-                variant="h7"
+                variant="subtitle1"
                 color="mute"
                 className={classes.attention}
               >

@@ -360,7 +360,7 @@ const CardCheckIn_CheckOut_View = () => {
                 />
                 {isBetween ? (
                   <Typography
-                    variant="h7"
+                    variant="subtitle1"
                     color="mute"
                     className={classes.attention2}
                   >

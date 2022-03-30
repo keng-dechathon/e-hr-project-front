@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
         // backgroundColor: '#F1F3FF !important',
         // boxShadow: 'rgba(0, 0, 0, 0.10) 0px 5px 10px 0px !important',
         // borderRadius: '12px !important',
-        marginBottom: '10px',
+        marginBottom: '15px',
         // [theme.breakpoints.down("sm")]: {
         //     flexDirection: 'column',
         // },
@@ -82,6 +82,10 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '10px !important',
         textOverflow: 'ellipsis',
         wordBreak: 'break-all',
+        display: '-webkit-box',
+        overflow: 'hidden',
+        WebkitBoxOrient: 'vertical',
+        WebkitLineClamp: 2,
     },
     maintext: {
         marginRight: '10px',
@@ -96,7 +100,11 @@ const useStyles = makeStyles((theme) => ({
             opacity: '0.8',
         }
     },
-
+    center:{
+        display:'flex',
+        width:"100%",
+     
+    }
 }));
 
 const NewsItem = ({ items, loading }) => {
@@ -205,7 +213,7 @@ const NewsItem = ({ items, loading }) => {
                         More News
                     </Button>
                     :
-                    <Typography variant="h6" color="text.secondary" className={classNames(classes.text, classes.date)} style={{ marginTop: '30px' }}>
+                    <Typography variant="h6" color="text.secondary" className={classNames(classes.text, classes.date,classes.center)} style={{ marginTop: '30px' }}>
                         That's all news.
                     </Typography>
             }
