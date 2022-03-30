@@ -21,7 +21,7 @@ const ContentTimeSheetManagement = () => {
   };
   return (
     <Box className={classes.box}>
-      <Typography variant="h3" color="pink" fontWeight="medium">
+      <Typography variant="h3" color="pink" fontWeight="medium" className={classes.headerTitle}>
         Time Sheet Management
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "10px" }}>

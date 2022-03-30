@@ -30,7 +30,7 @@ const FormSignin = () => {
 
     useEffect(() => {
         if (getCookieFromBrowser('uid') || getCookieFromBrowser('a')) {
-            navigate('/home')
+            navigate('/news')
         }
     });
 

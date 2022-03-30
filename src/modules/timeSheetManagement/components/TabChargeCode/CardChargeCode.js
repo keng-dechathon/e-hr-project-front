@@ -10,6 +10,7 @@ import { CardContent } from "@mui/material";
 import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Grid } from "@mui/material";
 
 import {
   QuickSearchToolbar,
@@ -19,9 +20,12 @@ import { Button } from "@mui/material";
 import ModalUpdate from "../../../common/ModalUpdate";
 import { getChargeCode, deleteChargeCode } from "../../actions";
 import { headers } from "./headers";
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   ButtonAdd: {
     display: "flex",
+    [theme.breakpoints.down("xs")]: {
+      height: "100%",
+    },
   },
   cardcontant: {
     padding: 0,
@@ -149,34 +153,35 @@ const CardChargeCode = () => {
           option={option}
         />
       </ModalUpdate>
-
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          justifyItems: "center",
-          alignItems: "center",
-          pt: "10px",
-          pb: "10px",
-        }}
-      >
-        <QuickSearchToolbar
-          value={searchText}
-          onChange={(event) => requestSearch(event.target.value)}
-          clearSearch={() => requestSearch("")}
-        />
-        <Button
-          variant="outlined"
-          className={classes.ButtonAdd}
-          onClick={onClickAdd}
+      <Grid container spacing={2} style={{marginTop:"1px"}}>
+        <Grid item xs={10} sm={7} >
+          <QuickSearchToolbar
+            value={searchText}
+            onChange={(event) => requestSearch(event.target.value)}
+            clearSearch={() => requestSearch("")}
+          />
+        </Grid>
+        <Grid
+          item
+          xs={2}
+          sm={5}
+          style={{ display: "flex", justifyContent: "flex-end" }}
         >
-          <pre>+ ADD</pre>
-        </Button>
-      </Box>
-      <DataGrid
-        headers={Header ? Header : ""}
-        rows={searchText ? searchInfo : Info ? Info : ""}
-      />
+          <Button
+            variant="outlined"
+            className={classes.ButtonAdd}
+            onClick={onClickAdd}
+          >
+            <pre>+ ADD</pre>
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <DataGrid
+            headers={Header ? Header : ""}
+            rows={searchText ? searchInfo : Info ? Info : ""}
+          />{" "}
+        </Grid>
+      </Grid>
     </>
   );
 };

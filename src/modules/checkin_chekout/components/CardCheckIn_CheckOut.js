@@ -10,6 +10,8 @@ import IconButton from "@mui/material/IconButton";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import Box from "@mui/material/Box";
 import { Card } from "@mui/material";
+import { Grid } from "@mui/material";
+
 import { CardContent } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Button } from "@mui/material";
@@ -29,22 +31,9 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { getCheckInformation } from "../actions";
 import { checkIn, checkOut } from "../actions";
 import { headers } from "./headers";
+
 import { Divider } from "@mui/material";
-const useStyles = makeStyles(() => ({
-  ButtonAdd: {
-    display: "flex",
-    right: "40px !important",
-    position: "absolute  !important",
-  },
-  box: {
-    marginTop: "20px",
-  },
-  cardcontant: {
-    padding: 0,
-    "&:last-child": {
-      paddingBottom: "0 !important",
-    },
-  },
+const useStyles = makeStyles((theme) => ({
   cin_normal: {
     backgroundColor: "#8bc34a !important",
   },
@@ -57,25 +46,84 @@ const useStyles = makeStyles(() => ({
   cout_holiday: {
     backgroundColor: "#f06292 !important",
   },
+
+  ButtonAdd: {
+    display: "flex",
+    // right: "40px !important",
+    // position: "absolute  !important",
+    width: "100%",
+    justifyContent: "flex-end",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center !important",
+    },
+  },
+  box: {
+    marginTop: "20px",
+  },
+  cardcontant: {
+    padding: 0,
+    "&:last-child": {
+      paddingBottom: "0 !important",
+    },
+  },
   checkButton: {
     width: "125px ",
+    [theme.breakpoints.down("xs")]: {
+      width: "100% ",
+    },
   },
   attention: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    [theme.breakpoints.down(900)]: {
+      display: "none ",
+    },
   },
   attention2: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: "10px",
+    [theme.breakpoints.up(900)]: {
+      display: "flex",
+      justifyContent: "left",
+      alignItems: "center",
+      marginLeft: "15px",
+    },
+    [theme.breakpoints.down(900)]: {
+      display: "none",
+    },
   },
   normal: {
     backgroundColor: "#8bc34a !important",
   },
   holiday: {
     backgroundColor: "#2196f3 !important",
+  },
+  daySearch: {
+    width: "100% !important",
+    alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center !important",
+    },
+  },
+  typeBT: {
+    [theme.breakpoints.down(900)]: {
+      width: "100%",
+    },
+  },
+  datePicker: {
+    [theme.breakpoints.down(900)]: {
+      width: "100%",
+    },
+  },
+  paddingTop: {
+    paddingTop: "5px !important",
+  },
+  paddingTop2: {
+    [theme.breakpoints.up(900)]: {
+      paddingTop: "5px !important",
+    },
+  },
+  removePadding: {
+    paddingTop: "0px !important",
   },
 }));
 const moment = extendMoment(Moment);
@@ -162,7 +210,8 @@ const CardCheckIn_CheckOut = () => {
   console.log(day);
   const checkIsBetweenDate = () => {
     if (Object.keys(holidaysInformation).length !== 0) {
-      const nowYear = moment(new Date()).format("YYYY");
+      setIsBetween(false);
+      const nowYear = moment(day).format("YYYY");
       holidaysInformation.data.map((item) => {
         const start = new Date(
           moment(moment(item.Start).format("MMM Do ") + nowYear, "MMM Do YYYY")
@@ -176,8 +225,6 @@ const CardCheckIn_CheckOut = () => {
         const range = moment().range(start, end);
         if (range.contains(day)) {
           setIsBetween(true);
-        } else {
-          setIsBetween(false);
         }
       });
     }
@@ -196,104 +243,121 @@ const CardCheckIn_CheckOut = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>
-        <Divider />
-        <Stack direction="row" spacing={2} style={{ margin: "15px 0" }}>
-          <Button
-            variant="contained"
-            className={classNames(
-              classes.checkButton,
-              isBetween ? classes.cin_holiday : classes.cin_normal
-            )}
-            onClick={onClickCheckIn}
-          >
-            {/* <MoodIcon fontSize="small" style={{ marginRight: "5px" }} /> */}
-            <pre>Check-in</pre>
-          </Button>
-          <Button
-            variant="contained"
-            className={classNames(
-              classes.checkButton,
-              isBetween ? classes.cout_holiday : classes.cout_normal
-            )}
-            onClick={onClickCheckOut}
-          >
-            {/* <MoodBadIcon fontSize="small" style={{ marginRight: "5px" }} /> */}
-            <pre>Check-out</pre>
-          </Button>
-          {isBetween ? (
-            <Typography variant="subtitle1" color="mute" className={classes.attention}>
-              <ErrorOutlineIcon
-                fontSize="small"
-                style={{ marginRight: "5px" }}
-              />
-              To day is holiday
-            </Typography>
-          ) : (
-            ""
-          )}
-        </Stack>
-        <Divider />
-        <div
-          style={{
-            display: "inline-block !important",
-            position: "relative !important",
-            width: "100%",
-            height: "40px",
-            marginTop: "15px",
-            marginBottom: "15px",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Stack direction="row" style={{ alignItems: "center" }}>
-            <Button
-              variant="contained"
-              className={isBetween ? classes.holiday : classes.normal}
-              onClick={setToDay}
-            >
-              <pre>TODAY</pre>
-            </Button>
-            <IconButton
-              color="primary"
-              aria-label="before"
-              component="span"
-              onClick={setBeforeDate}
-            >
-              <KeyboardArrowLeftIcon />
-            </IconButton>
-            <IconButton
-              color="primary"
-              aria-label="before"
-              component="span"
-              onClick={setNextDate}
-            >
-              <ChevronRightIcon />
-            </IconButton>
-            <DatePicker
-              value={day}
-              inputFormat="dd/MM/yyyy"
-              onChange={(newValue) => {
-                setDay(newValue);
-              }}
-              renderInput={(params) => <TextField size="small" {...params} />}
-            />
-            {isBetween ? (
-              <Typography
-                variant="subtitle1"
-                color="mute"
-                className={classes.attention2}
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+          <Grid item xs={12} className={classes.removePadding}>
+            <Stack direction="row" spacing={2} style={{ margin: "15px 0" }}>
+              <Button
+                variant="contained"
+                className={classNames(
+                  classes.checkButton,
+                  isBetween ? classes.cin_holiday : classes.cin_normal
+                )}
+                onClick={onClickCheckIn}
               >
-                <ErrorOutlineIcon
-                  fontSize="small"
-                  style={{ marginRight: "5px" }}
-                />
-                This day is holiday
-              </Typography>
-            ) : (
-              ""
-            )}
+                {/* <MoodIcon fontSize="small" style={{ marginRight: "5px" }} /> */}
+                <pre>Check-in</pre>
+              </Button>
+              <Button
+                variant="contained"
+                className={classNames(
+                  classes.checkButton,
+                  isBetween ? classes.cout_holiday : classes.cout_normal
+                )}
+                onClick={onClickCheckOut}
+              >
+                {/* <MoodBadIcon fontSize="small" style={{ marginRight: "5px" }} /> */}
+                <pre>Check-out</pre>
+              </Button>
+              {isBetween ? (
+                <Typography
+                  variant="subtitle1"
+                  color="mute"
+                  className={classes.attention}
+                >
+                  <ErrorOutlineIcon
+                    fontSize="small"
+                    style={{ marginRight: "5px" }}
+                  />
+                  To day is holiday
+                </Typography>
+              ) : (
+                ""
+              )}
+            </Stack>
+          </Grid>
+          <Grid item xs={12} className={classes.removePadding}>
+            <Divider />
+          </Grid>
+          <Grid item sm={12} md={7} style={{ width: "100%" }}>
+            <Stack direction="row" className={classes.daySearch}>
+              <Button
+                variant="contained"
+                className={isBetween ? classes.holiday : classes.normal}
+                onClick={setToDay}
+                style={{ height: "37px" }}
+              >
+                <pre>TODAY</pre>
+              </Button>
+              <IconButton
+                color="primary"
+                aria-label="before"
+                component="span"
+                onClick={setBeforeDate}
+              >
+                <KeyboardArrowLeftIcon />
+              </IconButton>
+              <IconButton
+                color="primary"
+                aria-label="before"
+                component="span"
+                onClick={setNextDate}
+              >
+                <ChevronRightIcon />
+              </IconButton>
+              <DatePicker
+                value={day}
+                inputFormat="dd/MM/yyyy"
+                onChange={(newValue) => {
+                  setDay(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    size="small"
+                    {...params}
+                    className={classes.datePicker}
+                  />
+                )}
+              />
+              {isBetween ? (
+                <Typography
+                  variant="subtitle1"
+                  color="mute"
+                  className={classes.attention2}
+                >
+                  <ErrorOutlineIcon
+                    fontSize="small"
+                    style={{ marginRight: "5px" }}
+                  />
+                  This day is holiday
+                </Typography>
+              ) : (
+                ""
+              )}
+            </Stack>
+          </Grid>
+          <Grid
+            item
+            sm={12}
+            md={5}
+            style={{ width: "100%" }}
+          >
             <Stack direction="row" spacing={1} className={classes.ButtonAdd}>
               <Button
                 variant={showType === "Day" ? "outlined" : "contained"}
+                className={classes.typeBT}
                 onClick={() => {
                   setShowType("Day");
                 }}
@@ -301,6 +365,7 @@ const CardCheckIn_CheckOut = () => {
                 <pre>DAY</pre>
               </Button>
               <Button
+                className={classes.typeBT}
                 variant={showType === "Month" ? "outlined" : "contained"}
                 onClick={() => {
                   setShowType("Month");
@@ -309,6 +374,7 @@ const CardCheckIn_CheckOut = () => {
                 <pre>month</pre>
               </Button>
               <Button
+                className={classes.typeBT}
                 variant={showType === "Year" ? "outlined" : "contained"}
                 onClick={() => {
                   setShowType("Year");
@@ -317,18 +383,20 @@ const CardCheckIn_CheckOut = () => {
                 <pre>Year</pre>
               </Button>
             </Stack>
-          </Stack>
-        </div>
-        <DataGrid
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[10, 20, 50]}
-          pagination
-          className={classes.datagrid}
-          disableSelectionOnClick
-          headers={Header ? Header : ""}
-          rows={Info ? Info : ""}
-        />
+          </Grid>
+          <Grid item xs={12} style={{ width: "100%" }}>
+            <DataGrid
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[10, 20, 50]}
+              pagination
+              className={classes.datagrid}
+              disableSelectionOnClick
+              headers={Header ? Header : ""}
+              rows={Info ? Info : ""}
+            />
+          </Grid>
+        </Grid>
       </Box>
     </LocalizationProvider>
   );

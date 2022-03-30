@@ -20,6 +20,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import CssBaseline from "@mui/material/CssBaseline";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -146,17 +147,17 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 function Sidebar(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const navigate = useNavigate();
+  const breakPoint = useMediaQuery(theme.breakpoints.down(700));
+
   // console.log(SidebarData);
   const dispatch = useDispatch();
   const { handleDrawerClose, open } = props;
-
   const { accountInformation } = useSelector((state) => state.accountReducer);
 
   useEffect(() => {
     dispatch(getAccountInformation());
   }, []);
-
+  
   let Role = accountInformation.Role;
 
   return (
@@ -206,7 +207,7 @@ function Sidebar(props) {
                         // console.log(window.location.pathname);
                         // console.log("AD : " + subItem.title);
                         return (
-                          <Link to={subItem.path}>
+                          <Link to={subItem.path} onClick={breakPoint?handleDrawerClose:""}>
                             <ListItem
                               button
                               key={subItem.path}

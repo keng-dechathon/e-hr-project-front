@@ -5,12 +5,18 @@ import PropTypes from "prop-types";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
+import styles from "./styles";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles(styles);
 
 export function escapeRegExp(value) {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
 
 export function QuickSearchToolbar(props) {
+  const classes = useStyles();
+
   return (
     <Box
       sx={{
@@ -26,7 +32,7 @@ export function QuickSearchToolbar(props) {
         label="Search"
         value={props.value}
         onChange={props.onChange}
-        placeholder="Search…"        
+        placeholder="Search…"
         InputProps={{
           startAdornment: <SearchIcon fontSize="small" />,
           endAdornment: (
@@ -41,21 +47,22 @@ export function QuickSearchToolbar(props) {
             </IconButton>
           ),
         }}
+        className={classes.field}
         sx={{
           width: {
             xs: 1,
-            sm: "500px",
-          },          
-         
+            sm: "100%",
+          },
+          minWidth: {
+            width: {
+              xs: 1,
+              sm: "350px",
+            },
+          },
           backgroundColor: "white",
-          m: (theme) => theme.spacing(1, 0.5, 1.5,0),
-          "& .MuiSvgIcon-root": {
-            mr: 0.7,
-          },
-          "& .css-152mnda-MuiInputBase-input-MuiOutlinedInput-input": {
-            padding: "12px",
-          },
+        
         }}
+        {...props}
       />
     </Box>
   );

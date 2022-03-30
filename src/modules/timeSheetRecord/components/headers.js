@@ -59,20 +59,20 @@ export const handleUpdateRemark = async (params) => {
     await updateTimeSheet(values);
     removeCookie("Remark");
     removeCookie("SheetRemark_Id");
+    setCookie("Remark", params.props.value, new Date().getTime() + 31556926);
     setCookie(
-      "Remark",
-      params.props.value,
+      "SheetRemark_Id",
+      String(params.id),
       new Date().getTime() + 31556926
     );
-    setCookie("SheetRemark_Id", String(params.id), new Date().getTime() + 31556926);
     console.log("Da");
   } else {
+    setCookie("Remark", params.props.value, new Date().getTime() + 31556926);
     setCookie(
-      "Remark",
-      params.props.value,
+      "SheetRemark_Id",
+      String(params.id),
       new Date().getTime() + 31556926
     );
-    setCookie("SheetRemark_Id", String(params.id), new Date().getTime() + 31556926);
     console.log("ad");
   }
 };
@@ -143,6 +143,7 @@ export const columns = [
     headerName: "Task Detail",
     headerClassName: "bg-light-green",
     flex: 1,
+    minWidth: 100,
     renderCell: renderCellExpand,
     sortable: false,
     editable: true,
@@ -156,7 +157,8 @@ export const columns = [
     field: "Remark",
     headerName: "Remark",
     headerClassName: "bg-light-green",
-    width: 150,
+    flex: 1,
+    minWidth: 100,
     renderCell: renderCellExpand,
     sortable: false,
     preProcessEditCellProps: (params) => {
