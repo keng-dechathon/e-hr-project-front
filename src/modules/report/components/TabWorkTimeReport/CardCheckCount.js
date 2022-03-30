@@ -21,7 +21,7 @@ import { Card } from "@mui/material";
 
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import CancelIcon from "@mui/icons-material/Cancel";
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   box: {
     marginTop: "20px",
   },
@@ -76,7 +76,12 @@ const useStyles = makeStyles(() => ({
     marginBottom: "15px",
     height: "175.33px",
     padding: "10px",
+    [theme.breakpoints.down("xs")]: {
+      height: "100px",
+
+    },
   },
+  
 }));
 
 const CardCheckCount = () => {

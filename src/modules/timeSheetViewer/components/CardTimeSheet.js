@@ -26,12 +26,62 @@ import { columns } from "./headers";
 import { getTimeSheetById } from "../actions";
 import { getChargeCode, getLocation } from "../../timeSheetManagement/actions";
 import { getHolidaysInformation } from "../../timeManagement/actions";
+import { Grid } from "@mui/material";
+import { Stack } from "@mui/material";
+const useStyles = makeStyles((theme) => ({
+  // ButtonAdd: {
+  //   display: "flex",
+  //   right: "40px !important",
+  //   position: "absolute  !important",
+  // },
 
-const useStyles = makeStyles(() => ({
+  // cardcontant: {
+  //   padding: 0,
+  //   "&:last-child": {
+  //     paddingBottom: "0 !important",
+  //   },
+  // },
+  header: {
+    backgroundColor: "#FFFAFA !important",
+    display: "flex",
+    position: "relative !important",
+    alignItems: "center !important",
+    justifyContent: "center",
+    width: "100%",
+    height: "60px",
+    marginBottom: "5px",
+    justifyContent: "flex-start",
+  },
+  // attention: {
+  //   display: "flex",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   marginLeft: "10px",
+  // },
+  // normal: {
+  //   backgroundColor: "#8bc34a !important",
+  // },
+  // holiday: {
+  //   backgroundColor: "#2196f3 !important",
+  // },
+  box: {
+    marginTop: "20px",
+  },
+  cardcontant: {
+    padding: 0,
+    "&:last-child": {
+      paddingBottom: "0 !important",
+    },
+  },
   ButtonAdd: {
     display: "flex",
-    right: "40px !important",
-    position: "absolute  !important",
+    // right: "40px !important",
+    // position: "absolute  !important",
+    width: "100%",
+    justifyContent: "flex-end",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center !important",
+    },
   },
   box: {
     marginTop: "20px",
@@ -42,22 +92,24 @@ const useStyles = makeStyles(() => ({
       paddingBottom: "0 !important",
     },
   },
-  header: {
-    backgroundColor: "#FFFAFA !important",
-    display: "flex",
-    position: "relative !important",
-    alignItems: "center !important",
-    justifyContent: "center",
-    width: "100%",
-    height: "60px",
-    marginBottom:'5px',
-    justifyContent: "flex-start",
+  checkButton: {
+    width: "125px ",
   },
   attention: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: "10px",
+  },
+  attention2: {
+    [theme.breakpoints.up(900)]: {
+      display: "flex",
+      justifyContent: "left",
+      alignItems: "center",
+      marginLeft: "15px",
+    },
+    [theme.breakpoints.down(900)]: {
+      display: "none",
+    },
   },
   normal: {
     backgroundColor: "#8bc34a !important",
@@ -65,11 +117,36 @@ const useStyles = makeStyles(() => ({
   holiday: {
     backgroundColor: "#2196f3 !important",
   },
+  daySearch: {
+    width: "100% !important",
+    alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center !important",
+    },
+  },
+  typeBT: {
+    [theme.breakpoints.down(900)]: {
+      width: "100%",
+    },
+  },
+  datePicker: {
+    [theme.breakpoints.down(900)]: {
+      width: "100% ",
+    },
+  },
+  paddingTop: {
+    paddingTop: "0px !important",
+  },
+  paddingTop2: {
+    [theme.breakpoints.up(900)]: {
+      paddingTop: "5px !important",
+    },
+  },
 }));
 const moment = extendMoment(Moment);
 
 const CardTimeSheet = (props) => {
-  const { id } = props;
+  const { id, isLoading, setIsLoading } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const { timeSheetInformationByID } = useSelector(
@@ -92,7 +169,9 @@ const CardTimeSheet = (props) => {
     dispatch(getHolidaysInformation());
     dispatch(getTimeSheetById("", "", id, getDateFormat(day)));
   }, []);
-
+  useEffect(() => {
+    setIsLoading(false);
+  }, [timeSheetInformationByID]);
   useEffect(() => {
     dispatch(getTimeSheetById("", "", id, getDateFormat(day)));
   }, [day]);
@@ -156,7 +235,10 @@ const CardTimeSheet = (props) => {
           moment(moment(item.Start).format("MMM Do ") + nowYear, "MMM Do YYYY")
         );
         const end = new Date(
-          moment(moment(item.End).format("MMM Do ") + nowYear, "MMM Do YYYY").add(1, "days")
+          moment(
+            moment(item.End).format("MMM Do ") + nowYear,
+            "MMM Do YYYY"
+          ).add(1, "days")
         );
         const range = moment().range(start, end);
         if (range.contains(day)) {
@@ -166,55 +248,85 @@ const CardTimeSheet = (props) => {
     }
   };
   setDataGrid();
-
+  console.log(isLoading);
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>
-        <div className={classes.header}>
-          <Button
-            variant="contained"
-            className={isBetween ? classes.holiday : classes.normal}
-            onClick={setToDay}
+        <Grid container spacing={2}>
+          <Grid
+            item
+            sm={12}
+            md={7}
+            className={classes.paddingTop}
+            style={{ width: "100%" }}
           >
-            <pre>TODAY</pre>
-          </Button>
-          <IconButton
-            color="primary"
-            aria-label="before"
-            component="span"
-            onClick={setBeforeDate}
-          >
-            <KeyboardArrowLeftIcon />
-          </IconButton>
-          <IconButton
-            color="primary"
-            aria-label="before"
-            component="span"
-            onClick={setNextDate}
-          >
-            <ChevronRightIcon />
-          </IconButton>
-          <DatePicker
-            value={day}
-            inputFormat="dd/MM/yyyy"
-            onChange={(newValue) => {
-              setDay(newValue);
-            }}
-            renderInput={(params) => <TextField size="small" {...params} />}
-          />
-          {isBetween ? (
-            <Typography variant="subtitle1" color="mute" className={classes.attention}>
-              <ErrorOutlineIcon
-                fontSize="small"
-                style={{ marginRight: "5px" }}
+            <Stack direction="row" className={classes.daySearch}>
+              <Button
+                variant="contained"
+                className={isBetween ? classes.holiday : classes.normal}
+                onClick={setToDay}
+                style={{ height: "37px" }}
+              >
+                <pre>TODAY</pre>
+              </Button>
+              <IconButton
+                color="primary"
+                aria-label="before"
+                component="span"
+                onClick={setBeforeDate}
+              >
+                <KeyboardArrowLeftIcon />
+              </IconButton>
+              <IconButton
+                color="primary"
+                aria-label="before"
+                component="span"
+                onClick={setNextDate}
+              >
+                <ChevronRightIcon />
+              </IconButton>
+              <DatePicker
+                value={day}
+                inputFormat="dd/MM/yyyy"
+                style={{ width: "100%" }}
+                onChange={(newValue) => {
+                  setDay(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    size="small"
+                    {...params}
+                    className={classes.datePicker}
+                  />
+                )}
               />
-              This day is holiday
-            </Typography>
-          ) : (
-            ""
-          )}
-        </div>
-        <DataGrid rowHeight={40} headers={header} rows={Info} />
+              {isBetween ? (
+                <Typography
+                  variant="subtitle1"
+                  color="mute"
+                  className={classes.attention2}
+                >
+                  <ErrorOutlineIcon
+                    fontSize="small"
+                    style={{ marginRight: "5px" }}
+                  />
+                  This day is holiday
+                </Typography>
+              ) : (
+                ""
+              )}
+            </Stack>
+          </Grid>
+          <Grid item sm={12} style={{ width: "100%" }}>
+            <DataGrid
+              rowHeight={40}
+              pageSize={100}
+              headers={header}
+              rows={Info}
+              loading={isLoading}
+            />
+          </Grid>
+        </Grid>
       </Box>
     </LocalizationProvider>
   );

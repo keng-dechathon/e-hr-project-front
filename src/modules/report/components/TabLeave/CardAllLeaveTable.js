@@ -44,11 +44,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   ButtonAdd: {
+    height:"100%",
     display: "flex",
     // right: "40px !important",
     // position: "absolute  !important",
     width: "100%",
     justifyContent: "flex-end",
+    alignItems:"center",
     [theme.breakpoints.down("sm")]: {
       justifyContent: "center !important",
     },
@@ -95,6 +97,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   typeBT: {
+    height:"95%",
     [theme.breakpoints.down(900)]: {
       width: "100%",
     },
@@ -175,7 +178,8 @@ const CardAllLeaveTable = () => {
   };
   const checkIsBetweenDate = () => {
     if (Object.keys(holidaysInformation).length !== 0) {
-      const nowYear = moment(new Date()).format("YYYY");
+      setIsBetween(false);
+      const nowYear = moment(day).format("YYYY");
       holidaysInformation.data.map((item) => {
         const start = new Date(
           moment(moment(item.Start).format("MMM Do ") + nowYear, "MMM Do YYYY")
@@ -186,12 +190,9 @@ const CardAllLeaveTable = () => {
             "MMM Do YYYY"
           ).add(1, "days")
         );
-        const now = day;
         const range = moment().range(start, end);
-        if (range.contains(now)) {
+        if (range.contains(day)) {
           setIsBetween(true);
-        } else {
-          setIsBetween(false);
         }
       });
     }
@@ -253,14 +254,15 @@ const CardAllLeaveTable = () => {
               </Typography>
               <Divider style={{ marginTop: "10px" }} />
             </Grid> */}
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{marginTop: "15px",}}>
               <QuickSearchToolbar
                 value={searchText}
                 onChange={(event) => requestSearch(event.target.value)}
                 clearSearch={() => requestSearch("")}
+                style={{maxWidth:"500px"}}
               />
             </Grid>
-            <Grid item sm={12} md={7} className={classes.paddingTop}>
+            <Grid item xs={12} sm={12} md={7} style={{width:"100%"}}>
               <Stack direction="row" className={classes.daySearch}>
                 <Button
                   variant="contained"
@@ -322,7 +324,7 @@ const CardAllLeaveTable = () => {
               sm={12}
               md={5}
               style={{ width: "100%" }}
-              className={classes.paddingTop2}
+              
             >
               <Stack direction="row" spacing={1} className={classes.ButtonAdd}>
                 <Button

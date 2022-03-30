@@ -9,8 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
-import { CardContent } from "@mui/material";
+import { Divider } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Button } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -18,11 +17,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import TextField from "@mui/material/TextField";
 import moment from "moment";
-import { InputLabel } from "@mui/material";
 import { getMemberInformation } from "../../team/actions";
-import { getDateFormat } from "../../../utils/miscellaneous";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { GridActionsCellItem } from "@mui/x-data-grid";
 import { getTeamByHostInformation } from "../../timeSheetViewer/actions";
 import { Stack } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
@@ -33,49 +28,42 @@ import { headers } from "./headers";
 import { getCheckInformation } from "../../checkin_chekout/actions";
 import Typography from "../../common/Typography/Typography";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { Grid } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
-const useStyles = makeStyles(() => ({
-  ButtonAdd: {
-    display: "flex",
-    right: "40px !important",
-    position: "absolute  !important",
-  },
+const useStyles = makeStyles((theme) => ({
   box: {
     marginTop: "20px",
   },
+
+  ButtonAdd: {
+    display: "flex",
+    // right: "40px !important",
+    // position: "absolute  !important",
+    width: "100%",
+    justifyContent: "flex-end",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center !important",
+    },
+  },
+
   cardcontant: {
     padding: 0,
     "&:last-child": {
       paddingBottom: "0 !important",
     },
-  },
-  ButtonAdd: {
-    display: "flex",
-    right: "40px !important",
-    position: "absolute  !important",
-  },
-  box: {
-    marginTop: "20px",
-  },
-  cardcontant: {
-    padding: 0,
-    "&:last-child": {
-      paddingBottom: "0 !important",
-    },
-  },
-  checkButton: {
-    width: "125px ",
-  },
-  attention: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
   },
   attention2: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: "10px",
+    [theme.breakpoints.up(900)]: {
+      display: "flex",
+      justifyContent: "left",
+      alignItems: "center",
+      marginLeft: "15px",
+    },
+    [theme.breakpoints.down(900)]: {
+      display: "none",
+    },
   },
   normal: {
     backgroundColor: "#8bc34a !important",
@@ -83,12 +71,54 @@ const useStyles = makeStyles(() => ({
   holiday: {
     backgroundColor: "#2196f3 !important",
   },
-  dateButton: {},
+  daySearch: {
+    width: "100% !important",
+    alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center !important",
+    },
+  },
+  typeBT: {
+    [theme.breakpoints.down(900)]: {
+      width: "100%",
+    },
+  },
+  datePicker: {
+    [theme.breakpoints.down(900)]: {
+      width: "100%",
+    },
+  },
+  paddingTop: {
+    paddingTop: "5px !important",
+  },
+  paddingTop2: {
+    [theme.breakpoints.up(900)]: {
+      paddingTop: "5px !important",
+    },
+  },
+  removePadding: {
+    paddingTop: "0px !important",
+  },
+  helpText: {
+    [theme.breakpoints.down(900)]: {
+      fontSize: "9px !important",
+    },
+  },
+  divider0: {
+    [theme.breakpoints.up(900)]: {
+      display: "none ",
+    },
+    [theme.breakpoints.down(900)]: {
+      display: "flex ",
+    },
+  },
 }));
 
 const CardCheckIn_CheckOut_View = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
+  const breakPoints = useMediaQuery(theme.breakpoints.down(900));
 
   const { teamByHostInformation } = useSelector(
     (state) => state.timeSheetViewerReducer
@@ -238,17 +268,8 @@ const CardCheckIn_CheckOut_View = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>
-        <div
-          style={{
-            display: "inline-block !important",
-            position: "relative !important",
-            width: "100%",
-            height: "40px",
-            marginBottom: "30px",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Stack direction="row" spacing={2}>
+        <Grid container spacing={2}>
+          <Grid item xs={7} sm={5}>
             {selectStateFilter === "" ||
             Object.keys(memberInformation).length !== 0 ? (
               <div>
@@ -261,150 +282,158 @@ const CardCheckIn_CheckOut_View = () => {
                   defaultValue={false}
                   multiple={false}
                   resetTextField={resetTextField}
-                  style={{ backgroundColor: "white", minWidth: "400px" }}
+                  style={{ backgroundColor: "white", width: "100%" }}
                 />
-                <FormHelperText>
+                <FormHelperText className={classes.helpText}>
                   Select a Employee name to review Timesheet.{" "}
                 </FormHelperText>
               </div>
             ) : (
               ""
             )}
-
-            <div>
-              <Select
-                value={selectStateFilter}
-                onChange={handleChangeSelect}
-                displayEmpty
-                size="small"
-                inputProps={{ "aria-label": "Without label" }}
-                style={{ backgroundColor: "white", minWidth: "100px" }}
-                placeholder="Your have no team."
-              >
-                {Object.keys(teamByHostInformation).length !== 0 ? (
-                  teamByHostInformation.data.length !== 0 ? (
-                    filterOption.map((item) => {
-                      return (
-                        <MenuItem value={item.Team_id} key={item.Team_id}>
-                          {item.Teamname}
-                        </MenuItem>
-                      );
-                    })
-                  ) : (
-                    <MenuItem disabled value="">
-                      <em>Your have no team.</em>
-                    </MenuItem>
-                  )
+          </Grid>
+          <Grid item xs={3} sm={2}>
+            <Select
+              value={selectStateFilter}
+              onChange={handleChangeSelect}
+              displayEmpty
+              size="small"
+              inputProps={{ "aria-label": "Without label" }}
+              style={{
+                backgroundColor: "white",
+                minWidth: "100px",
+                width: "100%",
+              }}
+              placeholder="Your have no team."
+            >
+              {Object.keys(teamByHostInformation).length !== 0 ? (
+                teamByHostInformation.data.length !== 0 ? (
+                  filterOption.map((item) => {
+                    return (
+                      <MenuItem value={item.Team_id} key={item.Team_id}>
+                        {item.Teamname}
+                      </MenuItem>
+                    );
+                  })
                 ) : (
-                  ""
-                )}
-              </Select>
-            </div>
+                  <MenuItem disabled value="">
+                    <em>Your have no team.</em>
+                  </MenuItem>
+                )
+              ) : (
+                ""
+              )}
+            </Select>
+            <FormHelperText className={classes.helpText}>
+              Select a Team.{" "}
+            </FormHelperText>
+          </Grid>
+          <Grid item xs={2} sm={1}>
             <Button
               variant="contained"
               endIcon={<SearchIcon />}
-              style={{ height: "40px" }}
+              style={{
+                height: "40px",
+                width: "100%",
+              }}
               color="secondary"
               onClick={handleClick}
             >
-              GO
+              {"GO"}
             </Button>
-          </Stack>
-        </div>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <Box className={classes.box}>
-            <div
-              style={{
-                display: "inline-block !important",
-                position: "relative !important",
-                width: "100%",
-                height: "40px",
-                marginTop: "15px",
-                marginBottom: "15px",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Stack direction="row" style={{ alignItems: "center" }}>
-                <Button
-                  variant="contained"
-                  className={isBetween ? classes.holiday : classes.normal}
-                  onClick={setToDay}
-                >
-                  <pre>TODAY</pre>
-                </Button>
-                <IconButton
-                  color="primary"
-                  aria-label="before"
-                  component="span"
-                  onClick={setBeforeDate}
-                >
-                  <KeyboardArrowLeftIcon />
-                </IconButton>
-                <IconButton
-                  color="primary"
-                  aria-label="before"
-                  component="span"
-                  onClick={setNextDate}
-                >
-                  <ChevronRightIcon />
-                </IconButton>
-                <DatePicker
-                  value={day}
-                  inputFormat="dd/MM/yyyy"
-                  onChange={(newValue) => {
-                    setDay(newValue);
-                  }}
-                  renderInput={(params) => (
-                    <TextField size="small" {...params} />
-                  )}
-                />
-                {isBetween ? (
-                  <Typography
-                    variant="subtitle1"
-                    color="mute"
-                    className={classes.attention2}
-                  >
-                    <ErrorOutlineIcon
-                      fontSize="small"
-                      style={{ marginRight: "5px" }}
-                    />
-                    This day is holiday
-                  </Typography>
-                ) : (
-                  ""
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <Divider className={classes.divider0} />
+          </Grid>
+          <Grid item xs={12} sm={7} style={{ width: "100%" }}>
+            <Stack direction="row" className={classes.daySearch}>
+              <Button
+                variant="contained"
+                className={isBetween ? classes.holiday : classes.normal}
+                onClick={setToDay}
+                style={{ height: "37px" }}
+              >
+                <pre>TODAY</pre>
+              </Button>
+              <IconButton
+                color="primary"
+                aria-label="before"
+                component="span"
+                onClick={setBeforeDate}
+              >
+                <KeyboardArrowLeftIcon />
+              </IconButton>
+              <IconButton
+                color="primary"
+                aria-label="before"
+                component="span"
+                onClick={setNextDate}
+              >
+                <ChevronRightIcon />
+              </IconButton>
+              <DatePicker
+                value={day}
+                inputFormat="dd/MM/yyyy"
+                onChange={(newValue) => {
+                  setDay(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    size="small"
+                    {...params}
+                    className={classes.datePicker}
+                  />
                 )}
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  className={classes.ButtonAdd}
+              />
+              {isBetween ? (
+                <Typography
+                  variant="subtitle1"
+                  color="mute"
+                  className={classes.attention2}
                 >
-                  <Button
-                    variant={showType === "Day" ? "outlined" : "contained"}
-                    onClick={() => {
-                      setShowType("Day");
-                    }}
-                  >
-                    <pre>DAY</pre>
-                  </Button>
-                  <Button
-                    variant={showType === "Month" ? "outlined" : "contained"}
-                    onClick={() => {
-                      setShowType("Month");
-                    }}
-                  >
-                    <pre>month</pre>
-                  </Button>
-                  <Button
-                    variant={showType === "Year" ? "outlined" : "contained"}
-                    onClick={() => {
-                      setShowType("Year");
-                    }}
-                  >
-                    <pre>Year</pre>
-                  </Button>
-                </Stack>
-              </Stack>
-            </div>
+                  <ErrorOutlineIcon
+                    fontSize="small"
+                    style={{ marginRight: "5px" }}
+                  />
+                  This day is holiday
+                </Typography>
+              ) : (
+                ""
+              )}
+            </Stack>
+          </Grid>
+          <Grid item xs={12} sm={5} style={{ width: "100%" }}>
+            <Stack direction="row" spacing={1} className={classes.ButtonAdd}>
+              <Button
+                variant={showType === "Day" ? "outlined" : "contained"}
+                className={classes.typeBT}
+                onClick={() => {
+                  setShowType("Day");
+                }}
+              >
+                <pre>DAY</pre>
+              </Button>
+              <Button
+                className={classes.typeBT}
+                variant={showType === "Month" ? "outlined" : "contained"}
+                onClick={() => {
+                  setShowType("Month");
+                }}
+              >
+                <pre>month</pre>
+              </Button>
+              <Button
+                className={classes.typeBT}
+                variant={showType === "Year" ? "outlined" : "contained"}
+                onClick={() => {
+                  setShowType("Year");
+                }}
+              >
+                <pre>Year</pre>
+              </Button>
+            </Stack>
+          </Grid>
+          <Grid item xs={12} style={{ width: "100%" }}>
             <DataGrid
               pageSize={pageSize}
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
@@ -415,8 +444,8 @@ const CardCheckIn_CheckOut_View = () => {
               headers={Header ? Header : ""}
               rows={Info ? Info : ""}
             />
-          </Box>
-        </LocalizationProvider>
+          </Grid>
+        </Grid>
       </Box>
     </LocalizationProvider>
   );

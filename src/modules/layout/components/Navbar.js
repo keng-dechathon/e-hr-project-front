@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   logo: {
     width: "72px",
     height: "40px",
+    [theme.breakpoints.down("xs")]: {
+      display: "none",
+    },
   },
   appbar: {
     minHeight: navHeight,

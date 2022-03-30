@@ -24,10 +24,19 @@ import { getLeaveAmount } from "../../../utils/miscellaneous";
 import moment from "moment";
 import FormLeaveRequestUpdate from "./FormLeaveRequestUpdate";
 import { Divider } from "@mui/material";
-
-const useStyles = makeStyles(() => ({
+import { Grid } from "@mui/material";
+const useStyles = makeStyles((theme) => ({
+  removePadding: {
+    [theme.breakpoints.down("xs")]: {
+      paddingTop: "5px !important",
+    },
+  },
   ButtonAdd: {
     display: "flex",
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+      fontSize:"10px !important",
+    },
   },
   box: {
     marginTop: "20px",
@@ -58,7 +67,7 @@ const CardLeaveRequest = () => {
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
   const [columnData, setColumnData] = useState({});
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(10);
   const [sortModel, setSortModel] = useState([
     {
       field: "ID",
@@ -82,11 +91,7 @@ const CardLeaveRequest = () => {
           onClick={(event) => {
             handleClickCancle(event, cellValues);
           }}
-          disabled={
-            cellValues.row.Leave_status !== "Requested"
-              ? true
-              : false
-          }
+          disabled={cellValues.row.Leave_status !== "Requested" ? true : false}
         >
           Cancle
         </Button>
@@ -175,21 +180,22 @@ const CardLeaveRequest = () => {
           columnData={columnData}
         />
       </ModalUpdate>
-      <Box className={classes.box}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            justifyItems: "center",
-            alignItems: "center",
-            marginBottom:'15px',
-          }}
-        >
+
+      <Grid container spacing={2} style={{ marginTop: "1px" }}>
+        <Grid item xs={10} sm={7}>
+          {" "}
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}
             clearSearch={() => requestSearch("")}
           />
+        </Grid>
+        <Grid
+          item
+          xs={2}
+          sm={5}
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
           <Button
             variant="outlined"
             className={classes.ButtonAdd}
@@ -197,24 +203,25 @@ const CardLeaveRequest = () => {
           >
             <pre>+ CREATE</pre>
           </Button>
-        </Box>
-        <DataGrid
-          sortingOrder={["desc", "asc"]}
-          sortModel={sortModel}
-          onSortModelChange={(model) =>
-            Info.length !== 0 ? setSortModel(model) : ""
-          }
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[5, 10, 20, 50]}
-          pagination
-       
-          disableSelectionOnClick
-          className={classes.datagrid}
-          headers={Header ? Header : ""}
-          rows={searchText ? searchInfo : Info ? Info : ""}
-        />
-      </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <DataGrid
+            sortingOrder={["desc", "asc"]}
+            sortModel={sortModel}
+            onSortModelChange={(model) =>
+              Info.length !== 0 ? setSortModel(model) : ""
+            }
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[10, 20, 50]}
+            pagination
+            disableSelectionOnClick
+            className={classes.datagrid}
+            headers={Header ? Header : ""}
+            rows={searchText ? searchInfo : Info ? Info : ""}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

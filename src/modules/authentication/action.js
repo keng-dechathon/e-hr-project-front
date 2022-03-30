@@ -31,7 +31,7 @@ export const signIn = async (values, Checked, navigate) => {
                     setCookie('uid', uid, (1000 * 3600 * 24))
                     setCookie('a', a, (1000 * 3600 * 24))
                 }
-                navigate('/Home')
+                navigate('/news')
                 return { status: 'success' }
             }
         })
@@ -82,7 +82,7 @@ export const resetPassword = async (values, navigate) => {
             pushSnackbarAction('success', 'Reset password success.')
             if (navigate) {
                 setTimeout(() => {
-                    navigate('/home')
+                    navigate('/news')
                     return { status: 'success' }
                 }, 1000)
             }
