@@ -14,7 +14,9 @@ export const GET_YEARCHECK_INFORMATION = createRequestTypes(
 export const GET_ALLLEAVE_INFORMATION = createRequestTypes(
   Types.GET_ALLLEAVE_INFORMATION
 );
-
+export const GET_ALLREST_INFORMATION = createRequestTypes(
+  Types.GET_ALLREST_INFORMATION
+);
 export const getAllCheckInformation = (config, data = {}, date, type) =>
   createAction(
     GET_ALLCHECK_INFORMATION.REQUEST,
@@ -76,3 +78,18 @@ export const getAllLeaveInformation = (config, data = {}) =>
       ...config,
     }
   );
+
+  
+export const getAllRestOfLeaveInformation = (config, data = {}) =>
+createAction(
+  GET_ALLREST_INFORMATION.REQUEST,
+  {
+    Option: "Get_All_Leaved_Count",
+  },
+  {
+    method: "POST",
+    url: apiUrl.eHRService.common.leave,
+    params: data,
+    ...config,
+  }
+);

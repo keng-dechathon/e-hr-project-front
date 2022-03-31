@@ -5,6 +5,7 @@ export const initialState = {
   toDayCheckInformation: {},
   yearCheckInformation: {},
   allLeaveInformation: {},
+  allRestOfLeaveInformation:{},
 };
 
 export default (state = initialState, action) => {
@@ -65,6 +66,20 @@ export default (state = initialState, action) => {
         ...state,
         allLeaveInformation: {},
       };
+      case Actions.GET_ALLREST_INFORMATION.REQUEST:
+        return {
+          ...state,
+        };
+      case Actions.GET_ALLREST_INFORMATION.SUCCESS:
+        return {
+          ...state,
+          allRestOfLeaveInformation: action.payload.data,
+        };
+      case Actions.GET_ALLREST_INFORMATION.FAILURE:
+        return {
+          ...state,
+          allRestOfLeaveInformation: {},
+        };
     default:
       return state;
   }

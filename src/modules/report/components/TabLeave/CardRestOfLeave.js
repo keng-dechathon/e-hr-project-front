@@ -17,8 +17,7 @@ import {
   escapeRegExp,
 } from "../../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
-import { getAllLeaveInformation } from "../../actions";
-import { getLeaveInformationByID } from "../../../leaveRequest/actions";
+import { getAllRestOfLeaveInformation } from "../../actions";
 
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -119,20 +118,17 @@ const CardRestOfLeave = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { empInformation } = useSelector((state) => state.employeeReducer);
-  const { allLeaveInformation } = useSelector((state) => state.reportReducer);
-  const { holidaysInformation } = useSelector((state) => state.timeReducer);
+  const { allRestOfLeaveInformation } = useSelector(
+    (state) => state.reportReducer
+  );
   const { leaveTypeInformation } = useSelector(
     (state) => state.leaveTypeReducer
   );
-  const { leaveInformationByID } = useSelector((state) => state.leaveReducer);
 
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
   const [pageSize, setPageSize] = useState(50);
 
-  const [isBetween, setIsBetween] = useState(false);
-  const [day, setDay] = useState(new Date());
-  const [showType, setShowType] = useState("Day");
   const [sortModel, setSortModel] = useState([
     {
       field: "ID",
@@ -144,19 +140,17 @@ const CardRestOfLeave = () => {
   const [Header, setHeader] = useState([]);
 
   useEffect(() => {
-    dispatch(getAllLeaveInformation());
+    dispatch(getAllRestOfLeaveInformation());
     dispatch(getLeaveTypeInformation());
   }, []);
-  useEffect(() => {
-    checkIsBetweenDate();
-  }, [holidaysInformation, day]);
+
   useEffect(() => {
     if (Object.keys(leaveTypeInformation).length !== 0) setHeaderColumn();
     else dispatch(getLeaveTypeInformation());
   }, [leaveTypeInformation]);
   useEffect(() => {
     setDataGrid();
-  }, [allLeaveInformation, day, showType]);
+  }, [allRestOfLeaveInformation]);
 
   const requestSearch = (searchValue) => {
     setSearchText(searchValue);
@@ -169,41 +163,6 @@ const CardRestOfLeave = () => {
         });
       });
       setSearchInfo(filteredRows);
-    }
-  };
-
-  const setNextDate = () => {
-    let tomorrow = moment(day).add(1, "days");
-    setDay(new Date(tomorrow));
-  };
-  const setBeforeDate = () => {
-    let yesterday = moment(day).add(-1, "days");
-    setDay(new Date(yesterday));
-  };
-  const setToDay = () => {
-    setDay(new Date(moment()));
-  };
-  const checkIsBetweenDate = () => {
-    if (Object.keys(holidaysInformation).length !== 0) {
-      const nowYear = moment(new Date()).format("YYYY");
-      holidaysInformation.data.map((item) => {
-        const start = new Date(
-          moment(moment(item.Start).format("MMM Do ") + nowYear, "MMM Do YYYY")
-        );
-        const end = new Date(
-          moment(
-            moment(item.End).format("MMM Do ") + nowYear,
-            "MMM Do YYYY"
-          ).add(1, "days")
-        );
-        const now = day;
-        const range = moment().range(start, end);
-        if (range.contains(now)) {
-          setIsBetween(true);
-        } else {
-          setIsBetween(false);
-        }
-      });
     }
   };
   const setHeaderColumn = () => {
@@ -241,26 +200,26 @@ const CardRestOfLeave = () => {
     setInfo([]);
     setIsSetInfo(false);
     if (
-      Object.keys(allLeaveInformation).length !== 0 &&
+      Object.keys(allRestOfLeaveInformation).length !== 0 &&
       Object.keys(empInformation).length !== 0 &&
       Object.keys(leaveTypeInformation).length !== 0
     ) {
-      empInformation.data.map((emp) => {
+      // setInfo((Info) => [...Info, item]);
+
+      allRestOfLeaveInformation.data.map((item, index) => {
         let temp = {};
-        let count = {};
-        temp.Name = emp.Name;
-        temp.id = emp.Emp_id;
         leaveTypeInformation.data.map((type) => {
-          temp[type.Type_name] = 0;
+          temp[type.Type_name] = String(0);
         });
-        allLeaveInformation.data.map((item) => {
-         
-        });
-        Object.keys(count).map(function (key) {
-          temp[key] = count[key];
-        });
-        Object.keys(temp).map(function (key) {
-          if (temp[key] === 0) temp[key] = "0";
+        temp.Name = empInformation.data.filter(
+          (emp) => String(emp.Emp_id) === Object.keys(item)[0]
+        )[0].Name;
+        temp.id = index;
+        Object.keys(item).map(function (key) {
+          item[key].map((type) => {
+            console.log(type);
+            temp[type.Type_name] = String(type.Leaved);
+          });
         });
         setInfo((Info) => [...Info, temp]);
       });
@@ -274,13 +233,22 @@ const CardRestOfLeave = () => {
     <>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Grid container spacing={2}>
-          <Grid item sm={12} style={{ width: "100%" }}>
+          {/* <Grid item xs={12}>
+              <Typography variant="h5" color={"pink"} fontWeight="bold">
+                ALL LEAVE SUMMARIZE
+              </Typography>
+              <Divider style={{ marginTop: "10px" }} />
+            </Grid> */}
+          <Grid item xs={12} style={{ marginTop: "15px" }}>
             <QuickSearchToolbar
               value={searchText}
+              style={{ maxWidth: "500px" }}
               onChange={(event) => requestSearch(event.target.value)}
               clearSearch={() => requestSearch("")}
             />
-            <div style={{height:"5px"}}/>
+          </Grid>
+
+          <Grid item sm={12} style={{ width: "100%" }}>
             <DataGrid
               sortingOrder={["desc", "asc"]}
               sortModel={sortModel}
