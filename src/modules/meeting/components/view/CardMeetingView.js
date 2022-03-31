@@ -11,21 +11,25 @@ import {
   getMeetingInformationByMultiId,
   getMeetingInformationByRoomId,
 } from "../../actions";
+import { Grid } from "@mui/material";
 
 import moment from "moment";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-
-import InputLabel from "@mui/material/InputLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 import AutoComplete from "../../../common/AutoCompleteMeeting/AutoCompleteMeeting";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
 import ScedulerMeetingFunc from "./ScedulerMeetingFunc";
 import LinearProgress from "@mui/material/LinearProgress";
 import FaceIcon from "@mui/icons-material/Face";
-const useStyles = makeStyles(() => ({}));
+const useStyles = makeStyles((theme) => ({
+  helpText: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "9px !important",
+    },
+  },
+}));
 
 const CardMeeting = () => {
   const classes = useStyles();
@@ -104,7 +108,7 @@ const CardMeeting = () => {
             .filter(function (item, pos, self) {
               return self.indexOf(item) == pos;
             });
-            
+
           allMeet[i] = {
             id: i,
             roomId: item.Room_Id,
@@ -171,94 +175,103 @@ const CardMeeting = () => {
   return (
     <>
       <Box>
-        <InputLabel>Select or Search</InputLabel>
-        <Stack direction="row" spacing={2}>
-          {memberOption.length !== 0 ? (
+        <Grid container spacing={2} >
+          <Grid item xs={7} sm={5}>
+            {memberOption.length !== 0 ? (
+              <div>
+                <AutoComplete
+                  size="small"
+                  option={
+                    selectStateFilter === 1
+                      ? memberOption
+                      : selectStateFilter === 2
+                      ? meetRoom
+                      : ""
+                  }
+                  selectState={selectState}
+                  setSelectState={setSelectState}
+                  style={{ backgroundColor: "white" }}
+                  limit={selectStateFilter === 1 ? 9999 : 1}
+                  resetStatus={resetStatus}
+                  setResetStatus={setResetStatus}
+                  selectStateFilter={selectStateFilter}
+                  uid={uid}
+                />
+                <FormHelperText className={classes.helpText}>
+                  Select a room or Employee name to review meetings.{" "}
+                </FormHelperText>
+              </div>
+            ) : (
+              ""
+            )}
+          </Grid>
+          <Grid item xs={3} sm={2}>
             <div>
-              <AutoComplete
+              <Select
+                value={selectStateFilter}
+                onChange={handleChangeSelect}
+                displayEmpty
                 size="small"
-                option={
-                  selectStateFilter === 1
-                    ? memberOption
-                    : selectStateFilter === 2
-                    ? meetRoom
-                    : ""
-                }
-                selectState={selectState}
-                setSelectState={setSelectState}
-                style={{ backgroundColor: "white" }}
-                limit={selectStateFilter === 1 ? 9999 : 1}
-                resetStatus={resetStatus}
-                setResetStatus={setResetStatus}
-                selectStateFilter={selectStateFilter}
-                uid={uid}
-              />
-              <FormHelperText>
-                Select a room or Employee name to review meetings.{" "}
+                inputProps={{ "aria-label": "Without label" }}
+                style={{ width: "100%", backgroundColor: "white" }}
+              >
+                {filterOption.map((item) => {
+                  return (
+                    <MenuItem value={item.id} key={item.id}>
+                      {item.text}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+              <FormHelperText className={classes.helpText}>
+                Select a option.{" "}
               </FormHelperText>
             </div>
-          ) : (
-            ""
-          )}
-          <div>
-            <Select
-              value={selectStateFilter}
-              onChange={handleChangeSelect}
-              displayEmpty
-              size="small"
-              inputProps={{ "aria-label": "Without label" }}
-              style={{ width: "140px", backgroundColor: "white" }}
+          </Grid>
+          <Grid item xs={2} sm={1}>
+            <Button
+              variant="contained"
+              endIcon={<SearchIcon />}
+              style={{ height: "40px", width: "100%" }}
+              color="secondary"
+              onClick={handleClick}
             >
-              {filterOption.map((item) => {
-                return (
-                  <MenuItem value={item.id} key={item.id}>
-                    {item.text}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-            <FormHelperText></FormHelperText>
-          </div>
-          <Button
-            variant="contained"
-            endIcon={<SearchIcon />}
-            style={{ height: "40px" }}
-            color="secondary"
-            onClick={handleClick}
-          >
-            GO
-          </Button>
-          <Button
-            variant="outlined"
-            endIcon={<FaceIcon />}
-            style={{ height: "40px" }}
-            color="secondary"
-            onClick={handleClickReset}
-          >
-            Show Your Meeting
-          </Button>
-        </Stack>
-
-        <div style={{ marginTop: "10px" }} />
-        {/* {
+              GO
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={2}>
+            <Button
+              variant="outlined"
+              endIcon={<FaceIcon />}
+              style={{ height: "40px", width: "100%" }}
+              color="secondary"
+              onClick={handleClickReset}
+            >
+              Show Your Meeting
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            {/* {
 
                     allMeet.length !== 0 && meetRoom.length !== 0 && myMeeting.length !== 0 && members.length !== 0 && uid !== '' ?
                         <ScedulerMeetingFunc meetRoom={meetRoom} myMeeting={allMeet} members={members} uid={uid} filter={selectStateFilter} /> :
                         <ScedulerMeetingFunc meetRoom={meetRoom} myMeeting={myMeeting} members={members} uid={uid} filter={selectStateFilter} />
                 } */}
-        {meetRoom.length !== 0 && members.length !== 0 && uid !== "" ? (
-          <ScedulerMeetingFunc
-            meetRoom={meetRoom}
-            myMeeting={allMeet}
-            members={members}
-            uid={uid}
-            filter={selectStateFilter}
-          />
-        ) : selectStateFilter === 1 ? (
-          <LinearProgress color="secondary" />
-        ) : (
-          ""
-        )}
+            {meetRoom.length !== 0 && members.length !== 0 && uid !== "" ? (
+              <ScedulerMeetingFunc
+                meetRoom={meetRoom}
+                myMeeting={allMeet}
+                members={members}
+                uid={uid}
+                filter={selectStateFilter}
+              />
+            ) : selectStateFilter === 1 ? (
+              <LinearProgress color="secondary" />
+            ) : (
+              ""
+            )}
+          </Grid>
+        </Grid>
       </Box>
     </>
   );

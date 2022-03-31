@@ -2,20 +2,20 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "../../common/Typography/Typography";
 import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import CardEmpInformation from "./CardEmpInformation";
 import { isPath } from "../../../utils/miscellaneous";
 import { empInfoPath, empMgnt } from "./path";
 import { Divider } from "@mui/material";
-const useStyles = makeStyles(() => ({
+
+const useStyles = makeStyles((theme) => ({
   Topic: {
     marginBottom: "10px",
   },
   box: {
     padding: "40px 40px 0 40px ",
+    [theme.breakpoints.down("xs")]: {
+      padding: "20px 20px  0 20px ",
+    },
   },
   tabitem: {
     marginRight: "30px !important",
@@ -40,20 +40,18 @@ const useStyles = makeStyles(() => ({
   tabpanel: {
     padding: " 16px 0 !important",
   },
+  headerTitle: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "30px ",
+    },
+  },
 }));
 
 const ContentEmpInformation = () => {
   const classes = useStyles();
-
-  const [value, setValue] = React.useState("1");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   return (
     <Box className={classes.box}>
-      <Typography variant="h3" color="pink" fontWeight="medium">
+      <Typography variant="h3" color="pink" fontWeight="medium" className={classes.headerTitle}>
         {isPath(empInfoPath) && "Employee Information"}
         {isPath(empMgnt) && "Employee Management"}
       </Typography>

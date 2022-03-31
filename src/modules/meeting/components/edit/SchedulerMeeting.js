@@ -75,6 +75,11 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 10px 0 auto !important",
     minHeight: "39px",
     border: "1px solid rgba(0, 0, 0, 0.23)",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "10px !important",
+      margin: "0 5px 0 auto !important",
+      width:"50px",
+    },
   },
 }));
 

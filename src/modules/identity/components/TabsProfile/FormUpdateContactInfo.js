@@ -79,7 +79,7 @@ const FormUpdateContactInfo = (props) => {
                     container
                     spacing={2}
                 >
-                    <Grid item sm={6} >
+                    <Grid item xs={6} >
                         <InputLabel>Email Address</InputLabel>
                         <TextField
                             id='email'
@@ -90,7 +90,7 @@ const FormUpdateContactInfo = (props) => {
                             fullWidth
                         />
                     </Grid>
-                    <Grid item sm={6}>
+                    <Grid item xs={6}>
                         <InputLabel>Phone Number</InputLabel>
                         <TextField
                             id='phone'
@@ -101,7 +101,7 @@ const FormUpdateContactInfo = (props) => {
 
                         />
                     </Grid>
-                    <Grid item sm={12}>
+                    <Grid item xs={12}>
                         <InputLabel>Address</InputLabel>
                         <TextField
                             id='address'

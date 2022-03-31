@@ -40,11 +40,6 @@ const CardContactInfo = () => {
         personalData.push({ "title": "Supervisor", "value": accountInformation.Supervisor ? accountInformation.Supervisor : notSet })
     }
 
-
-    const fileSelectedHandler = event => {
-        console.log(event.target.files[0]);
-    }
-
     setDataInfo()
     return (
         <>

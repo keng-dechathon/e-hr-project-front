@@ -72,7 +72,7 @@ const CardPersonalInfo = (props) => {
                     >
                         <Grid
                             item
-                            xs={8}
+                            xs={12}
                         >
                             {personalData.map((items,index) => {
                                 return (

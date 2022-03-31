@@ -1,6 +1,6 @@
 import { borderRadius } from "@mui/system";
 
-export default () => ({
+export default (theme) => ({
     card: {   
         // backgroundColor: '#F1F3FF !important',        
         marginBottom: '16px',
@@ -9,7 +9,6 @@ export default () => ({
     cardheader: {
         padding: '6px 10px !important',
         [`& .css-1qvr50w-MuiTypography-root  `]: {
-
             fontWeight: '550',
             fontSize: '18px !important',
         },
@@ -24,6 +23,7 @@ export default () => ({
         display: 'flex',
         marginLeft: '10px',
         marginTop: '10px',
+        
     },
     textboxSkeleton: {
         display: 'flex',
@@ -34,11 +34,17 @@ export default () => ({
         marginRight: '20px',
         display: 'flex',
         alignItems: 'center',
+        [theme.breakpoints.down("xs")]: {
+            fontSize: "14px !important",
+          },
     },
     subtext: {
         display: 'flex',
         alignItems: 'center',
         width: '100%',
+        [theme.breakpoints.down("xs")]: {
+            fontSize: "14px !important",
+          },
     },
     center: {
         display: 'flex',

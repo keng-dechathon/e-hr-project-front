@@ -7,7 +7,7 @@ export const headers = [
     headerClassName: "bg-light-green",
     headerName: "ID",
     type: "number",
-    width: "80",
+    flex: 1,
     align: "left",
     headerAlign: "left",
   },
@@ -15,12 +15,14 @@ export const headers = [
     field: "Name",
     headerName: "Name",
     headerClassName: "bg-light-green",
+    minWidth: 180,
     flex: 1,
   },
   {
     field: "Position",
     headerClassName: "bg-light-green",
     headerName: "Position",
+    minWidth: 80,
     flex: 1,
   },
 ];

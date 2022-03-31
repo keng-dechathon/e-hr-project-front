@@ -82,6 +82,7 @@ const CardLeaveInfomation = () => {
           field: name,
           headerName: name,
           flex: 1,
+          minWidth:80,
           headerClassName: "bg-light-green",
         });
         leaveDataFormat[0][name] = value.Leaved;

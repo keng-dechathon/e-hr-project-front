@@ -37,7 +37,6 @@ const CardWorkInfo = (props) => {
 
     }
 
-
     setDataInfo()
     return (
         <>

@@ -109,7 +109,7 @@ const FormLocationUpdate = (props) => {
             fullWidth
           />
         </Grid>
-        <Grid item sm={12}>
+        <Grid item xs={12} style={{width:"100%"}}>
           <InputLabel>Noted</InputLabel>
           <TextField
             id="noted"
