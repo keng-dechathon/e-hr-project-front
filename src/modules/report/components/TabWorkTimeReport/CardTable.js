@@ -47,7 +47,6 @@ const CardTable = () => {
       setInfo((Info) => Info.reverse());
     }
   };
-  console.log(allCheckInformation);
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>
