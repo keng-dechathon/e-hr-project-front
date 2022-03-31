@@ -8,7 +8,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { Divider } from "@mui/material";
 import CardTeam from "./CardTeam";
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   emptyNews: {
     width: "100%",
     height: "100%",
@@ -21,6 +21,9 @@ const useStyles = makeStyles(() => ({
   },
   box: {
     padding: "40px 40px 0 40px ",
+    [theme.breakpoints.down("xs")]: {
+      padding: "20px 20px  0 20px ",
+    },
   },
   tabitem: {
     marginRight: "30px !important",
@@ -45,20 +48,19 @@ const useStyles = makeStyles(() => ({
   tabpanel: {
     padding: " 16px 0 !important",
   },
+  headerTitle: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "30px ",
+    },
+  },
 }));
 
 const ContentTeamManagement = () => {
   const classes = useStyles();
 
-  const [value, setValue] = React.useState("1");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   return (
     <Box className={classes.box}>
-      <Typography variant="h3" color="pink" fontWeight="medium">
+      <Typography variant="h3" color="pink" fontWeight="medium" className={classes.headerTitle}>
         Teams Management
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "15px" }}>

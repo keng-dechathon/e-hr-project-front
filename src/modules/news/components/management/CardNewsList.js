@@ -20,6 +20,8 @@ import {
 import { Button } from "@mui/material";
 import ModalUpdate from "../../../common/ModalUpdate";
 import { headers } from "./headers";
+import { Grid } from "@mui/material";
+
 const useStyles = makeStyles(() => ({
   tabitem: {
     marginRight: "30px !important",
@@ -154,73 +156,9 @@ const CardNewsList = ({ items }) => {
   const setNewsDataGrid = () => {
     if (Object.keys(items).length !== 0) {
       items.map((item, index) => {
-        // if (index === 0) {
-        //   Object.keys(item).map((name, value) => {
-        //     if (name === "Img" && headerArray[name])
-        //       newsHeader.push({
-        //         field: name,
-        //         headerName: headerArray[name],
-        //         width: "80",
-        //         align: "center",
-        //         headerClassName: "bg-light-green",
-        //         flex: 1,
-        //         sortable: false,
-        //         renderCell: (params) => (
-        //           <img
-        //             src={
-        //               params.value && params.value != "null"
-        //                 ? params.value
-        //                 : noimg
-        //             }
-        //             className={classes.Img}
-        //           />
-        //         ),
-        //       });
-        //     if (
-        //       name === "Start" ||
-        //       name === "End" ||
-        //       (name === "Date" && headerArray[name])
-        //     )
-        //       newsHeader.push({
-        //         field: name,
-        //         headerName: headerArray[name],
-        //         type: "dateTime",
-        //         headerClassName: "bg-light-green",
-        //         width: "200",
-        //         sortable: false,
-        //       });
-        //     if (name === "Topic" || (name === "Detail" && headerArray[name]))
-        //       newsHeader.push({
-        //         field: name,
-        //         headerName: headerArray[name],
-        //         flex: 1,
-        //         headerClassName: "bg-light-green",
-        //         sortable: false,
-        //       });
-        //   });
-        // }
         newsInfo.push(item);
         newsInfo[index].id = item.News_id;
       });
-      // newsHeader.push({
-      //   field: "actions",
-      //   type: "actions",
-      //   headerName: "Action",
-      //   width: 90,
-      //   headerClassName: "bg-light-green",
-      //   getActions: (params) => [
-      //     <GridActionsCellItem
-      //       icon={<EditIcon />}
-      //       label="Edit"
-      //       onClick={updateNews(params.id)}
-      //     />,
-      //     <GridActionsCellItem
-      //       icon={<DeleteForeverIcon />}
-      //       label="Delete"
-      //       onClick={deletesNews(params.id)}
-      //     />,
-      //   ],
-      // });
     }
   };
 
@@ -245,23 +183,20 @@ const CardNewsList = ({ items }) => {
       <ModalUpdate open={isEdit} handleClose={handleClose} title="News Update">
         <FormNewsUpdate id={nowID} handleClose={handleClose} option={option} />
       </ModalUpdate>
-
-      <Box className={classes.box}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            justifyItems: "center",
-            alignItems: "center",
-            pt: "10px",
-            pb: "10px",
-          }}
-        >
+      <Grid container spacing={2} style={{ marginTop: "1px" }}>
+        <Grid item xs={10} sm={7}>
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}
             clearSearch={() => requestSearch("")}
           />
+        </Grid>
+        <Grid
+          item
+          xs={2}
+          sm={5}
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
           <Button
             variant="outlined"
             className={classes.ButtonAdd}
@@ -269,21 +204,23 @@ const CardNewsList = ({ items }) => {
           >
             <pre>+ ADD</pre>
           </Button>
-        </Box>
-        <DataGrid
-          sortingOrder={["desc", "asc"]}
-          sortModel={sortModel}
-          onSortModelChange={(model) =>
-            newsInfo.length !== 0 ? setSortModel(model) : ""
-          }
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[5, 10, 20, 50]}
-          headers={newsHeader ? newsHeader : ""}
-          rows={searchText ? searchInfo : newsInfo ? newsInfo : ""}
-          rowHeight={90}
-        />
-      </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <DataGrid
+            sortingOrder={["desc", "asc"]}
+            sortModel={sortModel}
+            onSortModelChange={(model) =>
+              newsInfo.length !== 0 ? setSortModel(model) : ""
+            }
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[5, 10, 20, 50]}
+            headers={newsHeader ? newsHeader : ""}
+            rows={searchText ? searchInfo : newsInfo ? newsInfo : ""}
+            rowHeight={90}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

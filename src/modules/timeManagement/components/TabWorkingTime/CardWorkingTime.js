@@ -6,19 +6,17 @@ import { getWorkingTimeInformation } from "../../actions";
 import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
-import { CardContent } from "@mui/material";
+
 import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-
+import { headers } from "./headers";
 import { deleteHoliday } from "../../actions";
 import {
   QuickSearchToolbar,
   escapeRegExp,
 } from "../../../common/QuickSearchToolbar/QuickSearchToolbar";
-import { Button } from "@mui/material";
 import ModalUpdate from "../../../common/ModalUpdate";
+import { Grid } from "@mui/material";
 
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
@@ -44,23 +42,23 @@ const CardWorkingTime = () => {
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
   const [option, setOption] = useState("");
-  const [pageSize, setPageSize] = useState(5);
-  const [sortModel, setSortModel] = useState([
-    {
-      field: "ID",
-      sort: "desc",
-    },
-  ]);
 
-  const headerArray = {
-    Day_Name: "Day Name",
-    start_work: "Start Work",
-    off_work: "Off Work",
-  };
-
-  let workingTimeHeader = React.useMemo(() => []);
+  let workingTimeHeader = headers;
   let workTimeInfo = [];
-
+  workingTimeHeader[headers.length] = {
+    field: "actions",
+    type: "actions",
+    width: 90,
+    headerClassName: "bg-light-green",
+    headerName: "Action",
+    getActions: (params) => [
+      <GridActionsCellItem
+        icon={<EditIcon />}
+        label="Edit"
+        onClick={onClickUpdate(params.row.Day_Name ? params.row.Day_Name : "")}
+      />,
+    ],
+  };
   useEffect(() => {
     dispatch(getWorkingTimeInformation());
   }, []);
@@ -76,12 +74,6 @@ const CardWorkingTime = () => {
     }
   }, [deleteID]);
 
-  const onClickDelete = React.useCallback(
-    (id) => () => {
-      setDeleteID(id);
-    },
-    []
-  );
   const onClickUpdate = React.useCallback(
     (id) => () => {
       setopen(true);
@@ -90,10 +82,6 @@ const CardWorkingTime = () => {
     },
     []
   );
-  const onClickAdd = () => {
-    setopen(true);
-    setOption("add");
-  };
 
   const handleClose = () => {
     setopen(false);
@@ -116,60 +104,8 @@ const CardWorkingTime = () => {
   const setHolidaysDataGrid = () => {
     if (Object.keys(workingTimeInformation).length !== 0) {
       workingTimeInformation.data.map((item, index) => {
-        if (index === 0) {
-          Object.keys(item).map((name, value) => {
-            if (headerArray[name] && name === "Day_Name") {
-              workingTimeHeader[0] = {
-                field: name,
-                headerClassName: "bg-light-green",
-
-                headerName: headerArray[name],
-                flex: 1,
-                sortable: false,
-              };
-            } else if (headerArray[name] && name === "start_work") {
-              workingTimeHeader[1] = {
-                field: name,
-                headerName: headerArray[name],
-                flex: 1,
-                headerClassName: "bg-light-green",
-
-                sortable: false,
-                type: "time",
-                editable: true,
-              };
-            } else if (headerArray[name] && name === "off_work") {
-              workingTimeHeader[2] = {
-                field: name,
-                headerName: headerArray[name],
-                flex: 1,
-                headerClassName: "bg-light-green",
-
-                sortable: false,
-                type: "time",
-                editable: true,
-              };
-            }
-          });
-        }
         workTimeInfo.push(item);
         workTimeInfo[index].id = index;
-      });
-      workingTimeHeader.push({
-        field: "actions",
-        type: "actions",
-        width: 90,
-        headerClassName: "bg-light-green",
-        headerName: "Action",
-        getActions: (params) => [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            onClick={onClickUpdate(
-              params.row.Day_Name ? params.row.Day_Name : ""
-            )}
-          />,
-        ],
       });
     }
   };
@@ -187,29 +123,23 @@ const CardWorkingTime = () => {
           option={option}
         />
       </ModalUpdate>
-
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          justifyItems: "center",
-          alignItems: "center",
-          pt: "10px",
-          pb: "10px",
-        }}
-      >
-        <QuickSearchToolbar
-          value={searchText}
-          onChange={(event) => requestSearch(event.target.value)}
-          clearSearch={() => requestSearch("")}
-        />
-        {/* <Button variant="outlined" className={classes.ButtonAdd} onClick={onClickAdd}><pre>+ ADD</pre></Button> */}
-      </Box>
-      <DataGrid
-        headers={workingTimeHeader ? workingTimeHeader : ""}
-        rows={searchText ? searchInfo : workTimeInfo ? workTimeInfo : ""}
-        disablePagination={true}
-      />
+      <Grid container spacing={2} style={{ marginTop: "1px" }}>
+        <Grid item xs={12} sm={7}>
+          <QuickSearchToolbar
+            value={searchText}
+            onChange={(event) => requestSearch(event.target.value)}
+            clearSearch={() => requestSearch("")}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          {/* <Button variant="outlined" className={classes.ButtonAdd} onClick={onClickAdd}><pre>+ ADD</pre></Button> */}
+          <DataGrid
+            headers={workingTimeHeader ? workingTimeHeader : ""}
+            rows={searchText ? searchInfo : workTimeInfo ? workTimeInfo : ""}
+            disablePagination={true}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

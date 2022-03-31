@@ -4,19 +4,17 @@ import { makeStyles } from "@material-ui/core/styles";
 // import FormHolidaysUpdate from './FormHolidaysUpdate'
 import { getTeamsInformation } from "../actions";
 import { useSelector, useDispatch } from "react-redux";
-import EditIcon from "@mui/icons-material/Edit";
 import FormAddMember from "./FormAddMember";
 import { deleteMember } from "../actions";
 import Box from "@mui/material/Box";
 import { Card } from "@mui/material";
 import { CardContent } from "@mui/material";
 import DataGrid from "../../common/DataGrid";
-import FormUpdateTeam from "./FormUpdateTeam";
 import ModalUpdate from "../../common/ModalUpdate";
-import FormAddTeam from "./FormAddTeam";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { getMemberInformation } from "../actions";
+import { Grid } from "@mui/material";
 
 import {
   QuickSearchToolbar,
@@ -24,6 +22,7 @@ import {
 } from "../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
 import { headers } from "./headersmember";
+
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
     display: "flex",
@@ -141,30 +140,31 @@ const CardTeamMembers = (props) => {
           host={host}
         />
       </ModalUpdate>
+    
       <Box className={classes.box}>
-        <Card>
-          <CardContent className={classes.cardcontant}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                justifyItems: "center",
-                alignItems: "center",
-              }}
+        <Grid container spacing={2} style={{ marginTop: "1px" }}>
+          <Grid item xs={9} sm={7}>
+            <QuickSearchToolbar
+              value={searchText}
+              onChange={(event) => requestSearch(event.target.value)}
+              clearSearch={() => requestSearch("")}
+            />
+          </Grid>
+          <Grid
+            item
+            xs={3}
+            sm={5}
+            style={{ display: "flex", justifyContent: "flex-end" }}
+          >
+            <Button
+              variant="outlined"
+              className={classes.ButtonAdd}
+              onClick={onClickAdd}
             >
-              <QuickSearchToolbar
-                value={searchText}
-                onChange={(event) => requestSearch(event.target.value)}
-                clearSearch={() => requestSearch("")}
-              />
-              <Button
-                variant="outlined"
-                className={classes.ButtonAdd}
-                onClick={onClickAdd}
-              >
-                <pre>+ ADD</pre>
-              </Button>
-            </Box>
+              <pre>+ ADD</pre>
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
             <DataGrid
               sortingOrder={["desc", "asc"]}
               sortModel={sortModel}
@@ -178,8 +178,8 @@ const CardTeamMembers = (props) => {
               headers={Header ? Header : ""}
               rows={searchText ? searchInfo : Info ? Info : ""}
             />
-          </CardContent>
-        </Card>
+          </Grid>
+        </Grid>
       </Box>
     </>
   );

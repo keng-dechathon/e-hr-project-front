@@ -4,9 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { useSelector, useDispatch } from "react-redux";
 import FormLeaveTypeUpdate from "./FormLeaveTypeUpdate";
-import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
-import { CardContent } from "@mui/material";
+import { Grid } from "@mui/material";
+
 import DataGrid from "../../common/DataGrid";
 import EditIcon from "@mui/icons-material/Edit";
 import { GridActionsCellItem } from "@mui/x-data-grid";
@@ -19,7 +18,6 @@ import {
   escapeRegExp,
 } from "../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
-import { Divider } from "@material-ui/core";
 import { headers } from "./headers";
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
@@ -145,7 +143,7 @@ const CardLeaveTypeInformation = () => {
     }
   };
   setDataGrid();
-  
+
   return (
     <>
       <ModalUpdate
@@ -159,21 +157,20 @@ const CardLeaveTypeInformation = () => {
           id={ID}
         />
       </ModalUpdate>
-      <Box className={classes.box}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            justifyItems: "center",
-            alignItems: "center",
-            marginBottom: "15px",
-          }}
-        >
+      <Grid container spacing={2} style={{ marginTop: "1px" }}>
+        <Grid item xs={10} sm={7}>
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}
             clearSearch={() => requestSearch("")}
           />
+        </Grid>
+        <Grid
+          item
+          xs={2}
+          sm={5}
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
           <Button
             variant="outlined"
             className={classes.ButtonAdd}
@@ -181,23 +178,25 @@ const CardLeaveTypeInformation = () => {
           >
             <pre>+ ADD</pre>
           </Button>
-        </Box>
-        <DataGrid
-          sortingOrder={["desc", "asc"]}
-          sortModel={sortModel}
-          onSortModelChange={(model) =>
-            Info.length !== 0 ? setSortModel(model) : ""
-          }
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[10, 20, 50]}
-          pagination
-          disableSelectionOnClick
-          className={classes.datagrid}
-          headers={Header ? Header : ""}
-          rows={searchText ? searchInfo : Info ? Info : ""}
-        />
-      </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <DataGrid
+            sortingOrder={["desc", "asc"]}
+            sortModel={sortModel}
+            onSortModelChange={(model) =>
+              Info.length !== 0 ? setSortModel(model) : ""
+            }
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[10, 20, 50]}
+            pagination
+            disableSelectionOnClick
+            className={classes.datagrid}
+            headers={Header ? Header : ""}
+            rows={searchText ? searchInfo : Info ? Info : ""}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

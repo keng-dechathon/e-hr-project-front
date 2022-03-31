@@ -12,7 +12,7 @@ import CardLeaveReport from "./TabLeave/CardLeaveReport";
 import CardLeaveSummarize from "./TabLeave/CardLeaveSummarize";
 import CardRestOfLeave from "./TabLeave/CardRestOfLeave";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { styled, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 
 const useStyles = makeStyles((theme) => ({
   margintop: {

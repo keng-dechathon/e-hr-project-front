@@ -8,7 +8,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import CardMeetingEdit from './edit/CardMeetingEdit';
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     Topic: {
         marginBottom: '10px',
     },
@@ -46,7 +46,12 @@ const useStyles = makeStyles(() => ({
             padding: ' 24px 0 0 0 !important'
 
         },
-    }
+    },
+    headerTitle: {
+        [theme.breakpoints.down("xs")]: {
+          fontSize: "30px ",
+        },
+      },
 }));
 
 const ContentMeeting = () => {
@@ -61,7 +66,7 @@ const ContentMeeting = () => {
         <>
 
             <Box className={classes.box}>
-                <Typography variant='h3' color='pink' fontWeight='medium'>
+                <Typography variant='h3' color='pink' fontWeight='medium' className={classes.headerTitle}>
                     Meeting Room Booking
                 </Typography>
 

@@ -16,7 +16,7 @@ const useStyles = makeStyles(styles)
 const CardWorkInfo = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const personalData = [], initial = {}
+    const personalData = []
     const { accountInformation } = useSelector(state => state.accountReducer)
 
     const notSet = <Typography variant="body1" fontWeight='light' color='mute' className={classes.maintext}>Not Set</Typography>
@@ -32,11 +32,6 @@ const CardWorkInfo = () => {
         personalData.push({ "title": "User Role", "value": accountInformation.Role ? accountInformation.Role : notSet })
         personalData.push({ "title": "Company", "value": accountInformation.Company ? accountInformation.Company : notSet })
 
-    }
-
-
-    const fileSelectedHandler = event => {
-        console.log(event.target.files[0]);
     }
 
     setDataInfo()

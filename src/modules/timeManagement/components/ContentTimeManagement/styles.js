@@ -1,42 +1,48 @@
-export default () => ({
-    margintop: {
-        marginTop: '40px',
+export default (theme) => ({
+  margintop: {
+    marginTop: "40px",
+  },
+  padding: {
+    padding: "24px",
+  },
+  box: {
+    padding: "40px 40px 0 40px ",
+    [theme.breakpoints.down("xs")]: {
+      padding: "20px 20px  0 20px ",
     },
-    padding:{
-        padding:'24px'
+  },
+  margintop: {
+    marginTop: "10px",
+  },
+  tabitem: {
+    marginRight: "30px !important",
+    padding: "0 !important",
+    minWidth: "100px !important",
+    textTransform: "none !important",
+    fontWeight: "bold !important",
+    fontSize: "18px !important",
+    "&:hover": {
+      color: "#C91F92 !important",
+      opacity: 1,
     },
-    box: {
-        padding: '40px '
+    "&.Mui-selected": {
+      color: "#C91F92 !important",
     },
-    margintop: {
-        marginTop: '10px',
+  },
+  tablist: {
+    "& .MuiTabs-indicator": {
+      backgroundColor: "#C91F92 !important",
     },
-    tabitem: {
-        marginRight: '30px !important',
-        padding: '0 !important',      
-        minWidth: '100px !important',
-        textTransform: 'none !important',
-        fontWeight: 'bold !important',
-        fontSize: '18px !important',
-        '&:hover': {
-            color: '#C91F92 !important',
-            opacity: 1,
-        },
-        '&.Mui-selected': {
-            color: '#C91F92 !important',
-        },
-
+  },
+  padding: {
+    padding: "24px",
+  },
+  tabpanel: {
+    padding: " 16px 0 0 0 !important",
+  },
+  headerTitle: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "30px ",
     },
-    tablist: {
-        '& .MuiTabs-indicator': {
-            backgroundColor: '#C91F92 !important',
-        },       
-    },
-    padding:{
-        padding:'24px'
-    },
-    tabpanel: {
-        padding: ' 16px 0 0 0 !important',
-    }
-})
-
+  },
+});

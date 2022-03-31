@@ -11,7 +11,7 @@ import { CardContent } from "@mui/material";
 import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-
+import { headers } from "./headers";
 import { deleteHoliday } from "../../actions";
 import {
   QuickSearchToolbar,
@@ -20,6 +20,7 @@ import {
 import { Button } from "@mui/material";
 import ModalUpdate from "../../../common/ModalUpdate";
 import moment from "moment";
+import { Grid } from "@mui/material";
 
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
@@ -54,9 +55,27 @@ const CardHoliday = () => {
   ]);
   const headerArray = { Start: "Begin", Holiday_Name: "Name", End: "End" };
 
-  let holidayHeader = React.useMemo(() => []);
+  let holidayHeader = headers;
   let holidayInfo = [];
-
+  holidayHeader[headers.length] = {
+    field: "actions",
+    type: "actions",
+    headerClassName: "bg-light-green",
+    headerName: "Action",
+    width: 90,
+    getActions: (params) => [
+      <GridActionsCellItem
+        icon={<EditIcon />}
+        label="Edit"
+        onClick={onClickUpdate(params.id)}
+      />,
+      <GridActionsCellItem
+        icon={<DeleteForeverIcon />}
+        label="Delete"
+        onClick={onClickDelete(params.id)}
+      />,
+    ],
+  };
   useEffect(() => {
     dispatch(getHolidaysInformation());
   }, []);
@@ -112,72 +131,11 @@ const CardHoliday = () => {
   const setHolidaysDataGrid = () => {
     if (Object.keys(holidaysInformation).length !== 0) {
       holidaysInformation.data.map((item, index) => {
-        if (index === 0) {
-          Object.keys(item).map((name, value) => {
-            if (name === "ID" && headerArray[name]) {
-              holidayHeader[0] = {
-                type: "number",
-                field: name,
-                headerName: headerArray[name],
-                width: "80",
-                headerClassName: "bg-light-green",
-
-                align: "left",
-                headerAlign: "left",
-              };
-            } else if (name === "Start" && headerArray[name]) {
-              holidayHeader[2] = {
-                field: name,
-                headerClassName: "bg-light-green",
-
-                headerName: headerArray[name],
-                flex: 1,
-                sortable: false,
-              };
-            } else if (name === "End" && headerArray[name]) {
-              holidayHeader[3] = {
-                field: name,
-                headerClassName: "bg-light-green",
-
-                headerName: headerArray[name],
-                flex: 1,
-                sortable: false,
-              };
-            } else if (name === "Holiday_Name" && headerArray[name]) {
-              holidayHeader[1] = {
-                field: name,
-                headerClassName: "bg-light-green",
-
-                headerName: headerArray[name],
-                flex: 1,
-                sortable: false,
-              };
-            }
-          });
-        }
+        console.log(item);
         holidayInfo.push(item);
         holidayInfo[index].Start = moment(item.Start).format("D  MMMM");
         holidayInfo[index].End = moment(item.End).format("D  MMMM");
         holidayInfo[index].id = item.ID;
-      });
-      holidayHeader.push({
-        field: "actions",
-        type: "actions",
-        headerClassName: "bg-light-green",
-        headerName: "Action",
-        width: 90,
-        getActions: (params) => [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            onClick={onClickUpdate(params.id)}
-          />,
-          <GridActionsCellItem
-            icon={<DeleteForeverIcon />}
-            label="Delete"
-            onClick={onClickDelete(params.id)}
-          />,
-        ],
       });
     }
   };
@@ -191,47 +149,44 @@ const CardHoliday = () => {
           option={option}
         />
       </ModalUpdate>
-
-      <Box className={classes.box}>
-       
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                justifyItems: "center",
-                alignItems: "center",
-                pt: "10px",
-                pb: "10px",
-              }}
-            >
-              <QuickSearchToolbar
-                value={searchText}
-                onChange={(event) => requestSearch(event.target.value)}
-                clearSearch={() => requestSearch("")}
-              />
-              <Button
-                variant="outlined"
-                className={classes.ButtonAdd}
-                onClick={onClickAdd}
-              >
-                <pre>+ ADD</pre>
-              </Button>
-            </Box>
-            <DataGrid
-              sortingOrder={["desc", "asc"]}
-              sortModel={sortModel}
-              onSortModelChange={(model) =>
-                holidayInfo.length !== 0 ? setSortModel(model) : ""
-              }
-              pageSize={pageSize}
-              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[5, 10, 20, 50]}
-              pagination
-              headers={holidayHeader ? holidayHeader : ""}
-              rows={searchText ? searchInfo : holidayInfo ? holidayInfo : ""}
-            />
-     
-      </Box>
+      <Grid container spacing={2} style={{ marginTop: "1px" }}>
+        <Grid item xs={10} sm={7}>
+          <QuickSearchToolbar
+            value={searchText}
+            onChange={(event) => requestSearch(event.target.value)}
+            clearSearch={() => requestSearch("")}
+          />
+        </Grid>
+        <Grid
+          item
+          xs={2}
+          sm={5}
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
+          <Button
+            variant="outlined"
+            className={classes.ButtonAdd}
+            onClick={onClickAdd}
+          >
+            <pre>+ ADD</pre>
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <DataGrid
+            sortingOrder={["desc", "asc"]}
+            sortModel={sortModel}
+            onSortModelChange={(model) =>
+              holidayInfo.length !== 0 ? setSortModel(model) : ""
+            }
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[5, 10, 20, 50]}
+            pagination
+            headers={holidayHeader ? holidayHeader : ""}
+            rows={searchText ? searchInfo : holidayInfo ? holidayInfo : ""}
+          />
+        </Grid>
+      </Grid>{" "}
     </>
   );
 };
