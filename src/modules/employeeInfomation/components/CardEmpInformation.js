@@ -130,7 +130,7 @@ const CardEmpInformation = (props) => {
     {
       field: "Team_Info",
       headerClassName: "bg-light-green",
-      headerName: "Owner",
+      headerName: "Supervisor",
       minWidth: 230,
       renderCell: renderCellExpand,
       flex: 1,
@@ -341,7 +341,7 @@ const CardEmpInformation = (props) => {
             sortingOrder={["desc", "asc"]}
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={[50, 100]}
+            rowsPerPageOptions={[5,10,50, 100]}
             pagination
             disableSelectionOnClick
             className={classes.datagrid}
