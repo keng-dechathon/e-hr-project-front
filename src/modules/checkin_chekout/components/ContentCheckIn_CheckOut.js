@@ -3,12 +3,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "../../common/Typography/Typography";
 import Box from "@mui/material/Box";
 import CardCheckIn_CheckOut from "./CardCheckIn_CheckOut";
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   Topic: {
     marginBottom: "10px",
   },
   box: {
-    padding: "40px ",
+    padding: "40px 40px 0 40px ",
+    [theme.breakpoints.down("xs")]: {
+      padding: "20px 20px  0 20px ",
+    },
   },
   tabitem: {
     marginRight: "30px !important",
@@ -33,6 +36,11 @@ const useStyles = makeStyles(() => ({
   tabpanel: {
     padding: " 16px 0 !important",
   },
+  headerTitle: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "30px ",
+    },
+  },
 }));
 
 const ContentCheckIn_CheckOut = () => {
@@ -40,7 +48,7 @@ const ContentCheckIn_CheckOut = () => {
 
   return (
     <Box className={classes.box}>
-      <Typography variant="h3" color="pink" fontWeight="medium">
+      <Typography variant="h3" color="pink" fontWeight="medium" className={classes.headerTitle}>
         Checkin - Checkout
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "10px" }}>

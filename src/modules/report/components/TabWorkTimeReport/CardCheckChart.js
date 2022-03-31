@@ -210,7 +210,8 @@ const CardCheckChart = () => {
   };
   const checkIsBetweenDate = () => {
     if (Object.keys(holidaysInformation).length !== 0) {
-      const nowYear = moment(new Date()).format("YYYY");
+      setIsBetween(false);
+      const nowYear = moment(day).format("YYYY");
       holidaysInformation.data.map((item) => {
         const start = new Date(
           moment(moment(item.Start).format("MMM Do ") + nowYear, "MMM Do YYYY")
@@ -221,12 +222,9 @@ const CardCheckChart = () => {
             "MMM Do YYYY"
           ).add(1, "days")
         );
-        const now = day;
         const range = moment().range(start, end);
-        if (range.contains(now)) {
+        if (range.contains(day)) {
           setIsBetween(true);
-        }else{
-          setIsBetween(false);
         }
       });
     }

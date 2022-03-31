@@ -5,20 +5,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import { getDayOffInformation } from "../../actions";
 import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
-import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
-import { CardContent } from "@mui/material";
 import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { getDayOffAmount } from "../../../../utils/miscellaneous";
-// import { deleteDayOff } from '../../actions';
 import { headers } from "./headers";
 import {
   QuickSearchToolbar,
   escapeRegExp,
 } from "../../../common/QuickSearchToolbar/QuickSearchToolbar";
-import { Button } from "@mui/material";
+import { Grid } from "@mui/material";
 import ModalUpdate from "../../../common/ModalUpdate";
 import FormDayOffUpdate from "./FormDayOffUpdate";
 const useStyles = makeStyles(() => ({
@@ -112,33 +106,26 @@ const CardDayOff = () => {
         <FormDayOffUpdate id={nowID} handleClose={handleClose} />
       </ModalUpdate>
 
-      <Box className={classes.box}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            justifyItems: "center",
-            alignItems: "center",
-            pt: "10px",
-            pb: "10px",
-          }}
-        >
+      <Grid container spacing={2} style={{ marginTop: "1px" }}>
+        <Grid item xs={12} sm={7}>
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}
             clearSearch={() => requestSearch("")}
           />
-        </Box>
-        <DataGrid
-          sortingOrder={["desc", "asc"]}
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[5, 10, 20, 50]}
-          pagination
-          headers={Header ? Header : ""}
-          rows={searchText ? searchInfo : Info ? Info : ""}
-        />
-      </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <DataGrid
+            sortingOrder={["desc", "asc"]}
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[5, 10, 20, 50]}
+            pagination
+            headers={Header ? Header : ""}
+            rows={searchText ? searchInfo : Info ? Info : ""}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

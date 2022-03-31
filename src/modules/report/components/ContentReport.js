@@ -11,7 +11,10 @@ import CardWorkTimeReport from "./TabWorkTimeReport/CardWorkTimeReport";
 import CardLeaveReport from "./TabLeave/CardLeaveReport";
 import CardLeaveSummarize from "./TabLeave/CardLeaveSummarize";
 import CardRestOfLeave from "./TabLeave/CardRestOfLeave";
-const useStyles = makeStyles(() => ({
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+
+const useStyles = makeStyles((theme) => ({
   margintop: {
     marginTop: "40px",
   },
@@ -25,9 +28,9 @@ const useStyles = makeStyles(() => ({
     marginTop: "10px",
   },
   tabitem: {
-    marginRight: "10px !important",
+    // marginRight: "10px !important",
     padding: "0 !important",
-    minWidth: "100px !important",
+    // minWidth: "100px !important",
     textTransform: "none !important",
     fontWeight: "bold !important",
     fontSize: "18px !important",
@@ -51,10 +54,24 @@ const useStyles = makeStyles(() => ({
   tabpanel: {
     padding: " 16px 0 0 0 !important",
   },
+  box: {
+    padding: "40px 40px 0 40px ",
+    [theme.breakpoints.down("xs")]: {
+      padding: "20px 20px  0 20px ",
+    },
+  },
+  headerTitle: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "30px ",
+    },
+  },
 }));
 
 const ContentReport = () => {
   const classes = useStyles();
+  const theme = useTheme();
+
+  const breakPoint = useMediaQuery(theme.breakpoints.down(700));
 
   const [value, setValue] = React.useState("1");
 
@@ -64,13 +81,24 @@ const ContentReport = () => {
 
   return (
     <Box className={classes.box}>
-      <Typography variant="h3" color="pink" fontWeight="medium">
+      <Typography
+        variant="h3"
+        color="pink"
+        fontWeight="medium"
+        className={classes.headerTitle}
+      >
         Report
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "10px" }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={handleChange} className={classes.tablist}>
+            <TabList
+              onChange={handleChange}
+              className={classes.tablist}
+              variant="scrollable"
+              scrollButtons={breakPoint}
+              allowScrollButtonsMobile={breakPoint}
+            >
               <Tab label="Work-time" value="1" className={classes.tabitem} />
               <Tab
                 label="Leave request"
@@ -99,7 +127,7 @@ const ContentReport = () => {
             <CardLeaveSummarize />
           </TabPanel>
           <TabPanel value="4" className={classes.tabpanel}>
-            <CardRestOfLeave/>
+            <CardRestOfLeave />
           </TabPanel>
         </TabContext>
       </Box>

@@ -21,6 +21,7 @@ import {
   escapeRegExp,
 } from "../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
+import { Grid } from "@mui/material";
 
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
@@ -164,22 +165,20 @@ const CardTeam = () => {
           <FormUpdateTeam handleClose={handleClose} nowID={nowID} />
         )}
       </ModalUpdate>
-      <Box className={classes.box}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            justifyItems: "center",
-            alignItems: "center",
-            pt: "10px",
-            pb: "10px",
-          }}
-        >
+      <Grid container spacing={2} style={{ marginTop: "1px" }}>
+        <Grid item xs={10} sm={7}>
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}
             clearSearch={() => requestSearch("")}
           />
+        </Grid>
+        <Grid
+          item
+          xs={2}
+          sm={5}
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
           <Button
             variant="outlined"
             className={classes.ButtonAdd}
@@ -187,21 +186,23 @@ const CardTeam = () => {
           >
             <pre>+ ADD</pre>
           </Button>
-        </Box>
-        <DataGrid
-          sortingOrder={["desc", "asc"]}
-          sortModel={sortModel}
-          onSortModelChange={(model) =>
-            Info.length !== 0 ? setSortModel(model) : ""
-          }
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[5, 10, 20, 50]}
-          pagination
-          headers={Header ? Header : ""}
-          rows={searchText ? searchInfo : Info ? Info : ""}
-        />
-      </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <DataGrid
+            sortingOrder={["desc", "asc"]}
+            sortModel={sortModel}
+            onSortModelChange={(model) =>
+              Info.length !== 0 ? setSortModel(model) : ""
+            }
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[5, 10, 20, 50]}
+            pagination
+            headers={Header ? Header : ""}
+            rows={searchText ? searchInfo : Info ? Info : ""}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

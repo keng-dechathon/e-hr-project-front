@@ -1,36 +1,29 @@
 import React, { useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { Grid } from "@mui/material";
 
-import DataGrid from "../../common/DataGridTimeSheet";
 import Select from "@mui/material/Select";
 import SearchIcon from "@mui/icons-material/Search";
 import CardTimeSheet from "./CardTimeSheet";
 import { useSelector, useDispatch } from "react-redux";
-import IconButton from "@mui/material/IconButton";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+
 import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
-import { CardContent } from "@mui/material";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+
 import { Button } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
-import TextField from "@mui/material/TextField";
-import moment from "moment";
-import { InputLabel } from "@mui/material";
+
 import { getTimeSheetById } from "../actions";
 import { getMemberInformation } from "../../team/actions";
 import { getDateFormat } from "../../../utils/miscellaneous";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { GridActionsCellItem } from "@mui/x-data-grid";
+
 import { getTeamByHostInformation } from "../actions";
-import { Stack } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import { FormHelperText } from "@mui/material";
+import { Divider } from "@material-ui/core";
 import AutoComplete from "../../common/AutoComplete";
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   ButtonAdd: {
     display: "flex",
     right: "40px !important",
@@ -45,7 +38,19 @@ const useStyles = makeStyles(() => ({
       paddingBottom: "0 !important",
     },
   },
-  dateButton: {},
+  helpText: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "9px !important",
+    },
+  },
+  divider0: {
+    [theme.breakpoints.up("xs")]: {
+      display: "none ",
+    },
+    [theme.breakpoints.down("xs")]: {
+      display: "flex ",
+    },
+  },
 }));
 
 const CardTimeSheetViewer = () => {
@@ -65,6 +70,8 @@ const CardTimeSheetViewer = () => {
   const [selectStateFilter, setSelectStateFilter] = React.useState("");
   const [filterOption, setFilterOption] = React.useState([]);
   const [resetTextField, setResetTextField] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const members = [];
 
   useEffect(() => {
@@ -98,6 +105,7 @@ const CardTimeSheetViewer = () => {
   };
   const handleClick = () => {
     if (Object.keys(selectState).length !== 0) {
+      setIsLoading(true);
       dispatch(
         getTimeSheetById(
           "",
@@ -123,17 +131,8 @@ const CardTimeSheetViewer = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>
-        <div
-          style={{
-            display: "inline-block !important",
-            position: "relative !important",
-            width: "100%",
-            height: "40px",
-            marginBottom: "30px",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Stack direction="row" spacing={2}>
+        <Grid container spacing={2}>
+          <Grid item xs={7} sm={5}>
             {selectStateFilter === "" ||
             Object.keys(memberInformation).length !== 0 ? (
               <div>
@@ -146,62 +145,78 @@ const CardTimeSheetViewer = () => {
                   defaultValue={false}
                   multiple={false}
                   resetTextField={resetTextField}
-                  style={{ backgroundColor: "white", minWidth: "400px" }}
+                  style={{ backgroundColor: "white", width: "100%" }}
                 />
-                <FormHelperText>
+                <FormHelperText className={classes.helpText}>
                   Select a Employee name to review Timesheet.{" "}
                 </FormHelperText>
               </div>
             ) : (
               ""
             )}
-
-            <div>
-              <Select
-                value={selectStateFilter}
-                onChange={handleChangeSelect}
-                displayEmpty
-                size="small"
-                inputProps={{ "aria-label": "Without label" }}
-                style={{ backgroundColor: "white", minWidth: "100px" }}
-                placeholder="Your have no team."
-              >
-                {Object.keys(teamByHostInformation).length !== 0 ? (
-                  teamByHostInformation.data.length !== 0 ? (
-                    filterOption.map((item) => {
-                      return (
-                        <MenuItem value={item.Team_id} key={item.Team_id}>
-                          {item.Teamname}
-                        </MenuItem>
-                      );
-                    })
-                  ) : (
-                    <MenuItem disabled value="">
-                      <em>Your have no team.</em>
-                    </MenuItem>
-                  )
+          </Grid>
+          <Grid item xs={3} sm={2}>
+            <Select
+              value={selectStateFilter}
+              onChange={handleChangeSelect}
+              displayEmpty
+              size="small"
+              inputProps={{ "aria-label": "Without label" }}
+              style={{
+                backgroundColor: "white",
+                minWidth: "100px",
+                width: "100%",
+              }}
+              placeholder="Your have no team."
+            >
+              {Object.keys(teamByHostInformation).length !== 0 ? (
+                teamByHostInformation.data.length !== 0 ? (
+                  filterOption.map((item) => {
+                    return (
+                      <MenuItem value={item.Team_id} key={item.Team_id}>
+                        {item.Teamname}
+                      </MenuItem>
+                    );
+                  })
                 ) : (
-                  ""
-                )}
-              </Select>
-            </div>
+                  <MenuItem disabled value="">
+                    <em>Your have no team.</em>
+                  </MenuItem>
+                )
+              ) : (
+                ""
+              )}
+            </Select>
+            <FormHelperText className={classes.helpText}>
+              Select a Team.{" "}
+            </FormHelperText>
+          </Grid>
+          <Grid item xs={2} sm={1}>
             <Button
               variant="contained"
               endIcon={<SearchIcon />}
-              style={{ height: "40px" }}
+              style={{ height: "40px", width: "100%" }}
               color="secondary"
               onClick={handleClick}
             >
               GO
             </Button>
-          </Stack>
-        </div>
-
-        <CardTimeSheet
-          id={
-            Object.keys(selectState).length !== 0 ? String(selectState.id) : ""
-          }
-        />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <Divider className={classes.divider0} />
+          </Grid>
+          <Grid item xs={12} style={{ paddingTop: "13px" }}>
+            <CardTimeSheet
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              id={
+                Object.keys(selectState).length !== 0
+                  ? String(selectState.id)
+                  : ""
+              }
+            />
+          </Grid>
+        </Grid>
       </Box>
     </LocalizationProvider>
   );

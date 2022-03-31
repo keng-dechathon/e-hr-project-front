@@ -35,10 +35,24 @@ export default function App() {
     <Router>
       <Fragment>
         <Routes>
+          <Route exact path="/" element={<PrivateRoute />}>
+            <Route path="/" element={<SignIn />} />
+          </Route>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/sign-out" element={<SignOut />} />
+          <Route exact path="/" element={<PrivateRoute />}>
+            <Route
+              exact
+              path="/news"
+              element={
+                <MainLayout title="News">
+                  <News />
+                </MainLayout>
+              }
+            />
+          </Route>
           <Route exact path="/home" element={<PrivateRoute />}>
             <Route
               exact

@@ -182,7 +182,8 @@ const CardLeaveSummarize = () => {
   };
   const checkIsBetweenDate = () => {
     if (Object.keys(holidaysInformation).length !== 0) {
-      const nowYear = moment(new Date()).format("YYYY");
+      setIsBetween(false);
+      const nowYear = moment(day).format("YYYY");
       holidaysInformation.data.map((item) => {
         const start = new Date(
           moment(moment(item.Start).format("MMM Do ") + nowYear, "MMM Do YYYY")
@@ -193,12 +194,9 @@ const CardLeaveSummarize = () => {
             "MMM Do YYYY"
           ).add(1, "days")
         );
-        const now = day;
         const range = moment().range(start, end);
-        if (range.contains(now)) {
+        if (range.contains(day)) {
           setIsBetween(true);
-        } else {
-          setIsBetween(false);
         }
       });
     }
@@ -325,14 +323,15 @@ const CardLeaveSummarize = () => {
               </Typography>
               <Divider style={{ marginTop: "10px" }} />
             </Grid> */}
-          <Grid item xs={12}>
+          <Grid item xs={12}  style={{marginTop: "15px",}}>
             <QuickSearchToolbar
               value={searchText}
+              style={{maxWidth:"500px"}}
               onChange={(event) => requestSearch(event.target.value)}
               clearSearch={() => requestSearch("")}
             />
           </Grid>
-          <Grid item sm={12} md={7} className={classes.paddingTop}>
+          <Grid item sm={12} md={7}  style={{width:"100%"}}>
             <Stack direction="row" className={classes.daySearch}>
               <Button
                 variant="contained"
@@ -393,8 +392,7 @@ const CardLeaveSummarize = () => {
             item
             sm={12}
             md={5}
-            style={{ width: "100%" }}
-            className={classes.paddingTop2}
+            style={{ width: "100%" }}          
           >
             <Stack direction="row" spacing={1} className={classes.ButtonAdd}>
               <Button

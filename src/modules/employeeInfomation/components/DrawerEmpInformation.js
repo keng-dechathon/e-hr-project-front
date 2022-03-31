@@ -22,6 +22,8 @@ import { empMgnt } from "./path";
 import CardLeaveInfomation from "./CardLeaveInformation";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 const useStyles = makeStyles((theme) => ({
   ButtonAdd: {
     display: "flex",
@@ -84,16 +86,19 @@ const useStyles = makeStyles((theme) => ({
     top: "10px",
     right: "10px !important",
     position: "fixed",
-    marginRight:"15px",
+    marginRight: "15px",
   },
 }));
 
 const DrawerEmpInformation = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const theme = useTheme();
+
   const { open, setOpen, ID } = props;
   const { empInformationByID } = useSelector((state) => state.employeeReducer);
   const [value, setValue] = React.useState("1");
+  const breakPoint = useMediaQuery(theme.breakpoints.down(700));
 
   useEffect(() => {
     if (open === true && ID) dispatch(getEmployeeInformtionByID("", "", ID));
@@ -107,10 +112,7 @@ const DrawerEmpInformation = (props) => {
       return;
     }
     setOpen(open);
-  };
-
-  const dispatchEmp = () => {
-    dispatch(getEmployeeInformtionByID("", "", ID));
+    setValue("1");
   };
 
   const handleChange = (event, newValue) => {
@@ -162,7 +164,11 @@ const DrawerEmpInformation = (props) => {
               </Typography>
             </div>
             <div className={classes.closeButton}>
-              <IconButton color="primary" size="large" onClick={toggleDrawer(false)}>
+              <IconButton
+                color="primary"
+                size="large"
+                onClick={toggleDrawer(false)}
+              >
                 <CloseIcon />
               </IconButton>
             </div>
@@ -170,7 +176,13 @@ const DrawerEmpInformation = (props) => {
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               {isPath(empMgnt) ? (
-                <TabList onChange={handleChange} className={classes.tablist}>
+                <TabList
+                  onChange={handleChange}
+                  className={classes.tablist}
+                  variant="scrollable"
+                  scrollButtons={breakPoint}
+                  allowScrollButtonsMobile={breakPoint}
+                >
                   <Tab label="Profile" value="1" className={classes.tabitem} />
                   <Tab
                     label="Leave Information"

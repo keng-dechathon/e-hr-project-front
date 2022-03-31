@@ -7,11 +7,11 @@ import { useSelector, useDispatch } from "react-redux";
 import Chip from "@mui/material/Chip";
 import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
-import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
-import { CardContent } from "@mui/material";
+import renderCellExpand from "../../common/DataGridTimeSheet/renderCellExpand";
 import DataGrid from "../../common/DataGrid";
 import Avatar from "@mui/material/Avatar";
+import { Grid } from "@mui/material";
+
 import DrawerEmpInformation from "./DrawerEmpInformation";
 import Typography from "../../common/Typography/Typography";
 import { GridActionsCellItem } from "@mui/x-data-grid";
@@ -108,55 +108,31 @@ const CardEmpInformation = (props) => {
         </div>
       ),
       flex: 1,
+      minWidth: 230,
       sortable: false,
     },
     {
       field: "Position",
       headerClassName: "bg-light-green",
       headerName: "Position",
-      minWidth: "200",
+      flex: 1,
+      minWidth: 130,
+      renderCell: renderCellExpand,
     },
     {
       field: "Company",
       headerClassName: "bg-light-green",
-      minWidth: "200",
+      flex: 1,
       headerName: "Company",
+      minWidth: 130,
+      renderCell: renderCellExpand,
     },
     {
       field: "Team_Info",
       headerClassName: "bg-light-green",
       headerName: "Owner",
-      renderCell: (params) => (
-        <div>
-          {params.value &&
-            params.value.map((item, index) =>
-              index === 0 ? (
-                <div
-                  style={{ display: "flex", alignItems: "center" }}
-                  key={index}
-                >
-                  <Avatar
-                    alt={params.value[0].HostName}
-                    src={params.value[0].HostImg}
-                    sx={{
-                      width: 28,
-                      height: 28,
-                      bgcolor: avatarColor[6],
-                    }}
-                  />
-                  <Typography
-                    variant="subtitle2"
-                    style={{ marginLeft: "15px" }}
-                  >
-                    {item.HostName}
-                  </Typography>
-                </div>
-              ) : (
-                ""
-              )
-            )}
-        </div>
-      ),
+      minWidth: 230,
+      renderCell: renderCellExpand,
       flex: 1,
       sortable: false,
     },
@@ -165,7 +141,7 @@ const CardEmpInformation = (props) => {
       headerClassName: "bg-light-green",
       headerName: "Status",
       minWidth: "150",
-      align:'center',
+      align: "center",
       renderCell: (params) => (
         <div style={{ display: "flex", alignItems: "center" }}>
           {
@@ -255,12 +231,24 @@ const CardEmpInformation = (props) => {
   const setDataGrid = () => {
     if (Object.keys(empInformation).length !== 0) {
       empInformation.data.map((item, index) => {
+        let hostString = "";
+
+        item.Team_Info.map((temp) => {
+          hostString += temp.HostName;
+          hostString += ",";
+          hostString += " ";
+        });
+
+        hostString = String(hostString).substring(0, hostString.length - 2);
+
+        if (hostString.length === 0 || hostString === "") hostString = "-";
+
         Info[index] = {};
         Info[index].Img = item.Img;
         Info[index].Name = item.Name;
         Info[index].Position = item.Position;
         Info[index].Company = item.Company;
-        Info[index].Team_Info = item.Team_Info;
+        Info[index].Team_Info = hostString;
         Info[index].Active_Status = item.Active_Status;
         Info[index].id = item.Emp_id;
       });
@@ -324,21 +312,20 @@ const CardEmpInformation = (props) => {
       >
         <FormAddEmployee handleClose={handleClose} />
       </ModalUpdate>
-      <Box className={classes.box}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            justifyItems: "center",
-            alignItems: "center",
-            pb: "10px",
-          }}
-        >
+      <Grid container spacing={2} style={{ marginTop: "1px" }}>
+        <Grid item xs={isPath(empInfoPath) ? 12 : 10} sm={6}>
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}
             clearSearch={() => requestSearch("")}
           />
+        </Grid>
+        <Grid
+          item
+          xs={2}
+          sm={6}
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
           {isPath(empMgnt) && (
             <Button
               variant="outlined"
@@ -348,19 +335,21 @@ const CardEmpInformation = (props) => {
               <pre>+ ADD</pre>
             </Button>
           )}
-        </Box>
-        <DataGrid
-          sortingOrder={["desc", "asc"]}
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[50,100]}
-          pagination
-          disableSelectionOnClick
-          className={classes.datagrid}
-          headers={Header ? Header : ""}
-          rows={searchText ? searchInfo : Info ? Info : ""}
-        />
-      </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <DataGrid
+            sortingOrder={["desc", "asc"]}
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[50, 100]}
+            pagination
+            disableSelectionOnClick
+            className={classes.datagrid}
+            headers={Header ? Header : ""}
+            rows={searchText ? searchInfo : Info ? Info : ""}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

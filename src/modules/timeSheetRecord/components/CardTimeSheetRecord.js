@@ -31,11 +31,13 @@ import { getHolidaysInformation } from "../../timeManagement/actions";
 import { Stack } from "@mui/material";
 import { getCookieFromBrowser, removeCookie } from "../../../utils/cookie";
 import { updateTimeSheet } from "../actions";
-const useStyles = makeStyles(() => ({
+import { Grid } from "@mui/material";
+const useStyles = makeStyles((theme) => ({
   ButtonAdd: {
-    display: "flex",
-    right: "40px !important",
-    position: "absolute  !important",
+    minWidth: "110px",
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
   },
   box: {
     marginTop: "20px",
@@ -52,12 +54,20 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
     alignItems: "center",
     marginLeft: "10px",
+    [theme.breakpoints.down(900)]: {
+      display: "none ",
+    },
   },
   normal: {
     backgroundColor: "#8bc34a !important",
   },
   holiday: {
     backgroundColor: "#2196f3 !important",
+  },
+  datePicker: {
+    [theme.breakpoints.down(900)]: {
+      width: "100% ",
+    },
   },
 }));
 const moment = extendMoment(Moment);
@@ -73,13 +83,16 @@ const CardTimeSheetRecord = () => {
   const [day, setDay] = useState(new Date());
   const [deleteID, setDeleteID] = useState("");
   const [isBetween, setIsBetween] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     checkTimeSheetCookie();
     dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
     dispatch(getHolidaysInformation());
   }, []);
   useEffect(() => {
+    setIsLoading(true);
     checkTimeSheetCookie();
     dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
     dispatch(updateDateState(getDateFormat(day)));
@@ -100,7 +113,9 @@ const CardTimeSheetRecord = () => {
     setIsBetween(false);
     checkIsBetweenDate();
   }, [holidaysInformation, day]);
-
+  useEffect(() => {
+    setIsLoading(false);
+  }, [timesheetByDate]);
   const onClickDelete = React.useCallback(
     (id) => () => {
       setDeleteID(id);
@@ -198,6 +213,7 @@ const CardTimeSheetRecord = () => {
   };
   const checkIsBetweenDate = () => {
     if (Object.keys(holidaysInformation).length !== 0) {
+      setIsBetween(false);
       const nowYear = moment(day).format("YYYY");
       holidaysInformation.data.map((item) => {
         const start = new Date(
@@ -209,12 +225,9 @@ const CardTimeSheetRecord = () => {
             "MMM Do YYYY"
           ).add(1, "days")
         );
-        const now = day;
         const range = moment().range(start, end);
-        if (range.contains(now)) {
+        if (range.contains(day)) {
           setIsBetween(true);
-        }else{
-          setIsBetween(false);
         }
       });
     }
@@ -223,64 +236,72 @@ const CardTimeSheetRecord = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>
-        <div
-          style={{
-            display: "inline-block !important",
-            position: "relative !important",
-            width: "100%",
-            height: "40px",
-            marginBottom: "15px",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Stack direction="row" style={{ alignItems: "center" }}>
-            <Button
-              variant="contained"
-              className={isBetween ? classes.holiday : classes.normal}
-              onClick={setToDay}
+        <Grid container spacing={2}>
+          <Grid item xs={9} sm={7}>
+            <Stack
+              direction="row"
+              style={{ alignItems: "center", width: "100%" }}
             >
-              <pre>TODAY</pre>
-            </Button>
-            <IconButton
-              color="primary"
-              aria-label="before"
-              component="span"
-              onClick={setBeforeDate}
-            >
-              <KeyboardArrowLeftIcon />
-            </IconButton>
-            <IconButton
-              color="primary"
-              aria-label="before"
-              component="span"
-              onClick={setNextDate}
-            >
-              <ChevronRightIcon />
-            </IconButton>
-            <DatePicker
-              value={day}
-              inputFormat="dd/MM/yyyy"
-              onChange={(newValue) => {
-                setDay(newValue);
-              }}
-              renderInput={(params) => <TextField size="small" {...params} />}
-            />
-            {isBetween ? (
-              <Typography
-                variant="subtitle1"
-                color="mute"
-                className={classes.attention}
+              <Button
+                variant="contained"
+                className={isBetween ? classes.holiday : classes.normal}
+                onClick={setToDay}
               >
-                <ErrorOutlineIcon
-                  fontSize="small"
-                  style={{ marginRight: "5px" }}
-                />
-                This day is holiday
-              </Typography>
-            ) : (
-              ""
-            )}
-
+                <pre>TODAY</pre>
+              </Button>
+              <IconButton
+                color="primary"
+                aria-label="before"
+                component="span"
+                onClick={setBeforeDate}
+              >
+                <KeyboardArrowLeftIcon />
+              </IconButton>
+              <IconButton
+                color="primary"
+                aria-label="before"
+                component="span"
+                onClick={setNextDate}
+              >
+                <ChevronRightIcon />
+              </IconButton>
+              <DatePicker
+                value={day}
+                inputFormat="dd/MM/yyyy"
+                onChange={(newValue) => {
+                  setDay(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    size="small"
+                    {...params}
+                    className={classes.datePicker}
+                  />
+                )}
+              />
+              {isBetween ? (
+                <Typography
+                  variant="subtitle1"
+                  color="mute"
+                  className={classes.attention}
+                >
+                  <ErrorOutlineIcon
+                    fontSize="small"
+                    style={{ marginRight: "5px" }}
+                  />
+                  This day is holiday
+                </Typography>
+              ) : (
+                ""
+              )}
+            </Stack>
+          </Grid>
+          <Grid
+            item
+            xs={3}
+            sm={5}
+            style={{ display: "flex", justifyContent: "flex-end" }}
+          >
             <Button
               variant="outlined"
               className={classes.ButtonAdd}
@@ -288,9 +309,17 @@ const CardTimeSheetRecord = () => {
             >
               <pre>+ ADD</pre>
             </Button>
-          </Stack>
-        </div>
-        <DataGrid rowHeight={40} headers={header} rows={Info} />
+          </Grid>
+          <Grid item xs={12} style={{ width: "100%" }}>
+            <DataGrid
+              loading={isLoading}
+              rowHeight={40}
+              headers={header}
+              rows={Info}
+              pageSize={100}
+            />
+          </Grid>
+        </Grid>
       </Box>
     </LocalizationProvider>
   );

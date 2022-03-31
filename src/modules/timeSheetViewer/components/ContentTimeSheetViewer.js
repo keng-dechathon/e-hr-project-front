@@ -4,7 +4,7 @@ import Typography from "../../common/Typography/Typography";
 import Box from "@mui/material/Box";
 import CardTimeSheetViewer from "./CardTimeSheetViewer";
 import { Divider } from "@mui/material";
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   margintop: {
     marginTop: "40px",
   },
@@ -12,7 +12,15 @@ const useStyles = makeStyles(() => ({
     padding: "24px",
   },
   box: {
-    padding: "40px ",
+    padding: "40px 40px 0 40px ",
+    [theme.breakpoints.down("xs")]: {
+      padding: "20px 20px  0 20px ",
+    },
+  },
+  headerTitle: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "30px ",
+    },
   },
 }));
 
@@ -21,12 +29,17 @@ const ContentTimeSheetViewer = () => {
 
   return (
     <Box className={classes.box}>
-      <Typography variant="h3" color="pink" fontWeight="medium">
+      <Typography
+        variant="h3"
+        color="pink"
+        fontWeight="medium"
+        className={classes.headerTitle}
+      >
         Time Sheet Viewer
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "15px" }}>
-        <Divider/>
-        <CardTimeSheetViewer/>
+        <Divider />
+        <CardTimeSheetViewer />
       </Box>
     </Box>
   );
