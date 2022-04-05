@@ -16,6 +16,9 @@ import { navHeight } from "../../../layout/components/Attribute";
 const useStyles = makeStyles((theme) => ({
   box: {
     padding: "40px 80px",
+    [theme.breakpoints.down("sm")]: {
+      padding: "20px 40px",
+    },
     [theme.breakpoints.down("xs")]: {
       padding: "0px",
     },
@@ -37,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
       padding: "20px",
       height: `calc(100% - ${navHeight} - 20px)` ,
     },
+    [theme.breakpoints.down("sm")]: {
+      padding: "20px 40px",
+    },
   },
   img: {
     display: "flex  !important",
@@ -53,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
     color: "white !important ",
     [theme.breakpoints.down("xs")]: {
       width: "70% !important",
+      height: "200px  !important",
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "80% !important",
       height: "200px  !important",
     },
   },

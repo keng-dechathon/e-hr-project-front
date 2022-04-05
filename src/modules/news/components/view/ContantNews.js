@@ -77,6 +77,7 @@ const ContantNews = () => {
     ) {
       newsInformation.data.map((value, index) => {
         items.push(value);
+        if(items.length!==0)items.reverse()
       });
     }
   };

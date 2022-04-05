@@ -73,13 +73,13 @@ const CardWorkTimeReport = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Grid container spacing={2}>
-        <Grid item sm={12} md={9}  style={{width:"100%"}}>
+        <Grid item xs={12} sm={12} md={9}  style={{width:"100%"}}>
           <CardCheckChart />
         </Grid>
-        <Grid item sm={12} md={3} style={{width:"100%"}}>
+        <Grid item xs={12} sm={12} md={3} style={{width:"100%"}}>
           <CardCheckCount />
         </Grid>
-        <Grid item sm={12}  style={{width:"100%"}}>
+        <Grid item xs={12} sm={12}  style={{width:"100%"}}>
           <CardTable />
         </Grid>
       </Grid>

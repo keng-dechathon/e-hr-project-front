@@ -60,23 +60,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CardNewsList = ({ items }) => {
+const CardNewsList = ({ items,isLoading }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllNewsInformation());
   }, []);
-
-  const headerArray = {
-    News_id: "ID",
-    Img: "Image",
-    Topic: "Name",
-    Detail: "Description",
-    Date: "Create at",
-    Start: "Begin at",
-    End: "Expire at",
-  };
 
   let newsHeader = headers;
   let newsInfo = [];
@@ -88,14 +78,15 @@ const CardNewsList = ({ items }) => {
   const [deleteID, setDeleteID] = useState("");
   const [searchText, setSearchText] = useState("");
   const [option, setOption] = useState("");
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(10);
   const [sortModel, setSortModel] = useState([
     {
       field: "News_id",
       sort: "desc",
     },
   ]);
-  newsHeader.push({
+
+  newsHeader[headers.length] = {
     field: "actions",
     type: "actions",
     headerName: "Action",
@@ -113,7 +104,7 @@ const CardNewsList = ({ items }) => {
         onClick={deletesNews(params.id)}
       />,
     ],
-  });
+  };
   const handleClose = () => {
     setIsEdit(false);
   };
@@ -139,7 +130,6 @@ const CardNewsList = ({ items }) => {
     setOption("add");
     setIsEdit(true);
   };
-
   useEffect(() => {
     if (deleteID !== "" && isDelete) {
       const onDelete = async (id) => {
@@ -159,6 +149,7 @@ const CardNewsList = ({ items }) => {
         newsInfo.push(item);
         newsInfo[index].id = item.News_id;
       });
+      if (newsInfo.length !== 0) newsInfo.reverse();
     }
   };
 
@@ -177,7 +168,6 @@ const CardNewsList = ({ items }) => {
   };
 
   setNewsDataGrid();
-  console.log(sortModel);
   return (
     <>
       <ModalUpdate open={isEdit} handleClose={handleClose} title="News Update">
@@ -214,8 +204,9 @@ const CardNewsList = ({ items }) => {
             }
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={[5, 10, 20, 50]}
+            rowsPerPageOptions={[10, 20, 50]}
             headers={newsHeader ? newsHeader : ""}
+            loading={isLoading}
             rows={searchText ? searchInfo : newsInfo ? newsInfo : ""}
             rowHeight={90}
           />

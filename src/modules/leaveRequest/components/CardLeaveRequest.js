@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     [theme.breakpoints.down("xs")]: {
       width: "100%",
-      fontSize:"10px !important",
+      fontSize: "10px !important",
     },
   },
   box: {
@@ -57,8 +57,12 @@ const CardLeaveRequest = () => {
     (state) => state.leaveReducer
   );
   useEffect(() => {
+    setIsLoading(true)
     dispatch(getLeaveRequestInformation());
   }, []);
+  useEffect(() => {
+    setIsLoading(false);
+  }, [leaveRequestInformation]);
   const [option, setOption] = useState("");
   const [open, setOpen] = useState(false);
   const [openCancle, setOpenCancle] = useState(false);
@@ -74,6 +78,7 @@ const CardLeaveRequest = () => {
       sort: "desc",
     },
   ]);
+  const [isLoading, setIsLoading] = useState(false);
 
   let Header = headers;
   let Info = [];
@@ -181,7 +186,7 @@ const CardLeaveRequest = () => {
         />
       </ModalUpdate>
 
-      <Grid container spacing={2} style={{ marginTop: "1px" }}>
+      <Grid container spacing={2} style={{ marginTop: "15px" }}>
         <Grid item xs={10} sm={7}>
           {" "}
           <QuickSearchToolbar
@@ -215,6 +220,7 @@ const CardLeaveRequest = () => {
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[10, 20, 50]}
             pagination
+            loading={isLoading}
             disableSelectionOnClick
             className={classes.datagrid}
             headers={Header ? Header : ""}

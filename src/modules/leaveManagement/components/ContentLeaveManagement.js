@@ -9,12 +9,15 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CardLeaveInformation from "./TabLeaveInformation/CardLeaveInformation";
 import { Divider } from "@mui/material";
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   Topic: {
     marginBottom: "10px",
   },
   box: {
-    padding: "40px ",
+    padding: "40px 40px 0 40px ",
+    [theme.breakpoints.down("xs")]: {
+      padding: "20px 20px  0 20px ",
+    },
   },
   tabitem: {
     marginRight: "30px !important",
@@ -41,6 +44,11 @@ const useStyles = makeStyles(() => ({
       padding: "0px",
     },
   },
+  headerTitle: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "30px ",
+    },
+  },
 }));
 
 const ContentLeaveManagement = () => {
@@ -54,7 +62,7 @@ const ContentLeaveManagement = () => {
 
   return (
     <Box className={classes.box}>
-      <Typography variant="h3" color="pink" fontWeight="medium">
+      <Typography variant="h3" color="pink" fontWeight="medium" className={classes.headerTitle}>
         Leave Management
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "10px" }}>

@@ -147,12 +147,19 @@ const CardCheckIn_CheckOut = () => {
   const [day, setDay] = useState(new Date());
   const [showType, setShowType] = useState("Day");
   const [pageSize, setPageSize] = useState(10);
+  const [isLoading, setIsLoading] = useState(false);
+
   let Header = headers;
   let Info = [];
+
   useEffect(() => {
     checkIsBetweenDate();
   }, [holidaysInformation, day]);
   useEffect(() => {
+    setIsLoading(false);
+  }, [checkInformation]);
+  useEffect(() => {
+    setIsLoading(true);
     if (Object.keys(accountInformation).length !== 0) {
       dispatch(
         getCheckInformation(
@@ -348,12 +355,7 @@ const CardCheckIn_CheckOut = () => {
               )}
             </Stack>
           </Grid>
-          <Grid
-            item
-            sm={12}
-            md={5}
-            style={{ width: "100%" }}
-          >
+          <Grid item sm={12} md={5} style={{ width: "100%" }}>
             <Stack direction="row" spacing={1} className={classes.ButtonAdd}>
               <Button
                 variant={showType === "Day" ? "outlined" : "contained"}
@@ -390,6 +392,7 @@ const CardCheckIn_CheckOut = () => {
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
               rowsPerPageOptions={[10, 20, 50]}
               pagination
+              loading={isLoading}
               className={classes.datagrid}
               disableSelectionOnClick
               headers={Header ? Header : ""}
