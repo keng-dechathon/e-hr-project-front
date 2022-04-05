@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -60,17 +60,20 @@ const ContantNewsManagement = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const [value, setValue] = React.useState("1");
-  let items = [];
-  const { allNewsInformation } = useSelector((state) => state.newsReducer);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const [isLoading, setIsLoading] = useState(false);
 
+  let items = [];
+  
+  const { allNewsInformation } = useSelector((state) => state.newsReducer);
+ 
   useEffect(() => {
+    setIsLoading(true)
     dispatch(getAllNewsInformation());
   }, []);
-
+  useEffect(() => {
+    setIsLoading(false)
+  }, [allNewsInformation]);
+console.log(allNewsInformation);
   const createNewsItem = () => {
     if (
       Object.keys(allNewsInformation).length !== 0 &&
@@ -102,7 +105,7 @@ const ContantNewsManagement = () => {
           }}
         >
           <Divider />
-          <CardNewsList items={items} />
+          <CardNewsList items={items} isLoading={isLoading}/>
         </Box>
       </Box>
     </>

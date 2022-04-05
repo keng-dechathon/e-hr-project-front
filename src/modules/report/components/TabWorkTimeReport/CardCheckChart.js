@@ -97,13 +97,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   attention2: {  
-    [theme.breakpoints.up(900)]: {
+    [theme.breakpoints.up(1200)]: {
       display: "flex",
       justifyContent: "left",
       alignItems: "center",
       marginLeft:"15px",
     },
-    [theme.breakpoints.down(900)]: {
+    [theme.breakpoints.down(1200)]: {
       display: "none",
     },
   },
@@ -121,12 +121,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   typeBT:{
-    [theme.breakpoints.down(900)]: {
+    [theme.breakpoints.down(1200)]: {
       width: "100%",
     },
   },
   datePicker:{
-    [theme.breakpoints.down(900)]: {
+    [theme.breakpoints.down(1200)]: {
       width: "100%",
     },
   }
@@ -263,7 +263,7 @@ const CardCheckChart = () => {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Card style={{ padding: "15px" }}>
         <Grid container spacing={2}>
-          <Grid item sm={12} md={8}>
+          <Grid item xs={12} sm={12} md={12} lg={8}>
             <Stack direction="row" className={classes.daySearch}>
               <Button
                 variant="contained"
@@ -311,7 +311,7 @@ const CardCheckChart = () => {
             )}
             </Stack>
           </Grid>        
-          <Grid item sm={12} md={4} style={{ width: "100%" }}>
+          <Grid item xs={12} sm={12} md={12} lg={4} style={{ width: "100%" }}>
             <Stack direction="row" spacing={1} className={classes.ButtonAdd}>
               <Button
                 variant={showType === "Day" ? "outlined" : "contained"}

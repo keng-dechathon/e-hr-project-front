@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import FormChargeCodeUpdate from "./FormChargeCodeUpdate";
-import { useSelector, useDispatch } from "react-redux";
-import EditIcon from "@mui/icons-material/Edit";
 
-import DataGrid from "../../../common/DataGrid";
-import { GridActionsCellItem } from "@mui/x-data-grid";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { useSelector, useDispatch } from "react-redux";
+// import FormLeaveTypeUpdate from "./FormLeaveTypeUpdate";
 import { Grid } from "@mui/material";
 
+import DataGrid from "../../common/DataGrid";
+import EditIcon from "@mui/icons-material/Edit";
+import { GridActionsCellItem } from "@mui/x-data-grid";
+import { getMyExpenseRequest } from "../actions";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import ModalUpdate from "../../common/ModalUpdate";
+import { cancleExpenseRequest } from "../actions";
+import FormExpensRequest from "./FormExpensRequest";
 import {
   QuickSearchToolbar,
   escapeRegExp,
-} from "../../../common/QuickSearchToolbar/QuickSearchToolbar";
+} from "../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
-import ModalUpdate from "../../../common/ModalUpdate";
-import { getChargeCode, deleteChargeCode } from "../../actions";
 import { headers } from "./headers";
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   ButtonAdd: {
     display: "flex",
-    [theme.breakpoints.down("xs")]: {
-      height: "100%",
-    },
+  },
+  box: {
+    marginTop: "20px",
   },
   cardcontant: {
     padding: 0,
@@ -33,67 +35,81 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CardChargeCode = () => {
+const CardExpenseRequest = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { chargeCodeInformation } = useSelector(
-    (state) => state.timeSheetMngReducer
+  const { myExpenseInformation } = useSelector(
+    (state) => state.expenseRequestReducer
   );
-  console.log(chargeCodeInformation);
-  const [nowID, setNowID] = useState("");
-  const [open, setopen] = useState(false);
-  const [deleteID, setDeleteID] = useState("");
+
+  const [option, setOption] = useState("");
+  const [open, setOpen] = useState(false);
+  const [ID, setID] = useState("");
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
-  const [option, setOption] = useState("");
   const [pageSize, setPageSize] = useState(10);
+  const [deleteID, setDeleteID] = useState("");
+
   const [sortModel, setSortModel] = useState([
     {
-      field: "id",
+      field: "ID",
       sort: "desc",
     },
   ]);
-  const [isLoading, setIsLoading] = useState(false);
 
   let Header = headers;
   let Info = [];
-  Header[2] = {
+
+  Header[headers.length] = {
     field: "actions",
     type: "actions",
-    width: 90,
-    headerName: "Action",
     headerClassName: "bg-light-green",
-    getActions: (params) => [
-      <GridActionsCellItem
-        icon={<EditIcon />}
-        label="Edit"
-        onClick={onClickUpdate(params.id)}
-      />,
-      <GridActionsCellItem
-        icon={<DeleteIcon />}
-        label="Delete"
-        onClick={onClickDelete(params.id)}
-      />,
-    ],
+    headerName: "Action",
+    width: 90,
+    renderCell: (cellValues) => {
+      return (
+        <Button
+          variant="outlined"
+          style={{ border: "none" }}
+          // onClick={(event) => {
+          //   handleClickCancle(event, cellValues);
+          // }}
+          disabled={cellValues.row.status !== "Requested" ? true : false}
+        >
+          Cancle
+        </Button>
+      );
+    },
   };
+
   useEffect(() => {
-    setIsLoading(true);
-    dispatch(getChargeCode());
+    dispatch(getMyExpenseRequest());
   }, []);
-  useEffect(() => {
-    setIsLoading(false);
-  }, [chargeCodeInformation]);
+  console.log(myExpenseInformation);
   useEffect(() => {
     if (deleteID !== "") {
       const onDelete = async (id) => {
-        await deleteChargeCode(String(id));
-        dispatch(getChargeCode());
+        // await deleteLeaveType([String(id)]);
+        // dispatch(getLeaveTypeInformation());
       };
       onDelete(deleteID);
       setDeleteID("");
     }
   }, [deleteID]);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const onClickUpdate = React.useCallback(
+    (id) => () => {
+      setOpen(true);
+      setOption("update");
+      setID(id);
+    },
+    []
+  );
 
   const onClickDelete = React.useCallback(
     (id) => () => {
@@ -102,21 +118,9 @@ const CardChargeCode = () => {
     []
   );
 
-  const onClickUpdate = React.useCallback(
-    (id) => () => {
-      setopen(true);
-      setOption("update");
-      setNowID(id);
-    },
-    []
-  );
   const onClickAdd = () => {
-    setopen(true);
+    setOpen(true);
     setOption("add");
-  };
-
-  const handleClose = () => {
-    setopen(false);
   };
 
   const requestSearch = (searchValue) => {
@@ -125,7 +129,6 @@ const CardChargeCode = () => {
     if (Info.length !== 0) {
       const filteredRows = Info.filter((row) => {
         return Object.keys(row).some((field) => {
-          console.log(row[field].toString());
           return searchRegex.test(row[field].toString());
         });
       });
@@ -134,26 +137,33 @@ const CardChargeCode = () => {
   };
 
   const setDataGrid = () => {
-    if (Object.keys(chargeCodeInformation).length !== 0) {
-      chargeCodeInformation.data.map((item, index) => {
+    if (Object.keys(myExpenseInformation).length !== 0) {
+      myExpenseInformation.data.map((item, index) => {
         Info.push(item);
-        Info[index].id = item.ChargeCode_id;
+        Info[index].id = String(item.Req_id);
+        Info[index].complete_at = String(
+          item.complete_at ? item.complete_at : "-"
+        );
+        Info[index].Remark = String(item.Remark ? item.Remark : "-");
+
+        // Info[index].Num_per_year = String(item.Num_per_year);
+        // Info[index].Num_can_add = String(item.Num_can_add);
       });
-      if(Info.length!==0)Info.reverse()
     }
   };
   setDataGrid();
+
   return (
     <>
       <ModalUpdate
         open={open}
         handleClose={handleClose}
-        title="Charge Code Update"
+        title="Expense Request"
       >
-        <FormChargeCodeUpdate
-          id={nowID}
+        <FormExpensRequest
           handleClose={handleClose}
           option={option}
+          id={ID}
         />
       </ModalUpdate>
       <Grid container spacing={2} style={{ marginTop: "1px" }}>
@@ -180,21 +190,24 @@ const CardChargeCode = () => {
         </Grid>
         <Grid item xs={12}>
           <DataGrid
-            sortingOrder={["desc", "asc"]}          
-            headers={Header ? Header : ""}
-            rows={searchText ? searchInfo : Info ? Info : ""}
+            sortingOrder={["desc", "asc"]}
+            sortModel={sortModel}
+            onSortModelChange={(model) =>
+              Info.length !== 0 ? setSortModel(model) : ""
+            }
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[10, 20, 50]}
             pagination
-            loading={isLoading}
-            className={classes.datagrid}
             disableSelectionOnClick
-          />{" "}
+            className={classes.datagrid}
+            headers={Header ? Header : ""}
+            rows={searchText ? searchInfo : Info ? Info : ""}
+          />
         </Grid>
       </Grid>
     </>
   );
 };
 
-export default CardChargeCode;
+export default CardExpenseRequest;

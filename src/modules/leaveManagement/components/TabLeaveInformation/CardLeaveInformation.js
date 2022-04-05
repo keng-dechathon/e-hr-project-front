@@ -9,6 +9,7 @@ import { CardContent } from "@mui/material";
 import DataGrid from "../../../common/DataGrid";
 
 import SearchIcon from "@mui/icons-material/Search";
+import { Grid } from "@mui/material";
 
 import { Button } from "@mui/material";
 import { getLeaveManagementInformation } from "../../actions";
@@ -23,18 +24,76 @@ import MenuItem from "@mui/material/MenuItem";
 import { FormHelperText } from "@mui/material";
 import { getMemberInformation } from "../../../team/actions";
 import { getLeaveInformationByID } from "../../../leaveRequest/actions";
-const useStyles = makeStyles(() => ({
-  ButtonAdd: {
-    display: "flex",
-  },
+import { getEmployeeInformtion } from "../../../employeeInfomation/actions";
+const useStyles = makeStyles((theme) => ({
   box: {
     marginTop: "20px",
-    paddingTop:"10px",
   },
+  ButtonAdd: {
+    display: "flex",
+    // right: "40px !important",
+    // position: "absolute  !important",
+    width: "100%",
+    justifyContent: "flex-end",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center !important",
+    },
+  },
+
   cardcontant: {
     padding: 0,
     "&:last-child": {
       paddingBottom: "0 !important",
+    },
+  },
+  attention2: {
+    [theme.breakpoints.up(900)]: {
+      display: "flex",
+      justifyContent: "left",
+      alignItems: "center",
+      marginLeft: "15px",
+    },
+    [theme.breakpoints.down(900)]: {
+      display: "none",
+    },
+  },
+  typeBT: {
+    [theme.breakpoints.down(900)]: {
+      width: "100%",
+    },
+  },
+  datePicker: {
+    [theme.breakpoints.down(900)]: {
+      width: "100%",
+    },
+  },
+  paddingTop: {
+    paddingTop: "5px !important",
+  },
+  paddingTop2: {
+    [theme.breakpoints.up(900)]: {
+      paddingTop: "5px !important",
+    },
+  },
+  removePadding: {
+    paddingTop: "0px !important",
+  },
+  helpText: {
+    [theme.breakpoints.down(900)]: {
+      fontSize: "9px !important",
+    },
+  },
+  divider0: {
+    [theme.breakpoints.up(900)]: {
+      display: "none ",
+    },
+    [theme.breakpoints.down(900)]: {
+      display: "flex ",
+    },
+  },
+  gridNone: {
+    [theme.breakpoints.up(900)]: {
+      display: "none",
     },
   },
 }));
@@ -51,11 +110,15 @@ const CardLeaveInformation = () => {
   );
   const { memberInformation } = useSelector((state) => state.teamReducer);
   const { leaveInformationByID } = useSelector((state) => state.leaveReducer);
-
+  const { accountInformation } = useSelector((state) => state.accountReducer);
+  const { empInformation } = useSelector((state) => state.employeeReducer);
   useEffect(() => {
     dispatch(getLeaveManagementInformation());
     dispatch(getTeamByHostInformation());
+    dispatch(getEmployeeInformtion());
+
   }, []);
+  const [isManage, setIsManage] = useState(false);
 
   const [selectState, setSelectState] = React.useState({});
   const [selectStateFilter, setSelectStateFilter] = React.useState("");
@@ -74,7 +137,7 @@ const CardLeaveInformation = () => {
   console.log(selectState);
   let Header = headers;
   let Info = [];
-  const members = [];
+  let members = [];
 
   const handleChangeSelect = (event) => {
     setSelectStateFilter(event.target.value);
@@ -89,7 +152,18 @@ const CardLeaveInformation = () => {
       }
     }
   }, [teamByHostInformation]);
-
+  useEffect(() => {
+    if (Object.keys(accountInformation).length !== 0) {
+      if (
+        accountInformation.Role == "Manager" ||
+        accountInformation.Role == "Management"
+      ) {
+        setIsManage(true);
+      } else {
+        setIsManage(false);
+      }
+    }
+  }, [accountInformation]);
   useEffect(() => {
     if (selectStateFilter && selectStateFilter !== "") {
       dispatch(getMemberInformation("", "", String(selectStateFilter)));
@@ -101,17 +175,30 @@ const CardLeaveInformation = () => {
 
   const handleClick = () => {
     if (Object.keys(selectState).length !== 0) {
-      dispatch(getLeaveInformationByID("", "",  String(selectState.id)));
+      dispatch(getLeaveInformationByID("", "", String(selectState.id)));
     }
   };
+
   const setMember = () => {
-    if (Object.keys(memberInformation).length !== 0) {
-      memberInformation.data.map((item, index) => {
-        members.push({
-          id: parseInt(item.id),
-          text: item.Name,
+    members = [];
+    if (isManage) {
+      if (Object.keys(memberInformation).length !== 0) {
+        memberInformation.data.map((item, index) => {
+          members.push({
+            id: parseInt(item.id),
+            text: item.Name,
+          });
         });
-      });
+      }
+    } else {
+      if (Object.keys(empInformation).length !== 0) {
+        empInformation.data.map((item, index) => {
+          members.push({
+            id: parseInt(item.Emp_id),
+            text: item.Name,
+          });
+        });
+      }
     }
   };
 
@@ -135,18 +222,9 @@ const CardLeaveInformation = () => {
   return (
     <>
       <Box className={classes.box}>
-        <Box
-          style={{
-            display: "inline-block !important",
-            position: "relative !important",
-            width: "100%",
-            height: "40px",
-            marginBottom: "30px",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Stack direction="row" spacing={2}>
-          {selectStateFilter === "" ||
+        <Grid container spacing={2}>
+          <Grid item xs={isManage ? 7 : 9} sm={6} md={5}>
+            {selectStateFilter === "" ||
             Object.keys(memberInformation).length !== 0 ? (
               <div>
                 <AutoComplete
@@ -158,70 +236,90 @@ const CardLeaveInformation = () => {
                   defaultValue={false}
                   multiple={false}
                   resetTextField={resetTextField}
-                  style={{ backgroundColor: "white", minWidth: "400px" }}
+                  style={{ backgroundColor: "white", width: "100%" }}
                 />
-                <FormHelperText>
-                  Select a Employee name to review Timesheet.{" "}
+                <FormHelperText className={classes.helpText}>
+                  Select a Employee name to review Leave.{" "}
                 </FormHelperText>
               </div>
             ) : (
               ""
             )}
-            <div>
-            <Select
-                value={selectStateFilter}
-                onChange={handleChangeSelect}
-                displayEmpty
-                size="small"
-                inputProps={{ "aria-label": "Without label" }}
-                style={{ backgroundColor: "white", minWidth: "100px" }}
-                placeholder="Your have no team."
-              >
-                {Object.keys(teamByHostInformation).length !== 0 ? (
-                  teamByHostInformation.data.length !== 0 ? (
-                    filterOption.map((item) => {
-                      return (
-                        <MenuItem value={item.Team_id} key={item.Team_id}>
-                          {item.Teamname}
-                        </MenuItem>
-                      );
-                    })
+          </Grid>
+          {isManage ? (
+            <Grid item xs={3} sm={4} md={2}>
+              <div>
+                <Select
+                  value={selectStateFilter}
+                  onChange={handleChangeSelect}
+                  displayEmpty
+                  size="small"
+                  inputProps={{ "aria-label": "Without label" }}
+                  style={{
+                    backgroundColor: "white",
+                    minWidth: "100px",
+                    width: "100%",
+                  }}
+                  placeholder="Your have no team."
+                >
+                  {Object.keys(teamByHostInformation).length !== 0 ? (
+                    teamByHostInformation.data.length !== 0 ? (
+                      filterOption.map((item) => {
+                        return (
+                          <MenuItem value={item.Team_id} key={item.Team_id}>
+                            {item.Teamname}
+                          </MenuItem>
+                        );
+                      })
+                    ) : (
+                      <MenuItem disabled value="">
+                        <em>Your have no team.</em>
+                      </MenuItem>
+                    )
                   ) : (
-                    <MenuItem disabled value="">
-                      <em>Your have no team.</em>
-                    </MenuItem>
-                  )
-                ) : (
-                  ""
-                )}
-              </Select>
-            </div>
+                    ""
+                  )}
+                </Select>
+                <FormHelperText className={classes.helpText}>
+                  Select a Team.{" "}
+                </FormHelperText>
+              </div>
+            </Grid>
+          ) : (
+            ""
+          )}
+          <Grid item xs={isManage ? 2 : 3} sm={2} md={1}>
             <Button
               variant="contained"
               endIcon={<SearchIcon />}
-              style={{ height: "40px" }}
+              style={{
+                height: "40px",
+                width: "100%",
+              }}
               color="secondary"
               onClick={handleClick}
             >
               GO
             </Button>
-          </Stack>
-        </Box>
-        <DataGrid
-          sortingOrder={["desc", "asc"]}
-          sortModel={sortModel}
-          onSortModelChange={(model) =>
-            Info.length !== 0 ? setSortModel(model) : ""
-          }
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[5, 10, 20, 50]}
-          pagination
-          disableSelectionOnClick
-          className={classes.datagrid}
-          headers={Header ? Header : ""}
-          rows={searchText ? searchInfo : Info ? Info : ""}
-        />
+          </Grid>
+          <Grid item xs={12} style={{ width: "100%" }}>
+            <DataGrid
+              sortingOrder={["desc", "asc"]}
+              sortModel={sortModel}
+              onSortModelChange={(model) =>
+                Info.length !== 0 ? setSortModel(model) : ""
+              }
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[5, 10, 20, 50]}
+              pagination
+              disableSelectionOnClick
+              className={classes.datagrid}
+              headers={Header ? Header : ""}
+              rows={searchText ? searchInfo : Info ? Info : ""}
+            />
+          </Grid>
+        </Grid>
       </Box>
     </>
   );

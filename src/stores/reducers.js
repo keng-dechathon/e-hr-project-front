@@ -17,7 +17,7 @@ import timeSheetViewerReducer from "../modules/timeSheetViewer/reducers"
 import leaveManagementReducer from "../modules/leaveManagement/reducers"
 import checkin_checkoutReducer from "../modules/checkin_chekout/reducers"
 import reportReducer from "../modules/report/reducers"
-
+import expenseRequestReducer from "../modules/expenseRequest/reducers"
 export default combineReducers({
   layoutReducer,
   accountReducer,
@@ -37,4 +37,5 @@ export default combineReducers({
   leaveManagementReducer,
   checkin_checkoutReducer,
   reportReducer,
+  expenseRequestReducer,
 });
