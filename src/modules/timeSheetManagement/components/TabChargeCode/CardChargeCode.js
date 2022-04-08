@@ -47,13 +47,14 @@ const CardChargeCode = () => {
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
   const [option, setOption] = useState("");
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(10);
   const [sortModel, setSortModel] = useState([
     {
-      field: "ID",
+      field: "id",
       sort: "desc",
     },
   ]);
+  const [isLoading, setIsLoading] = useState(false);
 
   let Header = headers;
   let Info = [];
@@ -77,9 +78,12 @@ const CardChargeCode = () => {
     ],
   };
   useEffect(() => {
+    setIsLoading(true);
     dispatch(getChargeCode());
   }, []);
-
+  useEffect(() => {
+    setIsLoading(false);
+  }, [chargeCodeInformation]);
   useEffect(() => {
     if (deleteID !== "") {
       const onDelete = async (id) => {
@@ -135,6 +139,7 @@ const CardChargeCode = () => {
         Info.push(item);
         Info[index].id = item.ChargeCode_id;
       });
+      if(Info.length!==0)Info.reverse()
     }
   };
   setDataGrid();
@@ -151,8 +156,8 @@ const CardChargeCode = () => {
           option={option}
         />
       </ModalUpdate>
-      <Grid container spacing={2} style={{marginTop:"1px"}}>
-        <Grid item xs={10} sm={7} >
+      <Grid container spacing={2} style={{ marginTop: "1px" }}>
+        <Grid item xs={10} sm={7}>
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}
@@ -175,8 +180,16 @@ const CardChargeCode = () => {
         </Grid>
         <Grid item xs={12}>
           <DataGrid
+            sortingOrder={["desc", "asc"]}          
             headers={Header ? Header : ""}
             rows={searchText ? searchInfo : Info ? Info : ""}
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[10, 20, 50]}
+            pagination
+            loading={isLoading}
+            className={classes.datagrid}
+            disableSelectionOnClick
           />{" "}
         </Grid>
       </Grid>

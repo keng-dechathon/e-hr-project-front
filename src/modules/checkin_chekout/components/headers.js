@@ -3,6 +3,38 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import renderCellExpand from "../../common/DataGridTimeSheet/renderCellExpand";
 
+export const renderCheck = (params) => {
+  console.log(params.row.Detail);
+  return (
+    <div style={{ width: "100%" }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div
+          style={{
+            width: "15px",
+            backgroundColor:
+              params.row.Detail === "Leaved"
+                ? "#212121"
+                : params.value === "In time"
+                ? "#8bc34a"
+                : params.value === "Late"
+                ? "#f44336"
+                : params.value === "-"
+                ? "#ffeb3b"
+                : params.value === "Over Time"
+                ? "#b3e5fc"
+                : params.value === "Check Out Early"
+                ? "#aed581"
+                : "",
+            height: "15px",
+            borderRadius: "50%",
+            marginRight: "10px",
+          }}
+        />
+        <div>{params.value}</div>
+      </div>
+    </div>
+  );
+};
 export const headers = [
   {
     field: "Date",
@@ -30,14 +62,14 @@ export const headers = [
     headerName: "Check-in Status",
     flex:1,
     headerClassName: "bg-light-green",
-    renderCell: renderCellExpand,
+    renderCell: renderCheck,
   },
   {
     field: "Check_out_status",
     headerName: "Check-out Status",
     flex:1,
     headerClassName: "bg-light-green",
-    renderCell: renderCellExpand,
+    renderCell: renderCheck,
   },
   {
     field: "Detail",

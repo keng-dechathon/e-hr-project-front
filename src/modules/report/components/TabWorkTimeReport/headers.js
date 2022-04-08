@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import moment from "moment";
 import renderCellExpand from "../../../common/DataGridTimeSheet/renderCellExpand";
-
+import { renderCheck } from "../../../checkin_chekout/components/headers";
 export const headers = [
   {
     field: "Name",
@@ -30,14 +30,14 @@ export const headers = [
     headerName: "Check-in Status",
     flex:1,
     headerClassName: "bg-light-green",
-    renderCell: renderCellExpand,
+    renderCell: renderCheck,
   },
   {
     field: "Check_out_status",
     headerName: "Check-out Status",
     flex:1,
     headerClassName: "bg-light-green",
-    renderCell: renderCellExpand,
+    renderCell: renderCheck,
   },
   {
     field: "Detail",

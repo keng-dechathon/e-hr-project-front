@@ -25,6 +25,7 @@ export const apiUrl = {
         location:'/eHRService/Location',
         chargecode:'/eHRService/ChargeCode',
         checkin_checkout:'/eHRService/CheckInCheckOut',
+        expense:'/eHRService/ExpenseRequest',
       }
     },
   }

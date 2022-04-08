@@ -164,6 +164,7 @@ const CardTimeSheet = (props) => {
   let Info = [];
 
   useEffect(() => {
+    setIsLoading(true);
     dispatch(getChargeCode());
     dispatch(getLocation());
     dispatch(getHolidaysInformation());
@@ -173,6 +174,7 @@ const CardTimeSheet = (props) => {
     setIsLoading(false);
   }, [timeSheetInformationByID]);
   useEffect(() => {
+    setIsLoading(true);
     dispatch(getTimeSheetById("", "", id, getDateFormat(day)));
   }, [day]);
 

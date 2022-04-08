@@ -20,7 +20,8 @@ import {
 import { Button } from "@mui/material";
 import { getLeaveManagementInformation } from "../../actions";
 import { headers } from "./headers";
-import { getLeaveAmount } from "../../../../utils/miscellaneous";
+import { Grid } from "@mui/material";
+import { getAccountInformation } from "../../../identity/actions";
 import moment from "moment";
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
@@ -47,6 +48,7 @@ const CardLeaveManagement = () => {
   const { accountInformation } = useSelector((state) => state.accountReducer);
 
   useEffect(() => {
+    dispatch(getAccountInformation())
     dispatch(getLeaveManagementInformation());
   }, []);
   const [status, setStatus] = useState("");
@@ -186,38 +188,32 @@ const CardLeaveManagement = () => {
           status={status}
         />
       </ModalUpdate>
-      <Box className={classes.box}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            justifyItems: "center",
-            alignItems: "center",
-            pb: "10px",
-          }}
-        >
+      <Grid container spacing={2} style={{ marginTop: "15px" }}>
+        <Grid item xs={12} sm={6}>
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}
             clearSearch={() => requestSearch("")}
           />
-        </Box>
-        <DataGrid
-          sortingOrder={["desc", "asc"]}
-          sortModel={sortModel}
-          onSortModelChange={(model) =>
-            Info.length !== 0 ? setSortModel(model) : ""
-          }
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[5, 10, 20, 50]}
-          pagination
-          disableSelectionOnClick
-          className={classes.datagrid}
-          headers={Header ? Header : ""}
-          rows={searchText ? searchInfo : Info ? Info : ""}
-        />
-      </Box>
+        </Grid>
+        <Grid item xs={12} style={{ width: "100%" }}>
+          <DataGrid
+            sortingOrder={["desc", "asc"]}
+            sortModel={sortModel}
+            onSortModelChange={(model) =>
+              Info.length !== 0 ? setSortModel(model) : ""
+            }
+            pageSize={pageSize}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            rowsPerPageOptions={[5, 10, 20, 50]}
+            pagination
+            disableSelectionOnClick
+            className={classes.datagrid}
+            headers={Header ? Header : ""}
+            rows={searchText ? searchInfo : Info ? Info : ""}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

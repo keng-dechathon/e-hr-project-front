@@ -31,7 +31,9 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { Grid } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-
+import { GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
+import { getAccountInformation } from "../../identity/actions";
+import { getEmployeeInformtion } from "../../employeeInfomation/actions";
 const useStyles = makeStyles((theme) => ({
   box: {
     marginTop: "20px",
@@ -112,13 +114,24 @@ const useStyles = makeStyles((theme) => ({
       display: "flex ",
     },
   },
+  gridNone: {
+    [theme.breakpoints.up(900)]: {
+      display: "none",
+    },
+  },
 }));
-
+const CustomToolbar = () => {
+  return (
+    <GridToolbarContainer >
+      <GridToolbarExport printOptions={{ disableToolbarButton: true }}/>
+    </GridToolbarContainer>
+  );
+};
 const CardCheckIn_CheckOut_View = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const breakPoints = useMediaQuery(theme.breakpoints.down(900));
+  // const breakPoints = useMediaQuery(theme.breakpoints.down(900));
 
   const { teamByHostInformation } = useSelector(
     (state) => state.timeSheetViewerReducer
@@ -129,10 +142,13 @@ const CardCheckIn_CheckOut_View = () => {
     (state) => state.checkin_checkoutReducer
   );
   const { accountInformation } = useSelector((state) => state.accountReducer);
+  const { empInformation } = useSelector((state) => state.employeeReducer);
 
   useEffect(() => {
+    dispatch(getAccountInformation())
     dispatch(getTeamByHostInformation());
     dispatch(getHolidaysInformation());
+    dispatch(getEmployeeInformtion());
   }, []);
 
   useEffect(() => {
@@ -147,12 +163,14 @@ const CardCheckIn_CheckOut_View = () => {
   const [selectStateFilter, setSelectStateFilter] = React.useState("");
   const [filterOption, setFilterOption] = React.useState([]);
   const [resetTextField, setResetTextField] = React.useState(false);
-
-  const members = [];
+  const [isLoading, setIsLoading] = useState(false);
+  const [isManage, setIsManage] = useState(false);
+  let members = [];
   let Header = headers;
   let Info = [];
 
   useEffect(() => {
+    setIsLoading(true);
     if (Object.keys(accountInformation).length !== 0) {
       dispatch(
         getCheckInformation(
@@ -165,7 +183,21 @@ const CardCheckIn_CheckOut_View = () => {
       );
     }
   }, [accountInformation, day, showType]);
-
+  useEffect(() => {
+    if (Object.keys(accountInformation).length !== 0) {
+      if (
+        accountInformation.Role == "Manager" ||
+        accountInformation.Role == "Management"
+      ) {
+        setIsManage(true);
+      } else {
+        setIsManage(false);
+      }
+    }
+  }, [accountInformation]);
+  useEffect(() => {
+    setIsLoading(false);
+  }, [checkInformation]);
   const setNextDate = () => {
     let tomorrow = moment(day).add(1, "days");
     setDay(new Date(tomorrow));
@@ -221,13 +253,25 @@ const CardCheckIn_CheckOut_View = () => {
     }
   };
   const setMember = () => {
-    if (Object.keys(memberInformation).length !== 0) {
-      memberInformation.data.map((item, index) => {
-        members.push({
-          id: parseInt(item.id),
-          text: item.Name,
+    members = [];
+    if (isManage) {
+      if (Object.keys(memberInformation).length !== 0) {
+        memberInformation.data.map((item, index) => {
+          members.push({
+            id: parseInt(item.id),
+            text: item.Name,
+          });
         });
-      });
+      }
+    } else {
+      if (Object.keys(empInformation).length !== 0) {
+        empInformation.data.map((item, index) => {
+          members.push({
+            id: parseInt(item.Emp_id),
+            text: item.Name,
+          });
+        });
+      }
     }
   };
 
@@ -256,6 +300,7 @@ const CardCheckIn_CheckOut_View = () => {
     if (Object.keys(checkInformation).length !== 0) {
       checkInformation.data.map((item, index) => {
         Info.push(item);
+        console.log(item);
         Info[index].Date = moment(item.Check_in).format(" MMMM Do YYYY");
         Info[index].id = item.CheckId;
       });
@@ -269,7 +314,7 @@ const CardCheckIn_CheckOut_View = () => {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>
         <Grid container spacing={2}>
-          <Grid item xs={7} sm={5}>
+          <Grid item xs={isManage ? 7 : 9} sm={6} md={5}>
             {selectStateFilter === "" ||
             Object.keys(memberInformation).length !== 0 ? (
               <div>
@@ -285,50 +330,54 @@ const CardCheckIn_CheckOut_View = () => {
                   style={{ backgroundColor: "white", width: "100%" }}
                 />
                 <FormHelperText className={classes.helpText}>
-                  Select a Employee name to review Timesheet.{" "}
+                  Select a Employee name to review Check-in and Check-out.{" "}
                 </FormHelperText>
               </div>
             ) : (
               ""
             )}
           </Grid>
-          <Grid item xs={3} sm={2}>
-            <Select
-              value={selectStateFilter}
-              onChange={handleChangeSelect}
-              displayEmpty
-              size="small"
-              inputProps={{ "aria-label": "Without label" }}
-              style={{
-                backgroundColor: "white",
-                minWidth: "100px",
-                width: "100%",
-              }}
-              placeholder="Your have no team."
-            >
-              {Object.keys(teamByHostInformation).length !== 0 ? (
-                teamByHostInformation.data.length !== 0 ? (
-                  filterOption.map((item) => {
-                    return (
-                      <MenuItem value={item.Team_id} key={item.Team_id}>
-                        {item.Teamname}
-                      </MenuItem>
-                    );
-                  })
+          {isManage ? (
+            <Grid item xs={3} sm={4} md={2}>
+              <Select
+                value={selectStateFilter}
+                onChange={handleChangeSelect}
+                displayEmpty
+                size="small"
+                inputProps={{ "aria-label": "Without label" }}
+                style={{
+                  backgroundColor: "white",
+                  minWidth: "100px",
+                  width: "100%",
+                }}
+                placeholder="Your have no team."
+              >
+                {Object.keys(teamByHostInformation).length !== 0 ? (
+                  teamByHostInformation.data.length !== 0 ? (
+                    filterOption.map((item) => {
+                      return (
+                        <MenuItem value={item.Team_id} key={item.Team_id}>
+                          {item.Teamname}
+                        </MenuItem>
+                      );
+                    })
+                  ) : (
+                    <MenuItem disabled value="">
+                      <em>Your have no team.</em>
+                    </MenuItem>
+                  )
                 ) : (
-                  <MenuItem disabled value="">
-                    <em>Your have no team.</em>
-                  </MenuItem>
-                )
-              ) : (
-                ""
-              )}
-            </Select>
-            <FormHelperText className={classes.helpText}>
-              Select a Team.{" "}
-            </FormHelperText>
-          </Grid>
-          <Grid item xs={2} sm={1}>
+                  ""
+                )}
+              </Select>
+              <FormHelperText className={classes.helpText}>
+                Select a Team.{" "}
+              </FormHelperText>
+            </Grid>
+          ) : (
+            ""
+          )}
+          <Grid item xs={isManage ? 2 : 3} sm={2} md={1}>
             <Button
               variant="contained"
               endIcon={<SearchIcon />}
@@ -342,7 +391,7 @@ const CardCheckIn_CheckOut_View = () => {
               {"GO"}
             </Button>
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} className={classes.gridNone}>
             <Divider className={classes.divider0} />
           </Grid>
           <Grid item xs={12} sm={7} style={{ width: "100%" }}>
@@ -436,13 +485,18 @@ const CardCheckIn_CheckOut_View = () => {
           <Grid item xs={12} style={{ width: "100%" }}>
             <DataGrid
               pageSize={pageSize}
+              
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
               rowsPerPageOptions={[10, 20, 50]}
               pagination
+              loading={isLoading}
               className={classes.datagrid}
               disableSelectionOnClick
               headers={Header ? Header : ""}
               rows={Info ? Info : ""}
+              components={{
+                Toolbar: CustomToolbar,
+              }}
             />
           </Grid>
         </Grid>

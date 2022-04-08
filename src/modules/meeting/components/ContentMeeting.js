@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         padding: '20px',
     },
     tabitem: {
-        marginRight: '30px !important',
+        marginRight: '10px !important',
         padding: '0 !important',
         minWidth: '150px !important',
         textTransform: 'none !important',

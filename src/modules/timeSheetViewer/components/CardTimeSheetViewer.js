@@ -51,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
       display: "flex ",
     },
   },
+  gridNone: {
+    [theme.breakpoints.up(900)]: {
+      
+      display:"none",
+    },   
+  },
 }));
 
 const CardTimeSheetViewer = () => {
@@ -132,7 +138,7 @@ const CardTimeSheetViewer = () => {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>
         <Grid container spacing={2}>
-          <Grid item xs={7} sm={5}>
+          <Grid item xs={7} sm={6}  md={5}>
             {selectStateFilter === "" ||
             Object.keys(memberInformation).length !== 0 ? (
               <div>
@@ -155,7 +161,7 @@ const CardTimeSheetViewer = () => {
               ""
             )}
           </Grid>
-          <Grid item xs={3} sm={2}>
+          <Grid item xs={3} sm={4}  md={2}>
             <Select
               value={selectStateFilter}
               onChange={handleChangeSelect}
@@ -191,7 +197,7 @@ const CardTimeSheetViewer = () => {
               Select a Team.{" "}
             </FormHelperText>
           </Grid>
-          <Grid item xs={2} sm={1}>
+          <Grid item xs={2} sm={2} md={1}>
             <Button
               variant="contained"
               endIcon={<SearchIcon />}
@@ -202,7 +208,7 @@ const CardTimeSheetViewer = () => {
               GO
             </Button>
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} className={classes.gridNone}>
             <Divider className={classes.divider0} />
           </Grid>
           <Grid item xs={12} style={{ paddingTop: "13px" }}>

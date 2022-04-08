@@ -34,6 +34,12 @@ export const updateAddState = (
     Status: Status,
   });
 
+export const updateSubmitting = (submitting = "false") =>
+  store.dispatch({
+    type: "UPDATE_SUBMITTING_STATE",
+    submitting: submitting,
+  });
+
 export const clearAddState = () =>
   store.dispatch({
     type: "CLEAR_ADD_STATE",

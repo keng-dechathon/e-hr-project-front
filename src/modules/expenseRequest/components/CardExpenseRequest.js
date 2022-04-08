@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import FormLocationUpdate from "./FormLocationUpdate";
+
 import { useSelector, useDispatch } from "react-redux";
-import EditIcon from "@mui/icons-material/Edit";
-import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
-import { CardContent } from "@mui/material";
-import DataGrid from "../../../common/DataGrid";
-import { GridActionsCellItem } from "@mui/x-data-grid";
-import DeleteIcon from "@mui/icons-material/Delete";
+// import FormLeaveTypeUpdate from "./FormLeaveTypeUpdate";
 import { Grid } from "@mui/material";
 
+import DataGrid from "../../common/DataGrid";
+import EditIcon from "@mui/icons-material/Edit";
+import { GridActionsCellItem } from "@mui/x-data-grid";
+import { getMyExpenseRequest } from "../actions";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import ModalUpdate from "../../common/ModalUpdate";
+import { cancleExpenseRequest } from "../actions";
+import FormExpensRequest from "./FormExpensRequest";
 import {
   QuickSearchToolbar,
   escapeRegExp,
-} from "../../../common/QuickSearchToolbar/QuickSearchToolbar";
+} from "../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
-import ModalUpdate from "../../../common/ModalUpdate";
-import { getLocation, deleteLocation } from "../../actions";
 import { headers } from "./headers";
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
     display: "flex",
+  },
+  box: {
+    marginTop: "20px",
   },
   cardcontant: {
     padding: 0,
@@ -32,89 +35,89 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CardLocation = () => {
+const CardExpenseRequest = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { locationInformation } = useSelector(
-    (state) => state.timeSheetMngReducer
+  const { myExpenseInformation } = useSelector(
+    (state) => state.expenseRequestReducer
   );
-  const [nowID, setNowID] = useState("");
-  const [open, setopen] = useState(false);
-  const [deleteID, setDeleteID] = useState("");
+console.log(myExpenseInformation);
+  const [option, setOption] = useState("");
+  const [open, setOpen] = useState(false);
+  const [ID, setID] = useState("");
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
-  const [option, setOption] = useState("");
   const [pageSize, setPageSize] = useState(10);
+  const [cancleID, setCancleID] = useState("");
+
   const [sortModel, setSortModel] = useState([
     {
       field: "ID",
       sort: "desc",
     },
   ]);
-  const [isLoading, setIsLoading] = useState(false);
 
   let Header = headers;
   let Info = [];
-  Header[2] = {
+
+  Header[headers.length] = {
     field: "actions",
     type: "actions",
-    width: 90,
     headerClassName: "bg-light-green",
     headerName: "Action",
-    getActions: (params) => [
-      <GridActionsCellItem
-        icon={<EditIcon />}
-        label="Edit"
-        onClick={onClickUpdate(params.id)}
-      />,
-      <GridActionsCellItem
-        icon={<DeleteIcon />}
-        label="Delete"
-        onClick={onClickDelete(params.id)}
-      />,
-    ],
+    width: 90,
+    renderCell: (cellValues) => {
+      return (
+        <Button
+          variant="outlined"
+          style={{ border: "none" }}
+          onClick={onClickCancle(cellValues.id)}
+          disabled={cellValues.row.status !== "Requested" ? true : false}
+        >
+          Cancle
+        </Button>
+      );
+    },
   };
+
   useEffect(() => {
-    setIsLoading(true);
-    dispatch(getLocation());
+    dispatch(getMyExpenseRequest());
   }, []);
   useEffect(() => {
-    setIsLoading(false);
-  }, [locationInformation]);
-  useEffect(() => {
-    if (deleteID !== "") {
-      const onDelete = async (id) => {
-        await deleteLocation(String(id));
-        dispatch(getLocation());
+    if (cancleID !== "") {
+      const onCancle = async (id) => {
+        await cancleExpenseRequest(String(id));
+        dispatch(getMyExpenseRequest());
       };
-      onDelete(deleteID);
-      setDeleteID("");
+      onCancle(cancleID);
+      setCancleID("");
     }
-  }, [deleteID]);
-
-  const onClickDelete = React.useCallback(
-    (id) => () => {
-      setDeleteID(id);
-    },
-    []
-  );
+  }, [cancleID]);
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const onClickUpdate = React.useCallback(
     (id) => () => {
-      setopen(true);
+      setOpen(true);
       setOption("update");
-      setNowID(id);
+      setID(id);
     },
     []
   );
-  const onClickAdd = () => {
-    setopen(true);
-    setOption("add");
-  };
 
-  const handleClose = () => {
-    setopen(false);
+  const onClickCancle = React.useCallback(
+    (id) => () => {
+      console.log(id);
+      setCancleID(id);
+    },
+    []
+  );
+
+  const onClickAdd = () => {
+    setOpen(true);
+    setOption("add");
   };
 
   const requestSearch = (searchValue) => {
@@ -123,7 +126,6 @@ const CardLocation = () => {
     if (Info.length !== 0) {
       const filteredRows = Info.filter((row) => {
         return Object.keys(row).some((field) => {
-          console.log(row[field].toString());
           return searchRegex.test(row[field].toString());
         });
       });
@@ -132,29 +134,31 @@ const CardLocation = () => {
   };
 
   const setDataGrid = () => {
-    if (Object.keys(locationInformation).length !== 0) {
-      locationInformation.data.map((item, index) => {
+    if (Object.keys(myExpenseInformation).length !== 0) {
+      myExpenseInformation.data.map((item, index) => {
         Info.push(item);
-        Info[index].id = item.Location_id;
+        Info[index].id = String(item.Req_id);
+        Info[index].complete_at = String(
+          item.complete_at ? item.complete_at : "-"
+        );
+        Info[index].cancle_at = String(item.cancel_at ? item.cancel_at : "-");
+        Info[index].remark = String(item.remark ? item.remark : "-");
+        // Info[index].Num_per_year = String(item.Num_per_year);
+        // Info[index].Num_can_add = String(item.Num_can_add);
       });
-      if (Info.length !== 0) Info.reverse();
     }
   };
   setDataGrid();
+
   return (
     <>
       <ModalUpdate
         open={open}
         handleClose={handleClose}
-        title="Location Update"
+        title="Expense Request"
       >
-        <FormLocationUpdate
-          id={nowID}
-          handleClose={handleClose}
-          option={option}
-        />
+        <FormExpensRequest handleClose={handleClose} option={option} id={ID} />
       </ModalUpdate>
-
       <Grid container spacing={2} style={{ marginTop: "1px" }}>
         <Grid item xs={10} sm={7}>
           <QuickSearchToolbar
@@ -180,15 +184,17 @@ const CardLocation = () => {
         <Grid item xs={12}>
           <DataGrid
             sortingOrder={["desc", "asc"]}
-            headers={Header ? Header : ""}
-            rows={searchText ? searchInfo : Info ? Info : ""}
+            sortModel={sortModel}
+            onSortModelChange={(model) =>
+              Info.length !== 0 ? setSortModel(model) : ""
+            }
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[10, 20, 50]}
             pagination
-            loading={isLoading}
-            className={classes.datagrid}
             disableSelectionOnClick
+            headers={Header ? Header : ""}
+            rows={searchText ? searchInfo : Info ? Info : ""}
           />
         </Grid>
       </Grid>
@@ -196,4 +202,4 @@ const CardLocation = () => {
   );
 };
 
-export default CardLocation;
+export default CardExpenseRequest;

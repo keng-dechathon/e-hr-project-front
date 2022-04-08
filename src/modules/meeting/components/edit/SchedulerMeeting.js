@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       fontSize: "10px !important",
       margin: "0 5px 0 auto !important",
-      width:"50px",
+      width: "50px",
     },
   },
 }));
@@ -104,7 +104,9 @@ const CommandButton = withStyles(style, { name: "CommandButton" })(
 export default function SchedulerMeeting(props) {
   const { meetRoom, myMeeting, members, uid } = props;
   const classes = useStyles();
-  const { addState } = useSelector((state) => state.meetReducer);
+  const { addState, submittingState } = useSelector(
+    (state) => state.meetReducer
+  );
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openUpdateForm, setOpenUpdateForm] = useState(false);
   const [editInfo, setEditInfo] = useState("");
@@ -208,7 +210,7 @@ export default function SchedulerMeeting(props) {
       />
       <ModalUpdate
         open={openUpdateForm}
-        handleClose={handleCloseUpdate}
+        handleClose={!submittingState.submitting ? handleCloseUpdate : ""}
         title="Scheduler Update"
       >
         <FormUpdateScheduler

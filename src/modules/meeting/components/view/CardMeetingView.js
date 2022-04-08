@@ -247,7 +247,7 @@ const CardMeeting = () => {
               color="secondary"
               onClick={handleClickReset}
             >
-              Show Your Meeting
+              Your Meeting
             </Button>
           </Grid>
           <Grid item xs={12}>
