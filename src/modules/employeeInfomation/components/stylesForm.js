@@ -5,7 +5,8 @@ export default () => ({
         background: '#04AA6D',
         color: '#FFFFFF',
         '&:hover': {
-            background: '#ffa000',
+            background: "#04AA6D",
+            opacity:"0.8",
 
         },
     },
