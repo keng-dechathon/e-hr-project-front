@@ -24,7 +24,7 @@ export const sendExpenseRequest = async (values) => {
   console.log(values.files);
   return API()
     .post(apiUrl.eHRService.common.expense, {
-      Detail: values.detail ? values.detail : "",     
+      Detail: values.detail ? values.detail : "",
       File: values.files ? values.files : [],
       Option: "Send_Request",
     })
@@ -48,6 +48,25 @@ export const cancleExpenseRequest = async (Req_id) => {
     })
     .then((response) => {
       pushSnackbarAction("success", "cancle success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      console.log(error);
+      pushSnackbarAction("Server Error", "Server Error.");
+      return { status: "fail" };
+    });
+};
+
+export const updateExpenseRequest = async (values) => {
+  return API()
+    .post(apiUrl.eHRService.common.expense, {
+      Req_id: values.id ? values.id : "",
+      Detail: values.detail ? values.detail : "",
+      File: values.files ? values.files : [],
+      Option: "Update_Request",
+    })
+    .then((response) => {
+      pushSnackbarAction("success", "update success");
       return { status: "success" };
     })
     .catch((error) => {

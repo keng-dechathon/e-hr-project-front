@@ -15,6 +15,7 @@ import { styled } from "@mui/material/styles";
 import { convertFileToBase64 } from "../../../utils/miscellaneous";
 import UploadIcon from "@mui/icons-material/Upload";
 import FileLists from "./FileLists";
+import { updateExpenseRequest } from "../actions";
 const Input = styled("input")({
   display: "none",
 });
@@ -73,16 +74,22 @@ const FormExpensRequest = (props) => {
   const { handleClose, id, option } = props;
 
   const dispatch = useDispatch();
-  // const { leaveTypeInformation } = useSelector(
-  //   (state) => state.leaveTypeReducer
-  // );
+  const { myExpenseInformation } = useSelector(
+    (state) => state.expenseRequestReducer
+  );
 
-  // const item =
-  //   Object.keys(leaveTypeInformation).length !== 0 && option != "add"
-  //     ? leaveTypeInformation.data.filter((value) => value.id === id)
-  //     : "";
-  const [detail, setDetail] = useState("");
-  const [files, setFiles] = useState([]);
+  const item =
+    Object.keys(myExpenseInformation).length !== 0 && option != "add"
+      ? myExpenseInformation.data.filter(
+          (value) => String(value.Req_id) === String(id)
+        )[0]
+      : {};
+  const [detail, setDetail] = useState(
+    option === "update" ? (item.length !== 0 ? item.Detail : "") : ""
+  );
+  const [files, setFiles] = useState(
+    option === "update" ? (item.length !== 0 ? item.File : []) : []
+  );
 
   const [user, setUser] = useState("");
 
@@ -91,18 +98,20 @@ const FormExpensRequest = (props) => {
       setUser({
         detail: String(detail),
         files: files,
+        id: String(id),
       })
     );
-  }, [detail, files]);
+  }, [detail, files, id]);
 
   const onSubmit = async () => {
     if (option === "update") {
-      // await updateLeaveType(user);
+      await updateExpenseRequest(user);
     } else if (option === "add") {
       await sendExpenseRequest(user);
     }
     dispatch(getMyExpenseRequest());
     setFiles([]);
+    setDetail("");
     handleClose();
   };
 
@@ -111,8 +120,6 @@ const FormExpensRequest = (props) => {
   };
 
   const onChangeFile = async (event) => {
-    console.log(event.target.files);
-
     Array.from(event.target.files).forEach(async (file, index) => {
       if (!file) return;
       file.isUploading = true;
@@ -120,12 +127,19 @@ const FormExpensRequest = (props) => {
       let tempFile = {
         name: file.name,
         data: filebase64,
-        id: String(file.name+Math.random()),
+        id: String(file.name + Math.random()),
       };
       setFiles((prevState) => [...prevState, tempFile]);
     });
   };
-
+  const dowloadFile = (value) => {
+    const linkSource = value.data;
+    const dowloadLink = document.createElement("a");
+    const fileName = value.name;
+    dowloadLink.href = linkSource;
+    dowloadLink.download = fileName;
+    dowloadLink.click();
+  };
   const { handleSubmit, submitting } = useForm({
     onSubmit: onSubmit,
   });
@@ -172,7 +186,11 @@ const FormExpensRequest = (props) => {
           </div>
         </Grid>
         <Grid item xs={12}>
-          <FileLists files={files} removeFile={removeFile} />
+          <FileLists
+            files={files}
+            removeFile={removeFile}
+            dowloadFile={dowloadFile}
+          />
         </Grid>
       </Grid>
       <DialogActions className={classes.dialogAction}>
