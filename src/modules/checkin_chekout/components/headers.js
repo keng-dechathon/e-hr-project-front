@@ -4,7 +4,6 @@ import moment from "moment";
 import renderCellExpand from "../../common/DataGridTimeSheet/renderCellExpand";
 
 export const renderCheck = (params) => {
-  console.log(params.row.Detail);
   return (
     <div style={{ width: "100%" }}>
       <div style={{ display: "flex", alignItems: "center" }}>

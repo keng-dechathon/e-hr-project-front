@@ -146,9 +146,9 @@ const CardCheckIn_CheckOut = () => {
   const [isBetween, setIsBetween] = useState(false);
   const [day, setDay] = useState(new Date());
   const [showType, setShowType] = useState("Day");
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(50);
   const [isLoading, setIsLoading] = useState(false);
-
+  let toDayId = "";
   let Header = headers;
   let Info = [];
 
@@ -189,17 +189,19 @@ const CardCheckIn_CheckOut = () => {
   };
 
   const onClickCheckOut = async () => {
-    await checkOut();
-    if (Object.keys(accountInformation).length !== 0) {
-      dispatch(
-        getCheckInformation(
-          "",
-          "",
-          showType,
-          String(accountInformation.Emp_id),
-          moment(day).format("YYYY-MM-DD")
-        )
-      );
+    if (toDayId.length !== 0) {
+      await checkOut(String(toDayId));
+      if (Object.keys(accountInformation).length !== 0) {
+        dispatch(
+          getCheckInformation(
+            "",
+            "",
+            showType,
+            String(accountInformation.Emp_id),
+            moment(day).format("YYYY-MM-DD")
+          )
+        );
+      }
     }
   };
 
@@ -214,7 +216,7 @@ const CardCheckIn_CheckOut = () => {
   const setToDay = () => {
     setDay(new Date(moment()));
   };
-  console.log(day);
+
   const checkIsBetweenDate = () => {
     if (Object.keys(holidaysInformation).length !== 0) {
       setIsBetween(false);
@@ -236,9 +238,16 @@ const CardCheckIn_CheckOut = () => {
       });
     }
   };
+  console.log(checkInformation);
   const setDataGrid = () => {
     if (Object.keys(checkInformation).length !== 0) {
       checkInformation.data.map((item, index) => {
+        if (
+          moment(item.Check_in).format("MMMM Do YYYY") ===
+          moment(new Date()).format("MMMM Do YYYY")
+        ) {
+          toDayId = item.CheckId;
+        }
         Info.push(item);
         Info[index].Date = moment(item.Check_in).format(" MMMM Do YYYY");
         Info[index].id = item.CheckId;
@@ -390,7 +399,7 @@ const CardCheckIn_CheckOut = () => {
             <DataGrid
               pageSize={pageSize}
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[10, 20, 50]}
+              rowsPerPageOptions={[10, 20, 50,100]}
               pagination
               loading={isLoading}
               className={classes.datagrid}

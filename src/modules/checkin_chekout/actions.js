@@ -48,10 +48,11 @@ export const checkIn = async () => {
     });
 };
 
-export const checkOut = async () => {
+export const checkOut = async (id) => {
   return API()
     .post(apiUrl.eHRService.common.checkin_checkout, {
       Option: "Check_Out",
+      Checkin_id:id,
     })
     .then((response) => {
       // console.log(response);
