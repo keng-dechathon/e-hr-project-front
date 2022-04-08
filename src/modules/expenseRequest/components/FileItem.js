@@ -40,8 +40,15 @@ const useStyles = makeStyles((theme) => ({
     wordBreak: "break-all !important",
     overflow: "hidden",
     whiteSpace: "nowrap",
-    width: "80%",
+    width: "78%",
+    [theme.breakpoints.down("xs")]: {
+      width: "70%",
+    },
   },
+  margin20:{
+    position: "absolute",
+    right: "45px",
+  }
 }));
 const FileItem = ({ file, removeFile, dowloadFile }) => {
   const classes = useStyles();
@@ -64,7 +71,7 @@ const FileItem = ({ file, removeFile, dowloadFile }) => {
           </div>
         )}
         {dowloadFile && (
-          <div className={classes.deleteIconBox}>
+          <div className={removeFile ? classes.margin20:classes.deleteIconBox}>
             <IconButton
               aria-label="dowload"
               className={classes.Button}
