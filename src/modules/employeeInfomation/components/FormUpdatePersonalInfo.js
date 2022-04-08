@@ -21,7 +21,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Typography from '../../common/Typography/Typography'
 import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
-import { convertFileToBase64 } from '../../../utils/miscellaneous'
+import { convertImageToBase64 } from '../../../utils/miscellaneous'
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { updateProfileById } from '../actions'
 import { getEmployeeInformtionByID,getEmployeeInformtion } from '../actions'
@@ -66,7 +66,7 @@ const FormUpdatePersonalInfo = (props) => {
 
     const onChangeImage = async (event) => {
         const file = event.target.files[0]
-        const fileBase64 = await convertFileToBase64(file)
+        const fileBase64 = await convertImageToBase64(file)
         setImageBase64(fileBase64)
 
     }

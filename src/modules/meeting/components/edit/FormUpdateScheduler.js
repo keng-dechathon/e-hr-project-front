@@ -19,7 +19,7 @@ import ForceUpdateDialog from "./ForceUpdateDialog";
 import { clearAddState } from "../../actions";
 import { forceAddMeeting } from "../../actions";
 import { editMeeting } from "../../actions";
-
+import { updateSubmitting } from "../../actions";
 const useStyles = makeStyles(() => ({
   ButtonSubmit: {
     background: "#04AA6D",
@@ -131,7 +131,6 @@ const FormUpdateScheduler = (props) => {
     }
     dispatch(getMeetingInformationByCreator());
   };
-
   const handleCloseForceUpdate = () => {
     setAttentioned(true);
     setOpenForceUpdate(false);
@@ -152,9 +151,10 @@ const FormUpdateScheduler = (props) => {
   const { handleSubmit, submitting } = useForm({
     onSubmit: onSubmit,
   });
-
+  useEffect(() => {
+    dispatch(updateSubmitting(submitting))
+  }, [submitting]);
   setMembersFormat();
-console.log(data);
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <ForceUpdateDialog
@@ -249,7 +249,7 @@ console.log(data);
           </Grid>
         </Grid>
         <DialogActions className={classes.dialogAction}>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={!submitting ? handleClose : ""}>Cancel</Button>
           <Button
             loading={submitting}
             variant={"contained"}

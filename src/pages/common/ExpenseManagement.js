@@ -1,10 +1,10 @@
+import ContentExpenseManagement from "../../modules/expenseManagement/components/ContentExpenseManagement";
 const ExpenseManagement = () => {
-    return (
-      <>
-     
-      </>
-    );
-  };
-  
-  export default ExpenseManagement;
-  
+  return (
+    <>
+      <ContentExpenseManagement />
+    </>
+  );
+};
+
+export default ExpenseManagement;

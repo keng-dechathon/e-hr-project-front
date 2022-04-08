@@ -85,7 +85,7 @@ export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const convertFileToBase64 = (file) => {
+export const convertImageToBase64 = (file) => {
   return new Promise((resolve, reject) => {
     try {
       const fileReader = new FileReader();
@@ -104,6 +104,31 @@ export const convertFileToBase64 = (file) => {
       console.log(err);
     }
   });
+};
+export const convertFileToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const fileReader = new FileReader();
+
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    } catch (err) {
+      console.log(err);
+    }
+  });
+};
+
+export const convertBlobtoText = (blob) => {
+  
+  const bytesString = String.fromCharCode(...blob)
+  return bytesString
 };
 
 export const getDayOffAmount = (hours) => {

@@ -7,6 +7,7 @@ export const initialState = {
   meetingInformationByRoomId: {},
   meetingInformationByCreator: {},
   addState: {},
+  submittingState: { submitting: false },
 };
 
 export default (state = initialState, action) => {
@@ -88,7 +89,14 @@ export default (state = initialState, action) => {
           Emp_message: action.Emp_message,
           Emp: action.Emp,
           Room_message: action.Room_message,
-          Status:action.Status,
+          Status: action.Status,
+        },
+      };
+    case "UPDATE_SUBMITTING_STATE":
+      return {
+        ...state,
+        submittingState: {
+          submitting: action.submitting,
         },
       };
     case "CLEAR_ADD_STATE":

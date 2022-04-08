@@ -7,13 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@mui/material";
 
 import DataGrid from "../../common/DataGrid";
-import EditIcon from "@mui/icons-material/Edit";
-import { GridActionsCellItem } from "@mui/x-data-grid";
 import { getMyExpenseRequest } from "../actions";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalUpdate from "../../common/ModalUpdate";
-import { cancleExpenseRequest } from "../actions";
-import FormExpensRequest from "./FormExpensRequest";
 import {
   QuickSearchToolbar,
   escapeRegExp,
@@ -35,14 +30,14 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CardExpenseRequest = () => {
+const CardExpenseManagement = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const { myExpenseInformation } = useSelector(
     (state) => state.expenseRequestReducer
   );
-console.log(myExpenseInformation);
+  console.log(myExpenseInformation);
   const [option, setOption] = useState("");
   const [open, setOpen] = useState(false);
   const [ID, setID] = useState("");
@@ -64,19 +59,31 @@ console.log(myExpenseInformation);
   Header[headers.length] = {
     field: "actions",
     type: "actions",
-    headerClassName: "bg-light-green",
     headerName: "Action",
-    width: 90,
+    width: "185",
+    headerClassName: "bg-light-green",
     renderCell: (cellValues) => {
       return (
-        <Button
-          variant="outlined"
-          style={{ border: "none" }}
-          onClick={onClickCancle(cellValues.id)}
-          disabled={cellValues.row.status !== "Requested" ? true : false}
-        >
-          Cancle
-        </Button>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="outlined"
+            color="success"
+            style={{ border: "none", marginRight: "10px" }}
+            size="small"
+       
+          >
+            Decline
+          </Button>
+          <Button
+            variant="contained"
+            size="small"
+            style={{ backgroundColor: "#8bc34a" }}
+
+            // }
+          >
+            Approve
+          </Button>
+        </div>
       );
     },
   };
@@ -87,7 +94,7 @@ console.log(myExpenseInformation);
   useEffect(() => {
     if (cancleID !== "") {
       const onCancle = async (id) => {
-        await cancleExpenseRequest(String(id));
+        // await cancleExpenseRequest(String(id));
         dispatch(getMyExpenseRequest());
       };
       onCancle(cancleID);
@@ -98,27 +105,9 @@ console.log(myExpenseInformation);
     setOpen(false);
   };
 
-  const onClickUpdate = React.useCallback(
-    (id) => () => {
-      setOpen(true);
-      setOption("update");
-      setID(id);
-    },
-    []
-  );
 
-  const onClickCancle = React.useCallback(
-    (id) => () => {
-      console.log(id);
-      setCancleID(id);
-    },
-    []
-  );
 
-  const onClickAdd = () => {
-    setOpen(true);
-    setOption("add");
-  };
+
 
   const requestSearch = (searchValue) => {
     setSearchText(searchValue);
@@ -143,8 +132,6 @@ console.log(myExpenseInformation);
         );
         Info[index].cancle_at = String(item.cancel_at ? item.cancel_at : "-");
         Info[index].remark = String(item.remark ? item.remark : "-");
-        // Info[index].Num_per_year = String(item.Num_per_year);
-        // Info[index].Num_can_add = String(item.Num_can_add);
       });
     }
   };
@@ -157,29 +144,14 @@ console.log(myExpenseInformation);
         handleClose={handleClose}
         title="Expense Request"
       >
-        <FormExpensRequest handleClose={handleClose} option={option} id={ID} />
       </ModalUpdate>
       <Grid container spacing={2} style={{ marginTop: "1px" }}>
-        <Grid item xs={10} sm={7}>
+        <Grid item xs={12} sm={7}>
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}
             clearSearch={() => requestSearch("")}
           />
-        </Grid>
-        <Grid
-          item
-          xs={2}
-          sm={5}
-          style={{ display: "flex", justifyContent: "flex-end" }}
-        >
-          <Button
-            variant="outlined"
-            className={classes.ButtonAdd}
-            onClick={onClickAdd}
-          >
-            <pre>+ ADD</pre>
-          </Button>
         </Grid>
         <Grid item xs={12}>
           <DataGrid
@@ -202,4 +174,4 @@ console.log(myExpenseInformation);
   );
 };
 
-export default CardExpenseRequest;
+export default CardExpenseManagement;

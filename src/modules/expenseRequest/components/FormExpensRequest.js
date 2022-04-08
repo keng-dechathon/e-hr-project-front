@@ -1,24 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-final-form-hooks";
 import Button from "../../common/Button";
+// import { Button } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import { DialogActions } from "@mui/material";
-
+import { sendExpenseRequest } from "../actions";
 import { getMyExpenseRequest } from "../actions";
-import { updateLeaveType } from "../actions";
 import { useSelector, useDispatch } from "react-redux";
 import { TextField } from "@mui/material";
 import Snackbar from "../../layout/components/Snackbar";
 import { Grid } from "@mui/material";
 import { InputLabel } from "@mui/material";
-import { Box } from "@mui/system";
+import { styled } from "@mui/material/styles";
 import { convertFileToBase64 } from "../../../utils/miscellaneous";
+import UploadIcon from "@mui/icons-material/Upload";
+import FileLists from "./FileLists";
+const Input = styled("input")({
+  display: "none",
+});
+
 const useStyles = makeStyles((theme) => ({
   ButtonSubmit: {
-    background: "#04AA6D",
-    color: "#FFFFFF",
+    background: "#04AA6D !important",
+    color: "#FFFFFF !important",
     "&:hover": {
-      background: "#ffa000",
+      background: "#ffa000 !important",
     },
   },
   dialogAction: {
@@ -37,6 +43,29 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
+  fileinput: {
+    display: "none",
+  },
+  uploadFile: {
+    backgroundColor: "#CCCCC4",
+    width: "100%",
+    padding: "15px 10px",
+    border: "1px dashed black ",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  Info: {
+    color: "f55e30",
+    marginTop: "15px",
+    fontSize: "12px",
+  },
+  mainInfo: {
+    marginTop: "15px",
+    color: "f55e30",
+    fontSize: "15px",
+  },
 }));
 
 const FormExpensRequest = (props) => {
@@ -44,85 +73,117 @@ const FormExpensRequest = (props) => {
   const { handleClose, id, option } = props;
 
   const dispatch = useDispatch();
-  const { leaveTypeInformation } = useSelector(
-    (state) => state.leaveTypeReducer
-  );
+  // const { leaveTypeInformation } = useSelector(
+  //   (state) => state.leaveTypeReducer
+  // );
 
-  const item =
-    Object.keys(leaveTypeInformation).length !== 0 && option != "add"
-      ? leaveTypeInformation.data.filter((value) => value.id === id)
-      : "";
-  const [name, setName] = useState(
-    item.length !== 0 ? (item[0].Type_name ? item[0].Type_name : "") : ""
-  );
-  const [dayLeave, setDayLeave] = useState(
-    item.length !== 0 ? (item[0].Num_per_year ? item[0].Num_per_year : "") : ""
-  );
-  const [dayAdd, setDayAdd] = useState(
-    item.length !== 0 ? (item[0].Num_can_add ? item[0].Num_can_add : "") : ""
-  );
-  const [fileBase64, setFileBase64] = useState("");
+  // const item =
+  //   Object.keys(leaveTypeInformation).length !== 0 && option != "add"
+  //     ? leaveTypeInformation.data.filter((value) => value.id === id)
+  //     : "";
+  const [detail, setDetail] = useState("");
+  const [files, setFiles] = useState([]);
 
   const [user, setUser] = useState("");
 
   useEffect(() => {
     setTimeout(() =>
       setUser({
-        Type_ID: String(id),
-        Type_name: String(name),
-        Num_per_year: String(dayLeave),
-        Num_can_add: String(dayAdd),
+        detail: String(detail),
+        files: files,
       })
     );
-  }, [name, dayLeave, dayAdd]);
+  }, [detail, files]);
 
   const onSubmit = async () => {
-    // if (option === "update") {
-    //   await updateLeaveType(user);
-    // } else if (option === "add") {
-    //   await addLeaveType(user);
-    // }
+    if (option === "update") {
+      // await updateLeaveType(user);
+    } else if (option === "add") {
+      await sendExpenseRequest(user);
+    }
     dispatch(getMyExpenseRequest());
+    setFiles([]);
     handleClose();
   };
-  const onChangeFile = async (event) => {
-    const file = event.target.files;
-console.log(file);
-    // const filebase64 = await convertFileToBase64(file);
-    // setFileBase64(filebase64);
+
+  const removeFile = (fileid) => {
+    setFiles(files.filter((file) => String(file.id) !== String(fileid)));
   };
+
+  const onChangeFile = async (event) => {
+    console.log(event.target.files);
+
+    Array.from(event.target.files).forEach(async (file, index) => {
+      if (!file) return;
+      file.isUploading = true;
+      const filebase64 = await convertFileToBase64(file);
+      let tempFile = {
+        name: file.name,
+        data: filebase64,
+        id: String(file.name+Math.random()),
+      };
+      setFiles((prevState) => [...prevState, tempFile]);
+    });
+  };
+
   const { handleSubmit, submitting } = useForm({
     onSubmit: onSubmit,
   });
-
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid item xs={12} className={classes.textField}>
           <InputLabel>Request Detail *</InputLabel>
           <TextField
-            id="name"
-            name="name"
+            id="detail"
+            name="detail"
             required
             multiline
             rows={4}
-            // defaultValue={name}
-            // onChange={(e) => setName(e.target.value)}
+            defaultValue={detail}
+            onChange={(e) => setDetail(e.target.value)}
             fullWidth
           />
         </Grid>
         <Grid item xs={12}>
-          <InputLabel>File Upload</InputLabel>
-          <input
-            type="file"
-            id="file-input"
-            multiple
-            onChange={onChangeFile}
-          />
+          <InputLabel>Upload file*</InputLabel>
+          <div className={classes.uploadFile}>
+            <label htmlFor="contained-button-file">
+              <Input
+                id="contained-button-file"
+                multiple
+                type="file"
+                onChange={onChangeFile}
+              />
+              <Button
+                variant="contained"
+                component="span"
+                startIcon={<UploadIcon />}
+                style={{ backgroundColor: "#f15120", color: "#ffffff" }}
+              >
+                Upload
+              </Button>
+            </label>
+            <p className={classes.mainInfo}>
+              {" "}
+              Click to Upload {"(File size up to 800 MB per file.)"}
+            </p>
+            {/* <p className={classes.mainInfo}> PDF , PNG ,JPG</p> */}
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <FileLists files={files} removeFile={removeFile} />
         </Grid>
       </Grid>
       <DialogActions className={classes.dialogAction}>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button
+          onClick={() => {
+            setFiles([]);
+            handleClose();
+          }}
+        >
+          Cancel
+        </Button>
         <Button
           loading={submitting}
           variant={"contained"}

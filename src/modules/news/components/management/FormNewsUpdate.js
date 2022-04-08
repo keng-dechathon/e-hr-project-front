@@ -12,7 +12,7 @@ import { getAllNewsInformation } from '../../actions'
 import { useSelector, useDispatch } from 'react-redux'
 import { TextField } from '@mui/material'
 import Snackbar from '../../../layout/components/Snackbar'
-import { convertFileToBase64 } from '../../../../utils/miscellaneous'
+import { convertImageToBase64 } from '../../../../utils/miscellaneous'
 import { Grid } from '@mui/material'
 import { InputLabel } from '@mui/material'
 import { addNews } from '../../actions';
@@ -87,7 +87,7 @@ const FormNewsUpdate = (props) => {
     }
     const onChangeImage = async (event) => {
         const file = event.target.files[0]
-        const fileBase64 = await convertFileToBase64(file)
+        const fileBase64 = await convertImageToBase64(file)
         setImageBase64(fileBase64)
     }
 
