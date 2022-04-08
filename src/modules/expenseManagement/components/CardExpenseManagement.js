@@ -7,12 +7,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@mui/material";
 
 import DataGrid from "../../common/DataGrid";
-import { getMyExpenseRequest } from "../actions";
+import { getAllExpenseRequest } from "../actions";
 import ModalUpdate from "../../common/ModalUpdate";
+import FormExpenseManagement from "./FormExpenseManagement";
 import {
   QuickSearchToolbar,
   escapeRegExp,
 } from "../../common/QuickSearchToolbar/QuickSearchToolbar";
+import { getEmployeeInformtion } from "../../employeeInfomation/actions";
 import { Button } from "@mui/material";
 import { headers } from "./headers";
 const useStyles = makeStyles(() => ({
@@ -34,18 +36,16 @@ const CardExpenseManagement = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { myExpenseInformation } = useSelector(
-    (state) => state.expenseRequestReducer
+  const { allExpenseInformation } = useSelector(
+    (state) => state.expenseManagementReducer
   );
-  console.log(myExpenseInformation);
+  const { empInformation } = useSelector((state) => state.employeeReducer);
   const [option, setOption] = useState("");
   const [open, setOpen] = useState(false);
   const [ID, setID] = useState("");
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
   const [pageSize, setPageSize] = useState(10);
-  const [cancleID, setCancleID] = useState("");
-
   const [sortModel, setSortModel] = useState([
     {
       field: "ID",
@@ -55,7 +55,7 @@ const CardExpenseManagement = () => {
 
   let Header = headers;
   let Info = [];
-
+  console.log(empInformation);
   Header[headers.length] = {
     field: "actions",
     type: "actions",
@@ -70,7 +70,8 @@ const CardExpenseManagement = () => {
             color="success"
             style={{ border: "none", marginRight: "10px" }}
             size="small"
-       
+            onClick={handleClickDecline(cellValues.id)}
+            disabled={cellValues.row.status === "Cancellation Request"}
           >
             Decline
           </Button>
@@ -78,8 +79,9 @@ const CardExpenseManagement = () => {
             variant="contained"
             size="small"
             style={{ backgroundColor: "#8bc34a" }}
+            onClick={handleClickApprove(cellValues.id)}
+            disabled={cellValues.row.status !== "Requested"}
 
-            // }
           >
             Approve
           </Button>
@@ -89,25 +91,32 @@ const CardExpenseManagement = () => {
   };
 
   useEffect(() => {
-    dispatch(getMyExpenseRequest());
+    dispatch(getAllExpenseRequest());
+    dispatch(getEmployeeInformtion());
   }, []);
-  useEffect(() => {
-    if (cancleID !== "") {
-      const onCancle = async (id) => {
-        // await cancleExpenseRequest(String(id));
-        dispatch(getMyExpenseRequest());
-      };
-      onCancle(cancleID);
-      setCancleID("");
-    }
-  }, [cancleID]);
+
   const handleClose = () => {
+    setID("");
+    setOption("");
     setOpen(false);
   };
 
-
-
-
+  const handleClickDecline = React.useCallback(
+    (id) => () => {
+      setID(id);
+      setOption("decline");
+      setOpen(true);
+    },
+    []
+  );
+  const handleClickApprove = React.useCallback(
+    (id) => () => {
+      setID(id);
+      setOption("approve");
+      setOpen(true);
+    },
+    []
+  );
 
   const requestSearch = (searchValue) => {
     setSearchText(searchValue);
@@ -123,9 +132,15 @@ const CardExpenseManagement = () => {
   };
 
   const setDataGrid = () => {
-    if (Object.keys(myExpenseInformation).length !== 0) {
-      myExpenseInformation.data.map((item, index) => {
+    if (
+      Object.keys(allExpenseInformation).length !== 0 &&
+      Object.keys(empInformation).length !== 0
+    ) {
+      allExpenseInformation.data.map((item, index) => {
         Info.push(item);
+        Info[index].Name = empInformation.data.filter(
+          (emp) => String(emp.Emp_id) === String(item.Emp_id)
+        )[0].Name;
         Info[index].id = String(item.Req_id);
         Info[index].complete_at = String(
           item.complete_at ? item.complete_at : "-"
@@ -142,8 +157,19 @@ const CardExpenseManagement = () => {
       <ModalUpdate
         open={open}
         handleClose={handleClose}
-        title="Expense Request"
+        title={
+          option === "approve"
+            ? "Expense Approve"
+            : option === "decline"
+            ? "Expense Decline"
+            : ""
+        }
       >
+        <FormExpenseManagement
+          handleClose={handleClose}
+          option={option}
+          id={ID}
+        />
       </ModalUpdate>
       <Grid container spacing={2} style={{ marginTop: "1px" }}>
         <Grid item xs={12} sm={7}>

@@ -1,24 +1,24 @@
 import * as Actions from "./actions";
 
 export const initialState = {
-  myExpenseInformation: {},
+  allExpenseInformation: {},
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case Actions.GET_MYEXPENSE_INFORMATION.REQUEST:
+    case Actions.GET_ALLEXPENSE_INFORMATION.REQUEST:
       return {
         ...state,
       };
-    case Actions.GET_MYEXPENSE_INFORMATION.SUCCESS:
+    case Actions.GET_ALLEXPENSE_INFORMATION.SUCCESS:
       return {
         ...state,
-        myExpenseInformation: action.payload.data,
+        allExpenseInformation: action.payload.data,
       };
-    case Actions.GET_MYEXPENSE_INFORMATION.FAILURE:
+    case Actions.GET_ALLEXPENSE_INFORMATION.FAILURE:
       return {
         ...state,
-        myExpenseInformation: {},
+        allExpenseInformation: {},
       }; 
     default:
       return state;
