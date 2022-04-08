@@ -228,3 +228,40 @@ export const editMeeting = async (values, setStatus) => {
       return { status: "fail" };
     });
 };
+
+
+export const forceEditMeeting = async (values, setStatus) => {
+  console.log(values);
+  return API()
+    .post(apiUrl.eHRService.common.meeting, {
+      Option: "Confirm_Update",
+      Meeting_id: values.Meeting_id ? values.Meeting_id : "",
+      Date: values.Date ? values.Date : "",
+      Start_at: values.Start_at ? values.Start_at : "",
+      End_at: values.End_at ? values.End_at : "",
+      Room_Id: values.Room_Id ? values.Room_Id : "",
+      Subject: values.Subject ? values.Subject : "",
+      Description: values.Description ? values.Description : "",
+      Value: values.members ? values.members : "",
+    })
+    .then((response) => {
+      setStatus(true);
+      // console.log(response);
+      pushSnackbarAction("success", "update success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      setStatus(false);
+      if (error.response.status === 400) {
+        updateAddState(
+          error.response.data.Emp_message,
+          error.response.data.Room_message,
+          error.response.data.Emp,
+          error.response.status
+        );
+      } else {
+        pushSnackbarAction("Server Error", "Server Error.");
+      }
+      return { status: "fail" };
+    });
+};

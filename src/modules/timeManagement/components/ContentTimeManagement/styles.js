@@ -15,7 +15,7 @@ export default (theme) => ({
     marginTop: "10px",
   },
   tabitem: {
-    marginRight: "30px !important",
+    marginRight: "20px !important",
     padding: "0 !important",
     minWidth: "100px !important",
     textTransform: "none !important",

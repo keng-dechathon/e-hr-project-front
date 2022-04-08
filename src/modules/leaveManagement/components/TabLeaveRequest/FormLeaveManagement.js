@@ -35,8 +35,8 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#8bc34a",
     color: "#FFFFFF",
     "&:hover": {
-      backgroundColor: "#8bc34a",
-      boxShadow: "250ms",
+      background: "#8bc34a",
+      opacity:"0.8",
     },
   },
   dialogAction: {

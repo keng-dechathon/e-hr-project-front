@@ -3,6 +3,15 @@ import renderCellExpand from "../../common/DataGridTimeSheet/renderCellExpand";
 import renderFiles from "./renderFiles"
 export const headers = [
   {
+    field: "Name",
+    headerName: "Name",
+    minWidth: 170,
+    flex: 1,
+    headerClassName: "bg-light-green",
+    renderCell: renderCellExpand,
+    sortable: false,
+  },
+  {
     field: "File",
     headerName: "File",
     width: 150,
@@ -13,7 +22,7 @@ export const headers = [
   {
     field: "Detail",
     headerName: "Request Detail",
-    minWidth: 150,
+    minWidth: 120,
     flex: 1,
     headerClassName: "bg-light-green",
     renderCell: renderCellExpand,
@@ -49,7 +58,7 @@ export const headers = [
   {
     field: "remark",
     headerName: "Remark",
-    minWidth: 100,
+    minWidth: 120,
     flex: 1,
     headerClassName: "bg-light-green",
     renderCell: renderCellExpand,

@@ -17,7 +17,7 @@ import AutoComplete from "../../../common/AutoComplete";
 import { getMeetingInformationByCreator } from "../../actions";
 import ForceUpdateDialog from "./ForceUpdateDialog";
 import { clearAddState } from "../../actions";
-import { forceAddMeeting } from "../../actions";
+import { forceAddMeeting,forceEditMeeting } from "../../actions";
 import { editMeeting } from "../../actions";
 import { updateSubmitting } from "../../actions";
 const useStyles = makeStyles(() => ({
@@ -25,7 +25,8 @@ const useStyles = makeStyles(() => ({
     background: "#04AA6D",
     color: "#FFFFFF",
     "&:hover": {
-      background: "#ffa000",
+      background: "#04AA6D",
+      opacity:"0.8",
     },
   },
   ButtonSubmitForce: {
@@ -124,7 +125,7 @@ const FormUpdateScheduler = (props) => {
       }
     } else {
       if (option === "update") {
-        await editMeeting(user, setStatus);
+        await forceEditMeeting(user, setStatus);
       } else if (option === "add") {
         await forceAddMeeting(user, setStatus);
       }

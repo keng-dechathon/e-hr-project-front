@@ -18,6 +18,7 @@ import leaveManagementReducer from "../modules/leaveManagement/reducers"
 import checkin_checkoutReducer from "../modules/checkin_chekout/reducers"
 import reportReducer from "../modules/report/reducers"
 import expenseRequestReducer from "../modules/expenseRequest/reducers"
+import expenseManagementReducer from "../modules/expenseManagement/reducers"
 export default combineReducers({
   layoutReducer,
   accountReducer,
@@ -38,4 +39,5 @@ export default combineReducers({
   checkin_checkoutReducer,
   reportReducer,
   expenseRequestReducer,
+  expenseManagementReducer,
 });

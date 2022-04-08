@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#04AA6D !important",
     color: "#FFFFFF !important",
     "&:hover": {
-      background: "#ffa000 !important",
+      opacity: "0.8",
     },
   },
   dialogAction: {

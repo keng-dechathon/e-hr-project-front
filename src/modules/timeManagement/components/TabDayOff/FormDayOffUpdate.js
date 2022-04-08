@@ -18,7 +18,8 @@ const useStyles = makeStyles(() => ({
     background: "#04AA6D",
     color: "#FFFFFF",
     "&:hover": {
-      background: "#ffa000",
+      background: "#04AA6D",
+      opacity: "0.8",
     },
   },
   dialogAction: {
@@ -35,13 +36,13 @@ const useStyles = makeStyles(() => ({
 
 const FormDayOffUpdate = (props) => {
   const classes = useStyles();
-  const { handleClose, id} = props;
+  const { handleClose, id } = props;
 
   const dispatch = useDispatch();
   const { dayOffInformation } = useSelector((state) => state.timeReducer);
 
   const item =
-    Object.keys(dayOffInformation).length !== 0 
+    Object.keys(dayOffInformation).length !== 0
       ? dayOffInformation.data.filter((value) => value.Emp_id === id)
       : "";
   const [name, setName] = useState(
@@ -49,7 +50,7 @@ const FormDayOffUpdate = (props) => {
   );
 
   const [timeoff, setTimeoff] = useState(
-    item.length !== 0 ? (item[0].Hour ? item[0].Hour: "") : ""
+    item.length !== 0 ? (item[0].Hour ? item[0].Hour : "") : ""
   );
   const [user, setUser] = useState("");
 
@@ -60,7 +61,7 @@ const FormDayOffUpdate = (props) => {
         Hours: parseInt(timeoff).toString(),
       })
     );
-  }, [id,timeoff]);
+  }, [id, timeoff]);
 
   const onSubmit = async () => {
     await updateDayOff(user);
@@ -89,7 +90,7 @@ const FormDayOffUpdate = (props) => {
               disabled={true}
             />
           </Grid>
-           <Grid item xs={12}>
+          <Grid item xs={12}>
             <InputLabel>Hours</InputLabel>
             <TextField
               id="timeoff"
