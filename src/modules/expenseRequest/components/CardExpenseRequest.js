@@ -42,7 +42,7 @@ const CardExpenseRequest = () => {
   const { myExpenseInformation } = useSelector(
     (state) => state.expenseRequestReducer
   );
-console.log(myExpenseInformation);
+  console.log(myExpenseInformation);
   const [option, setOption] = useState("");
   const [open, setOpen] = useState(false);
   const [ID, setID] = useState("");
@@ -66,17 +66,30 @@ console.log(myExpenseInformation);
     type: "actions",
     headerClassName: "bg-light-green",
     headerName: "Action",
-    width: 90,
+    width: "180",
     renderCell: (cellValues) => {
       return (
-        <Button
-          variant="outlined"
-          style={{ border: "none" }}
-          onClick={onClickCancle(cellValues.id)}
-          disabled={cellValues.row.status !== "Requested" ? true : false}
-        >
-          Cancle
-        </Button>
+        <div>
+          <Button
+            variant="outlined"
+            color="success"
+            size="small"
+            style={{ marginRight: "10px" }}
+            onClick={onClickCancle(cellValues.id)}
+            disabled={cellValues.row.status !== "Requested" ? true : false}
+          >
+            Cancle
+          </Button>
+          <Button
+            variant="outlined"
+            color="success"
+            size="small"
+            onClick={onClickUpdate(cellValues.id)}
+            disabled={cellValues.row.status !== "Requested"}
+          >
+            Edit
+          </Button>
+        </div>
       );
     },
   };
@@ -143,8 +156,6 @@ console.log(myExpenseInformation);
         );
         Info[index].cancle_at = String(item.cancel_at ? item.cancel_at : "-");
         Info[index].remark = String(item.remark ? item.remark : "-");
-        // Info[index].Num_per_year = String(item.Num_per_year);
-        // Info[index].Num_can_add = String(item.Num_can_add);
       });
     }
   };
