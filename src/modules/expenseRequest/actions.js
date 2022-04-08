@@ -8,7 +8,6 @@ export const GET_MYEXPENSE_INFORMATION = createRequestTypes(
   Types.GET_MYEXPENSE_INFORMATION
 );
 
-
 export const getMyExpenseRequest = (config, data = {}) =>
   createAction(
     GET_MYEXPENSE_INFORMATION.REQUEST,
@@ -22,13 +21,11 @@ export const getMyExpenseRequest = (config, data = {}) =>
   );
 
 export const sendExpenseRequest = async (values) => {
+  console.log(values.files);
   return API()
     .post(apiUrl.eHRService.common.expense, {
-      Emp_id: values.Emp_id ? values.Emp_id : "",
-      Detail: values.Detail ? values.Detail : "",
-      File: values.File ? values.File : "",
-      // Status: values.Status ? values.Status : "",
-      Remark: values.Remark ? values.Remark : "",
+      Detail: values.detail ? values.detail : "",     
+      File: values.files ? values.files : [],
       Option: "Send_Request",
     })
     .then((response) => {
@@ -47,7 +44,7 @@ export const cancleExpenseRequest = async (Req_id) => {
   return API()
     .post(apiUrl.eHRService.common.expense, {
       Req_id: Req_id ? Req_id : "",
-      Option: "Canceled_Request",
+      Option: "Canceled_Request_By_Sender",
     })
     .then((response) => {
       pushSnackbarAction("success", "cancle success");

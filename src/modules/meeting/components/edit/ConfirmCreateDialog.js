@@ -9,12 +9,12 @@ import { deleteMeeting } from "../../actions";
 import { getMeetingInformationByCreator } from "../../actions";
 import { useDispatch } from "react-redux";
 
-export default function ConfirmCreateDialog(props) {
-  const { open, handleCloseConfirmDialog } = props;
+export default function ConfirmDialog(props) {
+  const { open, handleCloseConfirmDialog, deleteID } = props;
   const dispatch = useDispatch();
 
   const onClickDelete = async (id) => {
-    // await deleteMeeting(String(deleteID));
+    await deleteMeeting(String(deleteID));
     dispatch(getMeetingInformationByCreator());
     handleCloseConfirmDialog();
   };
@@ -32,7 +32,7 @@ export default function ConfirmCreateDialog(props) {
         <DialogTitle id="alert-dialog-title">{"ATTENTION !!!"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            sure create???
+            sure delete???
           </DialogContentText>
         </DialogContent>
         <DialogActions>

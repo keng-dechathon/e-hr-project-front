@@ -181,19 +181,6 @@ export default function ForceUpdateDialog(props) {
         </DialogContent>
         <DialogActions className={classes.dialogAction}>
           <Button onClick={handleClose}>Back</Button>
-          {/* <Button
-            loading={submitting}
-            variant={"contained"}
-            className={
-              attentioned && option !== "update"
-                ? classes.ButtonSubmitForce
-                : classes.ButtonSubmit
-            }
-            type="submit"
-            autoFocus
-          >
-            {attentioned && option !== "update" ? "Force Update!" : "Update"}
-          </Button> */}
         </DialogActions>
       </Dialog>
     </div>
