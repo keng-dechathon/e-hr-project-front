@@ -130,7 +130,9 @@ const FormUpdateScheduler = (props) => {
         await forceAddMeeting(user, setStatus);
       }
     }
+    setAttentioned(false)
     dispatch(getMeetingInformationByCreator());
+    clearAddState();
   };
   const handleCloseForceUpdate = () => {
     setAttentioned(true);
