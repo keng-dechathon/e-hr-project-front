@@ -130,9 +130,7 @@ const FormUpdateScheduler = (props) => {
         await forceAddMeeting(user, setStatus);
       }
     }
-    setAttentioned(false)
     dispatch(getMeetingInformationByCreator());
-    clearAddState();
   };
   const handleCloseForceUpdate = () => {
     setAttentioned(true);
@@ -257,14 +255,14 @@ const FormUpdateScheduler = (props) => {
             loading={submitting}
             variant={"contained"}
             className={
-              attentioned && option !== "update"
+              attentioned
                 ? classes.ButtonSubmitForce
                 : classes.ButtonSubmit
             }
             type="submit"
             autoFocus
           >
-            {attentioned && option !== "update" ? "Force Update!" : "Update"}
+            {attentioned  ? "Force Update!" : "Update"}
           </Button>
         </DialogActions>
       </form>

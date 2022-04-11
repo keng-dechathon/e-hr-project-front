@@ -71,7 +71,7 @@ const CardExpenseManagement = () => {
             style={{ border: "none", marginRight: "10px" }}
             size="small"
             onClick={handleClickDecline(cellValues.id)}
-            disabled={cellValues.row.status === "Cancellation Request"}
+            disabled={cellValues.row.status === "Cancellation"}
           >
             Decline
           </Button>
