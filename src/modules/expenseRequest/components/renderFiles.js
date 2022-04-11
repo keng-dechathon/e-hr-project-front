@@ -5,6 +5,7 @@ import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import { Grid } from "@mui/material";
 import ModalUpdate from "../../common/ModalUpdate";
 import FileLists from "./FileLists";
+import { Button } from "@mui/material";
 const FilesList = React.memo(function FilesList(props) {
   const { params } = props;
 
@@ -28,6 +29,16 @@ const FilesList = React.memo(function FilesList(props) {
     <>
       <ModalUpdate open={open} handleClose={handleClose} title="Fils List">
         <FileLists files={params.value} dowloadFile={dowloadFile} />
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "right",
+            marginTop: "10px",
+          }}
+        >
+          <Button onClick={handleClose}>Close</Button>
+        </div>
       </ModalUpdate>
       <div style={{ width: "100%", display: "flex" }}>
         <div style={{ marginRight: "10px" }}>{params.value.length} files</div>
