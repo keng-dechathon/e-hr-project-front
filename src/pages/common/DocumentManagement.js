@@ -1,10 +1,11 @@
+import ContentDocumentManagement from "../../modules/documentManagement/components/ContentDocumentManagement";
+
 const DocumentManagement = () => {
-    return (
-      <>
-     
-      </>
-    );
-  };
-  
-  export default DocumentManagement;
-  
+  return (
+    <>
+      <ContentDocumentManagement />
+    </>
+  );
+};
+
+export default DocumentManagement;

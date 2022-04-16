@@ -4,29 +4,29 @@ import { apiUrl } from "../../utils/apiUrl";
 import { pushSnackbarAction } from "../layout/actions";
 import API from "../../utils/api";
 
-export const GET_MYEXPENSE_INFORMATION = createRequestTypes(
-  Types.GET_MYEXPENSE_INFORMATION
+export const GET_MYDOCUMENT_INFORMATION = createRequestTypes(
+  Types.GET_MYDOCUMENT_INFORMATION
 );
 
-export const getMyExpenseRequest = (config, data = {}) =>
+export const getMyDocumentRequest = (config, data = {}) =>
   createAction(
-    GET_MYEXPENSE_INFORMATION.REQUEST,
+    GET_MYDOCUMENT_INFORMATION.REQUEST,
     { Option: "Get_My_Request" },
     {
       method: "POST",
-      url: apiUrl.eHRService.common.expense,
+      url: apiUrl.eHRService.common.document,
       params: data,
       ...config,
     }
   );
 
-export const sendExpenseRequest = async (values) => {
-  console.log(values.files);
+export const sendDocumentRequest = async (values) => {
   return API()
-    .post(apiUrl.eHRService.common.expense, {
+    .post(apiUrl.eHRService.common.document, {
       Detail: values.detail ? values.detail : "",
-      File: values.files ? values.files : [],
-      Option: "Send_Request",
+      Type_ID: values.type ? values.type : "",
+      File: [],
+      Option: "Send_request",
     })
     .then((response) => {
       // console.log(response);
@@ -35,14 +35,14 @@ export const sendExpenseRequest = async (values) => {
     })
     .catch((error) => {
       console.log(error);
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
 
-export const cancleExpenseRequest = async (Req_id) => {
+export const cancleDocumentRequest = async (Req_id) => {
   return API()
-    .post(apiUrl.eHRService.common.expense, {
+    .post(apiUrl.eHRService.common.document, {
       Req_id: Req_id ? Req_id : "",
       Option: "Canceled_Request_By_Sender",
     })
@@ -57,12 +57,13 @@ export const cancleExpenseRequest = async (Req_id) => {
     });
 };
 
-export const updateExpenseRequest = async (values) => {
+export const updateDocumentRequest = async (values) => {
   return API()
-    .post(apiUrl.eHRService.common.expense, {
+    .post(apiUrl.eHRService.common.document, {
       Req_id: values.id ? values.id : "",
       Detail: values.detail ? values.detail : "",
-      File: values.files ? values.files : [],
+      Type_ID: values.type ? values.type : "",
+      File: [],
       Option: "Update_Request",
     })
     .then((response) => {

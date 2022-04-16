@@ -36,7 +36,7 @@ export const responseExpenseManagement = async (values) => {
     })
     .catch((error) => {
       console.log(error);
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };

@@ -6,7 +6,7 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import CardExpenseRequest from "./CardExpenseRequest";
+import CardDocumentRequest from "./CardDocumentRequest"
 import { Divider } from "@mui/material";
 const useStyles = makeStyles((theme) => ({
   Topic: {
@@ -48,8 +48,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ContentExpenseRequest = () => {
+const ContentDocumentRequest = () => {
   const classes = useStyles();
+
 
   return (
     <Box className={classes.box}>
@@ -59,14 +60,14 @@ const ContentExpenseRequest = () => {
         fontWeight="medium"
         className={classes.headerTitle}
       >
-        Expense Request
+        Document Request
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "15px" }}>
-        <Divider style={{ marginBottom: "16px" }} />
-        <CardExpenseRequest />
+        <Divider />
+        <CardDocumentRequest />
       </Box>
     </Box>
   );
 };
 
-export default ContentExpenseRequest;
+export default ContentDocumentRequest;

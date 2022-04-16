@@ -9,11 +9,12 @@ import { Grid } from "@mui/material";
 import DataGrid from "../../common/DataGrid";
 import EditIcon from "@mui/icons-material/Edit";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import { getMyExpenseRequest } from "../actions";
+import { getMyDocumentRequest } from "../actions";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalUpdate from "../../common/ModalUpdate";
-import { cancleExpenseRequest } from "../actions";
-import FormExpensRequest from "./FormExpensRequest";
+import { cancleDocumentRequest } from "../actions";
+import FormDocumentRequest from "./FormDocumentRequest";
+import { getAllDocumentType } from "../../documentManagement/actions";
 import {
   QuickSearchToolbar,
   escapeRegExp,
@@ -35,20 +36,21 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CardExpenseRequest = () => {
+const CardDocumentRequest = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { myExpenseInformation } = useSelector(
-    (state) => state.expenseRequestReducer
+  const { myDocumentInformation } = useSelector(
+    (state) => state.documentRequestReducer
   );
-  console.log(myExpenseInformation);
+  const { documentType } = useSelector((state) => state.documentManagementReducer);
+
   const [option, setOption] = useState("");
   const [open, setOpen] = useState(false);
   const [ID, setID] = useState("");
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(50);
   const [cancleID, setCancleID] = useState("");
 
   const [sortModel, setSortModel] = useState([
@@ -95,13 +97,14 @@ const CardExpenseRequest = () => {
   };
 
   useEffect(() => {
-    dispatch(getMyExpenseRequest());
+    dispatch(getMyDocumentRequest());
+    dispatch(getAllDocumentType());
   }, []);
   useEffect(() => {
     if (cancleID !== "") {
       const onCancle = async (id) => {
-        await cancleExpenseRequest(String(id));
-        dispatch(getMyExpenseRequest());
+        await cancleDocumentRequest(String(id));
+        dispatch(getMyDocumentRequest());
       };
       onCancle(cancleID);
       setCancleID("");
@@ -147,8 +150,11 @@ const CardExpenseRequest = () => {
   };
 
   const setDataGrid = () => {
-    if (Object.keys(myExpenseInformation).length !== 0) {
-      myExpenseInformation.data.map((item, index) => {
+    if (
+      Object.keys(myDocumentInformation).length !== 0 &&
+      Object.keys(documentType).length !== 0
+    ) {
+      myDocumentInformation.data.map((item, index) => {
         Info.push(item);
         Info[index].id = String(item.Req_id);
         Info[index].complete_at = String(
@@ -160,8 +166,11 @@ const CardExpenseRequest = () => {
         );
         // Info[index].cancle_at = String(item.cancel_at ? item.cancel_at : "-");
         Info[index].remark = String(item.remark ? item.remark : "-");
+        Info[index].Type = documentType.data.filter(
+          (docType) => String(docType.Type_Id) === String(item.Type_ID)
+        )[0].Type_name;
       });
-      Info.reverse()
+      Info.reverse();
     }
   };
   setDataGrid();
@@ -171,9 +180,13 @@ const CardExpenseRequest = () => {
       <ModalUpdate
         open={open}
         handleClose={handleClose}
-        title="Expense Request"
+        title="Document Request"
       >
-        <FormExpensRequest handleClose={handleClose} option={option} id={ID} />
+        <FormDocumentRequest
+          handleClose={handleClose}
+          option={option}
+          id={ID}
+        />
       </ModalUpdate>
       <Grid container spacing={2} style={{ marginTop: "1px" }}>
         <Grid item xs={10} sm={7}>
@@ -218,4 +231,4 @@ const CardExpenseRequest = () => {
   );
 };
 
-export default CardExpenseRequest;
+export default CardDocumentRequest;

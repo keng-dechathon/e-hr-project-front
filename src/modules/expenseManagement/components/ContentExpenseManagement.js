@@ -63,7 +63,7 @@ const ContentExpenseManagement = () => {
         Expense Management
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "15px" }}>
-        <Divider />
+        <Divider style={{marginBottom:"16px"}}/>
         <CardExpenseManagement />
       </Box>
     </Box>
