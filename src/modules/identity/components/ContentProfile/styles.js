@@ -41,4 +41,9 @@ export default (theme) => ({
       fontSize: "30px ",
     },
   },
+  tabpanel2: {
+    "&.css-13xfq8m-MuiTabPanel-root": {
+      paddingTop: " 3px !important",
+    },
+  },
 });

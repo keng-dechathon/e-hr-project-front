@@ -19,6 +19,9 @@ import checkin_checkoutReducer from "../modules/checkin_chekout/reducers"
 import reportReducer from "../modules/report/reducers"
 import expenseRequestReducer from "../modules/expenseRequest/reducers"
 import expenseManagementReducer from "../modules/expenseManagement/reducers"
+import documentRequestReducer from "../modules/documentRequest/reducers"
+import documentManagementReducer from "../modules/documentManagement/reducers"
+
 export default combineReducers({
   layoutReducer,
   accountReducer,
@@ -40,4 +43,6 @@ export default combineReducers({
   reportReducer,
   expenseRequestReducer,
   expenseManagementReducer,
+  documentRequestReducer,
+  documentManagementReducer,
 });

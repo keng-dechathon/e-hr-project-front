@@ -62,7 +62,7 @@ export const responseCancleRequest = async (values) => {
       return { status: "success" };
     })
     .catch((error) => {
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };

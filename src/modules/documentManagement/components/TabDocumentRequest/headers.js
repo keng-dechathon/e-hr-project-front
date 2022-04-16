@@ -1,6 +1,6 @@
-import renderCellExpand from "../../common/DataGridTimeSheet/renderCellExpand";
+import renderCellExpand from "../../../common/DataGridTimeSheet/renderCellExpand";
 
-import renderFiles from "./renderFiles"
+import renderFiles from "./renderFiles";
 export const headers = [
   {
     field: "Name",
@@ -12,17 +12,18 @@ export const headers = [
     sortable: false,
   },
   {
-    field: "File",
-    headerName: "File",
-    width: 150,
+    field: "Type",
+    headerName: "Request Type",
+    minWidth: 130,
+    flex: 1,
     headerClassName: "bg-light-green",
-    renderCell: renderFiles,
+    renderCell: renderCellExpand,
     sortable: false,
   },
   {
     field: "Detail",
     headerName: "Request Detail",
-    minWidth: 120,
+    minWidth: 110,
     flex: 1,
     headerClassName: "bg-light-green",
     renderCell: renderCellExpand,
@@ -31,7 +32,7 @@ export const headers = [
   {
     field: "status",
     headerName: "Status",
-    minWidth: 150,
+    minWidth: 160,
     flex: 1,
     headerClassName: "bg-light-green",
     renderCell: renderCellExpand,
@@ -55,10 +56,18 @@ export const headers = [
     renderCell: renderCellExpand,
     sortable: false,
   },
+  // {
+  //   field: "File",
+  //   headerName: "File",
+  //   width: 120,
+  //   headerClassName: "bg-light-green",
+  //   renderCell: renderFiles,
+  //   sortable: false,
+  // },
   {
     field: "remark",
     headerName: "Remark",
-    minWidth: 120,
+    minWidth: 110,
     flex: 1,
     headerClassName: "bg-light-green",
     renderCell: renderCellExpand,

@@ -49,7 +49,7 @@ export const addChargeCode = async (values) => {
     })
     .catch((error) => {
       console.log(error);
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
@@ -69,7 +69,7 @@ export const updateChargeCode = async (values) => {
     })
     .catch((error) => {
       console.log(error);
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
@@ -86,7 +86,7 @@ export const deleteChargeCode = async (id) => {
     })
     .catch((error) => {
       console.log(error);
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
@@ -105,7 +105,7 @@ export const addLocation = async (values) => {
     })
     .catch((error) => {
       console.log(error);
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
@@ -125,7 +125,7 @@ export const updateLocation = async (values) => {
     })
     .catch((error) => {
       console.log(error);
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
@@ -142,7 +142,7 @@ export const deleteLocation = async (id) => {
     })
     .catch((error) => {
       console.log(error);
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };

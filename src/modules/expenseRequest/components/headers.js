@@ -29,8 +29,8 @@ export const headers = [
     sortable: false,
   },
   {
-    field: "cancle_at",
-    headerName: "Cancle at",
+    field: "create_at",
+    headerName: "Create at",
     minWidth: 150,
     flex: 1,
     headerClassName: "bg-light-green",
@@ -39,7 +39,7 @@ export const headers = [
   },
   {
     field: "complete_at",
-    headerName: "Approve at",
+    headerName: "Update at",
     minWidth: 150,
     flex: 1,
     headerClassName: "bg-light-green",

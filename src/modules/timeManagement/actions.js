@@ -66,7 +66,7 @@ export const addHoliday = async (values) => {
     })
     .catch((error) => {
       console.log(error);
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
@@ -86,7 +86,7 @@ export const updateHoliday = async (values) => {
       return { status: "success" };
     })
     .catch((error) => {
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
@@ -103,7 +103,7 @@ export const deleteHoliday = async (values) => {
       return { status: "success" };
     })
     .catch((error) => {
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
@@ -122,7 +122,7 @@ export const updateWorkingTime = async (values) => {
       return { status: "success" };
     })
     .catch((error) => {
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
@@ -158,7 +158,7 @@ export const updateDayOff = async (values) => {
       return { status: "success" };
     })
     .catch((error) => {
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
@@ -177,7 +177,7 @@ export const addDayOff = async (ID, values) => {
       return { status: "success" };
     })
     .catch((error) => {
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };

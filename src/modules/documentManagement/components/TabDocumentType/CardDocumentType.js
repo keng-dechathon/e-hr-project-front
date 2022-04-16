@@ -3,23 +3,22 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useSelector, useDispatch } from "react-redux";
-// import FormLeaveTypeUpdate from "./FormLeaveTypeUpdate";
+import FormLeaveTypeUpdate from "./FormLeaveTypeUpdate";
 import { Grid } from "@mui/material";
+import { getAllDocumentType } from "../../actions";
 
-import DataGrid from "../../common/DataGrid";
+import DataGrid from "../../../common/DataGrid";
 import EditIcon from "@mui/icons-material/Edit";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import { getMyExpenseRequest } from "../actions";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ModalUpdate from "../../common/ModalUpdate";
-import { cancleExpenseRequest } from "../actions";
-import FormExpensRequest from "./FormExpensRequest";
+import ModalUpdate from "../../../common/ModalUpdate";
 import {
   QuickSearchToolbar,
   escapeRegExp,
-} from "../../common/QuickSearchToolbar/QuickSearchToolbar";
+} from "../../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
 import { headers } from "./headers";
+import { deleteDocumentType } from "../../actions";
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
     display: "flex",
@@ -35,21 +34,21 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const CardExpenseRequest = () => {
+const CardDocumentType = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { myExpenseInformation } = useSelector(
-    (state) => state.expenseRequestReducer
+  const { documentType } = useSelector(
+    (state) => state.documentManagementReducer
   );
-  console.log(myExpenseInformation);
+  console.log(documentType);
   const [option, setOption] = useState("");
   const [open, setOpen] = useState(false);
   const [ID, setID] = useState("");
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
-  const [pageSize, setPageSize] = useState(10);
-  const [cancleID, setCancleID] = useState("");
+  const [pageSize, setPageSize] = useState(50);
+  const [deleteID, setDeleteID] = useState("");
 
   const [sortModel, setSortModel] = useState([
     {
@@ -66,47 +65,32 @@ const CardExpenseRequest = () => {
     type: "actions",
     headerClassName: "bg-light-green",
     headerName: "Action",
-    width: "180",
-    renderCell: (cellValues) => {
-      return (
-        <div>
-          <Button
-            variant="outlined"
-            color="success"
-            size="small"
-            style={{ marginRight: "10px" }}
-            onClick={onClickCancle(cellValues.id)}
-            disabled={cellValues.row.status !== "Requested" ? true : false}
-          >
-            Cancle
-          </Button>
-          <Button
-            variant="outlined"
-            color="success"
-            size="small"
-            onClick={onClickUpdate(cellValues.id)}
-            disabled={cellValues.row.status !== "Requested"}
-          >
-            Edit
-          </Button>
-        </div>
-      );
-    },
+    width: 110,
+    getActions: (params) => [
+      <GridActionsCellItem
+        icon={<EditIcon />}
+        label="edit"
+        onClick={onClickUpdate(params.id)}
+      />,
+      <GridActionsCellItem
+        icon={<DeleteForeverIcon />}
+        label="Delete"
+        onClick={onClickDelete(params.id)}
+      />,
+    ],
   };
 
   useEffect(() => {
-    dispatch(getMyExpenseRequest());
-  }, []);
-  useEffect(() => {
-    if (cancleID !== "") {
-      const onCancle = async (id) => {
-        await cancleExpenseRequest(String(id));
-        dispatch(getMyExpenseRequest());
+    if (deleteID !== "") {
+      const onDelete = async (id) => {
+        await deleteDocumentType(String(id));
+        dispatch(getAllDocumentType());
       };
-      onCancle(cancleID);
-      setCancleID("");
+      onDelete(deleteID);
+      setDeleteID("");
     }
-  }, [cancleID]);
+  }, [deleteID]);
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -120,10 +104,9 @@ const CardExpenseRequest = () => {
     []
   );
 
-  const onClickCancle = React.useCallback(
+  const onClickDelete = React.useCallback(
     (id) => () => {
-      console.log(id);
-      setCancleID(id);
+      setDeleteID(id);
     },
     []
   );
@@ -147,19 +130,10 @@ const CardExpenseRequest = () => {
   };
 
   const setDataGrid = () => {
-    if (Object.keys(myExpenseInformation).length !== 0) {
-      myExpenseInformation.data.map((item, index) => {
+    if (Object.keys(documentType).length !== 0) {
+      documentType.data.map((item, index) => {
         Info.push(item);
-        Info[index].id = String(item.Req_id);
-        Info[index].complete_at = String(
-          item.cancel_at
-            ? item.cancel_at
-            : item.complete_at
-            ? item.complete_at
-            : "-"
-        );
-        // Info[index].cancle_at = String(item.cancel_at ? item.cancel_at : "-");
-        Info[index].remark = String(item.remark ? item.remark : "-");
+        Info[index].id = item.Type_Id;
       });
       Info.reverse()
     }
@@ -171,9 +145,13 @@ const CardExpenseRequest = () => {
       <ModalUpdate
         open={open}
         handleClose={handleClose}
-        title="Expense Request"
+        title="Leave Type Update"
       >
-        <FormExpensRequest handleClose={handleClose} option={option} id={ID} />
+        <FormLeaveTypeUpdate
+          handleClose={handleClose}
+          option={option}
+          id={ID}
+        />
       </ModalUpdate>
       <Grid container spacing={2} style={{ marginTop: "1px" }}>
         <Grid item xs={10} sm={7}>
@@ -209,6 +187,7 @@ const CardExpenseRequest = () => {
             rowsPerPageOptions={[10, 20, 50]}
             pagination
             disableSelectionOnClick
+            className={classes.datagrid}
             headers={Header ? Header : ""}
             rows={searchText ? searchInfo : Info ? Info : ""}
           />
@@ -218,4 +197,4 @@ const CardExpenseRequest = () => {
   );
 };
 
-export default CardExpenseRequest;
+export default CardDocumentType;

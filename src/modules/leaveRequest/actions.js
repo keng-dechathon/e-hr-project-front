@@ -64,7 +64,7 @@ export const cancleLeaveRequest = async (id, depend) => {
       return { status: "success" };
     })
     .catch((error) => {
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
@@ -87,7 +87,7 @@ export const sendLeaveRequest = async (values) => {
       return { status: "success" };
     })
     .catch((error) => {
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
