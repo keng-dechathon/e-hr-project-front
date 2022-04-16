@@ -1,10 +1,10 @@
+import ContentDocumentRequest from "../../modules/documentRequest/components/ContentDocumentRequest";
 const DocumentRequest = () => {
-    return (
-      <>
-     
-      </>
-    );
-  };
-  
-  export default DocumentRequest;
-  
+  return (
+    <>
+      <ContentDocumentRequest />
+    </>
+  );
+};
+
+export default DocumentRequest;

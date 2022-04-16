@@ -52,7 +52,7 @@ export const updateProfileById = async (values) => {
             return { status: 'success' }
         })
         .catch((error) => {
-            pushSnackbarAction('Server Error', 'Server Error.')
+            pushSnackbarAction('error', 'Server Error.')
             return { status: 'fail' }
         })
 }
@@ -69,7 +69,7 @@ export const deleteEmployeeById = async (id) => {
             return { status: 'success' }
         })
         .catch((error) => {
-            pushSnackbarAction('Server Error', 'Server Error.')
+            pushSnackbarAction('error', 'Server Error.')
             return { status: 'fail' }
         })
 }
@@ -98,7 +98,7 @@ export const addEmployee = async (values) => {
             return { status: 'success' }
         })
         .catch((error) => {
-            pushSnackbarAction('Server Error', 'Server Error.')
+            pushSnackbarAction('error', 'Server Error.')
             return { status: 'fail' }
         })
 }
@@ -116,7 +116,7 @@ export const activeEmployee = async (id) => {
             return { status: 'success' }
         })
         .catch((error) => {
-            pushSnackbarAction('Server Error', 'Server Error.')
+            pushSnackbarAction('error', 'Server Error.')
             return { status: 'fail' }
         })
 }

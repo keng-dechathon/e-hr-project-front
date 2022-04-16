@@ -133,7 +133,7 @@ export const addMeeting = async (values, setStatus) => {
           error.response.status
         );
       } else {
-        pushSnackbarAction("Server Error", "Server Error.");
+        pushSnackbarAction("error", "Server Error.");
       }
       return { status: "fail" };
     });
@@ -170,7 +170,7 @@ export const forceAddMeeting = async (values, setStatus) => {
           error.response.status
         );
       } else {
-        pushSnackbarAction("Server Error", "Server Error.");
+        pushSnackbarAction("error", "Server Error.");
       }
       return { status: "fail" };
     });
@@ -188,7 +188,7 @@ export const deleteMeeting = async (Meeting_id) => {
       return { status: "success" };
     })
     .catch((error) => {
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };
@@ -223,7 +223,7 @@ export const editMeeting = async (values, setStatus) => {
           error.response.status
         );
       } else {
-        pushSnackbarAction("Server Error", "Server Error.");
+        pushSnackbarAction("error", "Server Error.");
       }
       return { status: "fail" };
     });
@@ -260,7 +260,7 @@ export const forceEditMeeting = async (values, setStatus) => {
           error.response.status
         );
       } else {
-        pushSnackbarAction("Server Error", "Server Error.");
+        pushSnackbarAction("error", "Server Error.");
       }
       return { status: "fail" };
     });

@@ -143,11 +143,16 @@ const CardExpenseManagement = () => {
         )[0].Name;
         Info[index].id = String(item.Req_id);
         Info[index].complete_at = String(
-          item.complete_at ? item.complete_at : "-"
+          item.cancel_at
+            ? item.cancel_at
+            : item.complete_at
+            ? item.complete_at
+            : "-"
         );
-        Info[index].cancle_at = String(item.cancel_at ? item.cancel_at : "-");
+        // Info[index].cancle_at = String(item.cancel_at ? item.cancel_at : "-");
         Info[index].remark = String(item.remark ? item.remark : "-");
       });
+      Info.reverse()
     }
   };
   setDataGrid();

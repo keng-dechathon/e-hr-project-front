@@ -26,6 +26,7 @@ export const apiUrl = {
         chargecode:'/eHRService/ChargeCode',
         checkin_checkout:'/eHRService/CheckInCheckOut',
         expense:'/eHRService/ExpenseRequest',
+        document:'/eHRService/DocumentRequest'
       }
     },
   }

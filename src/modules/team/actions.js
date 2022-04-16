@@ -67,7 +67,7 @@ export const addTeam = async (values, hostID, creatorID, memberID) => {
     })
     .catch((error) => {
       console.log(error);
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };

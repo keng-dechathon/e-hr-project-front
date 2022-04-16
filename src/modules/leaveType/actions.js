@@ -32,7 +32,7 @@ export const updateLeaveType = async (values) => {
             return { status: 'success' }
         })
         .catch((error) => {
-            pushSnackbarAction('Server Error', 'Server Error.')
+            pushSnackbarAction('error', 'Server Error.')
             return { status: 'fail' }
         })
 }
@@ -49,7 +49,7 @@ export const deleteLeaveType = async (id) => {
             return { status: 'success' }
         })
         .catch((error) => {
-            pushSnackbarAction('Server Error', 'Server Error.')
+            pushSnackbarAction('error', 'Server Error.')
             return { status: 'fail' }
         })
 }
@@ -68,7 +68,7 @@ export const addLeaveType = async (values) => {
             return { status: 'success' }
         })
         .catch((error) => {
-            pushSnackbarAction('Server Error', 'Server Error.')
+            pushSnackbarAction('error', 'Server Error.')
             return { status: 'fail' }
         })
 }

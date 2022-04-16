@@ -68,7 +68,7 @@ const ContentProfile = () => {
             <CardWorkInfo />
             <CardContactInfo />
           </TabPanel>
-          <TabPanel value="2" className={classes.tabpanel}>
+          <TabPanel value="2" className={classes.tabpanel2}>
             <CardLeaveInfomation />
           </TabPanel>
           <TabPanel value="3" className={classes.tabpanel}>
