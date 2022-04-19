@@ -30,11 +30,11 @@ import { cancleLeaveRequest,getLeaveRequestInformation } from "../actions";
 
 const useStyles = makeStyles(() => ({
   ButtonSubmit: {
-    backgroundColor: "#8bc34a",
+    background: "#04AA6D",
     color: "#FFFFFF",
     "&:hover": {
-      backgroundColor: "#8bc34a",
-      boxShadow: "250ms",
+      background: "#04AA6D",
+      opacity: "0.8",
     },
   },
   dialogAction: {

@@ -32,6 +32,7 @@ import { Stack } from "@mui/material";
 import { getCookieFromBrowser, removeCookie } from "../../../utils/cookie";
 import { updateTimeSheet } from "../actions";
 import { Grid } from "@mui/material";
+
 const useStyles = makeStyles((theme) => ({
   ButtonAdd: {
     minWidth: "110px",
@@ -289,7 +290,7 @@ const CardTimeSheetRecord = () => {
                     fontSize="small"
                     style={{ marginRight: "5px" }}
                   />
-                  This day is holiday
+                  holiday
                 </Typography>
               ) : (
                 ""
@@ -300,7 +301,7 @@ const CardTimeSheetRecord = () => {
             item
             xs={3}
             sm={5}
-            style={{ display: "flex", justifyContent: "flex-end" }}
+            style={{ display: "flex", justifyContent: "flex-end"}}
           >
             <Button
               variant="outlined"

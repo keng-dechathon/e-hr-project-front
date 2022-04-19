@@ -17,7 +17,7 @@ import FormControl from "@mui/material/FormControl";
 import { MenuItem } from "@mui/material";
 import Select from "@mui/material/Select";
 
-import { updateDocumentRequest } from "../actions";
+import { updateDocumentRequest, updateSubmitting } from "../actions";
 const Input = styled("input")({
   display: "none",
 });
@@ -79,7 +79,10 @@ const FormDocumentRequest = (props) => {
   const { myDocumentInformation } = useSelector(
     (state) => state.documentRequestReducer
   );
-  const { documentType } = useSelector((state) => state.documentManagementReducer);
+
+  const { documentType } = useSelector(
+    (state) => state.documentManagementReducer
+  );
 
   const item =
     Object.keys(myDocumentInformation).length !== 0 && option != "add"
@@ -123,6 +126,11 @@ const FormDocumentRequest = (props) => {
   const { handleSubmit, submitting } = useForm({
     onSubmit: onSubmit,
   });
+
+  useEffect(() => {
+    dispatch(updateSubmitting(submitting));
+  }, [submitting]);
+
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
@@ -162,8 +170,10 @@ const FormDocumentRequest = (props) => {
       <DialogActions className={classes.dialogAction}>
         <Button
           onClick={() => {
-            setType([]);
-            handleClose();
+            if (!submitting) {
+              setType([]);
+              handleClose();
+            }
           }}
         >
           Cancel

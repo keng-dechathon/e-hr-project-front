@@ -34,7 +34,8 @@ const useStyles = makeStyles(() => ({
     background: "#04AA6D",
     color: "#FFFFFF",
     "&:hover": {
-      background: "#ffa000",
+      background: "#04AA6D",
+      opacity: "0.8",
     },
   },
   dialogAction: {
@@ -147,7 +148,7 @@ const FormLeaveRequestUpdate = (props) => {
     let isPast =
       moment(start).isBefore(moment()) || moment(end).isBefore(moment());
     if (hours + "." + min <= 0 || isPast) {
-      pushSnackbarAction("Error", "Wrong Date&Time!");
+      pushSnackbarAction("error", "Wrong Date&Time!");
     } else {
       await sendLeaveRequest(user);
       dispatch(getLeaveRequestInformation());

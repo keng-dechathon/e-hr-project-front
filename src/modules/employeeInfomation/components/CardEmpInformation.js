@@ -24,7 +24,7 @@ import {
   lightBlue,
   lime,
 } from "@mui/material/colors";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   QuickSearchToolbar,
@@ -283,7 +283,7 @@ const CardEmpInformation = (props) => {
             <GridActionsCellItem
               icon={
                 params.row.Active_Status === true ? (
-                  <DeleteForeverIcon />
+                  <DeleteIcon />
                 ) : (
                   <RestartAltIcon />
                 )
@@ -301,6 +301,7 @@ const CardEmpInformation = (props) => {
       Info.reverse();
     }
   };
+  console.log(Info);
   setDataGrid();
   return (
     <>

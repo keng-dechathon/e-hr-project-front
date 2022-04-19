@@ -54,15 +54,13 @@ const FormUpdateContactInfo = (props) => {
 
     const onSubmit = async () => {
         console.log(isEmail(email));
-        if (!isEmail(email)) { pushSnackbarAction('error', 'Invalid Email format') }        
-        else if (!isPhoneNumber(phone)) { pushSnackbarAction('error', 'Invalid phone number format.') }
-        else if (isThai(address)) { pushSnackbarAction('error', 'Enter the address in English only.') }
+        if (!isEmail(email)) { pushSnackbarAction('warning', 'Invalid Email format') }        
+        else if (!isPhoneNumber(phone)) { pushSnackbarAction('warning', 'Invalid phone number format.') }
         else {
             await updateProfile(user)
             dispatch(getAccountInformation())
             handleClose()
         }
-        // window.location.reload();
     };
 
     const { handleSubmit, submitting } = useForm({

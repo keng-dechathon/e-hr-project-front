@@ -2,6 +2,7 @@ import * as Actions from "./actions";
 
 export const initialState = {
   myExpenseInformation: {},
+  submittingState: { submitting: false },
 };
 
 export default (state = initialState, action) => {
@@ -19,7 +20,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         myExpenseInformation: {},
-      }; 
+      };
+    case "UPDATE_SUBMITTING_STATE":
+      return {
+        ...state,
+        submittingState: {
+          submitting: action.submitting,
+        },
+      };
     default:
       return state;
   }

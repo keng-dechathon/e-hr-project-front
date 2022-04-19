@@ -47,7 +47,7 @@ const CardChargeCode = () => {
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
   const [option, setOption] = useState("");
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(50);
   const [sortModel, setSortModel] = useState([
     {
       field: "id",
@@ -139,7 +139,7 @@ const CardChargeCode = () => {
         Info.push(item);
         Info[index].id = item.ChargeCode_id;
       });
-      if(Info.length!==0)Info.reverse()
+      if (Info.length !== 0) Info.reverse();
     }
   };
   setDataGrid();
@@ -180,12 +180,12 @@ const CardChargeCode = () => {
         </Grid>
         <Grid item xs={12}>
           <DataGrid
-            sortingOrder={["desc", "asc"]}          
+            sortingOrder={["desc", "asc"]}
             headers={Header ? Header : ""}
             rows={searchText ? searchInfo : Info ? Info : ""}
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={[10, 20, 50]}
+            rowsPerPageOptions={[10, 20, 50, 100]}
             pagination
             loading={isLoading}
             className={classes.datagrid}

@@ -21,7 +21,6 @@ export const getAllExpenseRequest = (config, data = {}) =>
   );
 
 export const responseExpenseManagement = async (values) => {
-  console.log(values.files);
   return API()
     .post(apiUrl.eHRService.common.expense, {
       Req_id: values.id ? values.id : "",

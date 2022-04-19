@@ -44,6 +44,9 @@ const CardDocumentManagement = () => {
   );
 
   const { empInformation } = useSelector((state) => state.employeeReducer);
+  const { submittingState } = useSelector(
+    (state) => state.documentManagementReducer
+  );
 
   const [option, setOption] = useState("");
   const [open, setOpen] = useState(false);
@@ -170,7 +173,7 @@ const CardDocumentManagement = () => {
     <>
       <ModalUpdate
         open={open}
-        handleClose={handleClose}
+        handleClose={!submittingState.submitting ? handleClose : ""}
         title={
           option === "approve"
             ? "Document Approve"

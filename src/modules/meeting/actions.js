@@ -4,6 +4,7 @@ import { apiUrl } from "../../utils/apiUrl";
 import { pushSnackbarAction } from "../layout/actions";
 import API from "../../utils/api";
 import store from "../../stores/stores";
+
 export const GET_MEETINGROOM_INFORMATION = createRequestTypes(
   Types.GET_MEETINGROOM_INFORMATION
 );

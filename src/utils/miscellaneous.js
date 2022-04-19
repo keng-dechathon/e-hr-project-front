@@ -125,8 +125,7 @@ export const convertFileToBase64 = (file) => {
   });
 };
 
-export const convertBlobtoText = (blob) => {
-  
+export const convertBlobtoText = (blob) => {  
   const bytesString = String.fromCharCode(...blob)
   return bytesString
 };

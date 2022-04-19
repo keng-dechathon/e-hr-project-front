@@ -5,12 +5,10 @@ import noimg from "../../../../assets/noimg.png";
 import { getAllNewsInformation } from "../../actions";
 import { useDispatch } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
-import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
-import { CardContent } from "@mui/material";
+
 import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DeleteIcon from "@mui/icons-material/Delete";
 import FormNewsUpdate from "./FormNewsUpdate";
 import { deleteNews } from "../../actions";
 import {
@@ -99,7 +97,7 @@ const CardNewsList = ({ items,isLoading }) => {
         onClick={updateNews(params.id)}
       />,
       <GridActionsCellItem
-        icon={<DeleteForeverIcon />}
+        icon={<DeleteIcon />}
         label="Delete"
         onClick={deletesNews(params.id)}
       />,

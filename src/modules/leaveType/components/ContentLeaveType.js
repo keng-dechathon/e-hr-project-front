@@ -63,7 +63,7 @@ const ContentLeaveType = () => {
         Leave Type
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "15px" }}>
-        <Divider />
+        <Divider  style={{ marginBottom: "10px" }}/>
         <CardLeaveTypeInformation />
       </Box>
     </Box>

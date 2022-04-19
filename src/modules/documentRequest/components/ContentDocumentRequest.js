@@ -6,7 +6,7 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import CardDocumentRequest from "./CardDocumentRequest"
+import CardDocumentRequest from "./CardDocumentRequest";
 import { Divider } from "@mui/material";
 const useStyles = makeStyles((theme) => ({
   Topic: {
@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
 const ContentDocumentRequest = () => {
   const classes = useStyles();
 
-
   return (
     <Box className={classes.box}>
       <Typography
@@ -63,7 +62,7 @@ const ContentDocumentRequest = () => {
         Document Request
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "15px" }}>
-        <Divider />
+        <Divider style={{ marginBottom: "10px" }} />
         <CardDocumentRequest />
       </Box>
     </Box>

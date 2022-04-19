@@ -17,7 +17,7 @@ import AutoComplete from "../../../common/AutoComplete";
 import { getMeetingInformationByCreator } from "../../actions";
 import ForceUpdateDialog from "./ForceUpdateDialog";
 import { clearAddState } from "../../actions";
-import { forceAddMeeting,forceEditMeeting } from "../../actions";
+import { forceAddMeeting, forceEditMeeting } from "../../actions";
 import { editMeeting } from "../../actions";
 import { updateSubmitting } from "../../actions";
 const useStyles = makeStyles(() => ({
@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
     color: "#FFFFFF",
     "&:hover": {
       background: "#04AA6D",
-      opacity:"0.8",
+      opacity: "0.8",
     },
   },
   ButtonSubmitForce: {
@@ -53,7 +53,7 @@ const FormUpdateScheduler = (props) => {
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  console.log(data);
+
   const membersFormat = [];
   const { addState } = useSelector((state) => state.meetReducer);
   const [openForceUpdate, setOpenForceUpdate] = useState(false);
@@ -88,6 +88,7 @@ const FormUpdateScheduler = (props) => {
     data.length !== 0 ? (data.endDate ? data.endDate : new Date()) : new Date()
   );
   const [user, setUser] = useState("");
+
   useEffect(() => {
     setTimeout(() => {
       setUser({
@@ -102,7 +103,6 @@ const FormUpdateScheduler = (props) => {
       });
     });
   }, [selectStateMembers, start, end, selectStateMeetRoom, title, note]);
-
 
   useEffect(() => {
     if (
@@ -153,7 +153,7 @@ const FormUpdateScheduler = (props) => {
     onSubmit: onSubmit,
   });
   useEffect(() => {
-    dispatch(updateSubmitting(submitting))
+    dispatch(updateSubmitting(submitting));
   }, [submitting]);
   setMembersFormat();
   return (
@@ -250,19 +250,23 @@ const FormUpdateScheduler = (props) => {
           </Grid>
         </Grid>
         <DialogActions className={classes.dialogAction}>
-          <Button onClick={!submitting ? handleClose : ""}>Cancel</Button>
+          <Button
+            onClick={() => {
+              if (!submitting) handleClose();
+            }}
+          >
+            Cancel
+          </Button>
           <Button
             loading={submitting}
             variant={"contained"}
             className={
-              attentioned
-                ? classes.ButtonSubmitForce
-                : classes.ButtonSubmit
+              attentioned ? classes.ButtonSubmitForce : classes.ButtonSubmit
             }
             type="submit"
             autoFocus
           >
-            {attentioned  ? "Force Update!" : "Update"}
+            {attentioned ? "Force Update!" : "Update"}
           </Button>
         </DialogActions>
       </form>

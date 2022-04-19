@@ -52,6 +52,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "24px",
   },
   tabpanel: {
+    padding: " 10px 0 0 0 !important",
+  },
+  tabpanel1: {
     padding: " 16px 0 0 0 !important",
   },
   box: {
@@ -117,7 +120,7 @@ const ContentReport = () => {
               />
             </TabList>
           </Box>
-          <TabPanel value="1" className={classes.tabpanel}>
+          <TabPanel value="1" className={classes.tabpanel1}>
             <CardWorkTimeReport />
           </TabPanel>
           <TabPanel value="2" className={classes.tabpanel}>

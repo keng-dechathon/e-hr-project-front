@@ -27,7 +27,7 @@ import { getLeaveInformationByID } from "../../../leaveRequest/actions";
 import { getEmployeeInformtion } from "../../../employeeInfomation/actions";
 const useStyles = makeStyles((theme) => ({
   box: {
-    marginTop: "20px",
+    marginTop: "25px",
   },
   ButtonAdd: {
     display: "flex",

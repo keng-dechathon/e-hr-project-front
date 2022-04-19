@@ -62,7 +62,7 @@ const ContentExpenseRequest = () => {
         Expense Request
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "15px" }}>
-        <Divider style={{ marginBottom: "16px" }} />
+        <Divider  style={{ marginBottom: "10px" }} />
         <CardExpenseRequest />
       </Box>
     </Box>
