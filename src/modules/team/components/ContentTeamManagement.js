@@ -64,7 +64,7 @@ const ContentTeamManagement = () => {
         Teams Management
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "15px" }}>
-        <Divider style={{ marginBottom: "15px" }} />
+        <Divider  style={{ marginBottom: "10px" }} />
         <CardTeam />
       </Box>
     </Box>

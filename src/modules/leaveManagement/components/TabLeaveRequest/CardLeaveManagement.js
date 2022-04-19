@@ -48,7 +48,7 @@ const CardLeaveManagement = () => {
   const { accountInformation } = useSelector((state) => state.accountReducer);
 
   useEffect(() => {
-    dispatch(getAccountInformation())
+    dispatch(getAccountInformation());
     dispatch(getLeaveManagementInformation());
   }, []);
   const [status, setStatus] = useState("");
@@ -56,7 +56,7 @@ const CardLeaveManagement = () => {
   const [columnData, setColumnData] = useState({});
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(50);
   const [sortModel, setSortModel] = useState([
     {
       field: "ID",
@@ -188,7 +188,7 @@ const CardLeaveManagement = () => {
           status={status}
         />
       </ModalUpdate>
-      <Grid container spacing={2} style={{ marginTop: "15px" }}>
+      <Grid container spacing={2} style={{ marginTop: "10px" }}>
         <Grid item xs={12} sm={6}>
           <QuickSearchToolbar
             value={searchText}
@@ -205,7 +205,7 @@ const CardLeaveManagement = () => {
             }
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={[5, 10, 20, 50]}
+            rowsPerPageOptions={[5, 10, 50, 100]}
             pagination
             disableSelectionOnClick
             className={classes.datagrid}

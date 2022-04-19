@@ -48,8 +48,11 @@ const customStyles = {
     ...base,
     "min-height": "56px",
     "min-width": "500px",
-    zIndex: "9999 !important",
   }),
+  menuPortal: (base) => {
+    const { zIndex, ...rest } = base; // remove zIndex from base by destructuring
+    return { ...rest, zIndex: 9999 };
+  },
 };
 
 const FormAddMember = (props) => {
@@ -69,15 +72,6 @@ const FormAddMember = (props) => {
   const [selectedOptions, setSelectedOptions] = useState();
   const listEmp = [];
 
-  //   const getValueArr = (e) => {
-  //     if (e) {
-  //       let memberID = [];
-  //       e.map((value) => {
-  //         memberID.push(value.value);
-  //       });
-  //       setSelectedOptions(memberID);
-  //     }
-  //   };
   const onSubmit = async () => {
     await addMember(
       teamID,
@@ -88,7 +82,6 @@ const FormAddMember = (props) => {
     handleClose();
   };
 
-  // console.log(Info);
 
   const createOptions = () => {
     if (Object.keys(empInformation).length !== 0) {
@@ -99,10 +92,7 @@ const FormAddMember = (props) => {
         listEmp.push({
             id:parseInt(value.Emp_id),
             text:value.Name
-        })
-        // listEmp[index] = {};
-        // listEmp[index].id = parseInt(value.Emp_id);
-        // listEmp[index].text = value.Name;
+        })      
       });
     }
   };
@@ -116,7 +106,6 @@ const FormAddMember = (props) => {
   return (
     <form
       onSubmit={handleSubmit}
-      // className={classes.form}
     >
       <Grid container spacing={2}>
         <Grid item xs={12}>        

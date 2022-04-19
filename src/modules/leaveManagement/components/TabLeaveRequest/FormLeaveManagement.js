@@ -32,11 +32,11 @@ import { responseCancleRequest } from "../../actions";
 
 const useStyles = makeStyles(() => ({
   ButtonSubmit: {
-    backgroundColor: "#8bc34a",
+    background: "#04AA6D",
     color: "#FFFFFF",
     "&:hover": {
-      background: "#8bc34a",
-      opacity:"0.8",
+      background: "#04AA6D",
+      opacity: "0.8",
     },
   },
   dialogAction: {

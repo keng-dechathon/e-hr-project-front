@@ -4,6 +4,7 @@ import { apiUrl } from "../../utils/apiUrl";
 import { pushSnackbarAction } from "../layout/actions";
 import API from "../../utils/api";
 import { values } from "lodash";
+import store from "../../stores/stores";
 
 export const GET_ALLDOCUMENT_INFORMATION = createRequestTypes(
   Types.GET_ALLDOCUMENT_INFORMATION
@@ -11,6 +12,12 @@ export const GET_ALLDOCUMENT_INFORMATION = createRequestTypes(
 export const GET_ALLDOCUMENT_TYPE = createRequestTypes(
   Types.GET_ALLDOCUMENT_TYPE
 );
+
+export const updateSubmitting = (submitting = "false") =>
+  store.dispatch({
+    type: "UPDATE_SUBMITTING_STATE",
+    submitting: submitting,
+  });
 
 export const getAllDocumentRequest = (config, data = {}) =>
   createAction(

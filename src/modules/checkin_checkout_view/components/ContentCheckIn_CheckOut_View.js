@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tabpanel: {
-    padding: " 16px 0 !important",
+    padding: " 10px 0 0 0!important",
   },
   box: {
     padding: "40px 40px 0 40px ",
@@ -53,7 +53,7 @@ const ContentCheckIn_CheckOut_View = () => {
         Checkin - Checkout (View)
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "15px" }}>
-        <Divider/>
+        <Divider  style={{ marginBottom: "10px" }}/>
         <CardCheckIn_CheckOut_View />
       </Box>
     </Box>

@@ -3,10 +3,17 @@ import { createRequestTypes, createAction } from "../../utils/requestTypes";
 import { apiUrl } from "../../utils/apiUrl";
 import { pushSnackbarAction } from "../layout/actions";
 import API from "../../utils/api";
+import store from "../../stores/stores";
 
 export const GET_MYEXPENSE_INFORMATION = createRequestTypes(
   Types.GET_MYEXPENSE_INFORMATION
 );
+
+export const updateSubmitting = (submitting = "false") =>
+  store.dispatch({
+    type: "UPDATE_SUBMITTING_STATE",
+    submitting: submitting,
+  });
 
 export const getMyExpenseRequest = (config, data = {}) =>
   createAction(

@@ -51,12 +51,17 @@ const ContentEmpInformation = () => {
   const classes = useStyles();
   return (
     <Box className={classes.box}>
-      <Typography variant="h3" color="pink" fontWeight="medium" className={classes.headerTitle}>
+      <Typography
+        variant="h3"
+        color="pink"
+        fontWeight="medium"
+        className={classes.headerTitle}
+      >
         {isPath(empInfoPath) && "Employee Information"}
         {isPath(empMgnt) && "Employee Management"}
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "15px" }}>
-        <Divider style={{marginBottom:'15px'}}/>
+        <Divider style={{ marginBottom: "10px" }} />
         <CardEmpInformation />
       </Box>
     </Box>

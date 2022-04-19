@@ -3,6 +3,7 @@ import * as Actions from "./actions";
 export const initialState = {
   allDocumentInformation: {},
   documentType: {},
+  submittingState: { submitting: false },
 };
 
 export default (state = initialState, action) => {
@@ -34,6 +35,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         documentType: {},
+      };
+    case "UPDATE_SUBMITTING_STATE":
+      return {
+        ...state,
+        submittingState: {
+          submitting: action.submitting,
+        },
       };
     default:
       return state;

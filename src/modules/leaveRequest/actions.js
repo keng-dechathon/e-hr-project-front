@@ -60,7 +60,7 @@ export const cancleLeaveRequest = async (id, depend) => {
       Depend: depend ? depend : "",
     })
     .then((response) => {
-      pushSnackbarAction("success", "update success");
+      pushSnackbarAction("success", "cancle success");
       return { status: "success" };
     })
     .catch((error) => {

@@ -10,7 +10,7 @@ import DataGrid from "../../common/DataGrid";
 import EditIcon from "@mui/icons-material/Edit";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { getLeaveTypeInformation } from "../actions";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ModalUpdate from "../../common/ModalUpdate";
 import { deleteLeaveType } from "../actions";
 import {
@@ -73,7 +73,7 @@ const CardLeaveTypeInformation = () => {
         onClick={onClickUpdate(params.id)}
       />,
       <GridActionsCellItem
-        icon={<DeleteForeverIcon />}
+        icon={<DeleteIcon />}
         label="Delete"
         onClick={onClickDelete(params.id)}
       />,
@@ -136,9 +136,11 @@ const CardLeaveTypeInformation = () => {
   const setDataGrid = () => {
     if (Object.keys(leaveTypeInformation).length !== 0) {
       leaveTypeInformation.data.map((item, index) => {
-        Info.push(item);
-        Info[index].Num_per_year = String(item.Num_per_year);
-        Info[index].Num_can_add = String(item.Num_can_add);
+        if (item.Type_name !== "DayOff") {
+          Info.push(item);
+          Info[index].Num_per_year = String(item.Num_per_year);
+          Info[index].Num_can_add = String(item.Num_can_add);
+        }
       });
     }
   };

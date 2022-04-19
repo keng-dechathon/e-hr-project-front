@@ -42,7 +42,10 @@ const CardExpenseRequest = () => {
   const { myExpenseInformation } = useSelector(
     (state) => state.expenseRequestReducer
   );
-  console.log(myExpenseInformation);
+  const { submittingState } = useSelector(
+    (state) => state.expenseRequestReducer
+  );
+
   const [option, setOption] = useState("");
   const [open, setOpen] = useState(false);
   const [ID, setID] = useState("");
@@ -161,7 +164,7 @@ const CardExpenseRequest = () => {
         // Info[index].cancle_at = String(item.cancel_at ? item.cancel_at : "-");
         Info[index].remark = String(item.remark ? item.remark : "-");
       });
-      Info.reverse()
+      Info.reverse();
     }
   };
   setDataGrid();
@@ -170,7 +173,7 @@ const CardExpenseRequest = () => {
     <>
       <ModalUpdate
         open={open}
-        handleClose={handleClose}
+        handleClose={!submittingState.submitting ? handleClose : ""}
         title="Expense Request"
       >
         <FormExpensRequest handleClose={handleClose} option={option} id={ID} />

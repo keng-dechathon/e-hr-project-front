@@ -58,7 +58,7 @@ export const updateChargeCode = async (values) => {
   return API()
     .post(apiUrl.eHRService.common.chargecode, {
       ChargeCode_id: values.ChargeCode_id ? values.ChargeCode_id : "",
-      ChargeCode_Name: values.ChargeCode_Name ? values.ChargeCode_Name : "",
+      ChargeCode_name: values.ChargeCode_Name ? values.ChargeCode_Name : "",
       Description: values.Description ? values.Description : "",
       Option: "Update",
     })
@@ -81,7 +81,7 @@ export const deleteChargeCode = async (id) => {
       Option: "Delete",
     })
     .then((response) => {
-      pushSnackbarAction("delete", "delete success");
+      pushSnackbarAction("success", "delete success");
       return { status: "success" };
     })
     .catch((error) => {
@@ -137,7 +137,7 @@ export const deleteLocation = async (id) => {
       Option: "Delete",
     })
     .then((response) => {
-      pushSnackbarAction("delete", "delete success");
+      pushSnackbarAction("success", "delete success");
       return { status: "success" };
     })
     .catch((error) => {

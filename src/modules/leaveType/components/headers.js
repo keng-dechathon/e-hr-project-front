@@ -34,7 +34,6 @@ export const headers = [
     minWidth: 200,
     flex:1,
     headerClassName: "bg-light-green",
-    renderCell: renderCellExpand,
     sortable: false,    
     renderCell: (params) => (
         <div>
