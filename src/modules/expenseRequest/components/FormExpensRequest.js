@@ -15,7 +15,8 @@ import { styled } from "@mui/material/styles";
 import { convertFileToBase64 } from "../../../utils/miscellaneous";
 import UploadIcon from "@mui/icons-material/Upload";
 import FileLists from "./FileLists";
-import { updateExpenseRequest } from "../actions";
+import { updateExpenseRequest, updateSubmitting } from "../actions";
+
 const Input = styled("input")({
   display: "none",
 });
@@ -143,6 +144,9 @@ const FormExpensRequest = (props) => {
   const { handleSubmit, submitting } = useForm({
     onSubmit: onSubmit,
   });
+  useEffect(() => {
+    dispatch(updateSubmitting(submitting));
+  }, [submitting]);
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
@@ -196,8 +200,10 @@ const FormExpensRequest = (props) => {
       <DialogActions className={classes.dialogAction}>
         <Button
           onClick={() => {
-            setFiles([]);
-            handleClose();
+            if (!submitting) {
+              setFiles([]);
+              handleClose();
+            }
           }}
         >
           Cancel

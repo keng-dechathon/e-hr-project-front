@@ -13,7 +13,7 @@ import FormUpdateTeam from "./FormUpdateTeam";
 import ModalUpdate from "../../common/ModalUpdate";
 import FormAddTeam from "./FormAddTeam";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteTeam } from "../actions";
 import { headers } from "./headers";
 import {
@@ -23,7 +23,7 @@ import {
 import { Button } from "@mui/material";
 import { Grid } from "@mui/material";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   ButtonAdd: {
     display: "flex",
   },
@@ -33,6 +33,7 @@ const useStyles = makeStyles(() => ({
       paddingBottom: "0 !important",
     },
   },
+
 }));
 
 const CardTeam = () => {
@@ -78,7 +79,7 @@ const CardTeam = () => {
         onClick={onClickUpdate(params.row)}
       />,
       <GridActionsCellItem
-        icon={<DeleteForeverIcon />}
+        icon={<DeleteIcon />}
         label="Delete"
         onClick={onClickDelete(params.id)}
       />,
@@ -144,6 +145,7 @@ const CardTeam = () => {
       });
     }
   };
+  console.log(option);
   setDataGrid();
   return (
     <>
@@ -157,7 +159,9 @@ const CardTeam = () => {
             ? "Update Team"
             : ""
         }
-        fullscreen="true"
+        fullscreen={
+          option === "add" ? false: option === "update" ? true : false
+        }
       >
         {option === "add" ? (
           <FormAddTeam handleClose={handleClose} />

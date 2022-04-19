@@ -38,7 +38,7 @@ export default (theme) => ({
     padding: "24px",
   },
   tabpanel: {
-    padding: " 16px 0 0 0 !important",
+    padding: " 10px 0 0 0 !important",
   },
   headerTitle: {
     [theme.breakpoints.down("xs")]: {

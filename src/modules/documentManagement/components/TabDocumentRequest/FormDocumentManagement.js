@@ -10,7 +10,7 @@ import Snackbar from "../../../layout/components/Snackbar";
 import { Grid } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { getAllDocumentRequest } from "../../actions";
+import { getAllDocumentRequest,updateSubmitting } from "../../actions";
 import { responseDocumentManagement } from "../../actions";
 import { convertFileToBase64 } from "../../../../utils/miscellaneous";
 import UploadIcon from "@mui/icons-material/Upload";
@@ -134,6 +134,9 @@ const FormDocumentManagement = (props) => {
   const { handleSubmit, submitting } = useForm({
     onSubmit: onSubmit,
   });
+  useEffect(() => {
+    dispatch(updateSubmitting(submitting));
+  }, [submitting]);
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
@@ -194,8 +197,10 @@ const FormDocumentManagement = (props) => {
       <DialogActions className={classes.dialogAction}>
         <Button
           onClick={() => {
-            setRemark("");
-            handleClose();
+            if (!submitting) {
+              setRemark("");
+              handleClose();
+            }
           }}
         >
           Cancel

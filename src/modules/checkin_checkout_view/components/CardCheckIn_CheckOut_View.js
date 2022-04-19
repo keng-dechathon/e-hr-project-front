@@ -158,7 +158,7 @@ const CardCheckIn_CheckOut_View = () => {
   const [isBetween, setIsBetween] = useState(false);
   const [day, setDay] = useState(new Date());
   const [showType, setShowType] = useState("Day");
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(50);
   const [selectState, setSelectState] = React.useState({});
   const [selectStateFilter, setSelectStateFilter] = React.useState("");
   const [filterOption, setFilterOption] = React.useState([]);
@@ -444,7 +444,7 @@ const CardCheckIn_CheckOut_View = () => {
                     fontSize="small"
                     style={{ marginRight: "5px" }}
                   />
-                  This day is holiday
+                  holiday
                 </Typography>
               ) : (
                 ""

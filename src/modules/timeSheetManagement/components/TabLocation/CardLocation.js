@@ -45,13 +45,8 @@ const CardLocation = () => {
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
   const [option, setOption] = useState("");
-  const [pageSize, setPageSize] = useState(10);
-  const [sortModel, setSortModel] = useState([
-    {
-      field: "ID",
-      sort: "desc",
-    },
-  ]);
+  const [pageSize, setPageSize] = useState(50);
+
   const [isLoading, setIsLoading] = useState(false);
 
   let Header = headers;
@@ -123,7 +118,6 @@ const CardLocation = () => {
     if (Info.length !== 0) {
       const filteredRows = Info.filter((row) => {
         return Object.keys(row).some((field) => {
-          console.log(row[field].toString());
           return searchRegex.test(row[field].toString());
         });
       });
@@ -184,7 +178,7 @@ const CardLocation = () => {
             rows={searchText ? searchInfo : Info ? Info : ""}
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={[10, 20, 50]}
+            rowsPerPageOptions={[10, 20, 50, 100]}
             pagination
             loading={isLoading}
             className={classes.datagrid}

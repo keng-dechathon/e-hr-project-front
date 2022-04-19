@@ -29,7 +29,7 @@ const FormChangePassword = (props) => {
             // handleClose()
         }
         else {
-            pushSnackbarAction('Error', 'New password not same')
+            pushSnackbarAction('warning', 'New password not same')
         }
         // window.location.reload();
     };

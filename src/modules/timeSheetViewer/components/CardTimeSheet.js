@@ -312,7 +312,7 @@ const CardTimeSheet = (props) => {
                     fontSize="small"
                     style={{ marginRight: "5px" }}
                   />
-                  This day is holiday
+                  holiday
                 </Typography>
               ) : (
                 ""

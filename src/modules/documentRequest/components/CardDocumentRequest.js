@@ -43,7 +43,12 @@ const CardDocumentRequest = () => {
   const { myDocumentInformation } = useSelector(
     (state) => state.documentRequestReducer
   );
-  const { documentType } = useSelector((state) => state.documentManagementReducer);
+  const { documentType } = useSelector(
+    (state) => state.documentManagementReducer
+  );
+  const { submittingState } = useSelector(
+    (state) => state.documentRequestReducer
+  );
 
   const [option, setOption] = useState("");
   const [open, setOpen] = useState(false);
@@ -179,7 +184,7 @@ const CardDocumentRequest = () => {
     <>
       <ModalUpdate
         open={open}
-        handleClose={handleClose}
+        handleClose={!submittingState.submitting ? handleClose : ""}
         title="Document Request"
       >
         <FormDocumentRequest

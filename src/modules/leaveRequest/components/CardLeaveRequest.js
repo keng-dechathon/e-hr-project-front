@@ -186,7 +186,7 @@ const CardLeaveRequest = () => {
         />
       </ModalUpdate>
 
-      <Grid container spacing={2} style={{ marginTop: "15px" }}>
+      <Grid container spacing={2} style={{ marginTop: "10px" }}>
         <Grid item xs={10} sm={7}>
           {" "}
           <QuickSearchToolbar

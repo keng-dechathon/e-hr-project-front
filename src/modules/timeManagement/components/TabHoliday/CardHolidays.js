@@ -10,7 +10,7 @@ import { Card } from "@mui/material";
 import { CardContent } from "@mui/material";
 import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { headers } from "./headers";
 import { deleteHoliday } from "../../actions";
 import {
@@ -70,7 +70,7 @@ const CardHoliday = () => {
         onClick={onClickUpdate(params.id)}
       />,
       <GridActionsCellItem
-        icon={<DeleteForeverIcon />}
+        icon={<DeleteIcon />}
         label="Delete"
         onClick={onClickDelete(params.id)}
       />,

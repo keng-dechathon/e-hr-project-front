@@ -121,7 +121,7 @@ const FormNewsUpdate = (props) => {
                             id='topic'
                             name='topic'
                             required
-                            size='small'
+                            // size='small'
                             defaultValue={topic}
                             onChange={handleChangeTopic}
                             fullWidth
@@ -151,14 +151,14 @@ const FormNewsUpdate = (props) => {
                             value={start}
                             onChange={handleChangeStart}
 
-                            renderInput={(params) => <TextField fullWidth required {...params} size='small'/>}
+                            renderInput={(params) => <TextField fullWidth required {...params} />}
                         />
                         <Box sx={{ mx: 2 }} className={classes.center}> to </Box>
                         <DateTimePicker
                             inputFormat="dd/MM/yyyy hh:mm a"
                             value={end}
                             onChange={handleChangeEnd}
-                            renderInput={(params) => <TextField fullWidth required {...params} size='small'/>}
+                            renderInput={(params) => <TextField fullWidth required {...params} />}
                         />
                     </Grid>
                     <Grid item xs={12} >

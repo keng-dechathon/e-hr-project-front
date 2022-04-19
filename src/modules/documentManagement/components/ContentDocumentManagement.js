@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tabpanel: {
     "&.css-13xfq8m-MuiTabPanel-root": {
-      padding: " 16px 0 0 0 !important",
+      padding: " 10px 0 0 0 !important",
     },
   },
   headerTitle: {
