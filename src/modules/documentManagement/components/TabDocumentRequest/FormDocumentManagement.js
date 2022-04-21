@@ -115,6 +115,7 @@ const FormDocumentManagement = (props) => {
       setFiles((prevState) => [tempFile]);
     });
   };
+  console.log(files);
   const dowloadFile = (value) => {
     const linkSource = value.data;
     const dowloadLink = document.createElement("a");
@@ -159,6 +160,7 @@ const FormDocumentManagement = (props) => {
               <label htmlFor="contained-button-file">
                 <Input
                   id="contained-button-file"
+                  multiple
                   type="file"
                   onChange={onChangeFile}
                 />
