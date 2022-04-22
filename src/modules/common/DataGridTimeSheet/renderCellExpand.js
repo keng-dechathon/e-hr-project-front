@@ -89,7 +89,7 @@ function isOverflown(element) {
           >
             <Paper
               elevation={1}
-              style={{ minHeight: wrapper.current.offsetHeight - 3,maxWidth:'300px' }}
+              style={{ minHeight: wrapper.current.offsetHeight - 3,maxWidth:'400px' }}
             >
               <Typography variant="body2" style={{ padding: 8,wordWrap: 'break-word' }}>
                 {value}
