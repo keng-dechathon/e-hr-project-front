@@ -44,12 +44,13 @@ export const getAllDocumentType = (config, data = {}) =>
   );
 
 export const responseDocumentManagement = async (values) => {
+  console.log( values.files);
   return API()
     .post(apiUrl.eHRService.common.document, {
       Req_id: values.id ? values.id : "",
       Remark: values.remark ? values.remark : "",
       Status: values.option ? values.option : "",
-      File: values.files[0] ? values.files[0] : {},
+      File: values.files ? values.files : [],
       Option: "Respond_request",
     })
     .then((response) => {

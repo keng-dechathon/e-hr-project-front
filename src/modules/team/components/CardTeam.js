@@ -48,7 +48,7 @@ const CardTeam = () => {
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
   const [option, setOption] = useState("");
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(10);
   const [sortModel, setSortModel] = useState([
     {
       field: "ID",
