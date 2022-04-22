@@ -6,7 +6,6 @@ import { pushSnackbarAction } from '../layout/actions'
 
 
 export const signIn = async (values, Checked, navigate) => {
-
     return API()
         .post(apiUrl.eHRService.auth.signin, {
             username: values.email,
@@ -16,7 +15,6 @@ export const signIn = async (values, Checked, navigate) => {
             const { access_token, ID, NeedResetPassword } = response.data
             const uid = ID
             const a = access_token
-
             if (NeedResetPassword) {
                 setCookie('uid', uid, (1000 * 3600))
                 setCookie('a', a, (1000 * 3600))
@@ -36,25 +34,20 @@ export const signIn = async (values, Checked, navigate) => {
             }
         })
         .catch((error) => {
-            console.log(error);
             try {
                 let status = error.response.status
-                console.log(status);
                 if (status === 401 || status === 404) {
                     pushSnackbarAction('error', 'username or password incorrect')
                 }
             } catch (e) {
                 pushSnackbarAction('error', 'Server error')
             }
-            console.log('err');
             return { status: 'fail' }
         })
 }
 
 
 export const forgotPassword = async (values) => {
-    console.log(apiUrl.eHRService.auth.forgotPassword);
-    console.log(values);
     return API()
         .post(apiUrl.eHRService.auth.forgotPassword, {
             username: values.email

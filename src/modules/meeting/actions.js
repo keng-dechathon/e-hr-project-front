@@ -125,7 +125,6 @@ export const addMeeting = async (values, setStatus) => {
     })
     .catch((error) => {
       setStatus(false);
-      console.log(error);
       if (error.response.status === 400) {
         updateAddState(
           error.response.data.Emp_message,
