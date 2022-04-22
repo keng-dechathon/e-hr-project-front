@@ -72,7 +72,8 @@ const CardEmpInformation = (props) => {
   const [activeID, setActiveID] = useState("");
   const [deleteID, setDeleteID] = useState("");
   const [pageSize, setPageSize] = useState(50);
-
+  const [isLoading, setIsLoading] = useState(true);
+console.log(empInformation);
   const avatarColor = [
     pink[500],
     lightGreen[500],
@@ -161,11 +162,16 @@ const CardEmpInformation = (props) => {
       sortable: false,
     },
   ];
+  
   let Info = [];
 
   useEffect(() => {
+    setIsLoading(true)
     dispatch(getEmployeeInformtion());
   }, []);
+  useEffect(() => {
+    setIsLoading(false)
+  }, [empInformation]);
 
   useEffect(() => {
     if (deleteID !== "") {
@@ -301,7 +307,6 @@ const CardEmpInformation = (props) => {
       Info.reverse();
     }
   };
-  console.log(Info);
   setDataGrid();
   return (
     <>
@@ -344,6 +349,7 @@ const CardEmpInformation = (props) => {
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[5,10,50, 100]}
             pagination
+            loading={isLoading}
             disableSelectionOnClick
             className={classes.datagrid}
             headers={Header ? Header : ""}

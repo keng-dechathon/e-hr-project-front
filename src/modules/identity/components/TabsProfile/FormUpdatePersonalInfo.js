@@ -58,9 +58,7 @@ const FormUpdatePersonalInfo = (props) => {
     accountInformation.Lastname ? accountInformation.Lastname : ""
   );
   const [user, setUser] = useState("");
-  const [imageBase64, setImageBase64] = useState(
-    accountInformation.Img ? accountInformation.Img : ""
-  );
+  const [imageBase64, setImageBase64] = useState("");
 
   useEffect(() => {
     setTimeout(() =>

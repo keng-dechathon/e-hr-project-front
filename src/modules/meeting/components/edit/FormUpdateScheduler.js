@@ -55,6 +55,7 @@ const FormUpdateScheduler = (props) => {
   const dispatch = useDispatch();
 
   const membersFormat = [];
+
   const { addState } = useSelector((state) => state.meetReducer);
   const [openForceUpdate, setOpenForceUpdate] = useState(false);
   const [attentioned, setAttentioned] = useState(false);
@@ -266,7 +267,7 @@ const FormUpdateScheduler = (props) => {
             type="submit"
             autoFocus
           >
-            {attentioned ? "Force Update!" : "Update"}
+            {attentioned ? "Update!" : "Update"}
           </Button>
         </DialogActions>
       </form>

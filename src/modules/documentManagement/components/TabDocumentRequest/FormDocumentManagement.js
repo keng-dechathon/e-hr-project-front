@@ -112,10 +112,10 @@ const FormDocumentManagement = (props) => {
         data: filebase64,
         id: String(file.name + Math.random()),
       };
-      setFiles((prevState) => [tempFile]);
+      setFiles((prevState) => [...prevState, tempFile]);
     });
   };
-  console.log(files);
+
   const dowloadFile = (value) => {
     const linkSource = value.data;
     const dowloadLink = document.createElement("a");

@@ -16,7 +16,6 @@ export const headers = [
     headerName: "Hours",
     flex: 1,
     headerClassName: "bg-light-green",
-
     renderCell: renderCellExpand,
     sortable: false,
   },

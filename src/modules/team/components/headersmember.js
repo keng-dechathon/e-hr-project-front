@@ -7,7 +7,7 @@ export const headers = [
     headerClassName: "bg-light-green",
     headerName: "ID",
     type: "number",
-    flex: 1,
+    width: 100,
     align: "left",
     headerAlign: "left",
   },

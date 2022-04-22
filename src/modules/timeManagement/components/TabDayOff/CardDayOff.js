@@ -91,6 +91,7 @@ const CardDayOff = () => {
   const setDataGrid = () => {
     if (Object.keys(dayOffInformation).length !== 0) {
       dayOffInformation.data.map((item, index) => {
+        if (Info.Hour === 0 || Info.Hour === "0") Info.Hour = "0";
         Info.push(item);
         Info[index].id = item.Emp_id;
       });
