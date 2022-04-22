@@ -160,7 +160,7 @@ const FormDocumentRequest = (props) => {
             label="Request Detail"
             required
             multiline
-            rows={4}
+            rows={6}
             defaultValue={detail}
             onChange={(e) => setDetail(e.target.value)}
             fullWidth

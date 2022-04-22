@@ -7,6 +7,7 @@ import { getChargeCode, getLocation } from "../../timeSheetManagement/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { updateTimeSheet } from "../actions";
 import { getTimeSheetInformationByDate } from "../actions";
+import { getCookieFromBrowser, removeCookie } from "../../../utils/cookie";
 
 export const RenderSelectLocation = (params) => {
   const dispatch = useDispatch();
@@ -28,12 +29,40 @@ export const RenderSelectLocation = (params) => {
       setInfo(locationInformation.data);
     }
   }, [locationInformation]);
-
+  
+  const checkTimeSheetCookie = async () => {
+    if (
+      getCookieFromBrowser("Sheet_Id") !== undefined &&
+      getCookieFromBrowser("Sheet_Detail") !== undefined
+    ) {
+      const values = {
+        Detail: getCookieFromBrowser("Sheet_Detail"),
+        Sheet_id: getCookieFromBrowser("Sheet_Id"),
+      };
+      await updateTimeSheet(values);
+      removeCookie("Sheet_Detail");
+      removeCookie("Sheet_Id");
+    }
+    if (
+      getCookieFromBrowser("Remark") !== undefined &&
+      getCookieFromBrowser("SheetRemark_Id") !== undefined
+    ) {
+      const values = {
+        Remark: getCookieFromBrowser("Remark"),
+        Sheet_id: getCookieFromBrowser("SheetRemark_Id"),
+      };
+      await updateTimeSheet(values);
+      removeCookie("Remark");
+      removeCookie("SheetRemark_Id");
+    }
+    dispatch(getTimeSheetInformationByDate("", "", dateState.date));
+  };
   const handleChangeLocation = async (e, params) => {
     const values = {
       [params.field]: String(e.target.value),
       Sheet_id: String(params.id),
     };
+    checkTimeSheetCookie()
     await updateTimeSheet(values);
     dispatch(getTimeSheetInformationByDate("", "", dateState.date));
   };
@@ -84,12 +113,39 @@ export const RenderSelectChargeCode = (params) => {
       setInfo(chargeCodeInformation.data);
     }
   }, [chargeCodeInformation]);
-
+  const checkTimeSheetCookie = async () => {
+    if (
+      getCookieFromBrowser("Sheet_Id") !== undefined &&
+      getCookieFromBrowser("Sheet_Detail") !== undefined
+    ) {
+      const values = {
+        Detail: getCookieFromBrowser("Sheet_Detail"),
+        Sheet_id: getCookieFromBrowser("Sheet_Id"),
+      };
+      await updateTimeSheet(values);
+      removeCookie("Sheet_Detail");
+      removeCookie("Sheet_Id");
+    }
+    if (
+      getCookieFromBrowser("Remark") !== undefined &&
+      getCookieFromBrowser("SheetRemark_Id") !== undefined
+    ) {
+      const values = {
+        Remark: getCookieFromBrowser("Remark"),
+        Sheet_id: getCookieFromBrowser("SheetRemark_Id"),
+      };
+      await updateTimeSheet(values);
+      removeCookie("Remark");
+      removeCookie("SheetRemark_Id");
+    }
+    dispatch(getTimeSheetInformationByDate("", "", dateState.date));
+  };
   const handleChangeChargeCode = async (e, params) => {
     const values = {
       [params.field]: String(e.target.value),
       Sheet_id: String(params.id),
     };
+    checkTimeSheetCookie()
     await updateTimeSheet(values);
     dispatch(getTimeSheetInformationByDate("", "", dateState.date));
   };

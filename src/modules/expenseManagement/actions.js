@@ -29,12 +29,11 @@ export const responseExpenseManagement = async (values) => {
       Option: "Response_Request",
     })
     .then((response) => {
-      // console.log(response);
-      pushSnackbarAction("success", "cancle success");
+      if (values.option) pushSnackbarAction("success", "approve success");
+      else pushSnackbarAction("success", "cancle success");
       return { status: "success" };
     })
     .catch((error) => {
-      console.log(error);
       pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });

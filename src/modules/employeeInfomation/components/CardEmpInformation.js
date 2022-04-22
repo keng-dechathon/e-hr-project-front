@@ -73,7 +73,7 @@ const CardEmpInformation = (props) => {
   const [deleteID, setDeleteID] = useState("");
   const [pageSize, setPageSize] = useState(50);
   const [isLoading, setIsLoading] = useState(true);
-console.log(empInformation);
+
   const avatarColor = [
     pink[500],
     lightGreen[500],

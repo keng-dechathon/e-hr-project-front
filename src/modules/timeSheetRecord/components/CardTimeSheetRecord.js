@@ -173,6 +173,7 @@ const CardTimeSheetRecord = () => {
       Start_at: moment(new Date()).format("HH:mm:ss"),
       End_at: moment(new Date()).format("HH:mm:ss"),
     };
+    checkTimeSheetCookie()
     await addTimeSheet(values);
     dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
   };
