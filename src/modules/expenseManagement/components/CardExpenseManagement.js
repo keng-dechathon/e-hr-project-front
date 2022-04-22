@@ -55,7 +55,7 @@ const CardExpenseManagement = () => {
 
   let Header = headers;
   let Info = [];
-  console.log(empInformation);
+
   Header[headers.length] = {
     field: "actions",
     type: "actions",
@@ -63,6 +63,7 @@ const CardExpenseManagement = () => {
     width: "185",
     headerClassName: "bg-light-green",
     renderCell: (cellValues) => {
+      console.log( cellValues.row.status);
       return (
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Button
@@ -71,7 +72,10 @@ const CardExpenseManagement = () => {
             style={{ border: "none", marginRight: "10px" }}
             size="small"
             onClick={handleClickDecline(cellValues.id)}
-            disabled={cellValues.row.status === "Cancellation"&&cellValues.row.status.split(" ")[0]==="Decline"}
+            disabled={
+              cellValues.row.status === "Cancellation" ||
+              cellValues.row.status.split(" ")[0] === "Declined"
+            }
           >
             Decline
           </Button>
@@ -81,7 +85,6 @@ const CardExpenseManagement = () => {
             style={{ backgroundColor: "#8bc34a" }}
             onClick={handleClickApprove(cellValues.id)}
             disabled={cellValues.row.status !== "Requested"}
-
           >
             Approve
           </Button>
@@ -152,7 +155,7 @@ const CardExpenseManagement = () => {
         // Info[index].cancle_at = String(item.cancel_at ? item.cancel_at : "-");
         Info[index].remark = String(item.remark ? item.remark : "-");
       });
-      Info.reverse()
+      Info.reverse();
     }
   };
   setDataGrid();
