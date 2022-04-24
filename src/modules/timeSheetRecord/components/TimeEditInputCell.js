@@ -21,37 +21,8 @@ function TimeEditInputCell(props) {
   const { id, value, api, field } = props;
   const dispatch = useDispatch();
 
-  const { dateState } = useSelector(
-    (state) => state.timesheetReducer
-  );
-  
-  const checkTimeSheetCookie = async () => {
-    if (
-      getCookieFromBrowser("Sheet_Id") !== undefined &&
-      getCookieFromBrowser("Sheet_Detail") !== undefined
-    ) {
-      const values = {
-        Detail: getCookieFromBrowser("Sheet_Detail"),
-        Sheet_id: getCookieFromBrowser("Sheet_Id"),
-      };
-      await updateTimeSheet(values);
-      removeCookie("Sheet_Detail");
-      removeCookie("Sheet_Id");
-    }
-    if (
-      getCookieFromBrowser("Remark") !== undefined &&
-      getCookieFromBrowser("SheetRemark_Id") !== undefined
-    ) {
-      const values = {
-        Remark: getCookieFromBrowser("Remark"),
-        Sheet_id: getCookieFromBrowser("SheetRemark_Id"),
-      };
-      await updateTimeSheet(values);
-      removeCookie("Remark");
-      removeCookie("SheetRemark_Id");
-    }
-    dispatch(getTimeSheetInformationByDate("", "", dateState.date));
-  };
+  const { dateState } = useSelector((state) => state.timesheetReducer);
+
   const onChange = async (item) => {
     console.log(id);
 
@@ -60,10 +31,8 @@ function TimeEditInputCell(props) {
       Sheet_id: String(id),
     };
     api.setEditCellValue({ id, field, value: item });
-    checkTimeSheetCookie()
     await updateTimeSheet(values);
     dispatch(getTimeSheetInformationByDate("", "", dateState.date));
-
   };
 
   return (
