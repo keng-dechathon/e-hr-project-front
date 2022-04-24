@@ -173,7 +173,7 @@ const CardTimeSheetRecord = () => {
       Start_at: moment(new Date()).format("HH:mm:ss"),
       End_at: moment(new Date()).format("HH:mm:ss"),
     };
-    checkTimeSheetCookie()
+    checkTimeSheetCookie();
     await addTimeSheet(values);
     dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
   };
@@ -192,24 +192,40 @@ const CardTimeSheetRecord = () => {
   const setDataGrid = () => {
     if (Object.keys(timesheetByDate).length !== 0) {
       timesheetByDate.data.map((item, index) => {
-        // let Duration = moment.duration(
-        //   moment(item.End_at, "h:mm:ss A").diff(
-        //     moment(item.Start_at, "h:mm:ss A")
-        //   )
-        // );
+        console.log(item);
         Info.push(item);
+        if (item.Remark === "") {
+          if (
+            getCookieFromBrowser("Remark") !== undefined &&
+            getCookieFromBrowser("SheetRemark_Id") !== undefined
+          ) {
+            if (
+              String(item.Sheet_id) ===
+              String(getCookieFromBrowser("SheetRemark_Id"))
+            ) {
+              Info[index].Remark = getCookieFromBrowser("Remark");
+            }
+          }          
+        }
+        if (item.Detail === "") {
+          if (
+            getCookieFromBrowser("Sheet_Id") !== undefined &&
+            getCookieFromBrowser("Sheet_Detail") !== undefined
+          ) {
+            if (
+              String(item.Sheet_id) ===
+              String(getCookieFromBrowser("Sheet_Id"))
+            ) {
+              Info[index].Detail = getCookieFromBrowser("Sheet_Detail");
+            }
+          }          
+        }
         Info[index].id = item.Sheet_id;
-        // console.log(new Date(item.Date));
         Info[index].Date = new Date(item.Date);
-        // Info[index].Start = moment(item.Start_at, "h:mm:ss A").format("HH:mm");
         Info[index].Start = new Date(
           moment(item.Start_at, "h:mm:ss A").format()
         );
-        // console.log(new Date(moment(item.Start_at, "h:mm:ss A").format()));
         Info[index].End = new Date(moment(item.End_at, "h:mm:ss A").format());
-        // Info[index].duration = moment
-        //   .utc(Duration.as("milliseconds"))
-        //   .format("HH:mm");
       });
     }
   };
@@ -302,7 +318,7 @@ const CardTimeSheetRecord = () => {
             item
             xs={3}
             sm={5}
-            style={{ display: "flex", justifyContent: "flex-end"}}
+            style={{ display: "flex", justifyContent: "flex-end" }}
           >
             <Button
               variant="outlined"
