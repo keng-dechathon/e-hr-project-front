@@ -73,7 +73,6 @@ export const handleUpdateRemark = async (params) => {
       String(params.id),
       new Date().getTime() + 31556926
     );
-    console.log("ad");
   }
 };
 
@@ -162,32 +161,9 @@ export const columns = [
     renderCell: renderCellExpand,
     sortable: false,
     preProcessEditCellProps: (params) => {
-      console.log(params.props.value);
       handleUpdateRemark(params);
       return { ...params.props };
     },
     editable: true,
-    // preProcessEditCellProps: (params) => {
-    //     const isValid = validateEmail(params.props.value);
-    //     return { ...params.props, error: !isValid };
-    //   },
   },
-  // {
-  //   field: "actions",
-  //   type: "actions",
-  //   headerName: "Action",
-  //   headerClassName: "bg-light-green",
-  //   width: 70,
-
-  //   getActions: (params) => [
-  //     <GridActionsCellItem
-  //       icon={<DeleteIcon />}
-  //       label="Delete"
-  //       onClick={async () => {
-  //         deleteTimeSheet(String(params.id));
-  //         OnClickDelete();
-  //       }}
-  //     />,
-  //   ],
-  // },
 ];
