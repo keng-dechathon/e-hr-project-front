@@ -154,7 +154,7 @@ export const columns = [
   },
   {
     field: "Remark",
-    headerName: "Remark",
+    headerName: "Progress",
     headerClassName: "bg-light-green",
     flex: 1,
     minWidth: 100,
