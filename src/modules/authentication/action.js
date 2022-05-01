@@ -25,8 +25,8 @@ export const signIn = async (values, Checked, navigate) => {
           setCookie("uid", uid, 1000 * 3600 * 24 * 30);
           setCookie("a", a, 1000 * 3600 * 24 * 30);
         } else {
-          setCookie("uid", uid, 1000 * 3600 * 24);
-          setCookie("a", a, 1000 * 3600 * 24);
+          setCookie("uid", uid, { expires: 0 });
+          setCookie("a", a, { expires: 0 });
         }
         navigate("/news");
         return { status: "success" };
