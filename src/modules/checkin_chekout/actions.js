@@ -32,7 +32,7 @@ export const checkIn = async () => {
     })
     .then((response) => {
       // console.log(response);
-      pushSnackbarAction("success", "check-in success");
+      pushSnackbarAction("success", response.data.Message);
       return { status: "success" };
     })
     .catch((error) => {
@@ -56,7 +56,7 @@ export const checkOut = async (id) => {
     })
     .then((response) => {
       // console.log(response);
-      pushSnackbarAction("success", "check-out success");
+      pushSnackbarAction("success", response.data.Message);
       return { status: "success" };
     })
     .catch((error) => {
