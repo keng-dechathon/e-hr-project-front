@@ -36,7 +36,6 @@ export const getEmployeeInformtionByID = (config, data = {}, ID) =>
   );
 
 export const updateProfileById = async (values) => {
-  console.log(values);
   return API()
     .post(apiUrl.eHRService.common.employeeMgnt, {
       Option: "Update",
@@ -60,7 +59,12 @@ export const updateProfileById = async (values) => {
       return { status: "success" };
     })
     .catch((error) => {
-      pushSnackbarAction("error", "Server Error.");
+      if (error.response.status === 400) {
+        pushSnackbarAction("error", error.response.data.message);
+      } else {
+        pushSnackbarAction("error", "Server Error.");
+      }
+
       return { status: "fail" };
     });
 };
@@ -104,7 +108,7 @@ export const addEmployee = async (values) => {
       pushSnackbarAction("success", "add success");
       return { status: "success" };
     })
-    .catch((error) => { 
+    .catch((error) => {
       if (error.response.status === 400)
         pushSnackbarAction("error", error.response.data.message);
       else pushSnackbarAction("error", "Server Error.");
