@@ -175,7 +175,7 @@ const CardMeeting = () => {
   return (
     <>
       <Box>
-        <Grid container spacing={2} >
+        <Grid container spacing={2}>
           <Grid item xs={7} sm={5}>
             {memberOption.length !== 0 ? (
               <div>
@@ -250,28 +250,22 @@ const CardMeeting = () => {
               Your Meeting
             </Button>
           </Grid>
-          <Grid item xs={12}>
-            {/* {
-
-                    allMeet.length !== 0 && meetRoom.length !== 0 && myMeeting.length !== 0 && members.length !== 0 && uid !== '' ?
-                        <ScedulerMeetingFunc meetRoom={meetRoom} myMeeting={allMeet} members={members} uid={uid} filter={selectStateFilter} /> :
-                        <ScedulerMeetingFunc meetRoom={meetRoom} myMeeting={myMeeting} members={members} uid={uid} filter={selectStateFilter} />
-                } */}
-            {meetRoom.length !== 0 && members.length !== 0 && uid !== "" ? (
-              <ScedulerMeetingFunc
-                meetRoom={meetRoom}
-                myMeeting={allMeet}
-                members={members}
-                uid={uid}
-                filter={selectStateFilter}
-              />
-            ) : selectStateFilter === 1 ? (
-              <LinearProgress color="secondary" />
-            ) : (
-              ""
-            )}
-          </Grid>
         </Grid>
+        <div style={{marginTop:"15px"}}>
+          {meetRoom.length !== 0 && members.length !== 0 && uid !== "" ? (
+            <ScedulerMeetingFunc
+              meetRoom={meetRoom}
+              myMeeting={allMeet}
+              members={members}
+              uid={uid}
+              filter={selectStateFilter}
+            />
+          ) : selectStateFilter === 1 ? (
+            <LinearProgress color="secondary" />
+          ) : (
+            ""
+          )}
+        </div>
       </Box>
     </>
   );

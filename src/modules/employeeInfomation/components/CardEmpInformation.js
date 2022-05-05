@@ -162,15 +162,15 @@ const CardEmpInformation = (props) => {
       sortable: false,
     },
   ];
-  
+
   let Info = [];
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     dispatch(getEmployeeInformtion());
   }, []);
   useEffect(() => {
-    setIsLoading(false)
+    setIsLoading(false);
   }, [empInformation]);
 
   useEffect(() => {
@@ -326,13 +326,13 @@ const CardEmpInformation = (props) => {
             clearSearch={() => requestSearch("")}
           />
         </Grid>
-        <Grid
-          item
-          xs={2}
-          sm={6}
-          style={{ display: "flex", justifyContent: "flex-end" }}
-        >
-          {isPath(empMgnt) && (
+        {isPath(empMgnt) && (
+          <Grid
+            item
+            xs={2}
+            sm={6}
+            style={{ display: "flex", justifyContent: "flex-end" }}
+          >
             <Button
               variant="outlined"
               className={classes.ButtonAdd}
@@ -340,23 +340,23 @@ const CardEmpInformation = (props) => {
             >
               <pre>+ ADD</pre>
             </Button>
-          )}
-        </Grid>
-        <Grid item xs={12}>
-          <DataGrid
-            sortingOrder={["desc", "asc"]}
-            pageSize={pageSize}
-            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={[5,10,50, 100]}
-            pagination
-            loading={isLoading}
-            disableSelectionOnClick
-            className={classes.datagrid}
-            headers={Header ? Header : ""}
-            rows={searchText ? searchInfo : Info ? Info : ""}
-          />
-        </Grid>
+          </Grid>
+        )}
       </Grid>
+      <div style={{ marginTop: "15px" }}>
+        <DataGrid
+          sortingOrder={["desc", "asc"]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[5, 10, 50, 100]}
+          pagination
+          loading={isLoading}
+          disableSelectionOnClick
+          className={classes.datagrid}
+          headers={Header ? Header : ""}
+          rows={searchText ? searchInfo : Info ? Info : ""}
+        />
+      </div>
     </>
   );
 };

@@ -158,34 +158,53 @@ export default function SchedulerMeeting(props) {
   };
 
   const Header = withStyles(style, { name: "Header" })(
-    ({ children, appointmentData, classes, onClick, ...restProps }) => (
-      <AppointmentTooltip.Header
-        {...restProps}
-        className={classNames(classes.secondRoom, classes.header)}
-        appointmentData={appointmentData}
-      >
-        <IconButton
-          onClick={() => {
-            setEditInfo(appointmentData);
-            setOpenUpdateForm(true);
-            setOption("update");
-            setAppointmentVisible(false);
-          }}
-          className={classes.commandButton}
+    ({ children, appointmentData, classes, onClick, ...restProps }) => {
+      console.log(appointmentData);
+      let timeDiff = moment.duration(
+        moment(appointmentData.endDate).diff(appointmentData.startDate)
+      );
+      let hours = Math.floor(timeDiff.asSeconds() / 3600);
+      let min = Math.floor((timeDiff.asSeconds() - hours * 3600) / 60);
+      let isPast =
+        moment(appointmentData.startDate).isBefore(moment()) ||
+        moment(appointmentData.endDate).isBefore(moment());
+      let disabled = false;
+      if (hours + "." + min <= 0 || isPast) {
+        disabled = true;
+      } else {
+        disabled = false;
+      }
+      return (
+        <AppointmentTooltip.Header
+          {...restProps}
+          className={classNames(classes.secondRoom, classes.header)}
+          appointmentData={appointmentData}
         >
-          <EditIcon />
-        </IconButton>
-        <IconButton
-          onClick={() => {
-            setDeleteID(appointmentData.id);
-            setOpenDeleteDialog(true);
-          }}
-          className={classes.commandButton}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </AppointmentTooltip.Header>
-    )
+          <IconButton
+            onClick={() => {
+              setEditInfo(appointmentData);
+              setOpenUpdateForm(true);
+              setOption("update");
+              setAppointmentVisible(false);
+            }}
+            className={classes.commandButton}
+            disabled={disabled}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => {
+              setDeleteID(appointmentData.id);
+              setOpenDeleteDialog(true);
+            }}
+            disabled={disabled}
+            className={classes.commandButton}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </AppointmentTooltip.Header>
+      );
+    }
   );
 
   const FlexibleSpace = () => (
