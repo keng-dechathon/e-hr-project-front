@@ -104,34 +104,10 @@ const CardWorkingTime = () => {
   const setHolidaysDataGrid = () => {
     if (Object.keys(workingTimeInformation).length !== 0) {
       workingTimeInformation.data.map((item, index) => {
-        if (item.Day_Name === "MONDAY") {
-          workTimeInfo[0] = item;
-          workTimeInfo[0].id = 0;
-        }
-        if (item.Day_Name === "TUESDAY") {
-          workTimeInfo[1] = item;
-          workTimeInfo[1].id = 1;
-        }
-        if (item.Day_Name === "WEDNESDAY") {
-          workTimeInfo[2] = item;
-          workTimeInfo[2].id = 2;
-        }
-        if (item.Day_Name === "THURSDAY") {
-          workTimeInfo[3] = item;
-          workTimeInfo[3].id = 3;
-        }
-        if (item.Day_Name === "FRIDAY") {
-          workTimeInfo[4] = item;
-          workTimeInfo[4].id = 4;
-        }
-        if (item.Day_Name === "SATURDAY") {
-          workTimeInfo[5] = item;
-          workTimeInfo[5].id = 5;
-        }
-        if (item.Day_Name === "SUNDAY") {
-          workTimeInfo[6] = item;
-          workTimeInfo[6].id = 6;
-        }
+        workTimeInfo.push(item);
+      });
+      workTimeInfo.sort(function (a, b) {
+        return parseInt(a.id) - parseInt(b.id);
       });
     }
   };

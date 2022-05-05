@@ -20,6 +20,9 @@ import { clearAddState } from "../../actions";
 import { forceAddMeeting, forceEditMeeting } from "../../actions";
 import { editMeeting } from "../../actions";
 import { updateSubmitting } from "../../actions";
+import Typography from "../../../common/Typography/Typography";
+import { pushSnackbarAction } from "../../../layout/actions";
+
 const useStyles = makeStyles(() => ({
   ButtonSubmit: {
     background: "#04AA6D",
@@ -117,21 +120,34 @@ const FormUpdateScheduler = (props) => {
     if (status === true) handleClose();
   }, [addState, status]);
 
+  useEffect(() => {
+    setAttentioned(false);
+  }, [selectStateMembers, selectStateMeetRoom]); //reset attention when state change for validate it again
+
   const onSubmit = async () => {
-    if (!attentioned) {
-      if (option === "update") {
-        await editMeeting(user, setStatus);
-      } else if (option === "add") {
-        await addMeeting(user, setStatus);
-      }
+    let timeDiff = moment.duration(moment(end).diff(start));
+    let hours = Math.floor(timeDiff.asSeconds() / 3600);
+    let min = Math.floor((timeDiff.asSeconds() - hours * 3600) / 60);
+    let isPast =
+      moment(start).isBefore(moment()) || moment(end).isBefore(moment());
+    if (hours + "." + min <= 0 || isPast) {
+      pushSnackbarAction("error", "Wrong Date&Time!");
     } else {
-      if (option === "update") {
-        await forceEditMeeting(user, setStatus);
-      } else if (option === "add") {
-        await forceAddMeeting(user, setStatus);
+      if (!attentioned) {
+        if (option === "update") {
+          await editMeeting(user, setStatus);
+        } else if (option === "add") {
+          await addMeeting(user, setStatus);
+        }
+      } else {
+        if (option === "update") {
+          await forceEditMeeting(user, setStatus);
+        } else if (option === "add") {
+          await forceAddMeeting(user, setStatus);
+        }
       }
+      dispatch(getMeetingInformationByCreator());
     }
-    dispatch(getMeetingInformationByCreator());
   };
   const handleCloseForceUpdate = () => {
     setAttentioned(true);
@@ -249,6 +265,20 @@ const FormUpdateScheduler = (props) => {
               ""
             )}
           </Grid>
+
+          {attentioned && (
+            <Grid item xs={12} style={{ justifyContent: "center" }}>
+              <Typography
+                variant="subtitle2"
+                color="mute"
+                fontWeight="medium"
+                className={classes.headerTitle}
+              >
+                There were some employees in another meeting. But you can still
+                add
+              </Typography>
+            </Grid>
+          )}
         </Grid>
         <DialogActions className={classes.dialogAction}>
           <Button

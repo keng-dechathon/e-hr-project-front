@@ -59,7 +59,7 @@ const FormChangeEmail = (props) => {
           <Grid item xs={12}>
             <InputLabel>New Email</InputLabel>
             <TextField
-              size={breakPoint?"small":"medium"}
+              size={breakPoint ? "small" : "medium"}
               id="email"
               name="email"
               required
