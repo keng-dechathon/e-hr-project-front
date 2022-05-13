@@ -29,6 +29,17 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "9px !important",
     },
   },
+
+  gridItem: {
+    paddingLeft:"10px !important",
+
+  },
+  lastGridItem:{
+    paddingLeft:"10px !important",
+    [theme.breakpoints.down("957px")]: {
+      paddingTop:"10px !important",
+    },
+  }
 }));
 
 const CardMeeting = () => {
@@ -175,8 +186,8 @@ const CardMeeting = () => {
   return (
     <>
       <Box>
-        <Grid container spacing={2}>
-          <Grid item xs={7} sm={5}>
+        <Grid container spacing={0} className={classes.gridContainer} style={{width:"100%"}}>
+          <Grid item xs={7} sm={5} md={5} >
             {memberOption.length !== 0 ? (
               <div>
                 <AutoComplete
@@ -205,7 +216,7 @@ const CardMeeting = () => {
               ""
             )}
           </Grid>
-          <Grid item xs={3} sm={2}>
+          <Grid item xs={3} sm={2}  md={2}  className={classes.gridItem}>
             <div>
               <Select
                 value={selectStateFilter}
@@ -228,7 +239,7 @@ const CardMeeting = () => {
               </FormHelperText>
             </div>
           </Grid>
-          <Grid item xs={2} sm={1}>
+          <Grid item xs={1} sm={2}  md={1}  className={classes.gridItem}>
             <Button
               variant="contained"
               endIcon={<SearchIcon />}
@@ -239,7 +250,7 @@ const CardMeeting = () => {
               GO
             </Button>
           </Grid>
-          <Grid item xs={12} sm={2}>
+          <Grid item xs={12} sm={3} md={2}  className={classes.lastGridItem}>
             <Button
               variant="outlined"
               endIcon={<FaceIcon />}
@@ -251,7 +262,7 @@ const CardMeeting = () => {
             </Button>
           </Grid>
         </Grid>
-        <div style={{marginTop:"15px"}}>
+        <div style={{ marginTop: "15px" }}>
           {meetRoom.length !== 0 && members.length !== 0 && uid !== "" ? (
             <ScedulerMeetingFunc
               meetRoom={meetRoom}
