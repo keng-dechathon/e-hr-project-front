@@ -136,7 +136,7 @@ const FormDocumentRequest = (props) => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Leave Type *</InputLabel>
+            <InputLabel id="demo-simple-select-label">Request Type *</InputLabel>
             <Select
               id="type"
               name="type"
