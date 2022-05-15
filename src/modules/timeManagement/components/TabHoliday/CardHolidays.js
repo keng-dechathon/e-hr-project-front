@@ -133,8 +133,8 @@ const CardHoliday = () => {
       holidaysInformation.data.map((item, index) => {
         console.log(item);
         holidayInfo.push(item);
-        holidayInfo[index].Start = moment(item.Start).format("D  MMMM");
-        holidayInfo[index].End = moment(item.End).format("D  MMMM");
+        holidayInfo[index].Start = item.Start;
+        holidayInfo[index].End = item.End;
         holidayInfo[index].id = item.ID;
       });
     }
