@@ -84,10 +84,10 @@ const ContantNews = () => {
   createNewsItem();
   return (
     <>
-      <NewsSlider
+      {/* <NewsSlider
         items={items}
         loading={Object.keys(newsInformation).length !== 0 ? false : true}
-      />
+      /> */}
       <Box className={classes.box}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>

@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import svgimg from '../../../../assets/svgimg.svg'
-import { makeStyles } from '@material-ui/core/styles'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Carousel from 'react-material-ui-carousel'
 import { Paper } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import CircularProgress from "../../../common/CircularProgress/CircularProgress";
 import { Link } from 'react-router-dom'
+import Carousel from 'react-material-ui-carousel'
+import { makeStyles } from '@material-ui/core/styles'
+
 import "./styles.css"
 const useStyles = makeStyles(() => ({
     carousel: {
@@ -98,11 +99,11 @@ const NewsSlider = ({ items, loading }) => {
                         background: '#2F4F4F',
                     }
                 }}
-                navButtonsWrapperProps={{
-                    style: {
+                // navButtonsWrapperProps={{
+                //     style: {
 
-                    }
-                }}
+                //     }
+                // }}
                 indicatorContainerProps={{
                     style: {
                         position: 'absolute',
