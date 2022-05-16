@@ -17,6 +17,10 @@ export default (theme) => ({
       fontSize: "18px !important",
     },
   },
+  headerText:{
+    fontWeight: "550",
+    fontSize: "18px !important",
+  },
   input: {
     display: "none",
   },

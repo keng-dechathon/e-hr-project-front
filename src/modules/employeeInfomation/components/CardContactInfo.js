@@ -90,7 +90,7 @@ const CardContactInfo = (props) => {
               ""
             )
           }
-          title="Contact Information"
+          title={<div className={classes.headerText}>Contact Information</div>}
           className={classes.cardheader}
         />
         <Divider />
