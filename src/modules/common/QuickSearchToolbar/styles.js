@@ -19,14 +19,7 @@ export default (theme) => ({
         padding: "0px",
       },
     },
-    "&.css-2ehmn7-MuiInputBase-root-MuiOutlinedInput-root": {
-      height: "34.5px",
-    },
-    "& .css-152mnda-MuiInputBase-input-MuiOutlinedInput-input": {
-      padding: "10px",
-      [theme.breakpoints.down("xs")]: {
-        padding: "10px",
-      },
-    },
+    
+
   },
 });

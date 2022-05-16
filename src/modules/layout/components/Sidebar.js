@@ -21,6 +21,7 @@ import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import CssBaseline from "@mui/material/CssBaseline";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import "./styles.css";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {

@@ -117,7 +117,6 @@ const CardLeaveInfomation = () => {
         rows={leaveDataFormat ? leaveDataFormat : ""}
         disablePagination={true}
         className={classes.datagrid}
-
         disableSelectionOnClick
       />
       <Typography variant="h6" fontWeight="bold" className={classes.topic}>
