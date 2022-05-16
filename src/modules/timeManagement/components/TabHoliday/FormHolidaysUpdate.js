@@ -119,7 +119,7 @@ const FormHolidaysUpdate = (props) => {
                             onChange={(e) => {setStart(new Date(moment(e).format())) }}
                             renderInput={(params) => <TextField  required {...params} />}
                         />
-                        <Box sx={{ mx: 2 }} className={classes.center}> to </Box>
+                        <Box sx={{ mx: 3 }} className={classes.center} > to </Box>
                         <DesktopDatePicker
                             inputFormat="dd/MM/yyyy"
                             value={end}
