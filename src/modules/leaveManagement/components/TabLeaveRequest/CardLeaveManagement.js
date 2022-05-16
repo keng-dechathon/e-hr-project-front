@@ -36,8 +36,8 @@ const useStyles = makeStyles(() => ({
       paddingBottom: "0 !important",
     },
   },
-  searchBox:{
-    height:"59px",
+  searchBox: {
+    height: "59px",
   },
 }));
 
@@ -111,17 +111,10 @@ const CardLeaveManagement = () => {
               handleClickResponse(event, cellValues, true);
             }}
             disabled={
-              cellValues.row.accRole === "Approver" &&
-              cellValues.row.Leave_status === "Cancellation Request"
+              cellValues.row.Leave_status === "Request"
                 ? false
-                : cellValues.row.Leave_status === "Declined by chief" ||
-                  cellValues.row.Leave_status === "Approved by approver" ||
-                  cellValues.row.Leave_status === "Declined by approver" ||
-                  cellValues.row.Leave_status === "Approved cancellation" ||
-                  cellValues.row.Leave_status === "Declined cancellation"
-                ? true
-                : cellValues.row.Leave_status === "Approved by chief" &&
-                  cellValues.row.accRole !== "Approver"
+                : cellValues.row.accRole === "Approver" &&
+                  cellValues.row.Leave_status === "Approved by chief"
                 ? false
                 : true
             }
@@ -194,7 +187,7 @@ const CardLeaveManagement = () => {
         />
       </ModalUpdate>
       <Grid container spacing={2} style={{ marginTop: "10px" }}>
-        <Grid item xs={12} sm={6} >
+        <Grid item xs={12} sm={6}>
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}

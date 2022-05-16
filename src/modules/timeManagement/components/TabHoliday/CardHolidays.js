@@ -5,9 +5,7 @@ import FormHolidaysUpdate from "./FormHolidaysUpdate";
 import { getHolidaysInformation } from "../../actions";
 import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
-import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
-import { CardContent } from "@mui/material";
+
 import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -19,7 +17,6 @@ import {
 } from "../../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
 import ModalUpdate from "../../../common/ModalUpdate";
-import moment from "moment";
 import { Grid } from "@mui/material";
 
 const useStyles = makeStyles(() => ({
@@ -46,14 +43,13 @@ const CardHoliday = () => {
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
   const [option, setOption] = useState("");
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(50);
   const [sortModel, setSortModel] = useState([
     {
       field: "ID",
       sort: "desc",
     },
   ]);
-  const headerArray = { Start: "Begin", Holiday_Name: "Name", End: "End" };
 
   let holidayHeader = headers;
   let holidayInfo = [];

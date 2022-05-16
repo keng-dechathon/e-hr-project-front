@@ -99,7 +99,7 @@ const FormLeaveTypeUpdate = (props) => {
           />
         </Grid>
         <Grid item xs={6}>
-          <InputLabel>Number of days can leave </InputLabel>
+          <InputLabel>Number of Hours can leave </InputLabel>
           <TextField
             id="dayLeave"
             name="dayLeave"
@@ -110,7 +110,7 @@ const FormLeaveTypeUpdate = (props) => {
           />
         </Grid>
         <Grid item xs={6}>
-          <InputLabel>Number of days can leave </InputLabel>
+          <InputLabel>Number of Hours can leave </InputLabel>
           <TextField
             id="dayAdd"
             name="dayAdd"
