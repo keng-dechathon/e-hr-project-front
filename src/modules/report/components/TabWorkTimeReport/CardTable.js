@@ -34,18 +34,22 @@ const CardTable = () => {
       Object.keys(allCheckInformation).length !== 0 &&
       Object.keys(empInformation).length !== 0
     ) {
-      setInfo([]);
-      setIsSetInfo(false);
-      allCheckInformation.data.map((item, index) => {
-        console.log(item);      
-        item.id = item.CheckId;
-        item.Name = empInformation.data.filter(
-          (temp) => String(temp.Emp_id) === String(item.Emp_id)
-        )[0].Name;
-        setInfo((Info) => [...Info, item]);
-      });
-      setIsSetInfo(true);
-      setInfo((Info) => Info.reverse());
+      try {
+        setInfo([]);
+        setIsSetInfo(false);
+        allCheckInformation.data.map((item) => {
+          console.log(item);
+          item.id = item.CheckId;
+          item.Name = empInformation.data.filter(
+            (temp) => String(temp.Emp_id) === String(item.Emp_id)
+          )[0].Name;
+          setInfo((Info) => [...Info, item]);
+        });
+        setIsSetInfo(true);
+        setInfo((Info) => Info.reverse());
+      } catch (err) {
+        console.log(err.message);
+      }
     }
   };
   return (
