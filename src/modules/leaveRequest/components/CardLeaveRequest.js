@@ -3,15 +3,10 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useSelector, useDispatch } from "react-redux";
-import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
-import { CardContent } from "@mui/material";
+
 import DataGrid from "../../common/DataGrid";
-import EditIcon from "@mui/icons-material/Edit";
-import { GridActionsCellItem } from "@mui/x-data-grid";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+
 import ModalUpdate from "../../common/ModalUpdate";
-import { cancleLeaveRequest } from "../actions";
 import FormCancleRequest from "./FormCancleRequest";
 import {
   QuickSearchToolbar,
@@ -20,10 +15,8 @@ import {
 import { Button } from "@mui/material";
 import { getLeaveRequestInformation } from "../actions";
 import { headers } from "./headers";
-import { getLeaveAmount } from "../../../utils/miscellaneous";
 import moment from "moment";
 import FormLeaveRequestUpdate from "./FormLeaveRequestUpdate";
-import { Divider } from "@mui/material";
 import { Grid } from "@mui/material";
 const useStyles = makeStyles((theme) => ({
   removePadding: {
@@ -47,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: "0 !important",
     },
   },
+  searchBox:{
+    height:"59px",
+  },
 }));
 
 const CardLeaveRequest = () => {
@@ -57,7 +53,7 @@ const CardLeaveRequest = () => {
     (state) => state.leaveReducer
   );
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     dispatch(getLeaveRequestInformation());
   }, []);
   useEffect(() => {
@@ -186,7 +182,11 @@ const CardLeaveRequest = () => {
         />
       </ModalUpdate>
 
-      <Grid container spacing={2} style={{ marginTop: "10px" }}>
+      <Grid
+        container
+        spacing={2}
+        style={{ marginTop: "10px" }}
+      >
         <Grid item xs={10} sm={7}>
           {" "}
           <QuickSearchToolbar
@@ -200,6 +200,7 @@ const CardLeaveRequest = () => {
           xs={2}
           sm={5}
           style={{ display: "flex", justifyContent: "flex-end" }}
+          className={classes.searchBox}
         >
           <Button
             variant="outlined"

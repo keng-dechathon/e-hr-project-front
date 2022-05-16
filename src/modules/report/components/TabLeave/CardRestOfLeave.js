@@ -62,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: "0 !important",
     },
   },
+  searchBox:{
+    height:"59px",
+  },
   checkButton: {
     width: "125px ",
   },
