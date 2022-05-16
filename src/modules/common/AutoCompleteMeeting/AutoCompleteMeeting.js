@@ -49,11 +49,11 @@ const AutoCompleteMeeting = ({
     setLimitReached(values.length >= limit);
     setSelectState(temp);
   };
- 
+
   useEffect(() => {
     if (resetStatus) {
-      let me = option.filter(temp=>String(temp.id)===String(uid))
-      setValue([me]);
+      let me = option.filter((temp) => String(temp.id) === String(uid));
+      setValue(me);
       setResetStatus(false);
       dispatch(getMeetingInformationByMultiId("", "", [String(uid)]));
     }
@@ -61,7 +61,9 @@ const AutoCompleteMeeting = ({
       setValue([]);
     }
     if (selectStateFilter === 1) {
-      setValue([option[0]]);
+      let me = option.filter((temp) => String(temp.id) === String(uid));
+
+      setValue(me);
       setResetStatus(false);
       dispatch(getMeetingInformationByMultiId("", "", [String(uid)]));
     }

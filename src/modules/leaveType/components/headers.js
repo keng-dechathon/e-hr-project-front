@@ -12,7 +12,7 @@ export const headers = [
   },
   {
     field: "Num_per_year",
-    headerName: "Number of days can leave",
+    headerName: "Number of Hours can leave",
     minWidth: 200,
     flex:1,
     headerClassName: "bg-light-green",
@@ -21,7 +21,7 @@ export const headers = [
   },
   {
     field: "Num_can_add",
-    headerName: "Number of days can add",
+    headerName: "Number of Hours can add",
     minWidth: 200,
     flex:1,
     headerClassName: "bg-light-green",
