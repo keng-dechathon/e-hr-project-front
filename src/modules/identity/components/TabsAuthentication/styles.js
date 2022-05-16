@@ -3,7 +3,7 @@ import { borderRadius } from "@mui/system";
 export default (theme) => ({
   card: {
     width: "800px !important",
-   
+    height: "62px",
     // backgroundColor: '#F1F3FF !important',
     boxShadow: "rgba(0, 0, 0, 0.15) 0px 5px 15px 0px !important",
     borderRadius: "12px !important",

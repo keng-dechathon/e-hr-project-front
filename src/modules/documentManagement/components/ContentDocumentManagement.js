@@ -10,7 +10,7 @@ import CardDocumentManagement from "./TabDocumentRequest/CardDocumentManagement"
 import { Divider } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import CardDocumentType from "./TabDocumentType/CardDocumentType"
+import CardDocumentType from "./TabDocumentType/CardDocumentType";
 const useStyles = makeStyles((theme) => ({
   Topic: {
     marginBottom: "10px",
@@ -42,9 +42,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tabpanel: {
-    "&.css-13xfq8m-MuiTabPanel-root": {
-      padding: " 10px 0 0 0 !important",
-    },
+    padding: " 10px 0 0 0 !important",
   },
   headerTitle: {
     [theme.breakpoints.down("xs")]: {
