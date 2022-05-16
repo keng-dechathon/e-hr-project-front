@@ -15,6 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import { isPath } from '../../../utils/miscellaneous';
 import { empMgnt } from './path';
 import FormUpdateWorkInfo from './FormUpdateWorkInfo';
+
 const useStyles = makeStyles(styles)
 
 const CardWorkInfo = (props) => {
@@ -53,7 +54,7 @@ const CardWorkInfo = (props) => {
                                 <EditIcon />
                             </IconButton> : ''
                     }
-                    title="Work Information"
+                    title={<div className={classes.headerText}>Work Information</div>}
                     className={classes.cardheader}
                 />
                 <Divider />

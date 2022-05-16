@@ -6,11 +6,9 @@ import { getLeaveInformation } from "../../../leaveRequest/actions";
 import { useSelector, useDispatch } from "react-redux";
 import DataGrid from "../../../common/DataGrid";
 import { headers } from "./headers";
-import { GridActionsCellItem } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
 import moment from "moment";
-import { getDayOffAmount } from "../../../../utils/miscellaneous";
-import { getLeaveAmount } from "../../../../utils/miscellaneous";
+
 import { cancleLeaveRequest } from "../../../leaveRequest/actions";
 
 const useStyles = makeStyles(styles);
@@ -118,6 +116,8 @@ const CardLeaveInfomation = () => {
         headers={leaveDataHeader ? leaveDataHeader : ""}
         rows={leaveDataFormat ? leaveDataFormat : ""}
         disablePagination={true}
+        className={classes.datagrid}
+
         disableSelectionOnClick
       />
       <Typography variant="h6" fontWeight="bold" className={classes.topic}>

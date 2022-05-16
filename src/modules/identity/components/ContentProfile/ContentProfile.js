@@ -15,6 +15,7 @@ import CardChangePassword from "../TabsAuthentication/CardChangePassword";
 import CardLeaveInfomation from "../TabsLeaveInformation/CardLeaveInfomation";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import "./styles.css";
 
 const useStyles = makeStyles(styles);
 

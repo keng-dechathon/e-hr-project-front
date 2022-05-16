@@ -111,14 +111,16 @@ const CardLeaveManagement = () => {
               cellValues.row.accRole === "Approver" &&
               cellValues.row.Leave_status === "Cancellation Request"
                 ? false
-                : cellValues.row.Leave_status === "Approved by chief" ||
-                  cellValues.row.Leave_status === "Declined by chief" ||
+                : cellValues.row.Leave_status === "Declined by chief" ||
                   cellValues.row.Leave_status === "Approved by approver" ||
                   cellValues.row.Leave_status === "Declined by approver" ||
                   cellValues.row.Leave_status === "Approved cancellation" ||
                   cellValues.row.Leave_status === "Declined cancellation"
                 ? true
-                : false
+                : cellValues.row.Leave_status === "Approved by chief" &&
+                  cellValues.row.accRole !== "Approver"
+                ? false
+                : true
             }
           >
             Approve

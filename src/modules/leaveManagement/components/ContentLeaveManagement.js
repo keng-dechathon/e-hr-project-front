@@ -40,9 +40,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tabpanel: {
-    "&.css-13xfq8m-MuiTabPanel-root": {
-      padding: "0px",
-    },
+    padding: " 0 !important",
   },
   headerTitle: {
     [theme.breakpoints.down("xs")]: {
