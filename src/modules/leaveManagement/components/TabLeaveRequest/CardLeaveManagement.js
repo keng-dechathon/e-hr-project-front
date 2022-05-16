@@ -88,11 +88,11 @@ const CardLeaveManagement = () => {
               handleClickResponse(event, cellValues, false);
             }}
             disabled={
-              cellValues.row.accRole === "Approver" &&
-              cellValues.row.Leave_status === "Cancellation Request"
-                ? false
-                : cellValues.row.Leave_status === "Approved by chief" ||
-                  cellValues.row.Leave_status === "Declined by chief" ||
+              cellValues.row.accRole === "Management" ||
+              (cellValues.row.accRole === "Manager" &&
+                cellValues.row.Leave_status === "Approved by chief")
+                ? true
+                : cellValues.row.Leave_status === "Declined by chief" ||
                   cellValues.row.Leave_status === "Approved by approver" ||
                   cellValues.row.Leave_status === "Declined by approver" ||
                   cellValues.row.Leave_status === "Approved cancellation" ||
@@ -111,12 +111,19 @@ const CardLeaveManagement = () => {
               handleClickResponse(event, cellValues, true);
             }}
             disabled={
-              cellValues.row.Leave_status === "Request"
+              cellValues.row.accRole === "Approver" &&
+              cellValues.row.Leave_status === "Cancellation Request"
                 ? false
-                : cellValues.row.accRole === "Approver" &&
-                  cellValues.row.Leave_status === "Approved by chief"
+                : cellValues.row.Leave_status === "Approved by chief" &&
+                  cellValues.row.accRole !== "Approver"
                 ? false
-                : true
+                : cellValues.row.Leave_status === "Declined by chief" ||
+                  cellValues.row.Leave_status === "Approved by approver" ||
+                  cellValues.row.Leave_status === "Declined by approver" ||
+                  cellValues.row.Leave_status === "Approved cancellation" ||
+                  cellValues.row.Leave_status === "Declined cancellation"
+                ? true
+                : false
             }
           >
             Approve
