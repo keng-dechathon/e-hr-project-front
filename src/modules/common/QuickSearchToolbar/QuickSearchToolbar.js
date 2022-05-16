@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import styles from "./styles";
 import { makeStyles } from "@material-ui/core";
+import "./styles.css";
 
 const useStyles = makeStyles(styles);
 
@@ -47,7 +48,7 @@ export function QuickSearchToolbar(props) {
             </IconButton>
           ),
         }}
-        className={classes.field}
+        className={`${classes.field} .css-152mnda-MuiInputBase-input-MuiOutlinedInput-input .css-2ehmn7-MuiInputBase-root-MuiOutlinedInput-root`}
         sx={{
           width: {
             xs: 1,
@@ -60,7 +61,6 @@ export function QuickSearchToolbar(props) {
             },
           },
           backgroundColor: "white",
-        
         }}
         {...props}
       />

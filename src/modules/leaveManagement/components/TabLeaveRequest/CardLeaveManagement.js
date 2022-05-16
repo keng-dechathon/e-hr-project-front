@@ -36,6 +36,9 @@ const useStyles = makeStyles(() => ({
       paddingBottom: "0 !important",
     },
   },
+  searchBox:{
+    height:"59px",
+  },
 }));
 
 const CardLeaveManagement = () => {
@@ -191,7 +194,7 @@ const CardLeaveManagement = () => {
         />
       </ModalUpdate>
       <Grid container spacing={2} style={{ marginTop: "10px" }}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} >
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}

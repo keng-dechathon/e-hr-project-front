@@ -32,6 +32,9 @@ const useStyles = makeStyles(() => ({
       paddingBottom: "0 !important",
     },
   },
+  searchBox:{
+    height:"59px",
+  },
 }));
 
 const CardLeaveTypeInformation = () => {
@@ -160,7 +163,7 @@ const CardLeaveTypeInformation = () => {
         />
       </ModalUpdate>
       <Grid container spacing={2} style={{ marginTop: "1px" }}>
-        <Grid item xs={10} sm={7}>
+        <Grid item xs={10} sm={7} >
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}
@@ -172,6 +175,7 @@ const CardLeaveTypeInformation = () => {
           xs={2}
           sm={5}
           style={{ display: "flex", justifyContent: "flex-end" }}
+          className={classes.searchBox}
         >
           <Button
             variant="outlined"

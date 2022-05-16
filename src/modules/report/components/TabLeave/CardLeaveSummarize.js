@@ -112,6 +112,9 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: "5px !important",
     },
   },
+  searchBox:{
+    height:"59px",
+  },
 }));
 
 const CardLeaveSummarize = () => {

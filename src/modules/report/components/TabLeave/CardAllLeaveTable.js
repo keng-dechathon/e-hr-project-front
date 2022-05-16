@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
   box: {
     marginTop: "20px",
   },
+  searchBox:{
+    height:"59px",
+  },
   cardcontant: {
     padding: 0,
     "&:last-child": {
@@ -254,7 +257,7 @@ const CardAllLeaveTable = () => {
               </Typography>
               <Divider style={{ marginTop: "10px" }} />
             </Grid> */}
-            <Grid item xs={12} style={{marginTop: "15px",}}>
+            <Grid item xs={12} style={{marginTop: "15px",}} >
               <QuickSearchToolbar
                 value={searchText}
                 onChange={(event) => requestSearch(event.target.value)}

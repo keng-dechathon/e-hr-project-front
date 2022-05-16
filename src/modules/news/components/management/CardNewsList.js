@@ -56,6 +56,9 @@ const useStyles = makeStyles(() => ({
       paddingBottom: "0 !important",
     },
   },
+  searchBox:{
+    height:"59px",
+  },
 }));
 
 const CardNewsList = ({ items,isLoading }) => {
@@ -184,6 +187,7 @@ const CardNewsList = ({ items,isLoading }) => {
           xs={2}
           sm={5}
           style={{ display: "flex", justifyContent: "flex-end" }}
+          className={classes.searchBox}
         >
           <Button
             variant="outlined"
