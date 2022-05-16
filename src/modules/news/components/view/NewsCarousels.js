@@ -7,6 +7,7 @@ import { Paper } from '@mui/material'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import CircularProgress from "../../../common/CircularProgress/CircularProgress";
 import { Link } from 'react-router-dom'
+import "./styles.css"
 const useStyles = makeStyles(() => ({
     carousel: {
         ['& .makeStyles-buttonWrapper-8']: {
