@@ -1,6 +1,6 @@
 import ContentTimeSheetViewer from "../../modules/timeSheetViewer/components/ContentTimeSheetViewer";
 
-const TimesheetViewer = () => {
+const TimeSheetViewer = () => {
   return (
     <>
       <ContentTimeSheetViewer />
@@ -8,4 +8,4 @@ const TimesheetViewer = () => {
   );
 };
 
-export default TimesheetViewer;
+export default TimeSheetViewer;
