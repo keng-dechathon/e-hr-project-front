@@ -43,20 +43,20 @@ export const SidebarData = [
         title: "Timesheet Record",
         path: "/time-sheet-record",
         icon: <EventNoteIcon />,
-        role: ["Manager", "Staff", "Hr", "Admin"],
+        role: ["Manager", "Staff", "Hr"],
       },
       {
         title: "Leave Request",
         path: "/leave-request",
         // icon: <DirectionsRunIcon />,
         icon: <DescriptionRoundedIcon />,
-        role: ["Management", "Manager", "Staff", "Hr", "Admin"],
+        role: ["Management", "Manager", "Staff", "Hr"],
       },
       {
         title: "Checkin-Checkout",
         path: "/checkin-checkout",
         icon: <CheckCircleIcon />,
-        role: ["Manager", "Staff", "Hr", "Admin"],
+        role: ["Manager", "Staff", "Hr"],
       },
       {
         title: "Report",
@@ -73,7 +73,7 @@ export const SidebarData = [
         title: "Leave Management",
         path: "/leave-management",
         icon: <AssignmentIcon />,
-        role: ["Management", "Manager", "Approver", "Admin"],
+        role: ["Management", "Manager", "Approver"],
       },
       // {
       //   title: "Leave Employee Information",
@@ -124,10 +124,10 @@ export const SidebarData = [
         role: ["Hr", "Admin", "Approver"],
       },
       {
-        role: ["Hr", "Admin", "Approver"],
         title: "Team Management",
         path: "/team-management",
         icon: <GroupsIcon />,
+        role: ["Hr", "Admin", "Approver"],
       },
       {
         title: "Time Management",
