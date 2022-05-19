@@ -79,6 +79,7 @@ const CardLeaveManagement = () => {
     renderCell: (cellValues) => {
       return (
         <div style={{ display: "flex", justifyContent: "center" }}>
+          {}
           <Button
             variant="outlined"
             color="success"
@@ -89,15 +90,15 @@ const CardLeaveManagement = () => {
             }}
             disabled={
               cellValues.row.accRole === "Management" ||
-              (cellValues.row.accRole === "Manager" &&
-                cellValues.row.Leave_status === "Approved by chief")
-                ? true
-                : cellValues.row.Leave_status === "Declined by chief" ||
-                  cellValues.row.Leave_status === "Approved by approver" ||
-                  cellValues.row.Leave_status === "Declined by approver" ||
-                  cellValues.row.Leave_status === "Approved cancellation" ||
-                  cellValues.row.Leave_status === "Declined cancellation"
-                ? true
+              cellValues.row.accRole === "Manager"
+                ? cellValues.row.Leave_status !== "Requested"
+                  ? true
+                  : false
+                : cellValues.row.accRole === "Approver"
+                ? cellValues.row.Leave_status === "Approved cancellation" ||
+                  cellValues.row.Leave_status.split(" ")[0] === "Declined"
+                  ? true
+                  : false
                 : false
             }
           >
@@ -111,18 +112,15 @@ const CardLeaveManagement = () => {
               handleClickResponse(event, cellValues, true);
             }}
             disabled={
-              cellValues.row.accRole === "Approver" &&
-              cellValues.row.Leave_status === "Cancellation Request"
-                ? false
-                : cellValues.row.Leave_status === "Approved by chief" &&
-                  cellValues.row.accRole !== "Approver"
-                ? false
-                : cellValues.row.Leave_status === "Declined by chief" ||
-                  cellValues.row.Leave_status === "Approved by approver" ||
-                  cellValues.row.Leave_status === "Declined by approver" ||
-                  cellValues.row.Leave_status === "Approved cancellation" ||
-                  cellValues.row.Leave_status === "Declined cancellation"
-                ? true
+              cellValues.row.accRole === "Management" ||
+              cellValues.row.accRole === "Manager"
+                ? cellValues.row.Leave_status !== "Requested"
+                  ? true
+                  : false
+                : cellValues.row.accRole === "Approver"
+                ? /Request/.test(cellValues.row.Leave_status)
+                  ? false
+                  : true
                 : false
             }
           >

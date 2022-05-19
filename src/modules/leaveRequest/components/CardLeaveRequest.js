@@ -40,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: "0 !important",
     },
   },
-  searchBox:{
-    height:"59px",
+  searchBox: {
+    height: "59px",
   },
 }));
 
@@ -92,7 +92,13 @@ const CardLeaveRequest = () => {
           onClick={(event) => {
             handleClickCancle(event, cellValues);
           }}
-          disabled={cellValues.row.Leave_status !== "Requested" ? true : false}
+          disabled={
+            cellValues.row.Leave_status !== "Requested" &&
+            cellValues.row.Leave_status.split(" ")[0] !== "Approved" &&
+            cellValues.row.Leave_status !== "Approved cancellation"
+              ? true
+              : false
+          }
         >
           Cancle
         </Button>
@@ -182,11 +188,7 @@ const CardLeaveRequest = () => {
         />
       </ModalUpdate>
 
-      <Grid
-        container
-        spacing={2}
-        style={{ marginTop: "10px" }}
-      >
+      <Grid container spacing={2} style={{ marginTop: "10px" }}>
         <Grid item xs={10} sm={7}>
           {" "}
           <QuickSearchToolbar
