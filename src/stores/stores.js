@@ -7,7 +7,7 @@ import rootSaga from './sagas'
 let middlewares
 const sagaMiddleware = createSagaMiddleware()
 
-if (global.window && global.window.__REDUX_DEVTOOLS_EXTENSION__ && process.env.NODE_ENV !== 'production') {
+if (global.window && global.window.__REDUX_DEVTOOLS_EXTENSION__ && process.env.React_App_ENV !== 'production') {
   middlewares = compose(
     applyMiddleware(sagaMiddleware),
     global.window.__REDUX_DEVTOOLS_EXTENSION__ && global.window.__REDUX_DEVTOOLS_EXTENSION__()

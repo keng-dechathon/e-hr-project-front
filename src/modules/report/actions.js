@@ -2,6 +2,7 @@ import * as Types from "./types";
 import { createRequestTypes, createAction } from "../../utils/requestTypes";
 import { apiUrl } from "../../utils/apiUrl";
 import { getDateFormat } from "../../utils/miscellaneous";
+
 export const GET_ALLCHECK_INFORMATION = createRequestTypes(
   Types.GET_ALLCHECK_INFORMATION
 );
