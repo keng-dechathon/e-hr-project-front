@@ -8,6 +8,7 @@ import store from "../../stores/stores";
 export const GET_TIMESHEETBYDATE_INFORMATION = createRequestTypes(
   Types.GET_TIMESHEETBYDATE_INFORMATION
 );
+
 export const updateDateState = (date = new Date()) =>
   store.dispatch({
     type: "UPDATE_DATE_STATE",

@@ -105,6 +105,7 @@ export const convertImageToBase64 = (file) => {
     }
   });
 };
+
 export const convertFileToBase64 = (file) => {
   return new Promise((resolve, reject) => {
     try {
@@ -139,6 +140,7 @@ export const getDayOffAmount = (hours) => {
     else return day + " Day(s) " + hour + " Hr(s).";
   }
 };
+
 export const getLeaveAmount = (hours, min) => {
   if (hours < 24 && min === 0) return hours + " Hr(s). ";
   else if (hours < 24 && min > 0) return hours + "." + min + " Hr(s). ";
