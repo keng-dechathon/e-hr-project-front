@@ -1,8 +1,7 @@
 import * as Actions from './actions'
 
 export const initialState = {
-    AllRoleInformation: {},
- 
+    AllRoleInformation: {}, 
 }
 
 export default (state = initialState, action) => {

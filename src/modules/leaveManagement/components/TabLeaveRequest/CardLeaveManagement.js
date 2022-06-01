@@ -118,7 +118,8 @@ const CardLeaveManagement = () => {
                   ? true
                   : false
                 : cellValues.row.accRole === "Approver"
-                ? /Request/.test(cellValues.row.Leave_status)||cellValues.row.Leave_status !== "Approved by chief"
+                ? /Request/.test(cellValues.row.Leave_status) ||
+                  cellValues.row.Leave_status === "Approved by chief"
                   ? false
                   : true
                 : false
