@@ -22,7 +22,7 @@ export default (state = initialState, action) => {
         teamByHostInformation: {},
       };
       case Actions.GET_TIMESHEETBYID_INFORMATION.REQUEST:
-        return {
+        return {    
           ...state,
         };
       case Actions.GET_TIMESHEETBYID_INFORMATION.SUCCESS:
