@@ -13,6 +13,7 @@ import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import { getEmployeeInformtion } from "../../employeeInfomation/actions";
 
 import { getTimeSheetById } from "../actions";
 import { getMemberInformation } from "../../team/actions";
@@ -53,9 +54,8 @@ const useStyles = makeStyles((theme) => ({
   },
   gridNone: {
     [theme.breakpoints.up(900)]: {
-      
-      display:"none",
-    },   
+      display: "none",
+    },
   },
 }));
 
@@ -67,9 +67,12 @@ const CardTimeSheetViewer = () => {
     (state) => state.timeSheetViewerReducer
   );
   const { memberInformation } = useSelector((state) => state.teamReducer);
+  const { empInformation } = useSelector((state) => state.employeeReducer);
 
   useEffect(() => {
     dispatch(getTeamByHostInformation());
+    dispatch(getEmployeeInformtion());
+
   }, []);
 
   const [selectState, setSelectState] = React.useState({});
@@ -77,8 +80,9 @@ const CardTimeSheetViewer = () => {
   const [filterOption, setFilterOption] = React.useState([]);
   const [resetTextField, setResetTextField] = React.useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isManage, setIsManage] = useState(false);
 
-  const members = [];
+  let members = [];
 
   useEffect(() => {
     if (Object.keys(teamByHostInformation).length !== 0) {
@@ -123,13 +127,25 @@ const CardTimeSheetViewer = () => {
     }
   };
   const setMember = () => {
-    if (Object.keys(memberInformation).length !== 0) {
-      memberInformation.data.map((item, index) => {
-        members.push({
-          id: parseInt(item.id),
-          text: item.Name,
+    members = [];
+    if (isManage) {
+      if (Object.keys(memberInformation).length !== 0) {
+        memberInformation.data.map((item, index) => {
+          members.push({
+            id: parseInt(item.id),
+            text: item.Name,
+          });
         });
-      });
+      }
+    } else {
+      if (Object.keys(empInformation).length !== 0) {
+        empInformation.data.map((item, index) => {
+          members.push({
+            id: parseInt(item.Emp_id),
+            text: item.Name,
+          });
+        });
+      }
     }
   };
 
@@ -138,7 +154,7 @@ const CardTimeSheetViewer = () => {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>
         <Grid container spacing={2}>
-          <Grid item xs={7} sm={6}  md={5}>
+          <Grid item xs={isManage ? 7 : 9} sm={6} md={5}>
             {selectStateFilter === "" ||
             Object.keys(memberInformation).length !== 0 ? (
               <div>
@@ -161,43 +177,47 @@ const CardTimeSheetViewer = () => {
               ""
             )}
           </Grid>
-          <Grid item xs={3} sm={4}  md={2}>
-            <Select
-              value={selectStateFilter}
-              onChange={handleChangeSelect}
-              displayEmpty
-              size="small"
-              inputProps={{ "aria-label": "Without label" }}
-              style={{
-                backgroundColor: "white",
-                minWidth: "100px",
-                width: "100%",
-              }}
-              placeholder="Your have no team."
-            >
-              {Object.keys(teamByHostInformation).length !== 0 ? (
-                teamByHostInformation.data.length !== 0 ? (
-                  filterOption.map((item) => {
-                    return (
-                      <MenuItem value={item.Team_id} key={item.Team_id}>
-                        {item.Teamname}
-                      </MenuItem>
-                    );
-                  })
+          {isManage ? (
+            <Grid item xs={3} sm={4} md={2}>
+              <Select
+                value={selectStateFilter}
+                onChange={handleChangeSelect}
+                displayEmpty
+                size="small"
+                inputProps={{ "aria-label": "Without label" }}
+                style={{
+                  backgroundColor: "white",
+                  minWidth: "100px",
+                  width: "100%",
+                }}
+                placeholder="Your have no team."
+              >
+                {Object.keys(teamByHostInformation).length !== 0 ? (
+                  teamByHostInformation.data.length !== 0 ? (
+                    filterOption.map((item) => {
+                      return (
+                        <MenuItem value={item.Team_id} key={item.Team_id}>
+                          {item.Teamname}
+                        </MenuItem>
+                      );
+                    })
+                  ) : (
+                    <MenuItem disabled value="">
+                      <em>Your have no team.</em>
+                    </MenuItem>
+                  )
                 ) : (
-                  <MenuItem disabled value="">
-                    <em>Your have no team.</em>
-                  </MenuItem>
-                )
-              ) : (
-                ""
-              )}
-            </Select>
-            <FormHelperText className={classes.helpText}>
-              Select a Team.{" "}
-            </FormHelperText>
-          </Grid>
-          <Grid item xs={2} sm={2} md={1}>
+                  ""
+                )}
+              </Select>
+              <FormHelperText className={classes.helpText}>
+                Select a Team.{" "}
+              </FormHelperText>
+            </Grid>
+          ) : (
+            ""
+          )}
+          <Grid item xs={isManage ? 2 : 3} sm={2} md={1}>
             <Button
               variant="contained"
               endIcon={<SearchIcon />}
