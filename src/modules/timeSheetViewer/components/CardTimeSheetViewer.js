@@ -9,6 +9,7 @@ import CardTimeSheet from "./CardTimeSheet";
 import { useSelector, useDispatch } from "react-redux";
 
 import Box from "@mui/material/Box";
+import { getAccountInformation } from "../../identity/actions";
 
 import { Button } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -24,6 +25,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { FormHelperText } from "@mui/material";
 import { Divider } from "@material-ui/core";
 import AutoComplete from "../../common/AutoComplete";
+
 const useStyles = makeStyles((theme) => ({
   ButtonAdd: {
     display: "flex",
@@ -68,13 +70,25 @@ const CardTimeSheetViewer = () => {
   );
   const { memberInformation } = useSelector((state) => state.teamReducer);
   const { empInformation } = useSelector((state) => state.employeeReducer);
+  const { accountInformation } = useSelector((state) => state.accountReducer);
 
   useEffect(() => {
+    dispatch(getAccountInformation())
     dispatch(getTeamByHostInformation());
     dispatch(getEmployeeInformtion());
-
   }, []);
-
+  useEffect(() => {
+    if (Object.keys(accountInformation).length !== 0) {
+      if (
+        accountInformation.Role == "Manager" ||
+        accountInformation.Role == "Management"
+      ) {
+        setIsManage(true);
+      } else {
+        setIsManage(false);
+      }
+    }
+  }, [accountInformation]);
   const [selectState, setSelectState] = React.useState({});
   const [selectStateFilter, setSelectStateFilter] = React.useState("");
   const [filterOption, setFilterOption] = React.useState([]);
