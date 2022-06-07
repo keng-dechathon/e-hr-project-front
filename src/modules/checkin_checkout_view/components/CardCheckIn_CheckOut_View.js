@@ -484,11 +484,11 @@ const CardCheckIn_CheckOut_View = () => {
           </Grid>
           <Grid item xs={12} style={{ width: "100%" }}>
             <DataGrid
-              pageSize={pageSize}
-              
+              pageSize={pageSize}              
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
               rowsPerPageOptions={[10, 20, 50]}
               pagination
+              rowHeight={41}
               loading={isLoading}
               className={classes.datagrid}
               disableSelectionOnClick
