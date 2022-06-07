@@ -78,10 +78,8 @@ const useStyles = makeStyles((theme) => ({
     padding: "10px",
     [theme.breakpoints.down("xs")]: {
       height: "100px",
-
     },
   },
-  
 }));
 
 const CardCheckCount = () => {
@@ -111,10 +109,20 @@ const CardCheckCount = () => {
   const setNumberOfEmployee = () => {
     if (Object.keys(empInformation).length !== 0) {
       setEmpCount(
-        empInformation.data.filter((item) => item.Active_Status === true).length
+        empInformation.data.filter((item) => {
+          let keep = true;
+          if (item.Active_Status === true) {
+            keep =
+              item.Role === "Management" ||
+              item.Role === "Hr" ||
+              item.Role === "Staff";
+          }
+          return keep;
+        }).length
       );
     }
   };
+
   const setNumberOfEmployeeCheckToDay = () => {
     if (Object.keys(toDayCheckInformation).length !== 0) {
       setToDayCheck(
@@ -281,7 +289,7 @@ const CardCheckCount = () => {
             className={classes.cardCount}
             style={{
               backgroundColor: "#180A0A",
-              marginBottom:"0px "
+              marginBottom: "0px ",
             }}
           >
             <DirectionsCarIcon
