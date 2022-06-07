@@ -113,7 +113,7 @@ const CardCheckCount = () => {
           let keep = true;
           if (item.Active_Status === true) {
             keep =
-              item.Role === "Management" ||
+              item.Role === "Manager" ||
               item.Role === "Hr" ||
               item.Role === "Staff";
           } else {
