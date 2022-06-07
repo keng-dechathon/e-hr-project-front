@@ -37,6 +37,8 @@ import { deleteEmployeeById, activeEmployee } from "../actions";
 import ModalUpdate from "../../common/ModalUpdate";
 import FormAddEmployee from "./FormAddEmployee";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import ConfirmDialog from "../../common/ConfirmDialog";
+
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
     display: "flex",
@@ -73,6 +75,8 @@ const CardEmpInformation = (props) => {
   const [deleteID, setDeleteID] = useState("");
   const [pageSize, setPageSize] = useState(50);
   const [isLoading, setIsLoading] = useState(true);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const avatarColor = [
     pink[500],
@@ -88,7 +92,6 @@ const CardEmpInformation = (props) => {
     {
       field: "Img",
       headerClassName: "bg-light-green",
-
       headerName: "Name",
       renderCell: (params) => (
         <div
@@ -174,31 +177,41 @@ const CardEmpInformation = (props) => {
   }, [empInformation]);
 
   useEffect(() => {
-    if (deleteID !== "") {
+    if (deleteID !== "" && confirmDelete) {
       const onDelete = async (id) => {
         await deleteEmployeeById([id]);
         dispatch(getEmployeeInformtion());
       };
       onDelete(deleteID);
       setDeleteID("");
+      setConfirmDelete(false);
     }
-    if (activeID !== "") {
+    if (activeID !== "" && confirmDelete) {
       const onActive = async (id) => {
         await activeEmployee([id]);
         dispatch(getEmployeeInformtion());
       };
       onActive(activeID);
       setActiveID("");
+      setConfirmDelete(false);
     }
-  }, [deleteID, activeID]);
+  }, [deleteID, activeID, confirmDelete]);
+
+  const ConfirmDelete = () => {
+    setConfirmDelete(true);
+    handleCloseDialog();
+  };
 
   const handleClose = () => {
     setOpenModal(false);
   };
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   const onClickShowEmpInfo = React.useCallback(
     (id) => () => {
-      console.log(id);
       setOpen(true);
       setID(id);
     },
@@ -208,14 +221,15 @@ const CardEmpInformation = (props) => {
   const onClickDelete = React.useCallback(
     (id) => () => {
       setDeleteID(id);
+      setOpenDialog(true);
     },
     []
   );
 
   const onClickActive = React.useCallback(
     (id) => () => {
-      console.log(id);
       setActiveID(id);
+      setOpenDialog(true);
     },
     []
   );
@@ -310,6 +324,18 @@ const CardEmpInformation = (props) => {
   setDataGrid();
   return (
     <>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        onClick={ConfirmDelete}
+        message={
+          deleteID.length !== 0
+            ? "Do you insist on inactive employee ?"
+            : activeID !== 0
+            ? "Do you insist on active employee ?"
+            : "Confirm action ?"
+        }
+      />
       <DrawerEmpInformation open={open} setOpen={setOpen} ID={ID} />
       <ModalUpdate
         open={openModal}

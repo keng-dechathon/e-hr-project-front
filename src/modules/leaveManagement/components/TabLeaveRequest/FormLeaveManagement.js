@@ -39,6 +39,14 @@ const useStyles = makeStyles(() => ({
       opacity: "0.8",
     },
   },
+  ButtonSubmitDecline: {
+    background: "#ff6961",
+    color: "#FFFFFF",
+    "&:hover": {
+      background: "#ff6961",
+      opacity: "0.8",
+    },
+  },
   dialogAction: {
     marginTop: "10px",
     paddingRight: "0 !important",
@@ -315,11 +323,13 @@ const FormLeaveManagement = (props) => {
           <Button
             loading={submitting}
             variant={"contained"}
-            className={classes.ButtonSubmit}
+            className={
+              !status ? classes.ButtonSubmitDecline : classes.ButtonSubmit
+            }
             type="submit"
             autoFocus
           >
-            Approve
+            {status ? "Approve" : "Decline"}
           </Button>
         </DialogActions>
         <Snackbar />

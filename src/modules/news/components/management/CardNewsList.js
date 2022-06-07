@@ -19,6 +19,7 @@ import { Button } from "@mui/material";
 import ModalUpdate from "../../../common/ModalUpdate";
 import { headers } from "./headers";
 import { Grid } from "@mui/material";
+import ConfirmDialog from "../../../common/ConfirmDialog";
 
 const useStyles = makeStyles(() => ({
   tabitem: {
@@ -56,12 +57,12 @@ const useStyles = makeStyles(() => ({
       paddingBottom: "0 !important",
     },
   },
-  searchBox:{
-    height:"59px",
+  searchBox: {
+    height: "59px",
   },
 }));
 
-const CardNewsList = ({ items,isLoading }) => {
+const CardNewsList = ({ items, isLoading }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -86,6 +87,7 @@ const CardNewsList = ({ items,isLoading }) => {
       sort: "desc",
     },
   ]);
+  const [openDialog, setOpenDialog] = useState(false);
 
   newsHeader[headers.length] = {
     field: "actions",
@@ -112,8 +114,8 @@ const CardNewsList = ({ items,isLoading }) => {
 
   const deletesNews = React.useCallback(
     (id) => () => {
-      setIsDelete(true);
       setDeleteID(id);
+      setOpenDialog(true);
     },
     []
   );
@@ -131,6 +133,16 @@ const CardNewsList = ({ items,isLoading }) => {
     setOption("add");
     setIsEdit(true);
   };
+
+  const ConfirmDelete = () => {
+    setIsDelete(true);
+    handleCloseDialog();
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   useEffect(() => {
     if (deleteID !== "" && isDelete) {
       const onDelete = async (id) => {
@@ -171,6 +183,12 @@ const CardNewsList = ({ items,isLoading }) => {
   setNewsDataGrid();
   return (
     <>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        onClick={ConfirmDelete}
+        message={"Do you insist on deleting news ?"}
+      />
       <ModalUpdate open={isEdit} handleClose={handleClose} title="News Update">
         <FormNewsUpdate id={nowID} handleClose={handleClose} option={option} />
       </ModalUpdate>

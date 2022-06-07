@@ -11,6 +11,7 @@ import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Grid } from "@mui/material";
+import ConfirmDialog from "../../../common/ConfirmDialog";
 
 import {
   QuickSearchToolbar,
@@ -30,8 +31,8 @@ const useStyles = makeStyles(() => ({
       paddingBottom: "0 !important",
     },
   },
-  searchBox:{
-    height:"59px",
+  searchBox: {
+    height: "59px",
   },
 }));
 
@@ -51,6 +52,8 @@ const CardLocation = () => {
   const [pageSize, setPageSize] = useState(50);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   let Header = headers;
   let Info = [];
@@ -77,23 +80,33 @@ const CardLocation = () => {
     setIsLoading(true);
     dispatch(getLocation());
   }, []);
+
   useEffect(() => {
     setIsLoading(false);
   }, [locationInformation]);
+
   useEffect(() => {
-    if (deleteID !== "") {
+    if (deleteID !== "" && confirmDelete) {
+      console.log(deleteID);
       const onDelete = async (id) => {
         await deleteLocation(String(id));
         dispatch(getLocation());
+        setDeleteID("");
+        setConfirmDelete(false);
       };
       onDelete(deleteID);
-      setDeleteID("");
     }
-  }, [deleteID]);
+  }, [deleteID, confirmDelete]);
+
+  const ConfirmDelete = () => {
+    setConfirmDelete(true);
+    handleCloseDialog();
+  };
 
   const onClickDelete = React.useCallback(
     (id) => () => {
       setDeleteID(id);
+      setOpenDialog(true);
     },
     []
   );
@@ -106,6 +119,7 @@ const CardLocation = () => {
     },
     []
   );
+
   const onClickAdd = () => {
     setopen(true);
     setOption("add");
@@ -113,6 +127,10 @@ const CardLocation = () => {
 
   const handleClose = () => {
     setopen(false);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   const requestSearch = (searchValue) => {
@@ -140,6 +158,13 @@ const CardLocation = () => {
   setDataGrid();
   return (
     <>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        onClick={ConfirmDelete}
+        message={"Do you insist on deleting Location ?"}
+      />
+
       <ModalUpdate
         open={open}
         handleClose={handleClose}
@@ -153,7 +178,7 @@ const CardLocation = () => {
       </ModalUpdate>
 
       <Grid container spacing={2} style={{ marginTop: "1px" }}>
-        <Grid item xs={10} sm={7} >
+        <Grid item xs={10} sm={7}>
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}

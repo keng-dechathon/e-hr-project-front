@@ -33,8 +33,10 @@ export const responseLeaveRequest = async (values) => {
       Depend: values.Depend ? values.Depend : "",
     })
     .then((response) => {
-      if (values.Status) pushSnackbarAction("success", "Approve success");
-      else if (values.Status) pushSnackbarAction("success", "Deline success");
+      if (values.Status === "true")
+        pushSnackbarAction("success", "Approve success");
+      else if (values.Status === "false")
+        pushSnackbarAction("success", "Deline success");
       else pushSnackbarAction("success", " success");
       return { status: "success" };
     })

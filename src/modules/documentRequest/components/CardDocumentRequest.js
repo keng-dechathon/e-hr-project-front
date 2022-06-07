@@ -7,10 +7,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { Grid } from "@mui/material";
 
 import DataGrid from "../../common/DataGrid";
-import EditIcon from "@mui/icons-material/Edit";
-import { GridActionsCellItem } from "@mui/x-data-grid";
+import ConfirmDialog from "../../common/ConfirmDialog";
+
 import { getMyDocumentRequest } from "../actions";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalUpdate from "../../common/ModalUpdate";
 import { cancleDocumentRequest } from "../actions";
 import FormDocumentRequest from "./FormDocumentRequest";
@@ -57,6 +56,8 @@ const CardDocumentRequest = () => {
   const [searchInfo, setSearchInfo] = useState([]);
   const [pageSize, setPageSize] = useState(50);
   const [cancleID, setCancleID] = useState("");
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const [sortModel, setSortModel] = useState([
     {
@@ -106,17 +107,28 @@ const CardDocumentRequest = () => {
     dispatch(getAllDocumentType());
   }, []);
   useEffect(() => {
-    if (cancleID !== "") {
+    if (cancleID !== "" && confirmDelete) {
       const onCancle = async (id) => {
         await cancleDocumentRequest(String(id));
         dispatch(getMyDocumentRequest());
       };
       onCancle(cancleID);
       setCancleID("");
+      setConfirmDelete(false);
     }
-  }, [cancleID]);
+  }, [cancleID, confirmDelete]);
+
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const ConfirmDelete = () => {
+    setConfirmDelete(true);
+    handleCloseDialog();
   };
 
   const onClickUpdate = React.useCallback(
@@ -130,8 +142,8 @@ const CardDocumentRequest = () => {
 
   const onClickCancle = React.useCallback(
     (id) => () => {
-      console.log(id);
       setCancleID(id);
+      setOpenDialog(true);
     },
     []
   );
@@ -182,6 +194,12 @@ const CardDocumentRequest = () => {
 
   return (
     <>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        onClick={ConfirmDelete}
+        message={"Do you insist on canceling request ?"}
+      />
       <ModalUpdate
         open={open}
         handleClose={!submittingState.submitting ? handleClose : ""}
