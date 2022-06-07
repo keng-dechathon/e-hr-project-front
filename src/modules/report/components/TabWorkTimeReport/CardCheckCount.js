@@ -116,6 +116,8 @@ const CardCheckCount = () => {
               item.Role === "Management" ||
               item.Role === "Hr" ||
               item.Role === "Staff";
+          } else {
+            keep = false;
           }
           return keep;
         }).length
