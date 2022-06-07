@@ -3,7 +3,7 @@ import { useForm } from "react-final-form-hooks";
 import Button from "../../common/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { DialogActions } from "@mui/material";
-
+import { isNumber } from "../../../utils/validate";
 import { getLeaveTypeInformation } from "../actions";
 import { updateLeaveType } from "../actions";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,6 +13,7 @@ import { Grid } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { addLeaveType } from "../actions";
 import { Box } from "@mui/system";
+import { pushSnackbarAction } from '../../layout/actions'
 
 const useStyles = makeStyles(() => ({
   ButtonSubmit: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles(() => ({
     color: "#FFFFFF",
     "&:hover": {
       background: "#04AA6D",
-      opacity:"0.8",
+      opacity: "0.8",
     },
   },
   dialogAction: {
@@ -71,13 +72,17 @@ const FormLeaveTypeUpdate = (props) => {
   }, [name, dayLeave, dayAdd]);
 
   const onSubmit = async () => {
-    if (option === "update") {
-      await updateLeaveType(user);
-    } else if (option === "add") {
-      await addLeaveType(user);
+    if (isNumber(dayLeave) && isNumber(dayAdd)) {
+      if (option === "update") {
+        await updateLeaveType(user);
+      } else if (option === "add") {
+        await addLeaveType(user);
+      }
+      dispatch(getLeaveTypeInformation());
+      handleClose();
+    } else {
+      pushSnackbarAction('warning', 'The number of hours must include numbers only.')
     }
-    dispatch(getLeaveTypeInformation());
-    handleClose();
   };
 
   const { handleSubmit, submitting } = useForm({

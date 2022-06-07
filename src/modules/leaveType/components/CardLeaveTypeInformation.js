@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useSelector, useDispatch } from "react-redux";
 import FormLeaveTypeUpdate from "./FormLeaveTypeUpdate";
 import { Grid } from "@mui/material";
-
+import ConfirmDialog from "../../common/ConfirmDialog";
 import DataGrid from "../../common/DataGrid";
 import EditIcon from "@mui/icons-material/Edit";
 import { GridActionsCellItem } from "@mui/x-data-grid";
@@ -19,6 +19,7 @@ import {
 } from "../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
 import { headers } from "./headers";
+
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
     display: "flex",
@@ -32,8 +33,8 @@ const useStyles = makeStyles(() => ({
       paddingBottom: "0 !important",
     },
   },
-  searchBox:{
-    height:"59px",
+  searchBox: {
+    height: "59px",
   },
 }));
 
@@ -52,7 +53,8 @@ const CardLeaveTypeInformation = () => {
   const [searchInfo, setSearchInfo] = useState([]);
   const [pageSize, setPageSize] = useState(10);
   const [deleteID, setDeleteID] = useState("");
-
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const [sortModel, setSortModel] = useState([
     {
       field: "ID",
@@ -88,18 +90,28 @@ const CardLeaveTypeInformation = () => {
   }, []);
 
   useEffect(() => {
-    if (deleteID !== "") {
+    if (deleteID !== "" && confirmDelete) {
       const onDelete = async (id) => {
         await deleteLeaveType([String(id)]);
         dispatch(getLeaveTypeInformation());
+        setDeleteID("");
+        setConfirmDelete(false);
       };
       onDelete(deleteID);
-      setDeleteID("");
     }
-  }, [deleteID]);
+  }, [deleteID, confirmDelete]);
+
+  const ConfirmDelete = () => {
+    setConfirmDelete(true);
+    handleCloseDialog();
+  };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   const onClickUpdate = React.useCallback(
@@ -114,6 +126,7 @@ const CardLeaveTypeInformation = () => {
   const onClickDelete = React.useCallback(
     (id) => () => {
       setDeleteID(id);
+      setOpenDialog(true);
     },
     []
   );
@@ -138,11 +151,14 @@ const CardLeaveTypeInformation = () => {
 
   const setDataGrid = () => {
     if (Object.keys(leaveTypeInformation).length !== 0) {
+      let i = 0;
       leaveTypeInformation.data.map((item, index) => {
         if (item.Type_name !== "DayOff") {
           Info.push(item);
-          Info[index].Num_per_year = String(item.Num_per_year);
-          Info[index].Num_can_add = String(item.Num_can_add);
+          Info[index - i].Num_per_year = String(item.Num_per_year);
+          Info[index - i].Num_can_add = String(item.Num_can_add);
+        } else {
+          i++;
         }
       });
     }
@@ -151,6 +167,12 @@ const CardLeaveTypeInformation = () => {
 
   return (
     <>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        onClick={ConfirmDelete}
+        message={"Do you insist on deleting leave type ?"}
+      />
       <ModalUpdate
         open={open}
         handleClose={handleClose}
@@ -163,7 +185,7 @@ const CardLeaveTypeInformation = () => {
         />
       </ModalUpdate>
       <Grid container spacing={2} style={{ marginTop: "1px" }}>
-        <Grid item xs={10} sm={7} >
+        <Grid item xs={10} sm={7}>
           <QuickSearchToolbar
             value={searchText}
             onChange={(event) => requestSearch(event.target.value)}

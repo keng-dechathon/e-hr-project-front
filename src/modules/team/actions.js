@@ -81,7 +81,7 @@ export const deleteMember = async (Team_id, emp_id) => {
     })
     .then((response) => {
       // console.log(response);
-      pushSnackbarAction("success", "add success");
+      pushSnackbarAction("success", "delete success");
       return { status: "success" };
     })
     .catch((error) => {
@@ -137,13 +137,11 @@ export const deleteTeam = async (teamID) => {
       Option: "Delete_Team",
     })
     .then((response) => {
-      // console.log(response);
-      pushSnackbarAction("success", "update success");
+      pushSnackbarAction("success", "delete success");
       return { status: "success" };
     })
     .catch((error) => {
-      console.log(error);
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };

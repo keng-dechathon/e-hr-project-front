@@ -9,7 +9,7 @@ import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Grid } from "@mui/material";
-
+import ConfirmDialog from "../../../common/ConfirmDialog";
 import {
   QuickSearchToolbar,
   escapeRegExp,
@@ -31,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: "0 !important",
     },
   },
-  searchBox:{
-    height:"59px",
+  searchBox: {
+    height: "59px",
   },
 }));
 
@@ -43,7 +43,6 @@ const CardChargeCode = () => {
   const { chargeCodeInformation } = useSelector(
     (state) => state.timeSheetMngReducer
   );
-  console.log(chargeCodeInformation);
   const [nowID, setNowID] = useState("");
   const [open, setopen] = useState(false);
   const [deleteID, setDeleteID] = useState("");
@@ -51,16 +50,13 @@ const CardChargeCode = () => {
   const [searchInfo, setSearchInfo] = useState([]);
   const [option, setOption] = useState("");
   const [pageSize, setPageSize] = useState(50);
-  const [sortModel, setSortModel] = useState([
-    {
-      field: "id",
-      sort: "desc",
-    },
-  ]);
   const [isLoading, setIsLoading] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   let Header = headers;
   let Info = [];
+
   Header[2] = {
     field: "actions",
     type: "actions",
@@ -88,23 +84,29 @@ const CardChargeCode = () => {
     setIsLoading(false);
   }, [chargeCodeInformation]);
   useEffect(() => {
-    if (deleteID !== "") {
+    if (deleteID !== "" && confirmDelete) {
       const onDelete = async (id) => {
         await deleteChargeCode(String(id));
         dispatch(getChargeCode());
+        setDeleteID("");
+        setConfirmDelete(false);
       };
       onDelete(deleteID);
-      setDeleteID("");
     }
-  }, [deleteID]);
+  }, [deleteID, confirmDelete]);
+
+  const ConfirmDelete = () => {
+    setConfirmDelete(true);
+    handleCloseDialog();
+  };
 
   const onClickDelete = React.useCallback(
     (id) => () => {
       setDeleteID(id);
+      setOpenDialog(true);
     },
     []
   );
-
   const onClickUpdate = React.useCallback(
     (id) => () => {
       setopen(true);
@@ -121,7 +123,10 @@ const CardChargeCode = () => {
   const handleClose = () => {
     setopen(false);
   };
-
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  
   const requestSearch = (searchValue) => {
     setSearchText(searchValue);
     const searchRegex = new RegExp(escapeRegExp(searchValue), "i");
@@ -148,6 +153,12 @@ const CardChargeCode = () => {
   setDataGrid();
   return (
     <>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        onClick={ConfirmDelete}
+        message={"Do you insist on deleting Charge Code ?"}
+      />
       <ModalUpdate
         open={open}
         handleClose={handleClose}

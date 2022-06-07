@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import FormLeaveTypeUpdate from "./FormLeaveTypeUpdate";
 import { Grid } from "@mui/material";
 import { getAllDocumentType } from "../../actions";
-
+import ConfirmDialog from "../../../common/ConfirmDialog";
 import DataGrid from "../../../common/DataGrid";
 import EditIcon from "@mui/icons-material/Edit";
 import { GridActionsCellItem } from "@mui/x-data-grid";
@@ -49,7 +49,8 @@ const CardDocumentType = () => {
   const [searchInfo, setSearchInfo] = useState([]);
   const [pageSize, setPageSize] = useState(50);
   const [deleteID, setDeleteID] = useState("");
-
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const [sortModel, setSortModel] = useState([
     {
       field: "ID",
@@ -81,15 +82,21 @@ const CardDocumentType = () => {
   };
 
   useEffect(() => {
-    if (deleteID !== "") {
+    if (deleteID !== "" && confirmDelete) {
       const onDelete = async (id) => {
         await deleteDocumentType(String(id));
         dispatch(getAllDocumentType());
+        setDeleteID("");
+        setConfirmDelete(false);
       };
       onDelete(deleteID);
-      setDeleteID("");
     }
-  }, [deleteID]);
+  }, [deleteID,confirmDelete]);
+
+  const ConfirmDelete = () => {
+    setConfirmDelete(true);
+    handleCloseDialog();
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -107,6 +114,7 @@ const CardDocumentType = () => {
   const onClickDelete = React.useCallback(
     (id) => () => {
       setDeleteID(id);
+      setOpenDialog(true);
     },
     []
   );
@@ -116,6 +124,10 @@ const CardDocumentType = () => {
     setOption("add");
   };
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  
   const requestSearch = (searchValue) => {
     setSearchText(searchValue);
     const searchRegex = new RegExp(escapeRegExp(searchValue), "i");
@@ -142,6 +154,12 @@ const CardDocumentType = () => {
 
   return (
     <>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        onClick={ConfirmDelete}
+        message={"Do you insist on deleting document type ?"}
+      />
       <ModalUpdate
         open={open}
         handleClose={handleClose}

@@ -5,6 +5,7 @@ import FormHolidaysUpdate from "./FormHolidaysUpdate";
 import { getHolidaysInformation } from "../../actions";
 import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
+import ConfirmDialog from "../../../common/ConfirmDialog";
 
 import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
@@ -50,7 +51,8 @@ const CardHoliday = () => {
       sort: "desc",
     },
   ]);
-
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   let holidayHeader = headers;
   let holidayInfo = [];
   holidayHeader[headers.length] = {
@@ -77,19 +79,26 @@ const CardHoliday = () => {
   }, []);
 
   useEffect(() => {
-    if (deleteID !== "") {
+    if (deleteID !== "" && confirmDelete) {
       const onDelete = async (id) => {
         await deleteHoliday([id]);
         dispatch(getHolidaysInformation());
       };
       onDelete(deleteID);
       setDeleteID("");
+      setConfirmDelete(false);
     }
-  }, [deleteID]);
+  }, [deleteID, confirmDelete]);
+
+  const ConfirmDelete = () => {
+    setConfirmDelete(true);
+    handleCloseDialog();
+  };
 
   const onClickDelete = React.useCallback(
     (id) => () => {
       setDeleteID(id);
+      setOpenDialog(true);
     },
     []
   );
@@ -108,6 +117,10 @@ const CardHoliday = () => {
 
   const handleClose = () => {
     setopen(false);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   const requestSearch = (searchValue) => {
@@ -133,11 +146,18 @@ const CardHoliday = () => {
         holidayInfo[index].End = item.End;
         holidayInfo[index].id = item.ID;
       });
+      if (holidayInfo.length !== 0) holidayInfo.reverse();
     }
   };
   setHolidaysDataGrid();
   return (
     <>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        onClick={ConfirmDelete}
+        message={"Do you insist on deleting holiday ?"}
+      />
       <ModalUpdate open={open} handleClose={handleClose} title="Holiday Update">
         <FormHolidaysUpdate
           id={nowID}

@@ -5,9 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { getTeamsInformation } from "../actions";
 import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
-import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
-import { CardContent } from "@mui/material";
+
 import DataGrid from "../../common/DataGrid";
 import FormUpdateTeam from "./FormUpdateTeam";
 import ModalUpdate from "../../common/ModalUpdate";
@@ -22,6 +20,7 @@ import {
 } from "../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
 import { Grid } from "@mui/material";
+import ConfirmDialog from "../../common/ConfirmDialog";
 
 const useStyles = makeStyles((theme) => ({
   ButtonAdd: {
@@ -33,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: "0 !important",
     },
   },
-
 }));
 
 const CardTeam = () => {
@@ -55,12 +53,8 @@ const CardTeam = () => {
       sort: "desc",
     },
   ]);
-
-  const headerArray = {
-    Team_id: "ID",
-    Teamname: "Team name",
-    Team_host: "Host",
-  };
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   let Header = headers;
   let Info = [];
@@ -90,19 +84,30 @@ const CardTeam = () => {
   }, []);
 
   useEffect(() => {
-    if (deleteID !== "") {
+    if (deleteID !== "" && confirmDelete) {
       const onDelete = async (id) => {
         await deleteTeam([id]);
         dispatch(getTeamsInformation());
       };
       onDelete(deleteID);
       setDeleteID("");
+      setConfirmDelete(false);
     }
-  }, [deleteID]);
+  }, [deleteID, confirmDelete]);
+
+  const ConfirmDelete = () => {
+    setConfirmDelete(true);
+    handleCloseDialog();
+  };
 
   const handleClose = () => {
     setopen(false);
   };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   const onClickUpdate = React.useCallback(
     (row) => () => {
       console.log(row);
@@ -120,6 +125,7 @@ const CardTeam = () => {
   const onClickDelete = React.useCallback(
     (id) => () => {
       setDeleteID(id);
+      setOpenDialog(true);
     },
     []
   );
@@ -145,10 +151,16 @@ const CardTeam = () => {
       });
     }
   };
-  console.log(option);
+
   setDataGrid();
   return (
     <>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        onClick={ConfirmDelete}
+        message={"Do you insist on deleting team ?"}
+      />
       <ModalUpdate
         open={open}
         handleClose={handleClose}
@@ -160,7 +172,7 @@ const CardTeam = () => {
             : ""
         }
         fullscreen={
-          option === "add" ? false: option === "update" ? true : false
+          option === "add" ? false : option === "update" ? true : false
         }
       >
         {option === "add" ? (

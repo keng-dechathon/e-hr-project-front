@@ -15,7 +15,7 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { getMemberInformation } from "../actions";
 import { Grid } from "@mui/material";
-
+import ConfirmDialog from "../../common/ConfirmDialog";
 import {
   QuickSearchToolbar,
   escapeRegExp,
@@ -49,7 +49,8 @@ const CardTeamMembers = (props) => {
   const [deleteID, setDeleteID] = useState("");
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
-
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const [pageSize, setPageSize] = useState(5);
   const [sortModel, setSortModel] = useState([
     {
@@ -57,8 +58,6 @@ const CardTeamMembers = (props) => {
       sort: "desc",
     },
   ]);
-
-  const headerArray = { id: "ID", Name: "Name", Position: "Position" };
 
   let Header = headers;
   let Info = [];
@@ -87,25 +86,36 @@ const CardTeamMembers = (props) => {
   };
 
   useEffect(() => {
-    if (deleteID !== "") {
+    if (deleteID !== "" && confirmDelete) {
       const onDelete = async (id) => {
         await deleteMember(teamID, [id]);
         dispatch(getMemberInformation("", "", teamID));
       };
       onDelete(deleteID);
       setDeleteID("");
+      setConfirmDelete(false);
     }
-  }, [deleteID]);
+  }, [deleteID, confirmDelete]);
+
+  const ConfirmDelete = () => {
+    setConfirmDelete(true);
+    handleCloseDialog();
+  };
 
   const onClickDelete = React.useCallback(
     (id) => () => {
       setDeleteID(id);
+      setOpenDialog(true);
     },
     []
   );
 
   const onClickAdd = () => {
     setopen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   const requestSearch = (searchValue) => {
@@ -132,6 +142,12 @@ const CardTeamMembers = (props) => {
   setDataGrid();
   return (
     <>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        onClick={ConfirmDelete}
+        message={"Do you insist on deleting member ?"}
+      />
       <ModalUpdate open={open} handleClose={handleClose} title="Add Member">
         <FormAddMember
           handleClose={handleClose}
@@ -140,7 +156,7 @@ const CardTeamMembers = (props) => {
           host={host}
         />
       </ModalUpdate>
-    
+
       <Box className={classes.box}>
         <Grid container spacing={2} style={{ marginTop: "1px" }}>
           <Grid item xs={9} sm={7}>

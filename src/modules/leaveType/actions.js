@@ -64,7 +64,7 @@ export const addLeaveType = async (values) => {
         })
         .then((response) => {
             // console.log(response);
-            pushSnackbarAction('success', 'delete success')
+            pushSnackbarAction('success', 'add success')
             return { status: 'success' }
         })
         .catch((error) => {
