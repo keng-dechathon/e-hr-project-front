@@ -38,7 +38,6 @@ const CardTable = () => {
         setInfo([]);
         setIsSetInfo(false);
         allCheckInformation.data.map((item) => {
-          console.log(item);
           item.id = item.CheckId;
           item.Name = empInformation.data.filter(
             (temp) => String(temp.Emp_id) === String(item.Emp_id)
