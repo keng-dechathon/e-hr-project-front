@@ -31,7 +31,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { getCheckInformation } from "../actions";
 import { checkIn, checkOut } from "../actions";
 import { headers } from "./headers";
-
+import ConfirmDialog from "../../common/ConfirmDialog";
 import { Divider } from "@mui/material";
 const useStyles = makeStyles((theme) => ({
   cin_normal: {
@@ -148,6 +148,8 @@ const CardCheckIn_CheckOut = () => {
   const [showType, setShowType] = useState("Day");
   const [pageSize, setPageSize] = useState(50);
   const [isLoading, setIsLoading] = useState(false);
+  const [checkStatus, setCheckStatus] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
   let toDayId = "";
   let Header = headers;
   let Info = [];
@@ -173,6 +175,17 @@ const CardCheckIn_CheckOut = () => {
     }
   }, [accountInformation, day, showType]);
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  const isCheckIn = () => {
+    setOpenDialog(true);
+    setCheckStatus("checkin");
+  };
+  const isCheckOut = () => {
+    setOpenDialog(true);
+    setCheckStatus("checkout");
+  };
   const onClickCheckIn = async () => {
     await checkIn();
     if (Object.keys(accountInformation).length !== 0) {
@@ -186,6 +199,8 @@ const CardCheckIn_CheckOut = () => {
         )
       );
     }
+    setOpenDialog(false);
+    setCheckStatus("");
   };
 
   const onClickCheckOut = async () => {
@@ -202,6 +217,8 @@ const CardCheckIn_CheckOut = () => {
           )
         );
       }
+      setOpenDialog(false);
+      setCheckStatus("");
     }
   };
 
@@ -238,7 +255,7 @@ const CardCheckIn_CheckOut = () => {
       });
     }
   };
-  console.log(checkInformation);
+
   const setDataGrid = () => {
     if (Object.keys(checkInformation).length !== 0) {
       checkInformation.data.map((item, index) => {
@@ -258,6 +275,24 @@ const CardCheckIn_CheckOut = () => {
   setDataGrid();
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        onClick={
+          checkStatus === "checkin"
+            ? onClickCheckIn
+            : checkStatus === "checkout"
+            ? onClickCheckOut
+            : ""
+        }
+        message={
+          checkStatus === "checkin"
+            ? "Did you confirm to check in ?"
+            : checkStatus === "checkout"
+            ? "Did you confirm to check out ?"
+            : "Did you confirm ?"
+        }
+      />
       <Box className={classes.box}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -271,7 +306,7 @@ const CardCheckIn_CheckOut = () => {
                   classes.checkButton,
                   isBetween ? classes.cin_holiday : classes.cin_normal
                 )}
-                onClick={onClickCheckIn}
+                onClick={isCheckIn}
               >
                 {/* <MoodIcon fontSize="small" style={{ marginRight: "5px" }} /> */}
                 <pre>Check-in</pre>
@@ -282,7 +317,7 @@ const CardCheckIn_CheckOut = () => {
                   classes.checkButton,
                   isBetween ? classes.cout_holiday : classes.cout_normal
                 )}
-                onClick={onClickCheckOut}
+                onClick={isCheckOut}
               >
                 {/* <MoodBadIcon fontSize="small" style={{ marginRight: "5px" }} /> */}
                 <pre>Check-out</pre>
@@ -399,7 +434,7 @@ const CardCheckIn_CheckOut = () => {
             <DataGrid
               pageSize={pageSize}
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[10, 20, 50,100]}
+              rowsPerPageOptions={[10, 20, 50, 100]}
               pagination
               loading={isLoading}
               className={classes.datagrid}
