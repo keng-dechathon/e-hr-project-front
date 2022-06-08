@@ -129,7 +129,7 @@ const CardAllLeaveTable = () => {
 
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(50);
 
   const [isBetween, setIsBetween] = useState(false);
   const [day, setDay] = useState(new Date());

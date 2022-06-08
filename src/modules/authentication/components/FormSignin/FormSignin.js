@@ -6,7 +6,6 @@ import { useForm } from 'react-final-form-hooks'
 import classNames from 'classnames'
 import TextFieldOutline from '../../../common/TextFieldOutlined'
 import Button from '../../../common/Button'
-import { pink } from '@mui/material/colors'
 import Checkbox from '@mui/material/Checkbox'
 import { Link as LinkDom } from 'react-router-dom'
 import { Link } from '@material-ui/core'
@@ -36,7 +35,6 @@ const FormSignin = () => {
 
     const onSubmitChecked = () => {
         setChecked(!Checked)
-        console.log(Checked)
     }
     const onSubmit = async (values) => {       
         await signIn(values, Checked, navigate)     
