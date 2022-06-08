@@ -14,8 +14,8 @@ export const signIn = async (values, Checked, navigate) => {
       const uid = ID;
       const a = access_token;
       if (NeedResetPassword) {
-        setCookie("uid", uid, 1000 * 3600);
-        setCookie("a", a, 1000 * 3600);
+        setCookie("uid", uid, { expires: 0 });
+        setCookie("a", a, { expires: 0 });
         navigate("/reset-password");
         return { status: "success" };
       } else {
