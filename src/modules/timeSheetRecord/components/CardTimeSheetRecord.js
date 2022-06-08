@@ -103,7 +103,7 @@ const CardTimeSheetRecord = () => {
   }, [day]);
 
   useEffect(() => {
-    if (deleteID !== "") {
+    if (deleteID !== "" && confirmDelete) {
       const onDelete = async (id) => {
         await deleteTimeSheet(String(id));
         dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
@@ -112,7 +112,7 @@ const CardTimeSheetRecord = () => {
       };
       onDelete(deleteID);
     }
-  }, [deleteID]);
+  }, [deleteID, confirmDelete]);
 
   useEffect(() => {
     setIsBetween(false);
