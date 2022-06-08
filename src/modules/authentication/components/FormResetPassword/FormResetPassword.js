@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { resetPassword } from '../../action'
 import { validateBothSame } from '../../../../utils/validate'
 import { pushSnackbarAction } from '../../../layout/actions'
-
+import { removeCookie,getCookieFromBrowser } from '../../../../utils/cookie'
 const useStyles = makeStyles(styles)
 
 
@@ -23,13 +23,23 @@ const FormResetPassword = () => {
     const navigate = useNavigate();
 
     const onSubmit = async (values) => {
-        console.log(values);
         if (validateBothSame(values.newPassword, values.confirmPassword)) {
             await resetPassword(values, navigate)
         } else {
             pushSnackbarAction('Error', 'New password not same')
         }
 
+    }
+
+    const removeTokenCookie =()=>{
+        let token = getCookieFromBrowser('a')
+        let uid = getCookieFromBrowser('uid')
+        if(token){
+            removeCookie('a')
+        }
+        if(uid){
+            removeCookie('uid')
+        }
     }
 
     const { form, handleSubmit, submitting, values } = useForm({
@@ -113,7 +123,7 @@ const FormResetPassword = () => {
                     xs={12}
                 >
                     <LinkDom to="/sign-in">
-                        <Link>Back to sign-in</Link>
+                        <Link onClick={removeTokenCookie}>Back to sign-in</Link>
                     </LinkDom>
                 </Grid>
             </Grid>

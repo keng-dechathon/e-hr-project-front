@@ -19,7 +19,7 @@ import {
 import { Button } from "@mui/material";
 import ModalUpdate from "../../../common/ModalUpdate";
 import { Grid } from "@mui/material";
-
+import moment from "moment";
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
     display: "flex",
@@ -55,6 +55,7 @@ const CardHoliday = () => {
   const [openDialog, setOpenDialog] = useState(false);
   let holidayHeader = headers;
   let holidayInfo = [];
+
   holidayHeader[headers.length] = {
     field: "actions",
     type: "actions",
@@ -140,11 +141,11 @@ const CardHoliday = () => {
   const setHolidaysDataGrid = () => {
     if (Object.keys(holidaysInformation).length !== 0) {
       holidaysInformation.data.map((item, index) => {
-        console.log(item);
         holidayInfo.push(item);
-        holidayInfo[index].Start = item.Start;
-        holidayInfo[index].End = item.End;
+        holidayInfo[index].Start = moment(item.Start).format("MM/DD/YYYY") ;
+        holidayInfo[index].End = moment(item.End).format("MM/DD/YYYY");
         holidayInfo[index].id = item.ID;
+
       });
       if (holidayInfo.length !== 0) holidayInfo.reverse();
     }

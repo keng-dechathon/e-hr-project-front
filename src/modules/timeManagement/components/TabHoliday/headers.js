@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import renderCellExpand from "../../../common/DataGridTimeSheet/renderCellExpand";
-
+import moment from "moment";
+import renderCellExpandDate from "./renderCellExpandDate";
 export const headers = [
   {
     field: "Holiday_Name",
@@ -16,15 +17,21 @@ export const headers = [
     headerName: "Begin",
     flex: 1,
     headerClassName: "bg-light-green",
-    renderCell: renderCellExpand,
-    sortable: false,
+    valueFormatter: (params) => {
+      return moment(params.value, "MM-DD-YYYY").format("Do MMMM YYYY");
+    },
+    renderCell: renderCellExpandDate,
+    sortable: true,
   },
   {
     field: "End",
     headerName: "End",
     flex: 1,
     headerClassName: "bg-light-green",
-    renderCell: renderCellExpand,
-    sortable: false,
+    renderCell: renderCellExpandDate,
+    valueFormatter: (params) => {
+      return moment(params.value, "MM-DD-YYYY").format("Do MMMM YYYY");
+    },
+    sortable: true,
   },
 ];

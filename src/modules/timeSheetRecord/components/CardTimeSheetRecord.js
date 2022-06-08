@@ -32,6 +32,7 @@ import { Stack } from "@mui/material";
 import { getCookieFromBrowser, removeCookie } from "../../../utils/cookie";
 import { updateTimeSheet } from "../actions";
 import { Grid } from "@mui/material";
+import ConfirmDialog from "../../common/ConfirmDialog";
 
 const useStyles = makeStyles((theme) => ({
   ButtonAdd: {
@@ -85,6 +86,8 @@ const CardTimeSheetRecord = () => {
   const [deleteID, setDeleteID] = useState("");
   const [isBetween, setIsBetween] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -104,9 +107,10 @@ const CardTimeSheetRecord = () => {
       const onDelete = async (id) => {
         await deleteTimeSheet(String(id));
         dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
+        setDeleteID("");
+        setConfirmDelete(false);
       };
       onDelete(deleteID);
-      setDeleteID("");
     }
   }, [deleteID]);
 
@@ -114,12 +118,24 @@ const CardTimeSheetRecord = () => {
     setIsBetween(false);
     checkIsBetweenDate();
   }, [holidaysInformation, day]);
+
   useEffect(() => {
     setIsLoading(false);
   }, [timesheetByDate]);
+
+  const ConfirmDelete = () => {
+    setConfirmDelete(true);
+    handleCloseDialog();
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   const onClickDelete = React.useCallback(
     (id) => () => {
       setDeleteID(id);
+      setOpenDialog(true);
     },
     []
   );
@@ -205,7 +221,7 @@ const CardTimeSheetRecord = () => {
             ) {
               Info[index].Remark = getCookieFromBrowser("Remark");
             }
-          }          
+          }
         }
         if (item.Detail === "") {
           if (
@@ -213,12 +229,11 @@ const CardTimeSheetRecord = () => {
             getCookieFromBrowser("Sheet_Detail") !== undefined
           ) {
             if (
-              String(item.Sheet_id) ===
-              String(getCookieFromBrowser("Sheet_Id"))
+              String(item.Sheet_id) === String(getCookieFromBrowser("Sheet_Id"))
             ) {
               Info[index].Detail = getCookieFromBrowser("Sheet_Detail");
             }
-          }          
+          }
         }
         Info[index].id = item.Sheet_id;
         Info[index].Date = new Date(item.Date);
@@ -253,6 +268,12 @@ const CardTimeSheetRecord = () => {
   setDataGrid();
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <ConfirmDialog
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        onClick={ConfirmDelete}
+        message={"Do you insist on deleting timesheet ?"}
+      />
       <Box className={classes.box}>
         <Grid container spacing={2}>
           <Grid item xs={9} sm={7}>
