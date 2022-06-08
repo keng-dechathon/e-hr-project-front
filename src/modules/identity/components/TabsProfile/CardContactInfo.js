@@ -44,31 +44,39 @@ const CardContactInfo = () => {
   }, []);
 
   const setDataInfo = () => {
-    
     if (Object.keys(accountInformation).length !== 0) {
-        let hostString = "";
+      let hostString = "";
       accountInformation.Team_Info.map((temp) => {
         hostString += temp.HostName;
         hostString += ",";
         hostString += " ";
       });
       hostString = String(hostString).substring(0, hostString.length - 2);
-  
+
       personalData.push({
         title: "Email Address",
-        value: accountInformation.Email ? accountInformation.Email : notSet,
+        value:
+          accountInformation.Email || accountInformation.Email === "null"
+            ? accountInformation.Email
+            : notSet,
       });
       personalData.push({
         title: "Phone",
-        value: accountInformation.Phone ? accountInformation.Phone : notSet,
+        value:
+          accountInformation.Phone || accountInformation.Phone === "null"
+            ? accountInformation.Phone
+            : notSet,
       });
       personalData.push({
         title: "Address",
-        value: accountInformation.Address ? accountInformation.Address : notSet,
+        value:
+          accountInformation.Address || accountInformation.Address === "null"
+            ? accountInformation.Address
+            : notSet,
       });
       personalData.push({
         title: "Supervisor",
-        value: hostString ? hostString : notSet,
+        value: hostString || hostString === "null" ? hostString : notSet,
       });
     }
   };

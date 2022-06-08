@@ -31,7 +31,6 @@ export const checkIn = async () => {
       Option: "Check_In",
     })
     .then((response) => {
-      // console.log(response);
       pushSnackbarAction("success", response.data.Message);
       return { status: "success" };
     })
@@ -40,6 +39,9 @@ export const checkIn = async () => {
         let status = error.response.status;
         if (status === 404) {
           pushSnackbarAction("error", error.response.data.Message);
+        }
+        if (status === 400) {
+          pushSnackbarAction("warning", error.response.data.Message);
         }
       } catch (e) {
         pushSnackbarAction("error", "Server error");
