@@ -16,8 +16,6 @@ import { isCharactersPasswordMinimum } from "../../../../utils/validate";
 
 const useStyles = makeStyles(styles);
 
-console.log(isCharactersPasswordMinimum("hhhh456789"));
-
 const FormChangePassword = (props) => {
   const classes = useStyles();
   const { handleClose } = props;
