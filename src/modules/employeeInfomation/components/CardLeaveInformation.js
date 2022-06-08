@@ -65,7 +65,7 @@ const CardLeaveInfomation = (props) => {
     <>
       <div style={{ marginTop: "15px" }} />
       <Typography variant="h6" fontWeight="bold" className={classes.topic}>
-        Leave Information (Day,Hour)
+        Leave Information (Hour)
       </Typography>
       <DataGrid
         headers={leaveDataHeader ? leaveDataHeader : ""}
