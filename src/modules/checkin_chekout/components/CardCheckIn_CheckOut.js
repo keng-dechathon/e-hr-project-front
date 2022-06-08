@@ -217,8 +217,8 @@ const CardCheckIn_CheckOut = () => {
           )
         );
       }
-    }else{
-      pushSnackbarAction("success", "You must check in first.");
+    } else {
+      pushSnackbarAction("warning", "You must check in first.");
     }
     setOpenDialog(false);
     setCheckStatus("");
