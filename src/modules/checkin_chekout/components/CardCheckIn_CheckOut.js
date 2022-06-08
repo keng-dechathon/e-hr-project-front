@@ -11,8 +11,8 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import Box from "@mui/material/Box";
 import { Card } from "@mui/material";
 import { Grid } from "@mui/material";
+import { pushSnackbarAction } from "../../layout/actions";
 
-import { CardContent } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Button } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -217,9 +217,11 @@ const CardCheckIn_CheckOut = () => {
           )
         );
       }
-      setOpenDialog(false);
-      setCheckStatus("");
+    }else{
+      pushSnackbarAction("success", "You must check in first.");
     }
+    setOpenDialog(false);
+    setCheckStatus("");
   };
 
   const setNextDate = () => {
