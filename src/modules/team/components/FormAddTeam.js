@@ -86,16 +86,32 @@ const FormAddTeam = (props) => {
   };
   const onSubmit = async () => {
     if (selectedHost.value) {
-      await addTeam(
-        values,
-        selectedHost.value.toString(),
-        creatorID.toString(),
-        selectedOptions
-      );
-      dispatch(getTeamsInformation());
-      handleClose();
+      const some = (item) => {
+        return String(item) === String(selectedHost.value);
+      };
+      if (selectedOptions.some(some)) {
+        await addTeam(
+          values,
+          selectedHost.value.toString(),
+          creatorID.toString(),
+          selectedOptions
+        );
+        dispatch(getTeamsInformation());
+        handleClose();
+      } else {
+        let members = selectedOptions;
+        members = [String(selectedHost.value)].concat(members);
+        await addTeam(
+          values,
+          selectedHost.value.toString(),
+          creatorID.toString(),
+          members
+        );
+        dispatch(getTeamsInformation());
+        handleClose();
+      }
     } else {
-      pushSnackbarAction("ERROR", "pls select host");
+      pushSnackbarAction("warning", "pls select host");
     }
   };
 
@@ -119,7 +135,7 @@ const FormAddTeam = (props) => {
   return (
     <form
       onSubmit={handleSubmit}
-    //   className={classes.form}
+      //   className={classes.form}
     >
       <Grid container spacing={2}>
         <Grid item xs={6}>
@@ -149,7 +165,7 @@ const FormAddTeam = (props) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <InputLabel>Name *</InputLabel>
+          <InputLabel>Member *</InputLabel>
           <Select
             closeMenuOnSelect={false}
             components={animatedComponents}

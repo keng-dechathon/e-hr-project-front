@@ -63,7 +63,7 @@ export const isCharactersPassword = (text) => {
 }
 
 export const isCharactersPasswordMinimum = (text) => {
-  return /^((?=.*[a-zA-Z!@#$%&])(?=.*[0-9]).{10,})+$/g.test(text)
+  return /^((?=.*[a-zA-Z!@#$%&])(?=.*[0-9]).{8,})+$/g.test(text)
 }
 
 export const validatePatternPasswordCorrect = (text) => {
