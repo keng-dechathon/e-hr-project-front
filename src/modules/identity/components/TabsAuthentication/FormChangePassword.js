@@ -26,6 +26,11 @@ const FormChangePassword = (props) => {
         if ((await resetPassword(values)).status !== "fail") {
           handleClose();
         }
+      } else {
+        pushSnackbarAction(
+          "warning",
+          "Password is required to have a minimum of 8 characters and must have at least 1 number and one letter. "
+        );
       }
 
       // await resetPassword(values)
