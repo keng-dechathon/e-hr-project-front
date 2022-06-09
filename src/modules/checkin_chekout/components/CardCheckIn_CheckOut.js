@@ -28,7 +28,7 @@ import { lightGreen } from "@mui/material/colors";
 import Stack from "@mui/material/Stack";
 import Typography from "../../common/Typography/Typography";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { getCheckInformation } from "../actions";
+import { getCheckInformation, getYearCheckInformation } from "../actions";
 import { checkIn, checkOut } from "../actions";
 import { headers } from "./headers";
 import ConfirmDialog from "../../common/ConfirmDialog";
@@ -134,7 +134,7 @@ const CardCheckIn_CheckOut = () => {
 
   const { holidaysInformation } = useSelector((state) => state.timeReducer);
 
-  const { checkInformation } = useSelector(
+  const { checkInformation, yearCheckInformation } = useSelector(
     (state) => state.checkin_checkoutReducer
   );
   const { accountInformation } = useSelector((state) => state.accountReducer);
@@ -174,6 +174,19 @@ const CardCheckIn_CheckOut = () => {
       );
     }
   }, [accountInformation, day, showType]);
+
+  useEffect(() => {
+    if (Object.keys(accountInformation).length !== 0) {
+      dispatch(
+        getYearCheckInformation(
+          "",
+          "",
+          String(accountInformation.Emp_id),
+          moment(day).format("YYYY-MM-DD")
+        )
+      );
+    }
+  }, [accountInformation, day]);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -223,7 +236,7 @@ const CardCheckIn_CheckOut = () => {
     setOpenDialog(false);
     setCheckStatus("");
   };
-
+  // console.log(toDayId);
   const setNextDate = () => {
     let tomorrow = moment(day).add(1, "days");
     setDay(new Date(tomorrow));
@@ -261,6 +274,14 @@ const CardCheckIn_CheckOut = () => {
   const setDataGrid = () => {
     if (Object.keys(checkInformation).length !== 0) {
       checkInformation.data.map((item, index) => {
+        Info.push(item);
+        Info[index].Date = moment(item.Check_in).format(" MMMM Do YYYY");
+        Info[index].id = item.CheckId;
+      });
+      Info.reverse();
+    }
+    if (Object.keys(yearCheckInformation).length !== 0) {
+      yearCheckInformation.data.map((item, index) => {
         if (index === 0) {
           toDayId = item.CheckId;
         } else {
@@ -268,12 +289,7 @@ const CardCheckIn_CheckOut = () => {
             toDayId = item.CheckId;
           }
         }
-        Info.push(item);
-        Info[index].Date = moment(item.Check_in).format(" MMMM Do YYYY");
-        Info[index].id = item.CheckId;
       });
-
-      Info.reverse();
     }
   };
   setDataGrid();
