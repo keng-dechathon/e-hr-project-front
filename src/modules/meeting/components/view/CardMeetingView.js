@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { getEmployeeInformtion } from "../../../employeeInfomation/actions";
 import { useSelector, useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
+import AutocompleteEmpty from "@mui/material/Autocomplete";
 
 import {
   getMeetingRoomInformation,
@@ -12,7 +13,6 @@ import {
   getMeetingInformationByRoomId,
 } from "../../actions";
 import { Grid } from "@mui/material";
-
 import moment from "moment";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -23,6 +23,7 @@ import Button from "@mui/material/Button";
 import ScedulerMeetingFunc from "./ScedulerMeetingFunc";
 import LinearProgress from "@mui/material/LinearProgress";
 import FaceIcon from "@mui/icons-material/Face";
+import { TextField } from "@mui/material";
 const useStyles = makeStyles((theme) => ({
   helpText: {
     [theme.breakpoints.down("xs")]: {
@@ -31,15 +32,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   gridItem: {
-    paddingLeft:"10px !important",
-
+    paddingLeft: "10px !important",
   },
-  lastGridItem:{
-    paddingLeft:"10px !important",
+  lastGridItem: {
+    paddingLeft: "10px !important",
     [theme.breakpoints.down("957px")]: {
-      paddingTop:"10px !important",
+      paddingTop: "10px !important",
     },
-  }
+  },
 }));
 
 const CardMeeting = () => {
@@ -186,8 +186,13 @@ const CardMeeting = () => {
   return (
     <>
       <Box>
-        <Grid container spacing={0} className={classes.gridContainer} style={{width:"100%"}}>
-          <Grid item xs={7} sm={5} md={5} >
+        <Grid
+          container
+          spacing={0}
+          className={classes.gridContainer}
+          style={{ width: "100%" }}
+        >
+          <Grid item xs={7} sm={5} md={5}>
             {memberOption.length !== 0 ? (
               <div>
                 <AutoComplete
@@ -213,10 +218,18 @@ const CardMeeting = () => {
                 </FormHelperText>
               </div>
             ) : (
-              ""
+              <div>
+                <AutocompleteEmpty
+                  size="small"
+                  id="checkboxes-tags-demo"
+                  disableCloseOnSelect
+                  style={{ backgroundColor: "white" }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </div>
             )}
           </Grid>
-          <Grid item xs={3} sm={2}  md={2}  className={classes.gridItem}>
+          <Grid item xs={3} sm={2} md={2} className={classes.gridItem}>
             <div>
               <Select
                 value={selectStateFilter}
@@ -239,7 +252,7 @@ const CardMeeting = () => {
               </FormHelperText>
             </div>
           </Grid>
-          <Grid item xs={1} sm={2}  md={1}  className={classes.gridItem}>
+          <Grid item xs={1} sm={2} md={1} className={classes.gridItem}>
             <Button
               variant="contained"
               endIcon={<SearchIcon />}
@@ -250,7 +263,7 @@ const CardMeeting = () => {
               GO
             </Button>
           </Grid>
-          <Grid item xs={12} sm={3} md={2}  className={classes.lastGridItem}>
+          <Grid item xs={12} sm={3} md={2} className={classes.lastGridItem}>
             <Button
               variant="outlined"
               endIcon={<FaceIcon />}

@@ -10,7 +10,7 @@ export const headers = [
     minWidth: 120,
     headerClassName: "bg-light-green",
     renderCell: renderCellExpand,
-    sortable: false,
+    sortable: true,
   },
   {
     field: "Start",
