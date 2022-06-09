@@ -2,7 +2,7 @@ import API from "../../utils/api";
 import { apiUrl } from "../../utils/apiUrl";
 import { setCookie } from "../../utils/cookie";
 import { pushSnackbarAction } from "../layout/actions";
-
+import { encodeB64 } from "../../utils/crypto";
 export const signIn = async (values, Checked, navigate) => {
   return API()
     .post(apiUrl.eHRService.auth.signin, {
@@ -10,12 +10,14 @@ export const signIn = async (values, Checked, navigate) => {
       password: values.password,
     })
     .then((response) => {
-      const { access_token, ID, NeedResetPassword } = response.data;
+      const { access_token, ID, NeedResetPassword, Role } = response.data;
       const uid = ID;
+      console.log(Role);
       const a = access_token;
       if (NeedResetPassword) {
         setCookie("uid", uid, { expires: 0 });
         setCookie("a", a, { expires: 0 });
+        setCookie("Role", encodeB64(Role), { expires: 0 });
         navigate("/reset-password");
         return { status: "success" };
       } else {
@@ -23,9 +25,11 @@ export const signIn = async (values, Checked, navigate) => {
         if (Checked) {
           setCookie("uid", uid, 1000 * 3600 * 24 * 30);
           setCookie("a", a, 1000 * 3600 * 24 * 30);
+          setCookie("Role", encodeB64(Role), 1000 * 3600 * 24 * 30);
         } else {
           setCookie("uid", uid, { expires: 0 });
           setCookie("a", a, { expires: 0 });
+          setCookie("Role", encodeB64(Role), { expires: 0 });
         }
         navigate("/news");
         return { status: "success" };

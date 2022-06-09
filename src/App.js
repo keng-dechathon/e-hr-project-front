@@ -1,5 +1,10 @@
 import React, { Fragment } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import "./App.css";
 import PrivateRoute from "./modules/authentication/PrivateRoute";
 import SignIn from "./pages/auth/SignIn";
@@ -35,13 +40,14 @@ export default function App() {
     <Router>
       <Fragment>
         <Routes>
+          <Route path="*" element={<Navigate to="/sign-in" />} />
           <Route exact path="/" element={<PrivateRoute />}>
             <Route path="/" element={<SignIn />} />
           </Route>
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/sign-out" element={<SignOut />} />
+          <Route exact path="/sign-in" element={<SignIn />} />
+          <Route exact path="/forgot-password" element={<ForgotPassword />} />
+          <Route exact path="/reset-password" element={<ResetPassword />} />
+          <Route exact path="/sign-out" element={<SignOut />} />
           <Route exact path="/" element={<PrivateRoute />}>
             <Route
               exact
@@ -321,6 +327,17 @@ export default function App() {
               }
             />
           </Route>
+
+          {/* <Route
+              exact
+              path="*"
+              // render={
+              //   <MainLayout title="Report">
+              //     <News />
+              //   </MainLayout>
+              // }
+             
+            /> */}
         </Routes>
       </Fragment>
     </Router>
