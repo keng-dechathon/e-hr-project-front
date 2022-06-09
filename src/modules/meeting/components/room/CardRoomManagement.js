@@ -154,7 +154,7 @@ console.log(meetingRoomInformation);
         open={openDialog}
         handleClose={handleCloseDialog}
         onClick={ConfirmDelete}
-        message={"Do you insist on deleting Charge Code ?"}
+        message={"Do you insist on deleting Room ?"}
       />
       <ModalUpdate
         open={open}
