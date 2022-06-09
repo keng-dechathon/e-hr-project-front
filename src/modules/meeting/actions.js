@@ -229,7 +229,6 @@ export const editMeeting = async (values, setStatus) => {
     });
 };
 
-
 export const forceEditMeeting = async (values, setStatus) => {
   console.log(values);
   return API()
@@ -262,6 +261,62 @@ export const forceEditMeeting = async (values, setStatus) => {
       } else {
         pushSnackbarAction("error", "Server Error.");
       }
+      return { status: "fail" };
+    });
+};
+
+export const deleteMeetingRoom = async (Meeting_id) => {
+  return API()
+    .post(apiUrl.eHRService.common.meeting, {
+      Option: "Delete_Meeting_Room",
+      Value: Meeting_id ? Meeting_id : "",
+    })
+    .then((response) => {
+      // console.log(response);
+      pushSnackbarAction("success", "delete success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      pushSnackbarAction("error", "Server Error.");
+      return { status: "fail" };
+    });
+};
+
+export const addMeetingRoom = async (values) => {
+  return API()
+    .post(apiUrl.eHRService.common.meeting, {
+      Room_Name: values.Room_Name ? values.Room_Name : "",
+      description: values.description ? values.description : "",
+      Option: "Add_Meeting_Room",
+    })
+    .then((response) => {
+      // console.log(response);
+      pushSnackbarAction("success", "add success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      console.log(error);
+      pushSnackbarAction("error", "Server Error.");
+      return { status: "fail" };
+    });
+};
+
+export const updateMeetingRoom = async (values) => {
+  return API()
+    .post(apiUrl.eHRService.common.meeting, {
+      Room_Id: values.Room_Id ? values.Room_Id : "",
+      Room_Name: values.Room_Name ? values.Room_Name : "",
+      description: values.description ? values.description : "",
+      Option: "Update_Meeting_Room",
+    })
+    .then((response) => {
+      // console.log(response);
+      pushSnackbarAction("success", "add success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      console.log(error);
+      pushSnackbarAction("error", "Server Error.");
       return { status: "fail" };
     });
 };

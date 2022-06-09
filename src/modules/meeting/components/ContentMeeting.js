@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "../../common/Typography/Typography";
 import Box from "@mui/material/Box";
@@ -8,6 +8,8 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CardMeetingEdit from "./edit/CardMeetingEdit";
+import { useSelector } from "react-redux";
+import CardRoomManagement from "./room/CardRoomManagement";
 const useStyles = makeStyles((theme) => ({
   Topic: {
     marginBottom: "10px",
@@ -52,12 +54,27 @@ const useStyles = makeStyles((theme) => ({
 
 const ContentMeeting = () => {
   const classes = useStyles();
+  const { accountInformation } = useSelector((state) => state.accountReducer);
 
   const [value, setValue] = React.useState("1");
+  const [available, setAvailable] = React.useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  useEffect(() => {
+    console.log(accountInformation);
+    if (
+      accountInformation.Role === "Approver" ||
+      accountInformation.Role === "Admin" ||
+      accountInformation.Role === "Hr"
+    ) {
+      setAvailable(true);
+    } else {
+      setAvailable(false);
+    }
+  }, [accountInformation]);
+
   return (
     <>
       <Box className={classes.box}>
@@ -82,19 +99,21 @@ const ContentMeeting = () => {
               <TabList onChange={handleChange} className={classes.tablist}>
                 <Tab label="View" value="1" className={classes.tabitem} />
                 <Tab label="Edit" value="2" className={classes.tabitem} />
-                <Tab label="Room" value="3" className={classes.tabitem} />
+                {available ? (
+                  <Tab label="Room" value="3" className={classes.tabitem} />
+                ) : (
+                  ""
+                )}
               </TabList>
             </Box>
-            <TabPanel
-              value="1"
-              className={classes.tabpanel}
-            >
+            <TabPanel value="1" className={classes.tabpanel}>
               <CardMeeting />
             </TabPanel>
             <TabPanel value="2" className={classes.tabpanel}>
               <CardMeetingEdit />
             </TabPanel>
             <TabPanel value="3" className={classes.tabpanel}>
+              <CardRoomManagement/>
             </TabPanel>
           </TabContext>
         </Box>
