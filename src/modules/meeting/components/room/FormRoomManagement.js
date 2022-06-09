@@ -55,8 +55,8 @@ const FormRoomManagement = (props) => {
 
   const [name, setName] = useState(
     item.length !== 0
-      ? item[0].ChargeCode_Name
-        ? item[0].ChargeCode_Name
+      ? item[0].Room_Name
+        ? item[0].Room_Name
         : ""
       : ""
   );
@@ -108,7 +108,7 @@ const FormRoomManagement = (props) => {
           />
         </Grid>
         <Grid item xs={12} style={{width:"100%"}}>
-          <InputLabel>Noted</InputLabel>
+          <InputLabel>URL</InputLabel>
           <TextField
             id="noted"
             name="noted"
