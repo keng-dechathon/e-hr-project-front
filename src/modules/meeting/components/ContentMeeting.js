@@ -82,6 +82,7 @@ const ContentMeeting = () => {
               <TabList onChange={handleChange} className={classes.tablist}>
                 <Tab label="View" value="1" className={classes.tabitem} />
                 <Tab label="Edit" value="2" className={classes.tabitem} />
+                <Tab label="Room" value="3" className={classes.tabitem} />
               </TabList>
             </Box>
             <TabPanel
@@ -92,6 +93,8 @@ const ContentMeeting = () => {
             </TabPanel>
             <TabPanel value="2" className={classes.tabpanel}>
               <CardMeetingEdit />
+            </TabPanel>
+            <TabPanel value="3" className={classes.tabpanel}>
             </TabPanel>
           </TabContext>
         </Box>

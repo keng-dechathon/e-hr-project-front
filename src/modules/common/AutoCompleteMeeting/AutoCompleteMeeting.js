@@ -9,9 +9,6 @@ import styles from "./styles";
 import { getMeetingInformationByMultiId } from "../../meeting/actions";
 import { useSelector, useDispatch } from "react-redux";
 
-import Paper from "@material-ui/core/Paper";
-import SearchIcon from "@mui/icons-material/Search";
-
 const useStyles = makeStyles(styles);
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;

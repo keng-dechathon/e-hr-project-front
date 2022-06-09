@@ -29,7 +29,7 @@ const FormChangePassword = (props) => {
       } else {
         pushSnackbarAction(
           "warning",
-          "Password is required to have a minimum of 8 characters and must have at least 1 number and one letter. "
+          "Password is required to have a minimum of 8 characters and must have at least 1 number and 1 letter. "
         );
       }
 

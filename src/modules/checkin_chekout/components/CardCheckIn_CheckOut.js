@@ -261,16 +261,18 @@ const CardCheckIn_CheckOut = () => {
   const setDataGrid = () => {
     if (Object.keys(checkInformation).length !== 0) {
       checkInformation.data.map((item, index) => {
-        if (
-          moment(item.Check_in).format("MMMM Do YYYY") ===
-          moment(new Date()).format("MMMM Do YYYY")
-        ) {
+        if (index === 0) {
           toDayId = item.CheckId;
+        } else {
+          if (parseInt(toDayId) < parseInt(item.CheckId)) {
+            toDayId = item.CheckId;
+          }
         }
         Info.push(item);
         Info[index].Date = moment(item.Check_in).format(" MMMM Do YYYY");
         Info[index].id = item.CheckId;
       });
+
       Info.reverse();
     }
   };
