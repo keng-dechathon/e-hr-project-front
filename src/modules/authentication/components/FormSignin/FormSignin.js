@@ -18,7 +18,6 @@ import { useNavigate } from 'react-router-dom';
 import { getCookieFromBrowser } from '../../../../utils/cookie'
 
 
-
 const useStyles = makeStyles(styles)
 
 
@@ -26,9 +25,10 @@ const FormSignin = () => {
     const classes = useStyles()
     const [Checked, setChecked] = useState(true)
     const navigate = useNavigate();
-
+    let role = getCookieFromBrowser("Role")
+   
     useEffect(() => {
-        if (getCookieFromBrowser('uid') || getCookieFromBrowser('a')) {
+        if (getCookieFromBrowser('uid') && getCookieFromBrowser('a') && role ) {
             navigate('/news')
         }
     });
@@ -72,7 +72,7 @@ const FormSignin = () => {
                         className={classes.textfield}
                         id={'email'}
                         placeholder={'Enter your email.'}
-                        name={'email'}                                          
+                        name={'email'}                                                                  
                         form={form}
                         endAdornment={<EmailIcon style={{ color: 'rgba(0, 0, 0, 0.54)' }} />}
                         label="Email"
@@ -87,7 +87,7 @@ const FormSignin = () => {
                         className={classes.textfield}
                         id={'password'}
                         placeholder={'Enter your password.'}
-                        name={'password'}
+                        name={'password'}                        
                         form={form}
                         label="Password"
                     />

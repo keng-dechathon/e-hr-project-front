@@ -170,10 +170,11 @@ const FormUpdatePersonalInfo = (props) => {
             />
           </Grid>
           <Grid item sm={2} xs={3}>
-            <InputLabel>Title *</InputLabel>
+            <InputLabel className={classes.requirelabel}>Title *</InputLabel>
             <Select
               id="title"
               name="title"
+              required
               value={title}
               onChange={handleChangeTitle}
               fullWidth
@@ -183,19 +184,21 @@ const FormUpdatePersonalInfo = (props) => {
             </Select>
           </Grid>
           <Grid item sm={5} xs>
-            <InputLabel>First name *</InputLabel>
+            <InputLabel className={classes.requirelabel}>First name *</InputLabel>
             <TextField
               id="firstname"
               name="firstname"
+              required
               defaultValue={firstname}
               onChange={handleChangeFirstname}
               fullWidth
             />
           </Grid>
           <Grid item sm={5} xs>
-            <InputLabel>Last name *</InputLabel>
+            <InputLabel className={classes.requirelabel}>Last name *</InputLabel>
             <TextField
               id="lastname"
+              required
               name="lastname"
               defaultValue={lastname}
               onChange={handleChangeLastname}
@@ -203,10 +206,11 @@ const FormUpdatePersonalInfo = (props) => {
             />
           </Grid>
           <Grid item sm={3} xs={4}>
-            <InputLabel>Gender *</InputLabel>
+            <InputLabel className={classes.requirelabel}>Gender *</InputLabel>
             <Select
               id="gender"
               name="gender"
+              required
               value={gender}
               onChange={handleChangeGender}
               fullWidth
@@ -216,12 +220,12 @@ const FormUpdatePersonalInfo = (props) => {
             </Select>
           </Grid>
           <Grid item xs>
-            <InputLabel>BirthDate *</InputLabel>
+            <InputLabel className={classes.requirelabel}>BirthDate *</InputLabel>
             <DesktopDatePicker
               inputFormat="dd/MM/yyyy"
               value={date}
               onChange={handleChangeDate}
-              renderInput={(params) => <TextField fullWidth {...params} />}
+              renderInput={(params) => <TextField required fullWidth {...params} />}
             />
           </Grid>
         </Grid>

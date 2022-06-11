@@ -53,7 +53,7 @@ export const SidebarData = [
         role: ["Management", "Manager", "Staff", "Hr"],
       },
       {
-        title: "Checkin-Checkout",
+        title: "Time Attendance",
         path: "/checkin-checkout",
         icon: <CheckCircleIcon />,
         role: ["Manager", "Staff", "Hr"],
@@ -82,7 +82,7 @@ export const SidebarData = [
       //   role: ["Hr", "Approver", "Admin"],
       // },
       {
-        title: "Check-in/Check-out (view)",
+        title: "Time Attendance (view)",
         path: "/checkin-checkout-view",
         icon: <DateRangeIcon />,
         role: ["Management", "Manager", "Approver", "Admin", "Hr"],

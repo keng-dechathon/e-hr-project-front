@@ -50,7 +50,8 @@ const useStyles = makeStyles((theme) => ({
         imageRendering: 'crisp-edges  !important',
         imageRendering: 'pixelated  !important',
         imageRendering: '-webkit-optimize-contrast  !important',
-
+        backgroundSize: "contain",
+        objectFit: "contain",
         // [theme.breakpoints.down("sm")]: {
         //     width: '100% !important',
         // },

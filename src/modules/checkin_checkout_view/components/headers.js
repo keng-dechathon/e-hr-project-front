@@ -30,8 +30,8 @@ import { renderCheck } from "../../checkin_chekout/components/headers";
 // }
 export const headers = [
   {
-    field: "Date",
-    headerName: "Date",
+    field: "Name",
+    headerName: "Name",
     width: 190,
     headerClassName: "bg-light-green",
     renderCell: renderCellExpand,

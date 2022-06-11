@@ -260,7 +260,7 @@ const CardMeeting = () => {
               color="secondary"
               onClick={handleClick}
             >
-              GO
+              search
             </Button>
           </Grid>
           <Grid item xs={12} sm={3} md={2} className={classes.lastGridItem}>

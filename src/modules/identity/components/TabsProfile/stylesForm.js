@@ -95,4 +95,7 @@ export default () => ({
       },
     },
   },
+  requirelabel:{
+    color: "red !important"
+  },
 });

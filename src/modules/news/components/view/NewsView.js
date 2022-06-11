@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "5px !important",
     [theme.breakpoints.down("xs")]: {
       padding: "20px",
-      height: `calc(100% - ${navHeight} - 20px)` ,
+      height: `calc(100% - ${navHeight} - 20px)`,
     },
     [theme.breakpoints.down("sm")]: {
       padding: "20px 40px",
@@ -65,6 +65,8 @@ const useStyles = makeStyles((theme) => ({
       width: "80% !important",
       height: "200px  !important",
     },
+    backgroundSize: "contain",
+    objectFit: "contain",
   },
   ImgBox: {
     width: "100%",
@@ -73,6 +75,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     margin: "20px 0",
     flexDirection: "column",
+    backgroundSize: "contain",
+    objectFit: "contain",
   },
   bodyText: {
     marginTop: "30px !important",
@@ -116,7 +120,6 @@ const NewsView = (props) => {
       newsInformation.data.map((value, index) => {
         if (value.News_id === id) item.push(value);
       });
-      console.log(item);
     }
   };
 

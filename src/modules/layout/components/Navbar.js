@@ -121,24 +121,23 @@ function Navbar(props) {
             <img src={logo} alt="Logo" className={classes.logo} />
           </Typography>
           {/* <Button color="inherit" className={classes.logout} onClick={async() => {await getinfo()}}>check</Button>           */}
-          <Typography className={classes.name}>
+          <Typography className={classes.name} fontWeight="bold">
             {accountInformation.Firstname ? (
               accountInformation.Firstname.toUpperCase()
             ) : (
               <Skeleton width={100} height={40} animation="wave" />
             )}
           </Typography>
-          <Typography className={classes.name}>
+          <Typography className={classes.name} fontWeight="bold" >
             {accountInformation.Lastname ? (
               accountInformation.Lastname.toUpperCase()
             ) : (
               <Skeleton width={100} height={40} animation="wave" />
             )}
           </Typography>
-          <Typography className={classes.name}>Role :</Typography>
-          <Typography className={classes.name} style={{ paddingRight: "30px" }}>
+          <Typography className={classes.name} style={{ paddingRight: "30px",paddingLeft:"0px" }}>
             {accountInformation.Role ? (
-              accountInformation.Role.toUpperCase()
+              `( ${accountInformation.Role} )`
             ) : (
               <Skeleton width={100} height={40} animation="wave" />
             )}
