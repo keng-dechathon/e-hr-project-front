@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
     color: "#FFFFFF",
     "&:hover": {
       background: "#04AA6D",
-      opacity:"0.8",
+      opacity: "0.8",
     },
   },
   dialogAction: {
@@ -82,17 +82,18 @@ const FormAddMember = (props) => {
     handleClose();
   };
 
-
   const createOptions = () => {
     if (Object.keys(empInformation).length !== 0) {
       const res1 = empInformation.data.filter(
         (v1) => !Info.find((v2) => v1.Emp_id === v2.id)
       );
       res1.map((value, index) => {
-        listEmp.push({
-            id:parseInt(value.Emp_id),
-            text:value.Name
-        })      
+        if (value.Role === "Manager" || value.Role === "Staff") {
+          listEmp.push({
+            id: parseInt(value.Emp_id),
+            text: value.Name,
+          });
+        }
       });
     }
   };
@@ -101,25 +102,21 @@ const FormAddMember = (props) => {
     onSubmit: onSubmit,
   });
   createOptions();
-  console.log(typeof(listEmp));
+  console.log(typeof listEmp);
   console.log(listEmp.filter((option) => option.label !== host));
   return (
-    <form
-      onSubmit={handleSubmit}
-    >
+    <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>        
-          
-            <AutoComplete
-              option={listEmp}
-              defaultValue={[]}
-              selectState={selectedOptions}
-              setSelectState={setSelectedOptions}
-              style={{ backgroundColor: "white",minWidth:'400px' }}
-              label="Members"
-              required
-            />
-         
+        <Grid item xs={12}>
+          <AutoComplete
+            option={listEmp}
+            defaultValue={[]}
+            selectState={selectedOptions}
+            setSelectState={setSelectedOptions}
+            style={{ backgroundColor: "white", minWidth: "400px" }}
+            label="Members"
+            required
+          />
         </Grid>
       </Grid>
       <DialogActions className={classes.dialogAction}>

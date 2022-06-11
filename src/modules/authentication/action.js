@@ -88,13 +88,11 @@ export const resetPassword = async (values, navigate) => {
         let status = error.response.status;
         console.log(status);
         if (status === 401) {
-          pushSnackbarAction("Error", "New Password same as Old Password");
-        }
+          pushSnackbarAction("warning", error.response.data.message);        }
         if (status === 404) {
-          pushSnackbarAction("Error", "Old Password Incorret");
-        }
+          pushSnackbarAction("warning", error.response.data.message);        }
       } catch (e) {
-        pushSnackbarAction("error", "Server error");
+        pushSnackbarAction("error", error.response.data.message);
       }
       return { status: "fail" };
     });
