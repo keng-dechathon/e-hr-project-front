@@ -236,6 +236,7 @@ const CardLeaveInformation = () => {
                   defaultValue={false}
                   multiple={false}
                   resetTextField={resetTextField}
+                  placeholder="Employee name."
                   style={{ backgroundColor: "white", width: "100%" }}
                 />
                 <FormHelperText className={classes.helpText}>
