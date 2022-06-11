@@ -26,7 +26,7 @@ import AutoComplete from "../../common/AutoComplete";
 import { getEmployeeInformtion } from "../../employeeInfomation/actions";
 import { getTeamsInformationById } from "../../team/actions";
 import { pushSnackbarAction } from "../../layout/actions";
-import { cancleLeaveRequest,getLeaveRequestInformation } from "../actions";
+import { cancleLeaveRequest, getLeaveRequestInformation } from "../actions";
 
 const useStyles = makeStyles(() => ({
   ButtonSubmit: {
@@ -211,32 +211,39 @@ const FormCancleRequest = (props) => {
               fullWidth
             />
           </Grid>
-          <Grid item xs={12}>
-            <Divider sx={{ borderBottomWidth: 1 }} />
-          </Grid>
-
-          <Grid item xs={12}>
-            {Object.keys(teamInformationById).length !== 0 &&
-            Object.keys(empInformation).length !== 0 ? (
-              <div>
-                <AutoComplete
-                  option={dependList}
-                  selectState={depend}
-                  setSelectState={setDepend}
-                  multiple={false}
-                  required
-                  defaultValue={false}
-                  label={"Select Approver"}
-                  style={{
-                    backgroundColor: "white",
-                    minWidth: "400px",
-                  }}
-                />
-              </div>
-            ) : (
-              ""
-            )}
-          </Grid>
+          {columnData.row.Leave_status !== "Requested" ? (
+            <Grid item xs={12}>
+              <Divider sx={{ borderBottomWidth: 1 }} />
+            </Grid>
+          ) : (
+            ""
+          )}
+          {columnData.row.Leave_status !== "Requested" ? (
+            <Grid item xs={12}>
+              {Object.keys(teamInformationById).length !== 0 &&
+              Object.keys(empInformation).length !== 0 ? (
+                <div>
+                  <AutoComplete
+                    option={dependList}
+                    selectState={depend}
+                    setSelectState={setDepend}
+                    multiple={false}
+                    required
+                    defaultValue={false}
+                    label={"Select Approver"}
+                    style={{
+                      backgroundColor: "white",
+                      minWidth: "400px",
+                    }}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+            </Grid>
+          ) : (
+            ""
+          )}
         </Grid>
         <DialogActions className={classes.dialogAction}>
           <Button onClick={handleClose}>Cancel</Button>
@@ -247,7 +254,9 @@ const FormCancleRequest = (props) => {
             type="submit"
             autoFocus
           >
-            Send Cancellation
+            {columnData.row.Leave_status !== "Requested"
+              ? "Send Cancellation"
+              : "Cancellation"}
           </Button>
         </DialogActions>
         <Snackbar />
