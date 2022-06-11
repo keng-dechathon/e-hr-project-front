@@ -152,7 +152,7 @@ const FormExpensRequest = (props) => {
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid item xs={12} className={classes.textField}>
-          <InputLabel>Request Detail *</InputLabel>
+          <InputLabel>Request Detail*</InputLabel>
           <TextField
             id="detail"
             name="detail"
@@ -165,7 +165,7 @@ const FormExpensRequest = (props) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <InputLabel>Upload file*</InputLabel>
+          <InputLabel>Upload file</InputLabel>
           <div className={classes.uploadFile}>
             <label htmlFor="contained-button-file">
               <Input

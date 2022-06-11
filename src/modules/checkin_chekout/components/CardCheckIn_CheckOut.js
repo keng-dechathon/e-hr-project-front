@@ -138,7 +138,7 @@ const CardCheckIn_CheckOut = () => {
     (state) => state.checkin_checkoutReducer
   );
   const { accountInformation } = useSelector((state) => state.accountReducer);
-
+  
   useEffect(() => {
     dispatch(getHolidaysInformation());
   }, []);
@@ -150,6 +150,7 @@ const CardCheckIn_CheckOut = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [checkStatus, setCheckStatus] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
+  
   let toDayId = "";
   let Header = headers;
   let Info = [];

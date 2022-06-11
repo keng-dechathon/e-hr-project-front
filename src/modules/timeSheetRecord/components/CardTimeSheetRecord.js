@@ -88,7 +88,8 @@ const CardTimeSheetRecord = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-
+  const [loadingAdd, setLoadingAdd] = useState(false);
+console.log(loadingAdd);
   useEffect(() => {
     setIsLoading(true);
     checkTimeSheetCookie();
@@ -190,8 +191,10 @@ const CardTimeSheetRecord = () => {
       End_at: moment(new Date()).format("HH:mm:ss"),
     };
     checkTimeSheetCookie();
+    setLoadingAdd(true)
     await addTimeSheet(values);
     dispatch(getTimeSheetInformationByDate("", "", getDateFormat(day)));
+    setLoadingAdd(false)
   };
   const setNextDate = () => {
     let tomorrow = moment(day).add(1, "days");
@@ -208,7 +211,6 @@ const CardTimeSheetRecord = () => {
   const setDataGrid = () => {
     if (Object.keys(timesheetByDate).length !== 0) {
       timesheetByDate.data.map((item, index) => {
-        console.log(item);
         Info.push(item);
         if (item.Remark === "") {
           if (
@@ -345,6 +347,8 @@ const CardTimeSheetRecord = () => {
               variant="outlined"
               className={classes.ButtonAdd}
               onClick={onClickAdd}
+              loading={loadingAdd}
+              disabled={loadingAdd}
             >
               <pre>+ ADD</pre>
             </Button>

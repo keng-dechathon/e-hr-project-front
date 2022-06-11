@@ -49,7 +49,7 @@ const ContentCheckIn_CheckOut = () => {
   return (
     <Box className={classes.box}>
       <Typography variant="h3" color="pink" fontWeight="medium" className={classes.headerTitle}>
-        Checkin - Checkout
+        Time Attendance
       </Typography>
       <Box sx={{ width: "100%", typography: "body1", marginTop: "10px" }}>
         <CardCheckIn_CheckOut />

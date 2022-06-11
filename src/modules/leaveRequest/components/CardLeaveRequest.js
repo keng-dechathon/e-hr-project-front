@@ -100,7 +100,7 @@ const CardLeaveRequest = () => {
               : false
           }
         >
-          Cancle
+          Cancel
         </Button>
       );
     },

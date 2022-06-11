@@ -41,7 +41,7 @@ export const signIn = async (values, Checked, navigate) => {
         if (status === 401)
           pushSnackbarAction("error", "username or password incorrect");
         if (status === 404)
-          pushSnackbarAction("error", error.response.data.message);
+          pushSnackbarAction("error", "username or password incorrect");
       } catch (e) {
         pushSnackbarAction("error", "Server error");
       }

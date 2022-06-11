@@ -143,12 +143,15 @@ const FormLeaveRequestUpdate = (props) => {
   };
   const onSubmit = async () => {
     let timeDiff = moment.duration(moment(end).diff(start));
-    let hours = Math.floor(timeDiff.asSeconds() / 3600);
-    let min = Math.floor((timeDiff.asSeconds() - hours * 3600) / 60);
-    let isPast =
-      moment(start).isBefore(moment()) || moment(end).isBefore(moment());
-    if (hours + "." + min <= 0 || isPast) {
-      pushSnackbarAction("error", "Wrong Date&Time!");
+    // let hours = Math.floor(timeDiff.asSeconds() / 3600);
+    // let min = Math.floor((timeDiff.asSeconds() - hours * 3600) / 60);
+    // let isPast =
+    //   moment(start).isBefore(moment()) || moment(end).isBefore(moment());
+    if (timeDiff._milliseconds < 0) {
+      pushSnackbarAction(
+        "warning",
+        "The end time cannot be selected before the start time."
+      );
     } else {
       await sendLeaveRequest(user);
       dispatch(getLeaveRequestInformation());

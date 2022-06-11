@@ -299,7 +299,7 @@ const CardLeaveInformation = () => {
               color="secondary"
               onClick={handleClick}
             >
-              GO
+              search
             </Button>
           </Grid>
           <Grid item xs={12} style={{ width: "100%" }}>

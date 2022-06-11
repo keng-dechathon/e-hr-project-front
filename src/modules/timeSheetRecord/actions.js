@@ -69,8 +69,8 @@ export const updateTimeSheet = async (values) => {
       Charge_Code_Id: values.Charge_code_id ? values.Charge_code_id : "",
     })
     .then((response) => {
-      if (!values.Remark && !values.Detail)
-        pushSnackbarAction("success", "update   success");     
+      // if (!values.Remark && !values.Detail)
+      //   pushSnackbarAction("success", "update   success");     
       return { status: "success" };
     })
     .catch((error) => {

@@ -28,6 +28,7 @@ const AutoComplete = ({
   defaultValue=[],
   resetTextField = false,
   setResetTextField,
+  placeholder,
   ...props
 }) => {
   const classes = useStyles();
@@ -112,6 +113,7 @@ const AutoComplete = ({
               {...params}
               label={label}
               required={multiple ? value.length === 0 : !value} // check array
+              placeholder={placeholder}
             />
           )}
           {...props}

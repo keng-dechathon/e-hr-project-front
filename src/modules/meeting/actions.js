@@ -311,7 +311,7 @@ export const updateMeetingRoom = async (values) => {
     })
     .then((response) => {
       // console.log(response);
-      pushSnackbarAction("success", "add success");
+      pushSnackbarAction("success", "update success");
       return { status: "success" };
     })
     .catch((error) => {

@@ -12,7 +12,8 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-
+import CardCompanyManagement from "../../company/components/CardCompanyManagement";
+import CardPositionManagement from "../../position/components/CardPositionManagement";
 const useStyles = makeStyles((theme) => ({
   Topic: {
     marginBottom: "10px",
@@ -109,8 +110,12 @@ const ContentEmpInformation = () => {
             <TabPanel value="1" className={classes.tabpanel}>
               <CardEmpInformation />
             </TabPanel>
-            <TabPanel value="2" className={classes.tabpanel}></TabPanel>
-            <TabPanel value="3" className={classes.tabpanel}></TabPanel>
+            <TabPanel value="2" className={classes.tabpanel}>
+              <CardCompanyManagement/>
+            </TabPanel>
+            <TabPanel value="3" className={classes.tabpanel}>
+              <CardPositionManagement/>
+            </TabPanel>
           </TabContext>
         </Box>
       ) : (

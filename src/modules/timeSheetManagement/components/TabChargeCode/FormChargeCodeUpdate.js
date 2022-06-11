@@ -117,7 +117,7 @@ const FormChargeCodeUpdate = (props) => {
           />
         </Grid>
         <Grid item xs={12} style={{width:"100%"}}>
-          <InputLabel>Noted</InputLabel>
+          <InputLabel>Noted *</InputLabel>
           <TextField
             id="noted"
             name="noted"

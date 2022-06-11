@@ -34,6 +34,8 @@ import { useTheme } from "@mui/material/styles";
 import { GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
 import { getAccountInformation } from "../../identity/actions";
 import { getEmployeeInformtion } from "../../employeeInfomation/actions";
+import { getAllCheckInformation } from "../../report/actions";
+import { getDateFormat } from "../../../utils/miscellaneous";
 const useStyles = makeStyles((theme) => ({
   box: {
     marginTop: "20px",
@@ -122,8 +124,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 const CustomToolbar = () => {
   return (
-    <GridToolbarContainer >
-      <GridToolbarExport printOptions={{ disableToolbarButton: true }}/>
+    <GridToolbarContainer>
+      <GridToolbarExport printOptions={{ disableToolbarButton: true }} />
     </GridToolbarContainer>
   );
 };
@@ -132,7 +134,7 @@ const CardCheckIn_CheckOut_View = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   // const breakPoints = useMediaQuery(theme.breakpoints.down(900));
-
+  const { allCheckInformation } = useSelector((state) => state.reportReducer);
   const { teamByHostInformation } = useSelector(
     (state) => state.timeSheetViewerReducer
   );
@@ -145,11 +147,14 @@ const CardCheckIn_CheckOut_View = () => {
   const { empInformation } = useSelector((state) => state.employeeReducer);
 
   useEffect(() => {
-    dispatch(getAccountInformation())
+    dispatch(getAccountInformation());
     dispatch(getTeamByHostInformation());
     dispatch(getHolidaysInformation());
     dispatch(getEmployeeInformtion());
+    dispatch(getAllCheckInformation("", "", getDateFormat(day), showType));
   }, []);
+
+  console.log(checkInformation);
 
   useEffect(() => {
     checkIsBetweenDate();
@@ -168,6 +173,10 @@ const CardCheckIn_CheckOut_View = () => {
   let members = [];
   let Header = headers;
   let Info = [];
+
+  useEffect(() => {
+    dispatch(getAllCheckInformation("", "", getDateFormat(day), showType));
+  }, [day, showType]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -219,6 +228,10 @@ const CardCheckIn_CheckOut_View = () => {
   }, [teamByHostInformation]);
 
   useEffect(() => {
+    Info = [];
+  }, [selectState]);
+
+  useEffect(() => {
     if (selectStateFilter && selectStateFilter !== "") {
       dispatch(getMemberInformation("", "", String(selectStateFilter)));
       setSelectState({});
@@ -237,7 +250,7 @@ const CardCheckIn_CheckOut_View = () => {
 
   const handleChangeSelect = (event) => {
     setSelectStateFilter(event.target.value);
-    setSelectState([]);
+    setSelectState({});
   };
   const handleClick = () => {
     if (Object.keys(selectState).length !== 0) {
@@ -297,13 +310,30 @@ const CardCheckIn_CheckOut_View = () => {
     }
   };
   const setDataGrid = () => {
-    if (Object.keys(checkInformation).length !== 0) {
-      checkInformation.data.map((item, index) => {
-        Info.push(item);
-        console.log(item);
-        Info[index].Date = moment(item.Check_in).format(" MMMM Do YYYY");
-        Info[index].id = item.CheckId;
-      });
+    if (Object.keys(selectState).length === 0) {
+      if (
+        Object.keys(allCheckInformation).length !== 0 &&
+        Object.keys(empInformation).length !== 0
+      ) {
+        allCheckInformation.data.map((item, index) => {
+          Info.push(item);
+          Info[index].id = item.CheckId;
+          Info[index].Name = empInformation.data.filter(
+            (temp) => String(temp.Emp_id) === String(item.Emp_id)
+          )[0].Name;
+        });
+      }
+    } else {
+      if (Object.keys(checkInformation).length !== 0) {
+        checkInformation.data.map((item, index) => {
+          Info.push(item);
+          Info[index].Name = empInformation.data.filter(
+            (temp) => String(temp.Emp_id) === String(item.Emp_id)
+          )[0].Name;
+          Info[index].Date = moment(item.Check_in).format(" MMMM Do YYYY");
+          Info[index].id = item.CheckId;
+        });
+      }
       Info.reverse();
     }
   };
@@ -326,6 +356,7 @@ const CardCheckIn_CheckOut_View = () => {
                   setResetTextField={setResetTextField}
                   defaultValue={false}
                   multiple={false}
+                  placeholder="Employee name."
                   resetTextField={resetTextField}
                   style={{ backgroundColor: "white", width: "100%" }}
                 />
@@ -388,7 +419,7 @@ const CardCheckIn_CheckOut_View = () => {
               color="secondary"
               onClick={handleClick}
             >
-              {"GO"}
+              {"search"}
             </Button>
           </Grid>
           <Grid item xs={12} className={classes.gridNone}>
@@ -484,7 +515,7 @@ const CardCheckIn_CheckOut_View = () => {
           </Grid>
           <Grid item xs={12} style={{ width: "100%" }}>
             <DataGrid
-              pageSize={pageSize}              
+              pageSize={pageSize}
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
               rowsPerPageOptions={[10, 20, 50]}
               pagination

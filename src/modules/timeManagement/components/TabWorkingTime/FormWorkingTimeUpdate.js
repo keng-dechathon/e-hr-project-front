@@ -121,29 +121,30 @@ const FormWorkingTimeUpdate = (props) => {
               disabled={true}
             />
           </Grid>
-          <Grid item xs={12}>
-            <InputLabel>
-              <pre> Time ( Start to Off )*</pre>
-            </InputLabel>
-          </Grid>
-          <Grid item xs={12} style={{ display: "flex", paddingTop: "0px" }}>
+
+          <Grid item xs={6} style={{ width: "100%" }}>
+            <InputLabel>Start Date *</InputLabel>
             <TimePicker
               value={start}
               onChange={(e) => {
                 setStart(e);
               }}
-              renderInput={(params) => <TextField required {...params} />}
+              renderInput={(params) => (
+                <TextField required {...params} style={{ width: "100%" }} />
+              )}
             />
-            <Box sx={{ mx: 2 }} className={classes.center}>
-              {" "}
-              to{" "}
-            </Box>
+          </Grid>
+          <Grid item xs={6} style={{ width: "100%" }}>
+            <InputLabel>End Date *</InputLabel>
+
             <TimePicker
               value={end}
               onChange={(e) => {
                 setEnd(e);
               }}
-              renderInput={(params) => <TextField required {...params} />}
+              renderInput={(params) => (
+                <TextField required {...params} style={{ width: "100%" }} />
+              )}
             />
           </Grid>
         </Grid>

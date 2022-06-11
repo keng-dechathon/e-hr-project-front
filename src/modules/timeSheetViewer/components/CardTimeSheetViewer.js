@@ -180,6 +180,7 @@ const CardTimeSheetViewer = () => {
                   setResetTextField={setResetTextField}
                   defaultValue={false}
                   multiple={false}
+                  placeholder="Employee name."
                   resetTextField={resetTextField}
                   style={{ backgroundColor: "white", width: "100%" }}
                 />
@@ -239,7 +240,7 @@ const CardTimeSheetViewer = () => {
               color="secondary"
               onClick={handleClick}
             >
-              GO
+              search
             </Button>
           </Grid>
           <Grid item xs={12} className={classes.gridNone}>
