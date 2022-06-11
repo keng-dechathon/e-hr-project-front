@@ -8,6 +8,8 @@ import DataGrid from "../../../common/DataGrid";
 import { headers } from "./headers";
 import { Button } from "@mui/material";
 import moment from "moment";
+import ModalUpdate from "../../../common/ModalUpdate";
+import FormCancleRequest from "../../../leaveRequest/components/FormCancleRequest";
 
 import { cancleLeaveRequest } from "../../../leaveRequest/actions";
 
@@ -22,9 +24,10 @@ const CardLeaveInfomation = () => {
     dispatch(getLeaveInformation());
   }, []);
 
-  const [option, setOption] = useState("");
-  const [open, setOpen] = useState(false);
-  const [ID, setID] = useState("");
+
+  const [cancleID, setCancleID] = useState("");
+  const [openCancle, setOpenCancle] = useState(false);
+  const [columnData, setColumnData] = useState({});
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
   const [pageSize, setPageSize] = useState(5);
@@ -55,7 +58,9 @@ const CardLeaveInfomation = () => {
             handleClickCancle(event, cellValues);
           }}
           disabled={
-            cellValues.row.Leave_status !== "Requested"
+            cellValues.row.Leave_status !== "Requested" &&
+            cellValues.row.Leave_status.split(" ")[0] !== "Approved" &&
+            cellValues.row.Leave_status !== "Approved cancellation"
               ? true
               : false
           }
@@ -67,11 +72,14 @@ const CardLeaveInfomation = () => {
   };
 
   const handleClickCancle = async (event, cellValues) => {
-    console.log(cellValues.id);
-    cancleLeaveRequest(String(cellValues.id));
-    dispatch(getLeaveInformation());
+    setCancleID(String(cellValues.id));
+    setOpenCancle(true);
+    setColumnData(cellValues);
+    // dispatch(getLeaveRequestInformation());
   };
-
+  const handleCloseCancle = () => {
+    setOpenCancle(false);
+  };
   const setLeaveInfoDataGrid = () => {
     if (Object.keys(leaveInformation).length !== 0) {
       leaveInformation.Leave_infomation.data.forEach((value, index) => {
@@ -88,7 +96,6 @@ const CardLeaveInfomation = () => {
     }
   };
 
-  console.log(leaveInformation);
   const setDataGrid = () => {
     if (Object.keys(leaveInformation).length !== 0) {
       leaveInformation.Leave_request.data.map((item, index) => {
@@ -112,6 +119,16 @@ const CardLeaveInfomation = () => {
       <Typography variant="h6" fontWeight="bold" className={classes.topic}>
         Leave Information ( Hour )
       </Typography>
+      <ModalUpdate
+        open={openCancle}
+        handleClose={handleCloseCancle}
+        title="Leave Request Cancellation"
+      >
+        <FormCancleRequest
+          handleClose={handleCloseCancle}
+          columnData={columnData}
+        />
+      </ModalUpdate>
       <DataGrid
         headers={leaveDataHeader ? leaveDataHeader : ""}
         rows={leaveDataFormat ? leaveDataFormat : ""}

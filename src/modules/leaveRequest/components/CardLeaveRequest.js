@@ -122,7 +122,6 @@ const CardLeaveRequest = () => {
   //   );
 
   const handleClickCancle = async (event, cellValues) => {
-    console.log(event);
     setCancleID(String(cellValues.id));
     setOpenCancle(true);
     setColumnData(cellValues);
