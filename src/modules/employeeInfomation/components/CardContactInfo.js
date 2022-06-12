@@ -53,21 +53,21 @@ const CardContactInfo = (props) => {
       personalData.push({
         title: "Email Address",
         value:
-          empInformationByID.Email || empInformationByID.Email === "null"
+          empInformationByID.Email && empInformationByID.Email !== "null"
             ? empInformationByID.Email
             : notSet,
       });
       personalData.push({
         title: "Phone",
         value:
-          empInformationByID.Phone || empInformationByID.Phone === "null"
+          empInformationByID.Phone && empInformationByID.Phone !== "null"
             ? empInformationByID.Phone
             : notSet,
       });
       personalData.push({
         title: "Address",
         value:
-          empInformationByID.Address || empInformationByID.Address === "null "
+          empInformationByID.Address && empInformationByID.Address !== "null "
             ? empInformationByID.Address
             : notSet,
       });
