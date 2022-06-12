@@ -138,7 +138,7 @@ const CardCheckIn_CheckOut = () => {
     (state) => state.checkin_checkoutReducer
   );
   const { accountInformation } = useSelector((state) => state.accountReducer);
-  
+
   useEffect(() => {
     dispatch(getHolidaysInformation());
   }, []);
@@ -150,7 +150,7 @@ const CardCheckIn_CheckOut = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [checkStatus, setCheckStatus] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
-  
+
   let toDayId = "";
   let Header = headers;
   let Info = [];
@@ -176,18 +176,18 @@ const CardCheckIn_CheckOut = () => {
     }
   }, [accountInformation, day, showType]);
 
-  useEffect(() => {
-    if (Object.keys(accountInformation).length !== 0) {
-      dispatch(
-        getYearCheckInformation(
-          "",
-          "",
-          String(accountInformation.Emp_id),
-          moment(day).format("YYYY-MM-DD")
-        )
-      );
-    }
-  }, [accountInformation, day]);
+  // useEffect(() => {
+  //   if (Object.keys(accountInformation).length !== 0) {
+  //     dispatch(
+  //       getYearCheckInformation(
+  //         "",
+  //         "",
+  //         String(accountInformation.Emp_id),
+  //         moment(day).format("YYYY-MM-DD")
+  //       )
+  //     );
+  //   }
+  // }, [accountInformation, day, showType]);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -212,6 +212,14 @@ const CardCheckIn_CheckOut = () => {
           moment(day).format("YYYY-MM-DD")
         )
       );
+      // dispatch(
+      //   getYearCheckInformation(
+      //     "",
+      //     "",
+      //     String(accountInformation.Emp_id),
+      //     moment(day).format("YYYY-MM-DD")
+      //   )
+      // );
     }
     setOpenDialog(false);
     setCheckStatus("");
@@ -275,23 +283,30 @@ const CardCheckIn_CheckOut = () => {
   const setDataGrid = () => {
     if (Object.keys(checkInformation).length !== 0) {
       checkInformation.data.map((item, index) => {
+        if (
+          moment(item.Check_in).format("MMMM Do YYYY") ===
+          moment(new Date()).format("MMMM Do YYYY")
+        ) {
+          toDayId = item.CheckId;
+        }
         Info.push(item);
         Info[index].Date = moment(item.Check_in).format(" MMMM Do YYYY");
         Info[index].id = item.CheckId;
       });
       Info.reverse();
     }
-    if (Object.keys(yearCheckInformation).length !== 0) {
-      yearCheckInformation.data.map((item, index) => {
-        if (index === 0) {
-          toDayId = item.CheckId;
-        } else {
-          if (parseInt(toDayId) < parseInt(item.CheckId)) {
-            toDayId = item.CheckId;
-          }
-        }
-      });
-    }
+    // if (Object.keys(yearCheckInformation).length !== 0) {
+    //   yearCheckInformation.data.map((item, index) => {
+    //     if (index === 0&&item.Check_out_status!=="Check") {
+    //       console.log(item);
+    //       toDayId = item.CheckId;
+    //     } else {
+    //       if (parseInt(toDayId) < parseInt(item.CheckId)) {
+    //         toDayId = item.CheckId;
+    //       }
+    //     }
+    //   });
+    // }
   };
   setDataGrid();
   return (

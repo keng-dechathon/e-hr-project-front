@@ -106,7 +106,8 @@ const FormLeaveRequestUpdate = (props) => {
       console.log(empInformation.data);
       if (
         accountInformation.Role === "Management" ||
-        accountInformation.Role === "Manager"
+        accountInformation.Role === "Manager" ||
+        accountInformation.Role === "Hr"
       ) {
         dependList = [];
         let approver = empInformation.data.filter(

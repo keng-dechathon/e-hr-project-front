@@ -30,7 +30,7 @@ export const headers = [
   },
   {
     field: "total",
-    headerName: "Total",
+    headerName: "Total (Hours)",
     minWidth: 200,
     flex:1,
     headerClassName: "bg-light-green",
