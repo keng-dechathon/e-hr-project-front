@@ -132,6 +132,14 @@ const CardEmpInformation = (props) => {
       renderCell: renderCellExpand,
     },
     {
+      field: "Role",
+      headerClassName: "bg-light-green",
+      flex: 1,
+      headerName: "Role",
+      minWidth: 100,
+      renderCell: renderCellExpand,
+    },
+    {
       field: "Team_Info",
       headerClassName: "bg-light-green",
       headerName: "Supervisor",
@@ -266,6 +274,7 @@ const CardEmpInformation = (props) => {
         Info[index] = {};
         Info[index].Img = item.Img;
         Info[index].Name = item.Name;
+        Info[index].Role = item.Role;
         Info[index].Position = item.Position;
         Info[index].Company = item.Company;
         Info[index].Team_Info = hostString;
