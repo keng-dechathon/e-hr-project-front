@@ -11,7 +11,7 @@ import classNames from "classnames";
 
 import CircularProgress from "../../common/CircularProgress";
 import logo from "../../../assets/logo.png";
-
+import { clearAccountState } from "../../identity/actions";
 const useStyles = makeStyles(() => ({
   content: {
     minHeight: "100vh",
@@ -39,6 +39,7 @@ const FormSignOut = () => {
       await navigate("/sign-in");
     };
     clearSection();
+    clearAccountState()
   }, []);
 
   return (

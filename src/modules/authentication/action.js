@@ -12,7 +12,6 @@ export const signIn = async (values, Checked, navigate) => {
     .then((response) => {
       const { access_token, ID, NeedResetPassword, Role } = response.data;
       const uid = ID;
-      console.log(Role);
       const a = access_token;
       if (NeedResetPassword) {
         setCookie("uid", uid, { expires: 0 });
