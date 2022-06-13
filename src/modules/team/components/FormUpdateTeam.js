@@ -80,12 +80,16 @@ const FormUpdateTeam = (props) => {
   const createOptions = () => {
     if (Object.keys(empInformation).length !== 0) {
       empInformation.data.map((value, index) => {
-        options[index] = {};
-        options[index].value = value.Emp_id;
-        options[index].label = value.Name;
-        listEmp[index] = {};
-        listEmp[index].value = value.Emp_id;
-        listEmp[index].label = value.Name;
+        if (value.Role === "Management" || value.Role === "Manager") {
+          options[index] = {};
+          options[index].value = value.Emp_id;
+          options[index].label = value.Name;
+        }
+        if (value.Role === "Manager" || value.Role === "Staff") {
+          listEmp[index] = {};
+          listEmp[index].value = value.Emp_id;
+          listEmp[index].label = value.Name;
+        }
       });
     }
   };
