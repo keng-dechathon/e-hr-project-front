@@ -103,7 +103,6 @@ const FormLeaveRequestUpdate = (props) => {
       Object.keys(teamInformationById).length !== 0 &&
       Object.keys(empInformation).length !== 0
     ) {
-      console.log(empInformation.data);
       if (
         accountInformation.Role === "Management" ||
         accountInformation.Role === "Manager" ||
@@ -124,14 +123,29 @@ const FormLeaveRequestUpdate = (props) => {
         });
       } else {
         dependList = [];
-        teamInformationById.data.map((item, index) => {
-          dependList.push({
-            id: parseInt(item.Team_host),
-            text: empInformation.data.filter(
-              (user) => String(user.Emp_id) === String(item.Team_host)
-            )[0].Name,
+        if (Object.keys(teamInformationById.data).length !== 0) {
+          teamInformationById.data.map((item, index) => {
+            dependList.push({
+              id: parseInt(item.Team_host),
+              text: empInformation.data.filter(
+                (user) => String(user.Emp_id) === String(item.Team_host)
+              )[0].Name,
+            });
           });
-        });
+        } else {
+          let approver = empInformation.data.filter(
+            (user) => user.Role === "Approver"
+          );
+          approver.map((item, index) => {
+            console.log(item);
+            dependList.push({
+              id: parseInt(item.Emp_id),
+              text: empInformation.data.filter(
+                (user) => String(user.Emp_id) === String(item.Emp_id)
+              )[0].Name,
+            });
+          });
+        }
       }
     }
   };
@@ -242,9 +256,11 @@ const FormLeaveRequestUpdate = (props) => {
                   label={
                     "Send to " +
                     (accountInformation.Role === "Management" ||
-                    accountInformation.Role === "Manager"
+                    accountInformation.Role === "Manager" ||
+                    accountInformation.Role === "Hr" ||
+                    Object.keys(teamInformationById.data).length === 0
                       ? "Approver"
-                      : "Management or Manager")
+                      : "Supervisor")
                   }
                   style={{ backgroundColor: "white", minWidth: "400px" }}
                 />
