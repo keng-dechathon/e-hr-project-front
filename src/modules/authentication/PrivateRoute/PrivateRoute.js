@@ -1,21 +1,19 @@
 import React, { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { getCookieFromBrowser,removeCookie } from "../../../utils/cookie";
+import { getCookieFromBrowser, removeCookie } from "../../../utils/cookie";
 import { SidebarData } from "../../layout/components/SidebarData";
 import { decodeB64 } from "../../../utils/crypto";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 const PrivateRoute = () => {
   const navigate = useNavigate();
 
   let role = decodeB64(getCookieFromBrowser("Role"));
   let isLoggedIn = getCookieFromBrowser("a");
-  
+
   useEffect(() => {
-    if(role==="cannotdecodeb64"){
-      removeCookie("a")
-      removeCookie("uid")
-      navigate("/sign-in");
+    if (role === "cannotdecodeb64") {
+      navigate("/sign-out");
     }
   }, [role]);
 
@@ -41,7 +39,13 @@ const PrivateRoute = () => {
     return hvPermission;
   };
 
-  return isAllowed() ? <Outlet /> : isLoggedIn ?  <Navigate to="/news" /> : <Navigate to="/sign-in" />;
+  return isAllowed() && isLoggedIn ? (
+    <Outlet />
+  ) : isLoggedIn ? (
+    <Navigate to="/news" />
+  ) : (
+    <Navigate to="/sign-out" />
+  );
 };
 
 export default PrivateRoute;

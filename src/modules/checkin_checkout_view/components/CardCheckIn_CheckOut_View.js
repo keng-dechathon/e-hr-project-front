@@ -154,12 +154,6 @@ const CardCheckIn_CheckOut_View = () => {
     dispatch(getAllCheckInformation("", "", getDateFormat(day), showType));
   }, []);
 
-  console.log(checkInformation);
-
-  useEffect(() => {
-    checkIsBetweenDate();
-  }, [holidaysInformation]);
-
   const [isBetween, setIsBetween] = useState(false);
   const [day, setDay] = useState(new Date());
   const [showType, setShowType] = useState("Day");
@@ -177,6 +171,11 @@ const CardCheckIn_CheckOut_View = () => {
   useEffect(() => {
     dispatch(getAllCheckInformation("", "", getDateFormat(day), showType));
   }, [day, showType]);
+
+  useEffect(() => {
+    console.log(day);
+    checkIsBetweenDate();
+  }, [holidaysInformation, day]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -290,7 +289,8 @@ const CardCheckIn_CheckOut_View = () => {
 
   const checkIsBetweenDate = () => {
     if (Object.keys(holidaysInformation).length !== 0) {
-      const nowYear = moment(new Date()).format("YYYY");
+      setIsBetween(false);
+      const nowYear = moment(day).format("YYYY");
       holidaysInformation.data.map((item) => {
         const start = new Date(
           moment(moment(item.Start).format("MMM Do ") + nowYear, "MMM Do YYYY")
@@ -301,9 +301,8 @@ const CardCheckIn_CheckOut_View = () => {
             "MMM Do YYYY"
           ).add(1, "days")
         );
-        const now = new Date();
         const range = moment().range(start, end);
-        if (range.contains(now)) {
+        if (range.contains(day)) {
           setIsBetween(true);
         }
       });

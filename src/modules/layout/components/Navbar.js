@@ -17,6 +17,9 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { drawerWidth } from "./Attribute";
 import CssBaseline from "@mui/material/CssBaseline";
+import { getCookieFromBrowser } from "../../../utils/cookie";
+import { decodeB64 } from "../../../utils/crypto";
+import { removeCookie } from "../../../utils/cookie";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -86,12 +89,19 @@ function Navbar(props) {
   const dispatch = useDispatch();
   const { open, handleDrawerOpen } = props;
   const { accountInformation } = useSelector((state) => state.accountReducer);
+  let role = decodeB64(getCookieFromBrowser("Role"));
 
   useEffect(() => {
     dispatch(getAccountInformation());
   }, []);
 
-  // console.log(accountInformation);
+  useEffect(() => {
+    if (Object.keys(accountInformation).length !== 0) {
+      if (role.toUpperCase() !== accountInformation.Role.toUpperCase()) {
+        navigate("/sign-out");
+      }
+    }
+  }, [role, accountInformation]);
 
   return (
     <>
@@ -128,14 +138,17 @@ function Navbar(props) {
               <Skeleton width={100} height={40} animation="wave" />
             )}
           </Typography>
-          <Typography className={classes.name} fontWeight="bold" >
+          <Typography className={classes.name} fontWeight="bold">
             {accountInformation.Lastname ? (
               accountInformation.Lastname.toUpperCase()
             ) : (
               <Skeleton width={100} height={40} animation="wave" />
             )}
           </Typography>
-          <Typography className={classes.name} style={{ paddingRight: "30px",paddingLeft:"0px" }}>
+          <Typography
+            className={classes.name}
+            style={{ paddingRight: "30px", paddingLeft: "0px" }}
+          >
             {accountInformation.Role ? (
               `( ${accountInformation.Role} )`
             ) : (
