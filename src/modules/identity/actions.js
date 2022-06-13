@@ -3,10 +3,18 @@ import { createRequestTypes, createAction } from "../../utils/requestTypes";
 import { apiUrl } from "../../utils/apiUrl";
 import API from "../../utils/api";
 import { pushSnackbarAction } from "../layout/actions";
+import store from "../../stores/stores";
 
 export const GET_ACCOUNT_INFORMATION = createRequestTypes(
   Types.GET_ACCOUNT_INFORMATION
 );
+
+
+export const clearAccountState = () =>
+  store.dispatch({
+    type: "CLEAR_ACCOUNT_STATE",
+  });
+
 
 export const getAccountInformation = (config, data = {}) =>
   createAction(
