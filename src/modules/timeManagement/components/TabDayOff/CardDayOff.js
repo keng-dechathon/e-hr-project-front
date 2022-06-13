@@ -37,7 +37,7 @@ const CardDayOff = () => {
   const [open, setopen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchInfo, setSearchInfo] = useState([]);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(50);
 
   let Header = headers;
   let Info = [];

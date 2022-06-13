@@ -11,7 +11,7 @@ import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { allLeaveHeader } from "./allLeaveHeader";
-import moment from "moment";
+import Moment from "moment";
 import {
   QuickSearchToolbar,
   escapeRegExp,
@@ -35,6 +35,9 @@ import classNames from "classnames";
 import { getLeaveTypeInformation } from "../../../leaveType/actions";
 import { Divider } from "@mui/material";
 import renderCellExpand from "../../../common/DataGridTimeSheet/renderCellExpand";
+import { extendMoment } from "moment-range";
+const moment = extendMoment(Moment);
+
 const useStyles = makeStyles((theme) => ({
   box: {
     marginTop: "20px",
@@ -112,8 +115,8 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: "5px !important",
     },
   },
-  searchBox:{
-    height:"59px",
+  searchBox: {
+    height: "59px",
   },
 }));
 
@@ -247,19 +250,29 @@ const CardLeaveSummarize = () => {
         if (emp.Active_Status) {
           let temp = {};
           let count = {};
-          console.log(emp);
           temp.Name = emp.Name;
           temp.id = emp.Emp_id;
           leaveTypeInformation.data.map((type) => {
             temp[type.Type_name] = 0;
           });
+
           allLeaveInformation.data.map((item) => {
             if (String(item.Emp_id) === String(emp.Emp_id)) {
+              console.log(emp.Name);
               if (showType === "Day") {
                 let start = new Date(moment(item.Begin).format());
-                let end = new Date(moment(moment(item.End).format()));
+                let end = new Date(moment(item.End).format());
                 let range = moment().range(start, end);
-                if (range.contains(day)) {
+                let nowDayRange = moment.range(
+                  new Date(moment(day).startOf("day")),
+                  new Date(moment(day).endOf("day"))
+                );
+                // console.log(new Date(moment(day).startOf('day')))
+                // console.log(new Date(moment(day).endOf('day')) );
+                // console.log(range.overlaps(nowDayRange));
+                // console.log(range);
+                // console.log(nowDayRange);
+                if (range.overlaps(nowDayRange)) {
                   if (typeof count[item.Type_name] === "undefined") {
                     count[item.Type_name] = item.Amount;
                   } else {
@@ -326,15 +339,15 @@ const CardLeaveSummarize = () => {
               </Typography>
               <Divider style={{ marginTop: "10px" }} />
             </Grid> */}
-          <Grid item xs={12}  style={{marginTop: "15px",}}>
+          <Grid item xs={12} style={{ marginTop: "15px" }}>
             <QuickSearchToolbar
               value={searchText}
-              style={{maxWidth:"500px"}}
+              style={{ maxWidth: "500px" }}
               onChange={(event) => requestSearch(event.target.value)}
               clearSearch={() => requestSearch("")}
             />
           </Grid>
-          <Grid item sm={12} md={7}  style={{width:"100%"}}>
+          <Grid item sm={12} md={7} style={{ width: "100%" }}>
             <Stack direction="row" className={classes.daySearch}>
               <Button
                 variant="contained"
@@ -391,12 +404,7 @@ const CardLeaveSummarize = () => {
               )}
             </Stack>
           </Grid>
-          <Grid
-            item
-            sm={12}
-            md={5}
-            style={{ width: "100%" }}          
-          >
+          <Grid item sm={12} md={5} style={{ width: "100%" }}>
             <Stack direction="row" spacing={1} className={classes.ButtonAdd}>
               <Button
                 variant={showType === "Day" ? "outlined" : "contained"}
