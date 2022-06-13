@@ -74,6 +74,7 @@ const FormSignin = () => {
                         placeholder={'Enter your email.'}
                         name={'email'}                                                                  
                         form={form}
+                        required={true}
                         endAdornment={<EmailIcon style={{ color: 'rgba(0, 0, 0, 0.54)' }} />}
                         label="Email"
                     />
@@ -87,7 +88,8 @@ const FormSignin = () => {
                         className={classes.textfield}
                         id={'password'}
                         placeholder={'Enter your password.'}
-                        name={'password'}                        
+                        name={'password'}     
+                        required={true}                   
                         form={form}
                         label="Password"
                     />
