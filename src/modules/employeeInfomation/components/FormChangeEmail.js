@@ -40,7 +40,6 @@ const FormChangeEmail = (props) => {
     dispatch(getEmployeeInformtionByID("", "", id));
     dispatch(getEmployeeInformtion());
     handleClose();
-
     // window.location.reload();
   };
 

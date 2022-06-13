@@ -67,7 +67,7 @@ const CardContactInfo = (props) => {
       personalData.push({
         title: "Address",
         value:
-          empInformationByID.Address && empInformationByID.Address !== "null "
+          empInformationByID.Address && empInformationByID.Address !== "null"
             ? empInformationByID.Address
             : notSet,
       });

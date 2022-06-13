@@ -35,6 +35,7 @@ const FormSignOut = () => {
     const clearSection = async () => {
       await clearCookie("a");
       await clearCookie("uid");
+      await clearCookie("Role");
       await navigate("/sign-in");
     };
     clearSection();
