@@ -11,14 +11,13 @@ import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { allLeaveHeader } from "./allLeaveHeader";
-import moment from "moment";
 import {
   QuickSearchToolbar,
   escapeRegExp,
 } from "../../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
 import { getAllLeaveInformation } from "../../actions";
-
+import Moment from "moment";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -33,6 +32,10 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import ErrorIcon from "@mui/icons-material/Error";
 import classNames from "classnames";
 import { Divider } from "@mui/material";
+import { extendMoment } from "moment-range";
+
+const moment = extendMoment(Moment);
+
 const useStyles = makeStyles((theme) => ({
   box: {
     marginTop: "20px",
@@ -208,8 +211,12 @@ const CardAllLeaveTable = () => {
         if (showType === "Day") {
           let start = new Date(moment(item.Begin).format());
           let end = new Date(moment(moment(item.End).format()));
-          let range = moment().range(start, end);        
-          if (range.contains(day)) {
+          let range = moment().range(start, end);     
+          let nowDayRange = moment.range(
+            new Date(moment(day).startOf("day")),
+            new Date(moment(day).endOf("day"))
+          );   
+          if (range.overlaps(nowDayRange)) {
             item.Name = empInformation.data.filter((temp)=>String(temp.Emp_id)===String(item.Emp_id))[0].Name
             setInfo((Info) => [...Info, item]);
           }
