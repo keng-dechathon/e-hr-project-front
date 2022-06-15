@@ -265,11 +265,21 @@ const CardCheckChart = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12} lg={8}>
             <Stack direction="row" className={classes.daySearch}>
+              
+              <DatePicker
+                value={day}
+                inputFormat="dd/MM/yyyy"
+              
+                onChange={(newValue) => {
+                  setDay(newValue);
+                }}
+                renderInput={(params) => <TextField size="small" {...params}   className={classes.datePicker}/>}
+              />
               <Button
                 variant="contained"
                 className={isBetween ? classes.holiday : classes.normal}
                 onClick={setToDay}
-                style={{height:"37px"}}
+                style={{ height: "40px", marginLeft: "16px" }}
               >
                 <pre>TODAY</pre>
               </Button>
@@ -289,15 +299,6 @@ const CardCheckChart = () => {
               >
                 <ChevronRightIcon />
               </IconButton>
-              <DatePicker
-                value={day}
-                inputFormat="dd/MM/yyyy"
-              
-                onChange={(newValue) => {
-                  setDay(newValue);
-                }}
-                renderInput={(params) => <TextField size="small" {...params}   className={classes.datePicker}/>}
-              />
                  {isBetween ? (
               <Typography variant="subtitle1" color="mute" className={classes.attention2}>
                 <ErrorOutlineIcon

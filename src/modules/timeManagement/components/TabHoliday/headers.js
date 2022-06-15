@@ -18,7 +18,7 @@ export const headers = [
     flex: 1,
     headerClassName: "bg-light-green",
     valueFormatter: (params) => {
-      return moment(params.value, "MM-DD-YYYY").format("Do MMMM YYYY");
+      return moment(params.value, "MM/DD/YYYY").format("DD/MM/YYYY");
     },
     renderCell: renderCellExpandDate,
     sortable: true,
@@ -30,7 +30,7 @@ export const headers = [
     headerClassName: "bg-light-green",
     renderCell: renderCellExpandDate,
     valueFormatter: (params) => {
-      return moment(params.value, "MM-DD-YYYY").format("Do MMMM YYYY");
+      return moment(params.value, "MM/DD/YYYY").format("DD/MM/YYYY");
     },
     sortable: true,
   },

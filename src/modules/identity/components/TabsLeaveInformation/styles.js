@@ -4,6 +4,9 @@ export default () => ({
     topic: {        
         margin:' 20px 0px !important'
     },
+    topic2: {        
+        margin:' 0px 0px 20px 0px!important'
+    },
     subtext: {
         display: 'flex',
         alignItems: 'center',

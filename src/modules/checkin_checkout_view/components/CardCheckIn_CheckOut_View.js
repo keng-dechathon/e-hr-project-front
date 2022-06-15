@@ -124,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const CustomToolbar = () => {
   return (
-    <GridToolbarContainer>
+    <GridToolbarContainer style={{justifyContent:"flex-end"}}>
       <GridToolbarExport printOptions={{ disableToolbarButton: true }} />
     </GridToolbarContainer>
   );
@@ -426,11 +426,25 @@ const CardCheckIn_CheckOut_View = () => {
           </Grid>
           <Grid item xs={12} sm={7} style={{ width: "100%" }}>
             <Stack direction="row" className={classes.daySearch}>
+              <DatePicker
+                value={day}
+                inputFormat="dd/MM/yyyy"
+                onChange={(newValue) => {
+                  setDay(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    size="small"
+                    {...params}
+                    className={classes.datePicker}
+                  />
+                )}
+              />
               <Button
                 variant="contained"
                 className={isBetween ? classes.holiday : classes.normal}
                 onClick={setToDay}
-                style={{ height: "37px" }}
+                style={{ height: "40px", marginLeft: "16px" }}
               >
                 <pre>TODAY</pre>
               </Button>
@@ -450,20 +464,6 @@ const CardCheckIn_CheckOut_View = () => {
               >
                 <ChevronRightIcon />
               </IconButton>
-              <DatePicker
-                value={day}
-                inputFormat="dd/MM/yyyy"
-                onChange={(newValue) => {
-                  setDay(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    size="small"
-                    {...params}
-                    className={classes.datePicker}
-                  />
-                )}
-              />
               {isBetween ? (
                 <Typography
                   variant="subtitle1"

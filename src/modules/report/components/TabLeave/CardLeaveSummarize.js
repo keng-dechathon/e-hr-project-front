@@ -349,11 +349,25 @@ const CardLeaveSummarize = () => {
           </Grid>
           <Grid item sm={12} md={7} style={{ width: "100%" }}>
             <Stack direction="row" className={classes.daySearch}>
+              <DatePicker
+                value={day}
+                inputFormat="dd/MM/yyyy"
+                onChange={(newValue) => {
+                  setDay(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    size="small"
+                    {...params}
+                    className={classes.datePicker}
+                  />
+                )}
+              />
               <Button
                 variant="contained"
                 className={isBetween ? classes.holiday : classes.normal}
                 onClick={setToDay}
-                style={{ height: "37px" }}
+                style={{ height: "40px", marginLeft: "16px" }}
               >
                 <pre>TODAY</pre>
               </Button>
@@ -373,20 +387,6 @@ const CardLeaveSummarize = () => {
               >
                 <ChevronRightIcon />
               </IconButton>
-              <DatePicker
-                value={day}
-                inputFormat="dd/MM/yyyy"
-                onChange={(newValue) => {
-                  setDay(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    size="small"
-                    {...params}
-                    className={classes.datePicker}
-                  />
-                )}
-              />
               {isBetween ? (
                 <Typography
                   variant="subtitle1"

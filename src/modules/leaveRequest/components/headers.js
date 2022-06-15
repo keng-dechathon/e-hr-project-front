@@ -14,14 +14,14 @@ function renderEmergency(params) {
 export const headers = [
   {
     field: "Begin",
-    headerName: "Begin",    
+    headerName: "Start Date",    
     width:190,
     headerClassName: "bg-light-green",
     renderCell: renderCellExpand,
   },
   {
     field: "End",
-    headerName: "End",
+    headerName: "End Date",
     width:190,
     headerClassName: "bg-light-green",
     renderCell: renderCellExpand,
@@ -49,7 +49,7 @@ export const headers = [
   },
   {
     field: "Amount",
-    headerName: "Amount (Hrs)",
+    headerName: "Period",
     width:120,
     headerClassName: "bg-light-green",
     renderCell: renderCellExpand,

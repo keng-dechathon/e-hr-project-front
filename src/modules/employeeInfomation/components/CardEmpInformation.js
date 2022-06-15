@@ -58,14 +58,23 @@ const useStyles = makeStyles(() => ({
     //   borderRight: "0px !important",
     // },
   },
+  green: {
+    backgroundColor: "#9ACD32 !important",
+    color: "white !important",
+  },
+  gray: {
+    backgroundColor: "#A9A9A9 !important",
+    color: "white !important",
+  },
 }));
 
 const CardEmpInformation = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { accountInformation } = useSelector((state) => state.accountReducer);
 
   const { empInformation } = useSelector((state) => state.employeeReducer);
-
+  console.log(accountInformation.Role);
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [ID, setID] = useState("");
@@ -160,10 +169,17 @@ const CardEmpInformation = (props) => {
             <Chip
               label={params.row.Active_Status === true ? "active" : "inactive"}
               icon={
-                params.row.Active_Status === true ? <DoneIcon /> : <CloseIcon />
+                params.row.Active_Status === true ? (
+                  <DoneIcon sx={{ color: "#ffffff !important" }} />
+                ) : (
+                  <CloseIcon sx={{ color: "#ffffff !important" }} />
+                )
               }
               size="small"
-              color={params.row.Active_Status === true ? "primary" : "success"}
+              className={
+                params.row.Active_Status === true ? classes.green : classes.gray
+              }
+              // color={params.row.Active_Status === true ? "primary" : "success"}
               style={{ minWidth: "80px", justifyContent: "left" }}
             />
           }
@@ -257,29 +273,64 @@ const CardEmpInformation = (props) => {
     }
   };
   const setDataGrid = () => {
-    if (Object.keys(empInformation).length !== 0) {
+    if (
+      Object.keys(empInformation).length !== 0 &&
+      Object.keys(accountInformation).length !== 0
+    ) {
+      let i = 0;
       empInformation.data.map((item, index) => {
-        let hostString = "";
+        if (
+          accountInformation.Role == "Manager" ||
+          accountInformation.Role == "Staff"
+        ) {
+          if (item.Active_Status) {
+            let hostString = "";
 
-        item.Team_Info.map((temp) => {
-          hostString += temp.HostName;
-          hostString += ",";
-          hostString += " ";
-        });
+            item.Team_Info.map((temp) => {
+              hostString += temp.HostName;
+              hostString += ",";
+              hostString += " ";
+            });
 
-        hostString = String(hostString).substring(0, hostString.length - 2);
+            hostString = String(hostString).substring(0, hostString.length - 2);
 
-        if (hostString.length === 0 || hostString === "") hostString = "-";
+            if (hostString.length === 0 || hostString === "") hostString = "-";
 
-        Info[index] = {};
-        Info[index].Img = item.Img;
-        Info[index].Name = item.Name;
-        Info[index].Role = item.Role;
-        Info[index].Position = item.Position;
-        Info[index].Company = item.Company;
-        Info[index].Team_Info = hostString;
-        Info[index].Active_Status = item.Active_Status;
-        Info[index].id = item.Emp_id;
+            Info[index - i] = {};
+            Info[index - i].Img = item.Img;
+            Info[index - i].Name = item.Name;
+            Info[index - i].Role = item.Role;
+            Info[index - i].Position = item.Position;
+            Info[index - i].Company = item.Company;
+            Info[index - i].Team_Info = hostString;
+            Info[index - i].Active_Status = item.Active_Status;
+            Info[index - i].id = item.Emp_id;
+          } else {
+            i++;
+          }
+        } else {
+          let hostString = "";
+
+          item.Team_Info.map((temp) => {
+            hostString += temp.HostName;
+            hostString += ",";
+            hostString += " ";
+          });
+
+          hostString = String(hostString).substring(0, hostString.length - 2);
+
+          if (hostString.length === 0 || hostString === "") hostString = "-";
+
+          Info[index] = {};
+          Info[index].Img = item.Img;
+          Info[index].Name = item.Name;
+          Info[index].Role = item.Role;
+          Info[index].Position = item.Position;
+          Info[index].Company = item.Company;
+          Info[index].Team_Info = hostString;
+          Info[index].Active_Status = item.Active_Status;
+          Info[index].id = item.Emp_id;
+        }
       });
       if (isPath(empInfoPath)) {
         Header.push({
