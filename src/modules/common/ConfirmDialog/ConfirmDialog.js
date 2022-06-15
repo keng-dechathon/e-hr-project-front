@@ -21,7 +21,7 @@ export default function ConfirmDialog(props) {
         fullWidth
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Dialog"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Alert"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {message}

@@ -19,7 +19,7 @@ const ModalUpdate = (props) => {
     <>
       <Dialog
         open={open}
-        onClose={handleClose}
+        // onClose={handleClose}
         fullScreen={fullscreen ? fullscreen : fullScreen}
         disableEnforceFocus
         {...rest}

@@ -42,7 +42,7 @@ export const sendExpenseRequest = async (values) => {
     })
     .catch((error) => {
       console.log(error);
-      pushSnackbarAction("Server Error", "Server Error.");
+      pushSnackbarAction("error", error.response.data.Message);
       return { status: "fail" };
     });
 };
@@ -77,8 +77,7 @@ export const updateExpenseRequest = async (values) => {
       return { status: "success" };
     })
     .catch((error) => {
-      console.log(error);
-      pushSnackbarAction("error", "Server Error.");
+      pushSnackbarAction("error", error.response.data.Message);
       return { status: "fail" };
     });
 };

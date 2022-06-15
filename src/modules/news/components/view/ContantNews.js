@@ -77,8 +77,14 @@ const ContantNews = () => {
     ) {
       newsInformation.data.map((value, index) => {
         items.push(value);
-        if(items.length!==0)items.reverse()
       });
+      console.log(items);
+      items.sort(function(a,b){
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(b.Start) - new Date(a.Start);
+      });
+      console.log(items);
     }
   };
   createNewsItem();

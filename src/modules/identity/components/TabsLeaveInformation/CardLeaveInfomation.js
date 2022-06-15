@@ -75,6 +75,8 @@ const CardLeaveInfomation = () => {
     setCancleID(String(cellValues.id));
     setOpenCancle(true);
     setColumnData(cellValues);
+    dispatch(getLeaveInformation());
+
     // dispatch(getLeaveRequestInformation());
   };
   const handleCloseCancle = () => {
@@ -136,7 +138,7 @@ const CardLeaveInfomation = () => {
         className={classes.datagrid}
         disableSelectionOnClick
       />
-      <Typography variant="h6" fontWeight="bold" className={classes.topic}>
+      <Typography variant="h6" fontWeight="bold" className={classes.topic2}>
         My Leave
       </Typography>
       <DataGrid

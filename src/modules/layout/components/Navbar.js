@@ -163,7 +163,7 @@ function Navbar(props) {
               navigate("/sign-out");
             }}
           >
-            Sign Out
+            Log Out
           </Button>
         </Toolbar>
       </AppBar>

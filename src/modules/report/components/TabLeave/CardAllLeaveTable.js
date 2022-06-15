@@ -40,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
   box: {
     marginTop: "20px",
   },
-  searchBox:{
-    height:"59px",
+  searchBox: {
+    height: "59px",
   },
   cardcontant: {
     padding: 0,
@@ -50,13 +50,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   ButtonAdd: {
-    height:"100%",
+    height: "100%",
     display: "flex",
     // right: "40px !important",
     // position: "absolute  !important",
     width: "100%",
     justifyContent: "flex-end",
-    alignItems:"center",
+    alignItems: "center",
     [theme.breakpoints.down("sm")]: {
       justifyContent: "center !important",
     },
@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   typeBT: {
-    height:"95%",
+    height: "95%",
     [theme.breakpoints.down(900)]: {
       width: "100%",
     },
@@ -206,18 +206,23 @@ const CardAllLeaveTable = () => {
   const setDataGrid = () => {
     setInfo([]);
     setIsSetInfo(false);
-    if (Object.keys(allLeaveInformation).length !== 0&&Object.keys(empInformation).length !== 0) { 
-      allLeaveInformation.data.map((item,index) => {
+    if (
+      Object.keys(allLeaveInformation).length !== 0 &&
+      Object.keys(empInformation).length !== 0
+    ) {
+      allLeaveInformation.data.map((item, index) => {
         if (showType === "Day") {
           let start = new Date(moment(item.Begin).format());
           let end = new Date(moment(moment(item.End).format()));
-          let range = moment().range(start, end);     
+          let range = moment().range(start, end);
           let nowDayRange = moment.range(
             new Date(moment(day).startOf("day")),
             new Date(moment(day).endOf("day"))
-          );   
+          );
           if (range.overlaps(nowDayRange)) {
-            item.Name = empInformation.data.filter((temp)=>String(temp.Emp_id)===String(item.Emp_id))[0].Name
+            item.Name = empInformation.data.filter(
+              (temp) => String(temp.Emp_id) === String(item.Emp_id)
+            )[0].Name;
             setInfo((Info) => [...Info, item]);
           }
         }
@@ -230,7 +235,9 @@ const CardAllLeaveTable = () => {
           let Begin = new Date(moment(item.Begin).format());
           let End = new Date(moment(item.End).format());
           if (range.contains(Begin) || range.contains(End)) {
-            item.Name = empInformation.data.filter((temp)=>String(temp.Emp_id)===String(item.Emp_id))[0].Name
+            item.Name = empInformation.data.filter(
+              (temp) => String(temp.Emp_id) === String(item.Emp_id)
+            )[0].Name;
             setInfo((Info) => [...Info, item]);
           }
         }
@@ -242,7 +249,9 @@ const CardAllLeaveTable = () => {
           let Begin = new Date(moment(item.Begin).format());
           let End = new Date(moment(item.End).format());
           if (range.contains(Begin) || range.contains(End)) {
-            item.Name = empInformation.data.filter((temp)=>String(temp.Emp_id)===String(item.Emp_id))[0].Name
+            item.Name = empInformation.data.filter(
+              (temp) => String(temp.Emp_id) === String(item.Emp_id)
+            )[0].Name;
             setInfo((Info) => [...Info, item]);
           }
         }
@@ -256,136 +265,130 @@ const CardAllLeaveTable = () => {
   return (
     <>
       {/* <Card style={{ padding: "15px 15px 0 15px" }}> */}
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <Grid container spacing={2}>
-            {/* <Grid item xs={12}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Grid container spacing={2}>
+          {/* <Grid item xs={12}>
               <Typography variant="h5" color={"pink"} fontWeight="bold">
                 ALL LEAVE INFORMATION
               </Typography>
               <Divider style={{ marginTop: "10px" }} />
             </Grid> */}
-            <Grid item xs={12} style={{marginTop: "15px",}} >
-              <QuickSearchToolbar
-                value={searchText}
-                onChange={(event) => requestSearch(event.target.value)}
-                clearSearch={() => requestSearch("")}
-                style={{maxWidth:"500px"}}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={7} style={{width:"100%"}}>
-              <Stack direction="row" className={classes.daySearch}>
-                <Button
-                  variant="contained"
-                  className={isBetween ? classes.holiday : classes.normal}
-                  onClick={setToDay}
-                  style={{ height: "37px" }}
-                >
-                  <pre>TODAY</pre>
-                </Button>
-                <IconButton
-                  color="primary"
-                  aria-label="before"
-                  component="span"
-                  onClick={setBeforeDate}
-                >
-                  <KeyboardArrowLeftIcon />
-                </IconButton>
-                <IconButton
-                  color="primary"
-                  aria-label="before"
-                  component="span"
-                  onClick={setNextDate}
-                >
-                  <ChevronRightIcon />
-                </IconButton>
-                <DatePicker
-                  value={day}
-                  inputFormat="dd/MM/yyyy"
-                  onChange={(newValue) => {
-                    setDay(newValue);
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      size="small"
-                      {...params}
-                      className={classes.datePicker}
-                    />
-                  )}
-                />
-                {isBetween ? (
-                  <Typography
-                    variant="subtitle1"
-                    color="mute"
-                    className={classes.attention2}
-                  >
-                    <ErrorOutlineIcon
-                      fontSize="small"
-                      style={{ marginRight: "5px" }}
-                    />
-                    holiday
-                  </Typography>
-                ) : (
-                  ""
-                )}
-              </Stack>
-            </Grid>
-            <Grid
-              item
-              sm={12}
-              md={5}
-              style={{ width: "100%" }}
-              
-            >
-              <Stack direction="row" spacing={1} className={classes.ButtonAdd}>
-                <Button
-                  variant={showType === "Day" ? "outlined" : "contained"}
-                  className={classes.typeBT}
-                  onClick={() => {
-                    setShowType("Day");
-                  }}
-                >
-                  <pre>DAY</pre>
-                </Button>
-                <Button
-                  className={classes.typeBT}
-                  variant={showType === "Month" ? "outlined" : "contained"}
-                  onClick={() => {
-                    setShowType("Month");
-                  }}
-                >
-                  <pre>month</pre>
-                </Button>
-                <Button
-                  className={classes.typeBT}
-                  variant={showType === "Year" ? "outlined" : "contained"}
-                  onClick={() => {
-                    setShowType("Year");
-                  }}
-                >
-                  <pre>Year</pre>
-                </Button>
-              </Stack>
-            </Grid>
-            <Grid item sm={12} style={{ width: "100%" }}>
-              <DataGrid
-                sortingOrder={["desc", "asc"]}
-                sortModel={sortModel}
-                onSortModelChange={(model) =>
-                  Info.length !== 0 ? setSortModel(model) : ""
-                }
-                pageSize={pageSize}
-                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                rowsPerPageOptions={[5, 10, 20, 50]}
-                pagination
-                loading={isSetInfo ? false : true}
-                disableSelectionOnClick
-                className={classes.datagrid}
-                headers={Header ? Header : ""}
-                rows={searchText ? searchInfo : Info ? Info : ""}
-              />
-            </Grid>
+          <Grid item xs={12} style={{ marginTop: "15px" }}>
+            <QuickSearchToolbar
+              value={searchText}
+              onChange={(event) => requestSearch(event.target.value)}
+              clearSearch={() => requestSearch("")}
+              style={{ maxWidth: "500px" }}
+            />
           </Grid>
-        </LocalizationProvider>
+          <Grid item xs={12} sm={12} md={7} style={{ width: "100%" }}>
+            <Stack direction="row" className={classes.daySearch}>
+              <DatePicker
+                value={day}
+                inputFormat="dd/MM/yyyy"
+                onChange={(newValue) => {
+                  setDay(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    size="small"
+                    {...params}
+                    className={classes.datePicker}
+                  />
+                )}
+              />
+              <Button
+                variant="contained"
+                className={isBetween ? classes.holiday : classes.normal}
+                onClick={setToDay}
+                style={{ height: "40px", marginLeft: "16px" }}
+              >
+                <pre>TODAY</pre>
+              </Button>
+              <IconButton
+                color="primary"
+                aria-label="before"
+                component="span"
+                onClick={setBeforeDate}
+              >
+                <KeyboardArrowLeftIcon />
+              </IconButton>
+              <IconButton
+                color="primary"
+                aria-label="before"
+                component="span"
+                onClick={setNextDate}
+              >
+                <ChevronRightIcon />
+              </IconButton>
+              {isBetween ? (
+                <Typography
+                  variant="subtitle1"
+                  color="mute"
+                  className={classes.attention2}
+                >
+                  <ErrorOutlineIcon
+                    fontSize="small"
+                    style={{ marginRight: "5px" }}
+                  />
+                  holiday
+                </Typography>
+              ) : (
+                ""
+              )}
+            </Stack>
+          </Grid>
+          <Grid item sm={12} md={5} style={{ width: "100%" }}>
+            <Stack direction="row" spacing={1} className={classes.ButtonAdd}>
+              <Button
+                variant={showType === "Day" ? "outlined" : "contained"}
+                className={classes.typeBT}
+                onClick={() => {
+                  setShowType("Day");
+                }}
+              >
+                <pre>DAY</pre>
+              </Button>
+              <Button
+                className={classes.typeBT}
+                variant={showType === "Month" ? "outlined" : "contained"}
+                onClick={() => {
+                  setShowType("Month");
+                }}
+              >
+                <pre>month</pre>
+              </Button>
+              <Button
+                className={classes.typeBT}
+                variant={showType === "Year" ? "outlined" : "contained"}
+                onClick={() => {
+                  setShowType("Year");
+                }}
+              >
+                <pre>Year</pre>
+              </Button>
+            </Stack>
+          </Grid>
+          <Grid item sm={12} style={{ width: "100%" }}>
+            <DataGrid
+              sortingOrder={["desc", "asc"]}
+              sortModel={sortModel}
+              onSortModelChange={(model) =>
+                Info.length !== 0 ? setSortModel(model) : ""
+              }
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[5, 10, 20, 50]}
+              pagination
+              loading={isSetInfo ? false : true}
+              disableSelectionOnClick
+              className={classes.datagrid}
+              headers={Header ? Header : ""}
+              rows={searchText ? searchInfo : Info ? Info : ""}
+            />
+          </Grid>
+        </Grid>
+      </LocalizationProvider>
       {/* </Card> */}
     </>
   );

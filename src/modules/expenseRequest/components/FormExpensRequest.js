@@ -185,7 +185,7 @@ const FormExpensRequest = (props) => {
             </label>
             <p className={classes.mainInfo}>
               {" "}
-              Click to Upload {"(File size up to 800 MB per file.)"}
+              Click to Upload 
             </p>
             {/* <p className={classes.mainInfo}> PDF , PNG ,JPG</p> */}
           </div>

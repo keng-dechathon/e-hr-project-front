@@ -3,7 +3,7 @@ import { useForm } from "react-final-form-hooks";
 import Button from "../../common/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { DialogActions } from "@mui/material";
-
+import AutocompleteEmpty from "@mui/material/Autocomplete";
 import { useSelector, useDispatch } from "react-redux";
 import { TextField } from "@mui/material";
 import Snackbar from "../../layout/components/Snackbar";
@@ -237,6 +237,7 @@ const FormLeaveRequestUpdate = (props) => {
               id="Detail"
               name="Detail"
               multiline
+              required
               rows={4}
               value={detail}
               onChange={(e) => setDetail(e.target.value)}
@@ -266,7 +267,26 @@ const FormLeaveRequestUpdate = (props) => {
                 />
               </div>
             ) : (
-              ""
+              <AutocompleteEmpty
+                id="checkboxes-tags-demo"
+                disableCloseOnSelect
+                style={{ backgroundColor: "white" }}
+                renderInput={(params) => (
+                  <TextField
+                    required
+                    label={
+                      "Send to " +
+                      (accountInformation.Role === "Management" ||
+                      accountInformation.Role === "Manager" ||
+                      accountInformation.Role === "Hr" ||
+                      Object.keys(teamInformationById.data).length === 0
+                        ? "Approver"
+                        : "Supervisor")
+                    }
+                    {...params}
+                  />
+                )}
+              />
             )}
           </Grid>
           <Grid item xs={12} style={{ display: "flex", alignItems: "center" }}>

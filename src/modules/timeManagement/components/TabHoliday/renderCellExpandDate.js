@@ -119,7 +119,7 @@ GridCellExpand.propTypes = {
 export default function renderCellExpandDate(params) {
   return (
     <GridCellExpand
-      value={moment(params.value, "MM-DD-YYYY").format("Do MMMM YYYY") || ""}
+      value={moment(params.value, "MM/DD/YYYY").format("DD/MM/YYYY") || ""}
       width={params.colDef.computedWidth}
     />
   );

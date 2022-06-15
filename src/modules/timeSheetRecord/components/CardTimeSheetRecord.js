@@ -282,11 +282,26 @@ console.log(loadingAdd);
             <Stack
               direction="row"
               style={{ alignItems: "center", width: "100%" }}
-            >
+            >              
+              <DatePicker
+                value={day}
+                inputFormat="dd/MM/yyyy"
+                onChange={(newValue) => {
+                  setDay(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    size="small"
+                    {...params}
+                    className={classes.datePicker}
+                  />
+                )}
+              />
               <Button
                 variant="contained"
                 className={isBetween ? classes.holiday : classes.normal}
                 onClick={setToDay}
+                style={{ height: "40px", marginLeft: "16px" }}
               >
                 <pre>TODAY</pre>
               </Button>
@@ -306,20 +321,6 @@ console.log(loadingAdd);
               >
                 <ChevronRightIcon />
               </IconButton>
-              <DatePicker
-                value={day}
-                inputFormat="dd/MM/yyyy"
-                onChange={(newValue) => {
-                  setDay(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    size="small"
-                    {...params}
-                    className={classes.datePicker}
-                  />
-                )}
-              />
               {isBetween ? (
                 <Typography
                   variant="subtitle1"

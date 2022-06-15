@@ -60,7 +60,7 @@ const FormSignin = () => {
                 >
                     <div className={classNames(classes.center, classes.head, classes.massage)}>
                         <Typography variant="h4" >  Welcome e-HR </Typography>
-                        <div>hello world.</div>
+                        {/* <div>hello world.</div> */}
                     </div>
 
                 </Grid>
@@ -106,7 +106,7 @@ const FormSignin = () => {
                         className={classes.ButtonSubmit}
                         type="submit"
                     >
-                        Sign In
+                        Log In
                     </Button>
                 </Grid>
                 <div className={classNames(classes.center)}>
