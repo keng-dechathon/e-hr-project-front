@@ -17,14 +17,14 @@ export const headers = [
     headerName: "Start Date",    
     width:190,
     headerClassName: "bg-light-green",
-    renderCell: renderCellExpand,
+    // renderCell: renderCellExpand,
   },
   {
     field: "End",
     headerName: "End Date",
     width:190,
     headerClassName: "bg-light-green",
-    renderCell: renderCellExpand,
+    // renderCell: renderCellExpand,
   },
   {
     field: "Type_name",

@@ -211,8 +211,10 @@ const CardAllLeaveTable = () => {
       Object.keys(empInformation).length !== 0
     ) {
       allLeaveInformation.data.map((item, index) => {
+        item = JSON.parse(JSON.stringify(item))
         if (showType === "Day") {
           let start = new Date(moment(item.Begin).format());
+          console.log(start);
           let end = new Date(moment(moment(item.End).format()));
           let range = moment().range(start, end);
           let nowDayRange = moment.range(
@@ -223,6 +225,9 @@ const CardAllLeaveTable = () => {
             item.Name = empInformation.data.filter(
               (temp) => String(temp.Emp_id) === String(item.Emp_id)
             )[0].Name;
+            item.Begin = moment(item.Begin).format("DD/MM/YYYY, HH:mm:ss")
+            item.End = moment(item.End).format("DD/MM/YYYY, HH:mm:ss")
+
             setInfo((Info) => [...Info, item]);
           }
         }
@@ -238,6 +243,8 @@ const CardAllLeaveTable = () => {
             item.Name = empInformation.data.filter(
               (temp) => String(temp.Emp_id) === String(item.Emp_id)
             )[0].Name;
+            item.Begin = moment(item.Begin).format("DD/MM/YYYY, HH:mm:ss")
+            item.End = moment(item.End).format("DD/MM/YYYY, HH:mm:ss")
             setInfo((Info) => [...Info, item]);
           }
         }
@@ -252,6 +259,8 @@ const CardAllLeaveTable = () => {
             item.Name = empInformation.data.filter(
               (temp) => String(temp.Emp_id) === String(item.Emp_id)
             )[0].Name;
+            item.Begin = moment(item.Begin).format("DD/MM/YYYY, HH:mm:ss")
+            item.End = moment(item.End).format("DD/MM/YYYY, HH:mm:ss")
             setInfo((Info) => [...Info, item]);
           }
         }

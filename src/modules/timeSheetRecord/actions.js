@@ -66,11 +66,11 @@ export const updateTimeSheet = async (values) => {
       Start_at: values.Start ? values.Start : "",
       End_at: values.End ? values.End : "",
       Location_id: values.Location_id ? values.Location_id : "",
-      Charge_Code_Id: values.Charge_code_id ? values.Charge_code_id : "",
+      Charge_Code_Id: values.Charge_Code_Id ? values.Charge_Code_Id : "",
     })
     .then((response) => {
       // if (!values.Remark && !values.Detail)
-      //   pushSnackbarAction("success", "update   success");     
+      //   pushSnackbarAction("success", "update   success");
       return { status: "success" };
     })
     .catch((error) => {
@@ -88,6 +88,33 @@ export const deleteTimeSheet = async (id) => {
     .then((response) => {
       // console.log(response);
       pushSnackbarAction("success", "delete   success");
+      return { status: "success" };
+    })
+    .catch((error) => {
+      pushSnackbarAction("error", "Server Error.");
+      return { status: "fail" };
+    });
+};
+
+/////
+
+export const addTimeSheetWithForm = async (values) => {
+  console.log(values);
+
+  return API()
+    .post(apiUrl.eHRService.common.timesheet, {
+      Option: "Add_Time_Sheet",
+      Detail: values.Detail ? values.Detail : "",
+      Remark: values.Remark ? values.Remark : "",
+      Date: values.Date ? values.Date : "",
+      Start_at: values.Start ? values.Start : "",
+      End_at: values.End ? values.End : "",
+      Location_id: values.Location_id ? values.Location_id : "",
+      Charge_Code_Id: values.Charge_Code_Id ? values.Charge_Code_Id : "",
+    })
+    .then((response) => {
+      // console.log(response);
+      pushSnackbarAction("success", "add success");
       return { status: "success" };
     })
     .catch((error) => {

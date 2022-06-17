@@ -219,8 +219,9 @@ const CardTimeSheet = (props) => {
                 return a.ChargeCode_id === item.Charge_code_id;
               })[0].ChargeCode_Name
             : "";
-
-        Info[index].Date = new Date(item.Date);
+        // console.log( moment(item.Date).format("DD/MM/YYYY"));
+        // Info[index].Date = new Date(item.Date);
+        Info[index].Date = moment(item.Date).format("DD/MM/YYYY");
         Info[index].Start = new Date(
           moment(item.Start_at, "h:mm:ss A").format()
         );
@@ -250,7 +251,6 @@ const CardTimeSheet = (props) => {
     }
   };
   setDataGrid();
-  console.log(isLoading);
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box className={classes.box}>

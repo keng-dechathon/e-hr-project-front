@@ -20,7 +20,7 @@ import ModalUpdate from "../../../common/ModalUpdate";
 import { headers } from "./headers";
 import { Grid } from "@mui/material";
 import ConfirmDialog from "../../../common/ConfirmDialog";
-
+import moment from "moment";
 const useStyles = makeStyles(() => ({
   tabitem: {
     marginRight: "30px !important",
@@ -159,8 +159,14 @@ const CardNewsList = ({ items, isLoading }) => {
   const setNewsDataGrid = () => {
     if (Object.keys(items).length !== 0) {
       items.map((item, index) => {
+        item = JSON.parse(JSON.stringify(item));
+
         newsInfo.push(item);
         newsInfo[index].id = item.News_id;
+        newsInfo[index].Start = moment(item.Start).format(
+          "DD/MM/YYYY, HH:mm:ss"
+        );
+        newsInfo[index].End = moment(item.End).format("DD/MM/YYYY, HH:mm:ss");
       });
       if (newsInfo.length !== 0) newsInfo.reverse();
     }

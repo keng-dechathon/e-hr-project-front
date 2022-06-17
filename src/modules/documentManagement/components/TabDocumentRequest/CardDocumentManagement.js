@@ -10,6 +10,7 @@ import DataGrid from "../../../common/DataGrid";
 import { getAllDocumentRequest, getAllDocumentType } from "../../actions";
 import ModalUpdate from "../../../common/ModalUpdate";
 import FormDocumentManagement from "./FormDocumentManagement";
+import moment from "moment";
 import {
   QuickSearchToolbar,
   escapeRegExp,
@@ -142,10 +143,12 @@ const CardDocumentManagement = () => {
   const setDataGrid = () => {
     if (
       Object.keys(allDocumentInformation).length !== 0 &&
-      Object.keys(empInformation).length !== 0&&
+      Object.keys(empInformation).length !== 0 &&
       Object.keys(documentType).length !== 0
     ) {
       allDocumentInformation.data.map((item, index) => {
+        item = JSON.parse(JSON.stringify(item));
+
         Info.push(item);
         Info[index].Name = empInformation.data.filter(
           (emp) => String(emp.Emp_id) === String(item.Emp_id)
@@ -153,12 +156,21 @@ const CardDocumentManagement = () => {
         Info[index].id = String(item.Req_id);
         Info[index].complete_at = String(
           item.cancel_at
-            ? item.cancel_at
-            : item.complete_at
-            ? item.complete_at
+            ? moment(item.cancel_at).format("DD/MM/YYYY, HH:mm:ss")
+            : moment(item.complete_at).format("DD/MM/YYYY, HH:mm:ss")
+            ? moment(item.complete_at).format("DD/MM/YYYY, HH:mm:ss")
             : "-"
         );
+        if (Info[index].complete_at === "Invalid date") {
+          Info[index].complete_at = moment(item.create_at).format(
+            "DD/MM/YYYY, HH:mm:ss"
+          );
+        }
         // Info[index].cancle_at = String(item.cancel_at ? item.cancel_at : "-");
+        Info[index].create_at = moment(item.create_at).format(
+          "DD/MM/YYYY, HH:mm:ss"
+        );
+
         Info[index].remark = String(item.remark ? item.remark : "-");
         Info[index].Type = documentType.data.filter(
           (docType) => String(docType.Type_Id) === String(item.Type_ID)

@@ -121,11 +121,12 @@ const FormWorkingTimeUpdate = (props) => {
               disabled={true}
             />
           </Grid>
-
           <Grid item xs={6} style={{ width: "100%" }}>
             <InputLabel>Start Date *</InputLabel>
             <TimePicker
               value={start}
+              ampm={false}
+
               onChange={(e) => {
                 setStart(e);
               }}
@@ -136,9 +137,9 @@ const FormWorkingTimeUpdate = (props) => {
           </Grid>
           <Grid item xs={6} style={{ width: "100%" }}>
             <InputLabel>End Date *</InputLabel>
-
             <TimePicker
               value={end}
+              ampm={false}
               onChange={(e) => {
                 setEnd(e);
               }}

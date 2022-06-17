@@ -18,6 +18,8 @@ import {
 } from "../../common/QuickSearchToolbar/QuickSearchToolbar";
 import { Button } from "@mui/material";
 import { headers } from "./headers";
+import moment from "moment";
+
 const useStyles = makeStyles(() => ({
   ButtonAdd: {
     display: "flex",
@@ -163,14 +165,25 @@ const CardExpenseRequest = () => {
   const setDataGrid = () => {
     if (Object.keys(myExpenseInformation).length !== 0) {
       myExpenseInformation.data.map((item, index) => {
+        item = JSON.parse(JSON.stringify(item));
+
         Info.push(item);
         Info[index].id = String(item.Req_id);
         Info[index].complete_at = String(
           item.cancel_at
-            ? item.cancel_at
-            : item.complete_at
-            ? item.complete_at
+            ? moment(item.cancel_at).format("DD/MM/YYYY, HH:mm:ss")
+            : moment(item.complete_at).format("DD/MM/YYYY, HH:mm:ss")
+            ? moment(item.complete_at).format("DD/MM/YYYY, HH:mm:ss")
             : "-"
+        );
+        if (Info[index].complete_at === "Invalid date") {
+          Info[index].complete_at = moment(item.create_at).format(
+            "DD/MM/YYYY, HH:mm:ss"
+          );
+        }
+        // Info[index].cancle_at = String(item.cancel_at ? item.cancel_at : "-");
+        Info[index].create_at = moment(item.create_at).format(
+          "DD/MM/YYYY, HH:mm:ss"
         );
         // Info[index].cancle_at = String(item.cancel_at ? item.cancel_at : "-");
         Info[index].remark = String(item.remark ? item.remark : "-");
