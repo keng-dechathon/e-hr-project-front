@@ -315,21 +315,28 @@ const CardCheckIn_CheckOut_View = () => {
         Object.keys(empInformation).length !== 0
       ) {
         allCheckInformation.data.map((item, index) => {
+          item = JSON.parse(JSON.stringify(item))
+
           Info.push(item);
           Info[index].id = item.CheckId;
           Info[index].Name = empInformation.data.filter(
             (temp) => String(temp.Emp_id) === String(item.Emp_id)
           )[0].Name;
+          Info[index].Check_in =moment(item.Check_in).format("DD/MM/YYYY, HH:mm:ss")
+          Info[index].Check_out =moment(item.Check_out).format("DD/MM/YYYY, HH:mm:ss")
         });
       }
     } else {
       if (Object.keys(checkInformation).length !== 0) {
         checkInformation.data.map((item, index) => {
+          item = JSON.parse(JSON.stringify(item))
           Info.push(item);
           Info[index].Name = empInformation.data.filter(
             (temp) => String(temp.Emp_id) === String(item.Emp_id)
           )[0].Name;
           Info[index].Date = moment(item.Check_in).format(" MMMM Do YYYY");
+          Info[index].Check_in =moment(item.Check_in).format("DD/MM/YYYY, HH:mm:ss")
+          Info[index].Check_out =moment(item.Check_out).format("DD/MM/YYYY, HH:mm:ss")
           Info[index].id = item.CheckId;
         });
       }

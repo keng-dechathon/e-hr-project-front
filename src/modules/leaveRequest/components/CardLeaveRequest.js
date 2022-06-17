@@ -59,6 +59,7 @@ const CardLeaveRequest = () => {
   useEffect(() => {
     setIsLoading(false);
   }, [leaveRequestInformation]);
+
   const [option, setOption] = useState("");
   const [open, setOpen] = useState(false);
   const [openCancle, setOpenCancle] = useState(false);
@@ -152,10 +153,15 @@ const CardLeaveRequest = () => {
         let timeDiff = moment.duration(moment(item.End).diff(item.Begin));
         let hours = Math.floor(timeDiff.asSeconds() / 3600);
         let min = Math.floor((timeDiff.asSeconds() - hours * 3600) / 60);
-        Info.push(item);
+        let temp = JSON.parse(JSON.stringify(item))
+        Info.push(temp);
         if (item.Detail === "null") {
           Info[index].Detail = "-";
         }
+        console.log(item);
+
+        Info[index].Begin =moment(item.Begin).format("DD/MM/YYYY, HH:mm:ss")
+        Info[index].End =moment(item.End).format("DD/MM/YYYY, HH:mm:ss")
         Info[index].id = item.id;
         // Info[index].Amount = getLeaveAmount(hours, min);
       });

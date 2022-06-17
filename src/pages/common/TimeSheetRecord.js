@@ -1,9 +1,8 @@
-import ContentTimeSheetRecord from "../../modules/timeSheetRecord/components/ContentTimeSheetRecord";
-
+import ContentTimeSheetRecordWithForm from "../../modules/timeSheetRecord/components/TimeSheetRecordWithForm/ContentTimeSheetRecordWithForm";
 const TimeSheetRecord = () => {
   return (
     <>
-      <ContentTimeSheetRecord />
+      <ContentTimeSheetRecordWithForm />
     </>
   );
 };

@@ -289,9 +289,12 @@ const CardCheckIn_CheckOut = () => {
         ) {
           toDayId = item.CheckId;
         }
-        Info.push(item);
-        Info[index].Date = moment(item.Check_in).format(" MMMM Do YYYY");
-        Info[index].id = item.CheckId;
+        let temp = JSON.parse(JSON.stringify(item))
+        Info.push(temp);
+        Info[index].Date = moment(item.Check_in).format(" DD/MM/YYYY");
+        Info[index].Check_in =moment(item.Check_in).format("DD/MM/YYYY, HH:mm:ss")
+        Info[index].Check_out =moment(item.Check_out).format("DD/MM/YYYY, HH:mm:ss")
+        Info[index].id = temp.CheckId;
       });
       Info.reverse();
     }

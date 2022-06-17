@@ -6,7 +6,7 @@ import { getWorkingTimeInformation } from "../../actions";
 import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 import Box from "@mui/material/Box";
-
+import moment from "moment";
 import DataGrid from "../../../common/DataGrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { headers } from "./headers";
@@ -104,7 +104,10 @@ const CardWorkingTime = () => {
   const setHolidaysDataGrid = () => {
     if (Object.keys(workingTimeInformation).length !== 0) {
       workingTimeInformation.data.map((item, index) => {
+        item = JSON.parse(JSON.stringify(item));
         workTimeInfo.push(item);
+        workTimeInfo[index].off_work = moment(item.off_work,"hh:mm:ss A").format("HH:mm:ss")
+        workTimeInfo[index].start_work = moment(item.start_work,"hh:mm:ss A").format("HH:mm:ss")
       });
       workTimeInfo.sort(function (a, b) {
         return parseInt(a.id) - parseInt(b.id);

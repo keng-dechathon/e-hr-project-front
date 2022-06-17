@@ -8,6 +8,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { headers } from "./headers";
 import { getLeaveTypeInformation } from "../../../leaveType/actions";
 import { getAllYearCheckInformation } from "../../actions";
+import moment from "moment";
 const useStyles = makeStyles(() => ({}));
 
 const CardTable = () => {
@@ -38,10 +39,16 @@ const CardTable = () => {
         setInfo([]);
         setIsSetInfo(false);
         allCheckInformation.data.map((item) => {
+          item = JSON.parse(JSON.stringify(item));
+
           item.id = item.CheckId;
           item.Name = empInformation.data.filter(
             (temp) => String(temp.Emp_id) === String(item.Emp_id)
           )[0].Name;
+          item.Check_in = moment(item.Check_in).format("DD/MM/YYYY, HH:mm:ss");
+          item.Check_out = moment(item.Check_out).format(
+            "DD/MM/YYYY, HH:mm:ss"
+          );
           setInfo((Info) => [...Info, item]);
         });
         setIsSetInfo(true);

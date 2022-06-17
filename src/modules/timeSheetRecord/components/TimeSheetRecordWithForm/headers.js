@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
-import renderCellExpand from "../../common/DataGridTimeSheet/renderCellExpand";
+import renderCellExpand from "../../../common/DataGridTimeSheet/renderCellExpand";
 
-import { getDateFormat, getDateFormat2 } from "../../../utils/miscellaneous";
-import { renderTime } from "../../timeSheetRecord/components/TimeEditInputCell";
 import moment from "moment";
-import { RenderSelectLocation,RenderSelectChargeCode } from "../../timeSheetRecord/components/RenderSelect";
 
 const getDuration = (params) => {
   let Duration = moment.duration(
@@ -15,6 +12,7 @@ const getDuration = (params) => {
   return moment.utc(Duration.as("milliseconds")).format("HH:mm");
 };
 
+
 export const columns = [
   {
     field: "Date",
@@ -23,10 +21,6 @@ export const columns = [
     width: 150,
     headerClassName: "bg-black",
     sortable: false,
-    // valueFormatter: (params) => {
-    //   const valueFormatted = getDateFormat2(getDateFormat(params.value));
-    //   return valueFormatted;
-    // },
   },
   {
     field: "Start",
@@ -34,8 +28,6 @@ export const columns = [
     headerName: "Start",
     width: 100,
     headerClassName: "bg-black",
-    renderCell: renderTime,
-    sortable: false,
   },
   {
     field: "End",
@@ -43,27 +35,22 @@ export const columns = [
     headerName: "End",
     width: 100,
     headerClassName: "bg-black",
-    renderCell: renderTime,
-    sortable: false,
   },
   {
     field: "duration",
     headerName: "Duration",
     width: 90,
     headerClassName: "bg-light-green",
-    renderCell: renderCellExpand,
     valueGetter: getDuration,
-    sortable: false,
   },
   {
-    field: "Location",
+    field: "Location_Name",
     headerName: "Location",
-    width: 120,
+    width: 150,
     headerClassName: "bg-light-green",
-    sortable: false,
   },
   {
-    field: "Charge_code",
+    field: "ChargeCode_Name",
     headerName: "Charge Code",
     width: 150,
     headerClassName: "bg-light-green",
@@ -74,17 +61,13 @@ export const columns = [
     headerName: "Task Detail",
     headerClassName: "bg-light-green",
     flex: 1,
-    minWidth:100,
-    renderCell: renderCellExpand,
-    sortable: false,
+    minWidth: 100,
   },
   {
     field: "Remark",
-    headerName: "Remark",
+    headerName: "Progress",
     headerClassName: "bg-light-green",
     flex: 1,
-    minWidth:100,
-    renderCell: renderCellExpand,
-    sortable: false,
+    minWidth: 100,
   },
 ];
